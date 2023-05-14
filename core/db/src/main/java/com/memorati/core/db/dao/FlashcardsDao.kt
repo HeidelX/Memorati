@@ -4,17 +4,17 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.memorati.core.db.model.Flashcard
+import com.memorati.core.db.model.FlashcardEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FlashcardsDao {
     @Query("SELECT * FROM flashcards")
-    fun getAll(): Flow<List<Flashcard>>
+    fun getAll(): Flow<List<FlashcardEntity>>
 
     @Insert
-    fun insert(flashcard: Flashcard)
+    fun insert(flashcardEntity: FlashcardEntity)
 
     @Delete
-    fun delete(flashcard: Flashcard)
+    fun delete(flashcardEntity: FlashcardEntity)
 }

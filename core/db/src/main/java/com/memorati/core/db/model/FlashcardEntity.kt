@@ -8,7 +8,7 @@ import kotlinx.datetime.Instant
 @Entity(
     tableName = "flashcards",
 )
-data class Flashcard(
+data class FlashcardEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val front: String,

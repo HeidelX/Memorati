@@ -1,3 +1,8 @@
 package com.memorati.core.data.repository
 
-interface FlashcardsRepository
+import com.memorati.core.model.Flashcard
+import kotlinx.coroutines.flow.Flow
+
+interface FlashcardsRepository {
+    fun flashcards(): Flow<List<Flashcard>>
+}
