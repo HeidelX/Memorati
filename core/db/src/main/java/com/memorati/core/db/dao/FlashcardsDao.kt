@@ -13,8 +13,8 @@ interface FlashcardsDao {
     fun getAll(): Flow<List<FlashcardEntity>>
 
     @Insert
-    fun insert(flashcardEntity: FlashcardEntity)
+    suspend fun insert(flashcardEntity: FlashcardEntity)
 
     @Delete
-    fun delete(flashcardEntity: FlashcardEntity)
+    suspend fun delete(flashcardEntity: FlashcardEntity)
 }

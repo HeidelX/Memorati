@@ -84,13 +84,14 @@ internal fun CardItem(
                     modifier = modifier.fillMaxSize(),
                 ) {
                     Text(
-                        text = card.back,
-                        style = MaterialTheme.typography.displayLarge,
+                        text = card.front,
+                        style = MaterialTheme.typography.headlineMedium,
+                        maxLines = 1,
                     )
 
                     Text(
                         modifier = modifier.padding(top = 20.dp),
-                        text = card.front,
+                        text = card.back,
                         style = MaterialTheme.typography.titleLarge,
                     )
                 }

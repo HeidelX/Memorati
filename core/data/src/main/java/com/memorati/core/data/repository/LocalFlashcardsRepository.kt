@@ -1,6 +1,7 @@
 package com.memorati.core.data.repository
 
 import com.memorati.core.db.dao.FlashcardsDao
+import com.memorati.core.db.model.FlashcardEntity
 import com.memorati.core.model.Flashcard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,5 +21,16 @@ class LocalFlashcardsRepository @Inject constructor(
                     )
                 }
             }
+    }
+
+    override suspend fun createCard(flashcard: Flashcard) {
+        flashcardsDao.insert(
+            FlashcardEntity(
+                id = 0,
+                front = flashcard.front,
+                back = flashcard.back,
+                createdAt = flashcard.createdAt,
+            ),
+        )
     }
 }

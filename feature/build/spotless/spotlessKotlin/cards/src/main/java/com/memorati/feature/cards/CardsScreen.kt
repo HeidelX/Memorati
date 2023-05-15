@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -60,7 +59,6 @@ internal fun CardsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CardItem(
     card: Flashcard,
@@ -86,13 +84,14 @@ internal fun CardItem(
                     modifier = modifier.fillMaxSize(),
                 ) {
                     Text(
-                        text = card.back,
-                        style = MaterialTheme.typography.displayLarge,
+                        text = card.front,
+                        style = MaterialTheme.typography.headlineMedium,
+                        maxLines = 1,
                     )
 
                     Text(
                         modifier = modifier.padding(top = 20.dp),
-                        text = card.front,
+                        text = card.back,
                         style = MaterialTheme.typography.titleLarge,
                     )
                 }
