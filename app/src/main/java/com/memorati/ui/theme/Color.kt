@@ -64,7 +64,6 @@ val md_theme_dark_surfaceTint = Color(0xFFAFC6FF)
 val md_theme_dark_outlineVariant = Color(0xFF44464F)
 val md_theme_dark_scrim = Color(0xFF000000)
 
-
 val seed = Color(0xFF6D86C0)
 val Azure = Color(0xFF6D86C0)
 val Moccasin = Color(0xFFFAE0B2)
@@ -84,4 +83,3 @@ val dark_Moccasin = Color(0xFFF4BE48)
 val dark_onMoccasin = Color(0xFF402D00)
 val dark_MoccasinContainer = Color(0xFF5C4200)
 val dark_onMoccasinContainer = Color(0xFFFFDEA2)
-
