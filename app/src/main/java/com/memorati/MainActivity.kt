@@ -50,7 +50,9 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             composable("card-creation") {
-                                CardCreationRoute()
+                                CardCreationRoute {
+                                    navController.navigateUp()
+                                }
                             }
                         }
                     },

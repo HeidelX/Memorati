@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -51,7 +53,7 @@ internal fun CardsScreen(
             vertical = 16.dp,
         ),
 
-    ) {
+        ) {
         items(cards) { card ->
             CardItem(card)
             Spacer(modifier = modifier.height(10.dp))
@@ -89,8 +91,10 @@ internal fun CardItem(
                         maxLines = 1,
                     )
 
+                    Divider(modifier = modifier
+                        .width(150.dp)
+                        .padding(vertical = 10.dp))
                     Text(
-                        modifier = modifier.padding(top = 20.dp),
                         text = card.back,
                         style = MaterialTheme.typography.titleLarge,
                     )
