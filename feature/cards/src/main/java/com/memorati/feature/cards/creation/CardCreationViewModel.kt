@@ -17,6 +17,7 @@ class CardCreationViewModel @Inject constructor(
     fun createCard(front: String, back: String) = viewModelScope.launch {
         flashcardsRepository.createCard(
             Flashcard(
+                id = 0,
                 front = front,
                 back = back,
                 createdAt = Clock.System.now(),

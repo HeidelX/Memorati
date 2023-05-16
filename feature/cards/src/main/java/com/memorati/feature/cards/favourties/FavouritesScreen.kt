@@ -1,6 +1,7 @@
-package com.memorati.feature.cards
+package com.memorati.feature.cards.favourties
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,11 +11,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -32,18 +36,21 @@ import com.memorati.core.ui.DevicePreviews
 import kotlinx.datetime.Clock
 
 @Composable
-fun CardsRoute(
+fun FavouritesRoute(
     modifier: Modifier = Modifier,
-    viewModel: CardsViewModel = hiltViewModel(),
+    viewModel: FavouritesViewModel = hiltViewModel(),
 ) {
     val cards by viewModel.cards.collectAsState(initial = listOf())
-    CardsScreen(cards, modifier)
+    FavouritesScreen(cards, modifier) { card ->
+        viewModel.toggleFavoured(card)
+    }
 }
 
 @Composable
-internal fun CardsScreen(
+internal fun FavouritesScreen(
     cards: List<Flashcard>,
     modifier: Modifier = Modifier,
+    toggleFavoured: (Flashcard) -> Unit,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(
@@ -53,7 +60,7 @@ internal fun CardsScreen(
 
     ) {
         items(cards) { card ->
-            CardItem(card)
+            CardItem(card, toggleFavoured = toggleFavoured)
             Spacer(modifier = modifier.height(10.dp))
         }
     }
@@ -63,6 +70,7 @@ internal fun CardsScreen(
 internal fun CardItem(
     card: Flashcard,
     modifier: Modifier = Modifier,
+    toggleFavoured: (Flashcard) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -89,17 +97,29 @@ internal fun CardItem(
                         maxLines = 1,
                     )
 
+                    Divider(
+                        modifier = modifier
+                            .width(150.dp)
+                            .padding(vertical = 10.dp),
+                    )
                     Text(
-                        modifier = modifier.padding(top = 20.dp),
                         text = card.back,
                         style = MaterialTheme.typography.titleLarge,
                     )
                 }
 
                 Icon(
-                    Icons.Rounded.FavoriteBorder,
+                    modifier = modifier
+                        .align(Alignment.BottomEnd)
+                        .clickable {
+                            toggleFavoured(card)
+                        },
+                    imageVector = if (card.favoured) {
+                        Icons.Rounded.Favorite
+                    } else {
+                        Icons.Rounded.FavoriteBorder
+                    },
                     contentDescription = "",
-                    modifier = modifier.align(Alignment.BottomEnd),
                 )
             }
         }
@@ -109,29 +129,29 @@ internal fun CardItem(
 @DevicePreviews
 @Composable
 internal fun CardsScreenPreview() {
-    CardsScreen(
+    FavouritesScreen(
         cards = listOf(
             Flashcard(
+                id = 1,
                 front = "Hello",
                 back = "Hallo",
                 createdAt = Clock.System.now(),
             ),
             Flashcard(
+                id = 2,
                 front = "Hello",
                 back = "Hallo",
                 createdAt = Clock.System.now(),
+                favoured = true,
             ),
             Flashcard(
-                front = "Hello",
-                back = "Hallo",
-                createdAt = Clock.System.now(),
-            ),
-            Flashcard(
+                id = 3,
                 front = "Hello",
                 back = "Hallo",
                 createdAt = Clock.System.now(),
             ),
         ),
+        toggleFavoured = {},
     )
 }
 
@@ -140,9 +160,11 @@ internal fun CardsScreenPreview() {
 internal fun CardItemPreview() {
     CardItem(
         card = Flashcard(
+            id = 1,
             front = "Hello",
             back = "Hallo",
             createdAt = Clock.System.now(),
         ),
+        toggleFavoured = {},
     )
 }

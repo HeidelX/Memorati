@@ -14,4 +14,5 @@ data class FlashcardEntity(
     val front: String,
     val back: String,
     @ColumnInfo(name = "created_at") val createdAt: Instant,
+    val favoured: Boolean,
 )

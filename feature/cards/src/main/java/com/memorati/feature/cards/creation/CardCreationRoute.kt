@@ -24,7 +24,7 @@ import com.memorati.core.ui.DevicePreviews
 fun CardCreationRoute(
     modifier: Modifier = Modifier,
     viewModel: CardCreationViewModel = hiltViewModel(),
-    onCreate: () -> Unit
+    onCreate: () -> Unit,
 ) {
     CardCreationScreen(modifier = modifier) { front, back ->
         viewModel.createCard(front, back)
@@ -45,7 +45,7 @@ internal fun CardCreationScreen(
             modifier = modifier
                 .padding(16.dp)
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TextField(
                 value = front,
@@ -54,7 +54,7 @@ internal fun CardCreationScreen(
                 },
                 onValueChange = { text ->
                     front = text
-                }
+                },
             )
             Spacer(modifier = Modifier.height(20.dp))
             TextField(
@@ -64,7 +64,7 @@ internal fun CardCreationScreen(
                 },
                 onValueChange = { text ->
                     back = text
-                }
+                },
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(

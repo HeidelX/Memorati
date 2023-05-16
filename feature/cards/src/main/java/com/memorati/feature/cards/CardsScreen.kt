@@ -1,6 +1,7 @@
 package com.memorati.feature.cards
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -39,13 +41,16 @@ fun CardsRoute(
     viewModel: CardsViewModel = hiltViewModel(),
 ) {
     val cards by viewModel.cards.collectAsState(initial = listOf())
-    CardsScreen(cards, modifier)
+    CardsScreen(cards, modifier) { card ->
+        viewModel.toggleFavoured(card)
+    }
 }
 
 @Composable
 internal fun CardsScreen(
     cards: List<Flashcard>,
     modifier: Modifier = Modifier,
+    toggleFavoured: (Flashcard) -> Unit,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(
@@ -53,9 +58,9 @@ internal fun CardsScreen(
             vertical = 16.dp,
         ),
 
-        ) {
+    ) {
         items(cards) { card ->
-            CardItem(card)
+            CardItem(card, toggleFavoured = toggleFavoured)
             Spacer(modifier = modifier.height(10.dp))
         }
     }
@@ -65,6 +70,7 @@ internal fun CardsScreen(
 internal fun CardItem(
     card: Flashcard,
     modifier: Modifier = Modifier,
+    toggleFavoured: (Flashcard) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -91,9 +97,11 @@ internal fun CardItem(
                         maxLines = 1,
                     )
 
-                    Divider(modifier = modifier
-                        .width(150.dp)
-                        .padding(vertical = 10.dp))
+                    Divider(
+                        modifier = modifier
+                            .width(150.dp)
+                            .padding(vertical = 10.dp),
+                    )
                     Text(
                         text = card.back,
                         style = MaterialTheme.typography.titleLarge,
@@ -101,9 +109,17 @@ internal fun CardItem(
                 }
 
                 Icon(
-                    Icons.Rounded.FavoriteBorder,
+                    modifier = modifier
+                        .align(Alignment.BottomEnd)
+                        .clickable {
+                            toggleFavoured(card)
+                        },
+                    imageVector = if (card.favoured) {
+                        Icons.Rounded.Favorite
+                    } else {
+                        Icons.Rounded.FavoriteBorder
+                    },
                     contentDescription = "",
-                    modifier = modifier.align(Alignment.BottomEnd),
                 )
             }
         }
@@ -116,26 +132,26 @@ internal fun CardsScreenPreview() {
     CardsScreen(
         cards = listOf(
             Flashcard(
+                id = 1,
                 front = "Hello",
                 back = "Hallo",
                 createdAt = Clock.System.now(),
             ),
             Flashcard(
+                id = 2,
                 front = "Hello",
                 back = "Hallo",
                 createdAt = Clock.System.now(),
+                favoured = true,
             ),
             Flashcard(
-                front = "Hello",
-                back = "Hallo",
-                createdAt = Clock.System.now(),
-            ),
-            Flashcard(
+                id = 3,
                 front = "Hello",
                 back = "Hallo",
                 createdAt = Clock.System.now(),
             ),
         ),
+        toggleFavoured = {},
     )
 }
 
@@ -144,9 +160,11 @@ internal fun CardsScreenPreview() {
 internal fun CardItemPreview() {
     CardItem(
         card = Flashcard(
+            id = 1,
             front = "Hello",
             back = "Hallo",
             createdAt = Clock.System.now(),
         ),
+        toggleFavoured = {},
     )
 }
