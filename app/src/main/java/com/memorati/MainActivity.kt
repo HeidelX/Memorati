@@ -6,13 +6,20 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.ViewAgenda
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,14 +47,50 @@ class MainActivity : ComponentActivity() {
                             navController.navigate("card-creation")
                         }
                     },
+                    bottomBar = {
+                        NavigationBar {
+                            NavigationBarItem(
+                                selected = true,
+                                onClick = { /*TODO*/ },
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.Rounded.ViewAgenda,
+                                        contentDescription = ""
+                                    )
+                                }
+                            )
+
+                            NavigationBarItem(
+                                selected = false,
+                                onClick = { /*TODO*/ },
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Favorite,
+                                        contentDescription = ""
+                                    )
+                                }
+                            )
+
+                            NavigationBarItem(
+                                selected = false ,
+                                onClick = { /*TODO*/ },
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Settings,
+                                        contentDescription = ""
+                                    )
+                                }
+                            )
+                        }
+                    },
                     content = { innerPadding ->
-                        NavHost(navController = navController, startDestination = "cards") {
+                        NavHost(
+                            navController = navController,
+                            startDestination = "cards",
+                            modifier = Modifier.padding(innerPadding)
+                        ) {
                             composable("cards") {
-                                CardsRoute(
-                                    modifier = Modifier.consumeWindowInsets(
-                                        innerPadding,
-                                    ),
-                                )
+                                CardsRoute()
                             }
                             composable("card-creation") {
                                 CardCreationRoute {
