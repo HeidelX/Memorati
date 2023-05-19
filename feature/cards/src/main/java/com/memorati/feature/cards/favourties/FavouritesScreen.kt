@@ -1,5 +1,6 @@
 package com.memorati.feature.cards.favourties
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,6 +47,7 @@ fun FavouritesRoute(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun FavouritesScreen(
     cards: List<Flashcard>,
@@ -58,9 +60,13 @@ internal fun FavouritesScreen(
             vertical = 16.dp,
         ),
 
-    ) {
-        items(cards) { card ->
-            CardItem(card, toggleFavoured = toggleFavoured)
+        ) {
+        items(cards, key = { it.id }) { card ->
+            CardItem(
+                card,
+                toggleFavoured = toggleFavoured,
+                modifier = Modifier.animateItemPlacement()
+            )
             Spacer(modifier = modifier.height(10.dp))
         }
     }
@@ -85,11 +91,11 @@ internal fun CardItem(
                 .padding(30.dp),
             color = MaterialTheme.colorScheme.primary,
         ) {
-            Box(modifier = modifier) {
+            Box(modifier = Modifier) {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     Text(
                         text = card.front,
@@ -98,7 +104,7 @@ internal fun CardItem(
                     )
 
                     Divider(
-                        modifier = modifier
+                        modifier = Modifier
                             .width(150.dp)
                             .padding(vertical = 10.dp),
                     )
@@ -109,7 +115,7 @@ internal fun CardItem(
                 }
 
                 Icon(
-                    modifier = modifier
+                    modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .clickable {
                             toggleFavoured(card)
