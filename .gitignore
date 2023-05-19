@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+build-logic/convention/build/kotlin/compileKotlin/local-state/build-history.bin
+*.bin
+*.bin
