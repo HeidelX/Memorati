@@ -1,7 +1,7 @@
 package com.memorati.feature.cards
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,12 +22,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,24 +33,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
 import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
 
 @Composable
 fun CardsRoute(
     modifier: Modifier = Modifier,
     viewModel: CardsViewModel = hiltViewModel(),
 ) {
-    val cards by viewModel.cards.collectAsState(initial = listOf())
-    CardsScreen(cards, modifier) { card ->
+    val state by viewModel.cards.collectAsStateWithLifecycle()
+    CardsScreen(state, modifier) { card ->
         viewModel.toggleFavoured(card)
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun CardsScreen(
-    cards: List<Flashcard>,
+    state: CardsState,
     modifier: Modifier = Modifier,
     toggleFavoured: (Flashcard) -> Unit,
 ) {
@@ -63,9 +64,21 @@ internal fun CardsScreen(
         ),
 
         ) {
-        items(cards) { card ->
-            CardItem(card, toggleFavoured = toggleFavoured)
-            Spacer(modifier = modifier.height(10.dp))
+        state.map.forEach { (date, cards) ->
+            stickyHeader {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(all = 8.dp),
+                    text = date.toString()
+                )
+
+            }
+            items(cards) { card ->
+                CardItem(card, toggleFavoured = toggleFavoured)
+                Spacer(modifier = modifier.height(10.dp))
+            }
         }
     }
 }
@@ -147,29 +160,32 @@ internal fun CardItem(
 @Composable
 internal fun CardsScreenPreview() {
     CardsScreen(
-        cards = listOf(
-            Flashcard(
-                id = 1,
-                front = "Hello",
-                back = "Hallo",
-                createdAt = Clock.System.now(),
-            ),
-            Flashcard(
-                id = 2,
-                front = "Hello",
-                back = "Hallo",
-                createdAt = Clock.System.now(),
-                favoured = true,
-            ),
-            Flashcard(
-                id = 3,
-                front = "Hello",
-                back = "Hallo",
-                createdAt = Clock.System.now(),
-            ),
+        state = CardsState(
+            mapOf(
+                LocalDate(2023, 12, 10) to listOf(
+                    Flashcard(
+                        id = 1,
+                        front = "Hello",
+                        back = "Hallo",
+                        createdAt = Clock.System.now(),
+                    ),
+                    Flashcard(
+                        id = 2,
+                        front = "Hello",
+                        back = "Hallo",
+                        createdAt = Clock.System.now(),
+                        favoured = true,
+                    ),
+                    Flashcard(
+                        id = 3,
+                        front = "Hello",
+                        back = "Hallo",
+                        createdAt = Clock.System.now(),
+                    ),
+                )
+            )
         ),
-        toggleFavoured = {},
-    )
+    ) {}
 }
 
 @DevicePreviews
