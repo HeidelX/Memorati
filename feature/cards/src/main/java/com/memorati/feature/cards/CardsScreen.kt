@@ -19,7 +19,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.Divider
+import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.memorati.core.model.Flashcard
@@ -58,7 +62,7 @@ internal fun CardsScreen(
             vertical = 16.dp,
         ),
 
-    ) {
+        ) {
         items(cards) { card ->
             CardItem(card, toggleFavoured = toggleFavoured)
             Spacer(modifier = modifier.height(10.dp))
@@ -108,19 +112,32 @@ internal fun CardItem(
                     )
                 }
 
-                Icon(
-                    modifier = modifier
-                        .align(Alignment.BottomEnd)
-                        .clickable {
-                            toggleFavoured(card)
-                        },
-                    imageVector = if (card.favoured) {
-                        Icons.Rounded.Favorite
-                    } else {
-                        Icons.Rounded.FavoriteBorder
+                FilledIconToggleButton(
+                    modifier = modifier.align(Alignment.BottomEnd),
+                    checked = card.favoured,
+                    onCheckedChange = {
+                        toggleFavoured(card)
                     },
-                    contentDescription = "",
-                )
+                    colors = IconButtonDefaults.iconToggleButtonColors(
+                        checkedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        checkedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        disabledContainerColor = if (card.favoured) {
+                            MaterialTheme.colorScheme.onBackground.copy(
+                                alpha = 0.12f,
+                            )
+                        } else {
+                            Color.Transparent
+                        },
+                    )
+                ) {
+                    Icon(
+                        imageVector = if (card.favoured)
+                            Icons.Rounded.Favorite
+                        else
+                            Icons.Rounded.FavoriteBorder,
+                        contentDescription = "",
+                    )
+                }
             }
         }
     }
