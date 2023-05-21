@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Assistant
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.ViewAgenda
@@ -17,6 +17,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -55,7 +57,13 @@ class MainActivity : ComponentActivity() {
                                 Text(text = stringResource(id = R.string.app_name))
                             },
                             actions = {
-                                Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings" )
+                                IconButton(onClick = { }) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Settings,
+                                        contentDescription = "",
+                                        tint = MaterialTheme.colorScheme.onSurface,
+                                    )
+                                }
                             }
                         )
                     },
@@ -84,6 +92,17 @@ class MainActivity : ComponentActivity() {
                                 icon = {
                                     Icon(
                                         imageVector = Icons.Rounded.Favorite,
+                                        contentDescription = "",
+                                    )
+                                },
+                            )
+
+                            NavigationBarItem(
+                                selected = currentDestination?.hierarchy?.any { it.route == "Assistant" } == true,
+                                onClick = { navController.navigate("Assistant") },
+                                icon = {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Assistant,
                                         contentDescription = "",
                                     )
                                 },
