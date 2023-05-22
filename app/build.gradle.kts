@@ -1,4 +1,3 @@
-
 plugins {
     id("memorati.android.application")
     id("memorati.android.application.compose")
@@ -54,13 +53,11 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:model"))
     implementation(project(":core:ui"))
+    implementation(project(":core:design"))
     implementation(project(":feature:cards"))
     implementation(project(":feature:favourites"))
-
-    androidTestImplementation(libs.androidx.navigation.testing)
-    androidTestImplementation(libs.accompanist.testharness)
-    androidTestImplementation(kotlin("test"))
-    debugImplementation(libs.androidx.compose.ui.testManifest)
+    implementation(project(":feature:creation"))
+    implementation(project(":feature:assistant"))
 
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.androidx.activity.compose)
@@ -75,4 +72,10 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.window.manager)
     implementation(libs.androidx.profileinstaller)
+
+    debugImplementation(libs.androidx.compose.ui.testManifest)
+
+    androidTestImplementation(libs.androidx.navigation.testing)
+    androidTestImplementation(libs.accompanist.testharness)
+    androidTestImplementation(kotlin("test"))
 }

@@ -1,4 +1,4 @@
-package com.memorati.feature.cards.creation
+package com.memorati.feature.creation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,14 +21,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.memorati.core.ui.DevicePreviews
 
 @Composable
-fun CardCreationRoute(
+internal fun CardCreationRoute(
     modifier: Modifier = Modifier,
     viewModel: CardCreationViewModel = hiltViewModel(),
-    onCreate: () -> Unit,
+    onCardCreated: () -> Unit,
 ) {
     CardCreationScreen(modifier = modifier) { front, back ->
         viewModel.createCard(front, back)
-        onCreate()
+        onCardCreated()
     }
 }
 

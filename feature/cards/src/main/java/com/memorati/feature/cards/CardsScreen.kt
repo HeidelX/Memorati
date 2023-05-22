@@ -15,9 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.Divider
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
@@ -40,7 +37,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 
 @Composable
-fun CardsRoute(
+internal fun CardsRoute(
     modifier: Modifier = Modifier,
     viewModel: CardsViewModel = hiltViewModel(),
 ) {
@@ -144,9 +141,9 @@ internal fun CardItem(
                 ) {
                     Icon(
                         imageVector = if (card.favoured) {
-                            Icons.Rounded.Favorite
+                            MemoratiIcons.Favourites
                         } else {
-                            Icons.Rounded.FavoriteBorder
+                            MemoratiIcons.FavouritesBorder
                         },
                         contentDescription = "",
                     )

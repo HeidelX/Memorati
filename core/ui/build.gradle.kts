@@ -14,6 +14,8 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":core:design"))
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.foundation.layout)
     api(libs.androidx.compose.material.iconsExtended)
@@ -25,7 +27,7 @@ dependencies {
     api(libs.androidx.metrics)
     api(libs.androidx.tracing.ktx)
     debugApi(libs.androidx.compose.ui.tooling)
-    
+
     implementation(libs.androidx.browser)
     implementation(libs.androidx.core.ktx)
     implementation(libs.coil.kt)

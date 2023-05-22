@@ -37,7 +37,7 @@ import com.memorati.core.ui.DevicePreviews
 import kotlinx.datetime.Clock
 
 @Composable
-fun FavouritesRoute(
+internal fun FavouritesRoute(
     modifier: Modifier = Modifier,
     viewModel: FavouritesViewModel = hiltViewModel(),
 ) {

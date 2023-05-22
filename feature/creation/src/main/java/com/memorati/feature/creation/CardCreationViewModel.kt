@@ -1,4 +1,4 @@
-package com.memorati.feature.cards.creation
+package com.memorati.feature.creation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
