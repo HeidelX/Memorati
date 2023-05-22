@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
@@ -59,6 +60,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                     topBar = {
                         TopAppBar(
+                            navigationIcon = {
+                                IconButton(onClick = { /*TODO*/ }) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.ic_launcher_foreground),
+                                        contentDescription = stringResource(R.string.app_name)
+                                    )
+                                }
+                            },
                             title = {
                                 Text(
                                     text = stringResource(id = R.string.app_name),
