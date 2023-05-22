@@ -60,12 +60,12 @@ internal fun FavouritesScreen(
             vertical = 16.dp,
         ),
 
-        ) {
+    ) {
         items(cards, key = { it.id }) { card ->
             CardItem(
                 card,
                 toggleFavoured = toggleFavoured,
-                modifier = Modifier.animateItemPlacement()
+                modifier = Modifier.animateItemPlacement(),
             )
             Spacer(modifier = modifier.height(10.dp))
         }

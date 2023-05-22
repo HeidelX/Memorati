@@ -63,7 +63,7 @@ internal fun CardsScreen(
             vertical = 16.dp,
         ),
 
-        ) {
+    ) {
         state.map.forEach { (date, cards) ->
             stickyHeader {
                 Text(
@@ -71,9 +71,8 @@ internal fun CardsScreen(
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surface)
                         .padding(all = 8.dp),
-                    text = date.toString()
+                    text = date.toString(),
                 )
-
             }
             items(cards) { card ->
                 CardItem(card, toggleFavoured = toggleFavoured)
@@ -141,13 +140,14 @@ internal fun CardItem(
                         } else {
                             Color.Transparent
                         },
-                    )
+                    ),
                 ) {
                     Icon(
-                        imageVector = if (card.favoured)
+                        imageVector = if (card.favoured) {
                             Icons.Rounded.Favorite
-                        else
-                            Icons.Rounded.FavoriteBorder,
+                        } else {
+                            Icons.Rounded.FavoriteBorder
+                        },
                         contentDescription = "",
                     )
                 }
@@ -182,8 +182,8 @@ internal fun CardsScreenPreview() {
                         back = "Hallo",
                         createdAt = Clock.System.now(),
                     ),
-                )
-            )
+                ),
+            ),
         ),
     ) {}
 }

@@ -8,7 +8,6 @@ import com.memorati.core.model.Flashcard
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -31,7 +30,7 @@ class CardsViewModel @Inject constructor(
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(),
-        CardsState()
+        CardsState(),
     )
 
     fun toggleFavoured(flashcard: Flashcard) = viewModelScope.launch {
@@ -42,5 +41,5 @@ class CardsViewModel @Inject constructor(
 }
 
 data class CardsState(
-    val map: Map<LocalDate, List<Flashcard>> = emptyMap()
+    val map: Map<LocalDate, List<Flashcard>> = emptyMap(),
 )
