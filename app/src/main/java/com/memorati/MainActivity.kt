@@ -18,15 +18,20 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
@@ -47,14 +52,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
+            val scrollBehavior =
+                TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
             MemoratiTheme {
                 Scaffold(
+                    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                     topBar = {
                         TopAppBar(
                             title = {
-                                Text(text = stringResource(id = R.string.app_name))
+                                Text(
+                                    text = stringResource(id = R.string.app_name),
+                                    style = MaterialTheme.typography.headlineSmall
+                                )
                             },
                             actions = {
                                 IconButton(onClick = { }) {
@@ -64,7 +75,8 @@ class MainActivity : ComponentActivity() {
                                         tint = MaterialTheme.colorScheme.onSurface,
                                     )
                                 }
-                            }
+                            },
+                            scrollBehavior = scrollBehavior
                         )
                     },
                     floatingActionButtonPosition = FabPosition.End,
