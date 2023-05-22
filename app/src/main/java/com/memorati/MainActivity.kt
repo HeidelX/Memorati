@@ -35,7 +35,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.memorati.feature.cards.CardsRoute
 import com.memorati.feature.cards.creation.CardCreationRoute
-import com.memorati.feature.cards.favourties.FavouritesRoute
+import com.memorati.feature.favourites.FavouritesRoute
 import com.memorati.ui.theme.MemoratiTheme
 import dagger.hilt.android.AndroidEntryPoint
 

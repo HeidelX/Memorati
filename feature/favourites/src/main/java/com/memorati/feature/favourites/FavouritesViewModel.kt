@@ -1,4 +1,4 @@
-package com.memorati.feature.cards.favourties
+package com.memorati.feature.favourites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

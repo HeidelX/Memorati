@@ -1,4 +1,4 @@
-package com.memorati.feature.cards.favourties
+package com.memorati.feature.favourites
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
