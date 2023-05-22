@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,9 +16,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ElevatedAssistChip
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconToggleButton
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -60,7 +68,7 @@ internal fun CardsScreen(
             vertical = 16.dp,
         ),
 
-    ) {
+        ) {
         state.map.forEach { (date, cards) ->
             stickyHeader {
                 Text(
@@ -79,6 +87,7 @@ internal fun CardsScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun CardItem(
     card: Flashcard,
@@ -147,6 +156,41 @@ internal fun CardItem(
                         },
                         contentDescription = "",
                     )
+                }
+
+                FlowRow(
+                    modifier = modifier.align(Alignment.BottomStart)
+                ) {
+                    listOf("DEUTSCH", "A1", "B1").forEach {
+                        FilterChip(
+                            modifier = Modifier.padding(4.dp),
+                            onClick = { /*TODO*/ },
+                            label = { Text(text = it, style = MaterialTheme.typography.labelSmall) },
+                            shape = CircleShape,
+                            selected = true,
+                            colors = FilterChipDefaults.filterChipColors(
+                                labelColor = MaterialTheme.colorScheme.onPrimary,
+                                iconColor = MaterialTheme.colorScheme.onBackground,
+                                disabledContainerColor = if (true) {
+                                    MaterialTheme.colorScheme.onBackground.copy(
+                                        alpha = 0.12f,
+                                    )
+                                } else {
+                                    Color.Transparent
+                                },
+                                disabledLabelColor = MaterialTheme.colorScheme.onBackground.copy(
+                                    alpha = 0.38f,
+                                ),
+                                disabledLeadingIconColor = MaterialTheme.colorScheme.onBackground.copy(
+                                    alpha = 0.38f,
+                                ),
+                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                selectedLabelColor = MaterialTheme.colorScheme.onBackground,
+                                selectedLeadingIconColor = MaterialTheme.colorScheme.onBackground,
+                            )
+                        )
+
+                    }
                 }
             }
         }
