@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
                                 IconButton(onClick = { /*TODO*/ }) {
                                     Icon(
                                         painter = painterResource(R.drawable.ic_launcher_foreground),
-                                        contentDescription = stringResource(R.string.app_name)
+                                        contentDescription = stringResource(R.string.app_name),
                                     )
                                 }
                             },
