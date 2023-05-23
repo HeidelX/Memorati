@@ -18,7 +18,7 @@ fun FlashcardsWithTopics.toFlashcard() = Flashcard(
     back = flashcard.back,
     createdAt = flashcard.createdAt,
     favoured = flashcard.favoured,
-    topics = topics.map { topicEntity -> topicEntity.toTopic() }
+    topics = topics.map { topicEntity -> topicEntity.toTopic() },
 )
 
 fun Flashcard.toFlashcardEntity() = FlashcardEntity(

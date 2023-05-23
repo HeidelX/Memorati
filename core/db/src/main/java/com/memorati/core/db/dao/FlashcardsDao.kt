@@ -19,7 +19,6 @@ interface FlashcardsDao {
     @Query("SELECT * FROM flashcards")
     fun allFlashcardWithTopics(): Flow<List<FlashcardsWithTopics>>
 
-
     @Query("SELECT * FROM flashcards WHERE favoured = 1")
     fun getFavourites(): Flow<List<FlashcardEntity>>
 

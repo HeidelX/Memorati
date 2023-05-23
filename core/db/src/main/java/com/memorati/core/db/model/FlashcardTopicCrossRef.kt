@@ -7,20 +7,19 @@ import androidx.room.Relation
 
 @Entity(
     tableName = "flashcards_topics",
-    primaryKeys = ["flashcardId", "topicId"]
+    primaryKeys = ["flashcardId", "topicId"],
 )
 data class FlashcardTopicCrossRef(
     val flashcardId: Long,
     val topicId: Long,
 )
 
-
 data class FlashcardsWithTopics(
     @Embedded val flashcard: FlashcardEntity,
     @Relation(
         parentColumn = "flashcardId",
         entityColumn = "topicId",
-        associateBy = Junction(FlashcardTopicCrossRef::class)
+        associateBy = Junction(FlashcardTopicCrossRef::class),
     )
-    val topics: List<TopicEntity>
+    val topics: List<TopicEntity>,
 )
