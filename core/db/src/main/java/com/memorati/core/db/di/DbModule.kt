@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.memorati.core.db.MemoratiDatabase
 import com.memorati.core.db.dao.FlashcardsDao
+import com.memorati.core.db.dao.TopicsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +29,9 @@ class DbModule {
     fun flashcardsDao(
         database: MemoratiDatabase,
     ): FlashcardsDao = database.flashCardsDao()
+
+    @Provides
+    fun topicsDao(
+        database: MemoratiDatabase,
+    ): TopicsDao = database.topicsDao()
 }

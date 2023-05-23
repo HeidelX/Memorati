@@ -7,13 +7,15 @@ import com.memorati.core.model.Flashcard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class LocalFlashcardsRepository @Inject constructor(
     private val flashcardsDao: FlashcardsDao,
 ) : FlashcardsRepository {
 
     override fun flashcards(): Flow<List<Flashcard>> =
-        flashcardsDao.getAll()
+        flashcardsDao.allFlashcardWithTopics()
             .map { entities ->
                 entities.map { entity ->
                     entity.toFlashcard()

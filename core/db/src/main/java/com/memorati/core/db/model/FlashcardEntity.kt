@@ -10,7 +10,7 @@ import kotlinx.datetime.Instant
 )
 data class FlashcardEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val flashcardId: Long,
     val front: String,
     val back: String,
     @ColumnInfo(name = "created_at") val createdAt: Instant,

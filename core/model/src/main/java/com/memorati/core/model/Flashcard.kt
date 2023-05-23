@@ -7,5 +7,6 @@ data class Flashcard(
     val front: String,
     val back: String,
     val createdAt: Instant,
+    val topics: List<Topic> = emptyList(),
     val favoured: Boolean = false,
 )

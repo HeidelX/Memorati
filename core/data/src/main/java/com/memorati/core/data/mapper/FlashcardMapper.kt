@@ -1,18 +1,28 @@
 package com.memorati.core.data.mapper
 
 import com.memorati.core.db.model.FlashcardEntity
+import com.memorati.core.db.model.FlashcardsWithTopics
 import com.memorati.core.model.Flashcard
 
 fun FlashcardEntity.toFlashcard() = Flashcard(
-    id = id,
+    id = flashcardId,
     front = front,
     back = back,
     createdAt = createdAt,
     favoured = favoured,
 )
 
+fun FlashcardsWithTopics.toFlashcard() = Flashcard(
+    id = flashcard.flashcardId,
+    front = flashcard.front,
+    back = flashcard.back,
+    createdAt = flashcard.createdAt,
+    favoured = flashcard.favoured,
+    topics = topics.map { topicEntity -> topicEntity.toTopic() }
+)
+
 fun Flashcard.toFlashcardEntity() = FlashcardEntity(
-    id = id,
+    flashcardId = id,
     front = front,
     back = back,
     createdAt = createdAt,

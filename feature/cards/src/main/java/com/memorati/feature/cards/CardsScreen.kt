@@ -18,9 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.FilterChip
@@ -159,13 +157,18 @@ internal fun CardItem(
                 }
 
                 FlowRow(
-                    modifier = modifier.align(Alignment.BottomStart)
+                    modifier = modifier.align(Alignment.BottomStart),
                 ) {
-                    listOf("DEUTSCH", "A1", "B1").forEach {
+                    card.topics.forEach { topic ->
                         FilterChip(
                             modifier = Modifier.padding(4.dp),
                             onClick = { /*TODO*/ },
-                            label = { Text(text = it, style = MaterialTheme.typography.labelSmall) },
+                            label = {
+                                Text(
+                                    text = topic.label,
+                                    style = MaterialTheme.typography.labelSmall
+                                )
+                            },
                             shape = CircleShape,
                             selected = true,
                             colors = FilterChipDefaults.filterChipColors(
@@ -187,9 +190,8 @@ internal fun CardItem(
                                 selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                                 selectedLabelColor = MaterialTheme.colorScheme.onBackground,
                                 selectedLeadingIconColor = MaterialTheme.colorScheme.onBackground,
-                            )
+                            ),
                         )
-
                     }
                 }
             }
