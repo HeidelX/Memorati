@@ -1,4 +1,4 @@
-package com.memorati.feature.cards
+package com.memorati.core.design.component
 
 import MemoratiIcons
 import androidx.compose.foundation.Image
@@ -14,14 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.memorati.core.design.icon.CardMembership
-import com.memorati.core.ui.DevicePreviews
 
 @Composable
-fun EmptyCardsScreen(modifier: Modifier = Modifier) {
+fun EmptyScreen(
+    imageVector: ImageVector,
+    message: String,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -32,7 +36,7 @@ fun EmptyCardsScreen(modifier: Modifier = Modifier) {
                 .aspectRatio(ratio = 1f)
                 .padding(horizontal = 32.dp, vertical = 16.dp)
                 .width(200.dp),
-            imageVector = MemoratiIcons.CardMembership,
+            imageVector = imageVector,
             contentDescription = "",
             contentScale = ContentScale.FillBounds,
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.tertiary.copy(0.5f)),
@@ -40,14 +44,14 @@ fun EmptyCardsScreen(modifier: Modifier = Modifier) {
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = stringResource(id = R.string.no_cards_message),
+            text = message,
             style = MaterialTheme.typography.bodyLarge,
         )
     }
 }
 
-@DevicePreviews
+@Preview
 @Composable
-fun EmptyCardsScreenPreview() {
-    EmptyCardsScreen()
+internal fun EmptyScreenPreview() {
+    EmptyScreen(imageVector = MemoratiIcons.CardMembership, message = "Hello")
 }

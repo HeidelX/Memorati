@@ -1,9 +1,9 @@
 package com.memorati.feature.assistant.navigation
 
-import androidx.compose.material3.Text
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.memorati.feature.assistant.AssistantRoute
 
 const val ASSISTANT_ROUTE = "assistant"
 fun NavController.navigateToAssistant() {
@@ -12,6 +12,6 @@ fun NavController.navigateToAssistant() {
 
 fun NavGraphBuilder.assistantScreen() {
     composable(ASSISTANT_ROUTE) {
-        Text(text = "Hello, Assistant")
+        AssistantRoute()
     }
 }
