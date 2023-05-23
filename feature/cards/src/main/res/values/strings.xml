@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_cards_message">"There is no cards at the moment. Start creating your cards using the \"Add\" button."</string>
+</resources>
