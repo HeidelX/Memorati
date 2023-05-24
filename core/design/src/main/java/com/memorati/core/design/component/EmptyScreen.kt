@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -33,19 +34,18 @@ fun EmptyScreen(
     ) {
         Image(
             modifier = Modifier
-                .aspectRatio(ratio = 1f)
-                .padding(horizontal = 32.dp, vertical = 16.dp)
-                .width(200.dp),
+                .size(200.dp)
+                .padding(vertical = 16.dp),
             imageVector = imageVector,
             contentDescription = "",
-            contentScale = ContentScale.FillBounds,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.tertiary.copy(0.5f)),
+            contentScale = ContentScale.Fit,
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary.copy(0.5f)),
         )
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = message,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodySmall,
         )
     }
 }
