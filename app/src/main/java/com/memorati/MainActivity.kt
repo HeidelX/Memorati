@@ -12,8 +12,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -22,8 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -33,8 +29,8 @@ import com.memorati.feature.cards.navigation.cardsScreen
 import com.memorati.feature.creation.navigation.cardCreationScreen
 import com.memorati.feature.creation.navigation.navigateToCardCreation
 import com.memorati.feature.favourites.navigation.favouritesScreen
-import com.memorati.navigation.TopDestination
 import com.memorati.navigation.navigateToTopDestination
+import com.memorati.ui.MemoratiNanBar
 import com.memorati.ui.theme.MemoratiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -63,26 +59,8 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     bottomBar = {
-                        NavigationBar {
-                            TopDestination.values().forEach { topDest ->
-                                NavigationBarItem(
-                                    selected = currentDestination?.hierarchy?.any { navDest ->
-                                        navDest.route == topDest.route
-                                    } == true,
-                                    onClick = {
-                                        navController.navigateToTopDestination(topDest)
-                                    },
-                                    icon = {
-                                        Icon(
-                                            imageVector = topDest.icon,
-                                            contentDescription = stringResource(topDest.iconDescriptionId),
-                                        )
-                                    },
-                                    label = {
-                                        Text(text = stringResource(topDest.labelId))
-                                    },
-                                )
-                            }
+                        MemoratiNanBar(currentDestination) { topDest ->
+                            navController.navigateToTopDestination(topDest)
                         }
                     },
                     content = { innerPadding ->
