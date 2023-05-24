@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="assistant">Assistant</string>
     <string name="no_assistant_cards_message">"No flashcards stored in the App at the moment. When you add new cards in the App the assistant will help you to memorise them regularly."</string>
 </resources>

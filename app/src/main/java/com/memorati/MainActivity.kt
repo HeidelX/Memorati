@@ -29,13 +29,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.memorati.core.design.component.MemoratiTopAppBar
 import com.memorati.feature.assistant.navigation.assistantScreen
-import com.memorati.feature.assistant.navigation.navigateToAssistant
 import com.memorati.feature.cards.navigation.cardsScreen
-import com.memorati.feature.cards.navigation.navigateToCards
 import com.memorati.feature.creation.navigation.cardCreationScreen
 import com.memorati.feature.creation.navigation.navigateToCardCreation
 import com.memorati.feature.favourites.navigation.favouritesScreen
-import com.memorati.feature.favourites.navigation.navigateToFavourites
+import com.memorati.navigation.TopDestination
+import com.memorati.navigation.navigateToTopDestination
 import com.memorati.ui.theme.MemoratiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -65,47 +64,25 @@ class MainActivity : ComponentActivity() {
                     },
                     bottomBar = {
                         NavigationBar {
-                            NavigationBarItem(
-                                selected = currentDestination?.hierarchy?.any { it.route == "cards" } == true,
-                                onClick = { navController.navigateToCards() },
-                                icon = {
-                                    Icon(
-                                        imageVector = MemoratiIcons.Cards,
-                                        contentDescription = "",
-                                    )
-                                },
-                                label = {
-                                    Text(text = stringResource(id = R.string.cards))
-                                },
-                            )
-
-                            NavigationBarItem(
-                                selected = currentDestination?.hierarchy?.any { it.route == "favourites" } == true,
-                                onClick = { navController.navigateToFavourites() },
-                                icon = {
-                                    Icon(
-                                        imageVector = MemoratiIcons.Favourites,
-                                        contentDescription = "",
-                                    )
-                                },
-                                label = {
-                                    Text(text = stringResource(id = R.string.favourites))
-                                },
-                            )
-
-                            NavigationBarItem(
-                                selected = currentDestination?.hierarchy?.any { it.route == "Assistant" } == true,
-                                onClick = { navController.navigateToAssistant() },
-                                icon = {
-                                    Icon(
-                                        imageVector = MemoratiIcons.Assistant,
-                                        contentDescription = "",
-                                    )
-                                },
-                                label = {
-                                    Text(text = stringResource(id = R.string.assistant))
-                                },
-                            )
+                            TopDestination.values().forEach { topDest ->
+                                NavigationBarItem(
+                                    selected = currentDestination?.hierarchy?.any { navDest ->
+                                        navDest.route == topDest.route
+                                    } == true,
+                                    onClick = {
+                                        navController.navigateToTopDestination(topDest)
+                                    },
+                                    icon = {
+                                        Icon(
+                                            imageVector = topDest.icon,
+                                            contentDescription = stringResource(topDest.iconDescriptionId),
+                                        )
+                                    },
+                                    label = {
+                                        Text(text = stringResource(topDest.labelId))
+                                    },
+                                )
+                            }
                         }
                     },
                     content = { innerPadding ->

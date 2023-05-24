@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">Memorati</string>
-    <string name="cards">Cards</string>
-    <string name="favourites">Favourites</string>
-    <string name="assistant">Assistant</string>
 </resources>
