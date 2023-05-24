@@ -7,7 +7,9 @@ import com.memorati.feature.cards.CardsRoute
 
 const val CARDS_ROUTE = "cards"
 fun NavController.navigateToCards() {
-    navigate(CARDS_ROUTE)
+    navigate(CARDS_ROUTE){
+        launchSingleTop = true
+    }
 }
 
 fun NavGraphBuilder.cardsScreen() {

@@ -7,7 +7,9 @@ import com.memorati.feature.assistant.AssistantRoute
 
 const val ASSISTANT_ROUTE = "assistant"
 fun NavController.navigateToAssistant() {
-    navigate(ASSISTANT_ROUTE)
+    navigate(ASSISTANT_ROUTE) {
+        launchSingleTop = true
+    }
 }
 
 fun NavGraphBuilder.assistantScreen() {
