@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="cards">Cards</string>
+    <string name="more">More</string>
+    <string name="add_to_favourites">Add to favourites</string>
+    <string name="remove_from_favourites">Remove from favourites</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
     <string name="no_cards_message">"There is no cards at the moment. Start creating your cards using the \"Add\" button."</string>
 </resources>

@@ -38,6 +38,13 @@ class CardsViewModel @Inject constructor(
             flashcard.copy(favoured = !flashcard.favoured),
         )
     }
+
+    fun deleteCard(flashcard: Flashcard) = viewModelScope.launch {
+        flashcardsRepository.deleteCard(flashcard)
+    }
+
+    fun editCard(flashcard: Flashcard) {
+    }
 }
 
 data class CardsState(

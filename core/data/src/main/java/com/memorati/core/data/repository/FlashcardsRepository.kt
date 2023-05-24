@@ -8,4 +8,5 @@ interface FlashcardsRepository {
     fun favourites(): Flow<List<Flashcard>>
     suspend fun createCard(flashcard: Flashcard)
     suspend fun updateCard(flashcard: Flashcard)
+    suspend fun deleteCard(flashcard: Flashcard)
 }

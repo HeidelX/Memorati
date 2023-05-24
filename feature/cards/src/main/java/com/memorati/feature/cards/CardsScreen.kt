@@ -17,9 +17,13 @@ internal fun CardsRoute(
     viewModel: CardsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.cards.collectAsStateWithLifecycle()
-    CardsScreen(state, modifier) { card ->
-        viewModel.toggleFavoured(card)
-    }
+    CardsScreen(
+        state = state,
+        modifier = modifier,
+        toggleFavoured = viewModel::toggleFavoured,
+        onDelete = viewModel::deleteCard,
+        onEdit = viewModel::editCard,
+    )
 }
 
 @Composable
@@ -27,9 +31,17 @@ internal fun CardsScreen(
     state: CardsState,
     modifier: Modifier = Modifier,
     toggleFavoured: (Flashcard) -> Unit,
+    onDelete: (Flashcard) -> Unit,
+    onEdit: (Flashcard) -> Unit,
 ) {
     if (state.map.isNotEmpty()) {
-        CardsList(state, toggleFavoured, modifier)
+        CardsList(
+            state = state,
+            toggleFavoured = toggleFavoured,
+            onEdit = onEdit,
+            onDelete = onDelete,
+            modifier = modifier,
+        )
     } else {
         EmptyScreen(
             imageVector = MemoratiIcons.CardMembership,
