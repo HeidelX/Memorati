@@ -48,8 +48,8 @@ internal fun CardCreationScreen(
 ) {
     var idiom by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    val focusRequester = FocusRequester()
-    Surface(modifier = modifier) {
+    val focusRequester = remember { FocusRequester() }
+    Surface(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -86,14 +86,14 @@ internal fun CardCreationScreen(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Save,
-                    contentDescription = stringResource(id = R.string.save)
+                    contentDescription = stringResource(id = R.string.save),
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 
                 Text(text = stringResource(id = R.string.save))
 
                 LaunchedEffect(Unit) {
-                    focusRequester.requestFocus()
+                    // focusRequester.requestFocus()
                 }
             }
         }

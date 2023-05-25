@@ -2,6 +2,7 @@
 <resources>
     <string name="cards">Cards</string>
     <string name="more">More</string>
+    <string name="add">Add</string>
     <string name="add_to_favourites">Add to favourites</string>
     <string name="remove_from_favourites">Remove from favourites</string>
     <string name="edit">Edit</string>

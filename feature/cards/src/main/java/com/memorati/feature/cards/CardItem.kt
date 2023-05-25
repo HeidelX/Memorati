@@ -46,8 +46,8 @@ import java.util.Locale
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun CardItem(
-    card: Flashcard,
     modifier: Modifier = Modifier,
+    card: Flashcard,
     toggleFavoured: (Flashcard) -> Unit,
     onDelete: (Flashcard) -> Unit,
     onEdit: (Flashcard) -> Unit,
@@ -55,21 +55,21 @@ internal fun CardItem(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(30.dp))
             .height(200.dp),
     ) {
         Surface(
-            modifier
-                .clip(RoundedCornerShape(30.dp))
+            Modifier
                 .background(MaterialTheme.colorScheme.primary)
                 .fillMaxSize()
                 .padding(10.dp),
             color = MaterialTheme.colorScheme.primary,
         ) {
-            Box(modifier = modifier) {
+            Box {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     Text(
                         text = card.front,
@@ -78,7 +78,7 @@ internal fun CardItem(
                     )
 
                     Divider(
-                        modifier = modifier
+                        modifier = Modifier
                             .width(150.dp)
                             .padding(vertical = 10.dp),
                     )
@@ -89,7 +89,7 @@ internal fun CardItem(
                 }
 
                 FilledIconToggleButton(
-                    modifier = modifier.align(Alignment.BottomEnd),
+                    modifier = Modifier.align(Alignment.BottomEnd),
                     checked = card.favoured,
                     onCheckedChange = {
                         toggleFavoured(card)
@@ -121,13 +121,13 @@ internal fun CardItem(
                 }
 
                 CardDropDownMenu(
-                    modifier = modifier.align(Alignment.TopEnd),
+                    modifier = Modifier.align(Alignment.TopEnd),
                     onDelete = { onDelete(card) },
                     onEdit = { onEdit(card) },
                 )
 
                 FlowRow(
-                    modifier = modifier.align(Alignment.BottomStart),
+                    modifier = Modifier.align(Alignment.BottomStart),
                 ) {
                     card.topics.forEach { topic ->
                         MemoratiChip(topic.label)

@@ -15,6 +15,8 @@ import com.memorati.core.model.Flashcard
 internal fun CardsRoute(
     modifier: Modifier = Modifier,
     viewModel: CardsViewModel = hiltViewModel(),
+    onAddCard: () -> Unit,
+    onEdit: (Flashcard) -> Unit,
 ) {
     val state by viewModel.cards.collectAsStateWithLifecycle()
     CardsScreen(
@@ -22,7 +24,8 @@ internal fun CardsRoute(
         modifier = modifier,
         toggleFavoured = viewModel::toggleFavoured,
         onDelete = viewModel::deleteCard,
-        onEdit = viewModel::editCard,
+        onEdit = onEdit,
+        onAddCard = onAddCard,
     )
 }
 
@@ -33,14 +36,16 @@ internal fun CardsScreen(
     toggleFavoured: (Flashcard) -> Unit,
     onDelete: (Flashcard) -> Unit,
     onEdit: (Flashcard) -> Unit,
+    onAddCard: () -> Unit,
 ) {
     if (state.map.isNotEmpty()) {
         CardsList(
+            modifier = modifier,
             state = state,
             toggleFavoured = toggleFavoured,
             onEdit = onEdit,
             onDelete = onDelete,
-            modifier = modifier,
+            onAddCard = onAddCard,
         )
     } else {
         EmptyScreen(
