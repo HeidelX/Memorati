@@ -11,13 +11,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,8 +45,10 @@ internal fun CardsList(
     onEdit: (Flashcard) -> Unit = {},
     onAddCard: () -> Unit = {},
 ) {
+    val lazyListState = rememberLazyListState()
     Box(modifier = modifier.fillMaxSize()) {
         LazyColumn(
+            state = lazyListState,
             contentPadding = PaddingValues(
                 horizontal = 16.dp,
                 vertical = 16.dp,
@@ -64,6 +74,11 @@ internal fun CardsList(
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                 }
+
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(70.dp))
             }
         }
 
@@ -71,6 +86,7 @@ internal fun CardsList(
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.BottomEnd),
+            expanded = lazyListState.isScrollingUp(),
             onClickAction = onAddCard,
         )
     }
@@ -80,20 +96,25 @@ internal fun CardsList(
 internal fun FabButton(
     modifier: Modifier = Modifier,
     onClickAction: () -> Unit,
+    expanded: Boolean,
 ) {
     ExtendedFloatingActionButton(
         modifier = modifier,
+        expanded = expanded,
         onClick = { onClickAction() },
-    ) {
-        Icon(
-            MemoratiIcons.Add,
-            contentDescription = stringResource(id = R.string.add),
-            modifier = Modifier.size(ButtonDefaults.IconSize),
-        )
-        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text(stringResource(id = R.string.add))
-    }
+        icon = {
+            Icon(
+                MemoratiIcons.Add,
+                contentDescription = stringResource(id = R.string.add),
+                modifier = Modifier.size(ButtonDefaults.IconSize),
+            )
+        },
+        text = {
+            Text(text = stringResource(id = R.string.add))
+        }
+    )
 }
+
 
 @DevicePreviews
 @Composable
@@ -129,4 +150,25 @@ internal fun CardsScreenPreview() {
         onDelete = {},
         onAddCard = {},
     )
+}
+
+/**
+ * Returns whether the lazy list is currently scrolling up.
+ */
+@Composable
+private fun LazyListState.isScrollingUp(): Boolean {
+    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    return remember(this) {
+        derivedStateOf {
+            if (previousIndex != firstVisibleItemIndex) {
+                previousIndex > firstVisibleItemIndex
+            } else {
+                previousScrollOffset >= firstVisibleItemScrollOffset
+            }.also {
+                previousIndex = firstVisibleItemIndex
+                previousScrollOffset = firstVisibleItemScrollOffset
+            }
+        }
+    }.value
 }
