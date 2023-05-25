@@ -5,20 +5,29 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.memorati.core.ui.DevicePreviews
 
 @Composable
 internal fun CardCreationRoute(
@@ -37,49 +46,61 @@ internal fun CardCreationScreen(
     modifier: Modifier = Modifier,
     onCreate: (String, String) -> Unit,
 ) {
-    var front by remember { mutableStateOf("") }
-    var back by remember { mutableStateOf("") }
-
-    Surface {
+    var idiom by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+    val focusRequester = FocusRequester()
+    Surface(modifier = modifier) {
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .padding(16.dp)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TextField(
-                value = front,
+                modifier = Modifier.focusRequester(focusRequester),
+                value = idiom,
                 label = {
                     Text(text = "Idiom")
                 },
                 onValueChange = { text ->
-                    front = text
+                    idiom = text
                 },
             )
             Spacer(modifier = Modifier.height(20.dp))
             TextField(
-                value = back,
+                value = description,
                 label = {
                     Text(text = "Description")
                 },
                 onValueChange = { text ->
-                    back = text
+                    description = text
                 },
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(
+                enabled = idiom.isNotBlank() && description.isNotBlank(),
                 modifier = modifier.align(Alignment.End),
                 onClick = {
-                    onCreate(front, back)
+                    onCreate(idiom, description)
                 },
             ) {
-                Text(text = "Create")
+                Icon(
+                    imageVector = Icons.Rounded.Save,
+                    contentDescription = stringResource(id = R.string.save)
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                Text(text = stringResource(id = R.string.save))
+
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                }
             }
         }
     }
 }
 
-@DevicePreviews
+@Preview
 @Composable
 internal fun CardCreationRoutePreview() {
     CardCreationScreen { _, _ -> }
