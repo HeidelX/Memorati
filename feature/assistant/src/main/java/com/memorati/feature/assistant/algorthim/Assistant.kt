@@ -8,11 +8,10 @@ import kotlin.math.ln
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-
 fun scheduleNextReview(flashcard: Flashcard): Instant {
     val adaptiveInterval = calculateAdaptiveInterval(
         flashcard.additionalInfo.difficulty,
-        flashcard.additionalInfo.consecutiveCorrectCount
+        flashcard.additionalInfo.consecutiveCorrectCount,
     )
     val timeWeightedInterval =
         calculateTimeWeightedInterval(flashcard.additionalInfo.memoryStrength)
@@ -27,21 +26,21 @@ fun scheduleNextReview(flashcard: Flashcard): Instant {
 
 fun handleReviewResponse(
     additionalInfo: AdditionalInfo,
-    isCorrect: Boolean
+    isCorrect: Boolean,
 ): AdditionalInfo = with(additionalInfo) {
     return if (isCorrect) {
         copy(
-            difficulty = difficulty * 1.1,// Increase difficulty for correct responses,
+            difficulty = difficulty * 1.1, // Increase difficulty for correct responses,
             consecutiveCorrectCount = consecutiveCorrectCount + 1,
             memoryStrength = memoryStrength * 0.95, // Apply decay to memory strength over time
-            lastReviewTime = Clock.System.now()
+            lastReviewTime = Clock.System.now(),
         )
     } else {
         copy(
             difficulty = difficulty * 0.9, // Decrease difficulty for incorrect responses
             consecutiveCorrectCount = 0,
             memoryStrength = memoryStrength * 0.95, // Apply decay to memory strength over time
-            lastReviewTime = Clock.System.now()
+            lastReviewTime = Clock.System.now(),
         )
     }
 }
