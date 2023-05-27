@@ -28,21 +28,21 @@ fun handleReviewResponse(
     additionalInfo: AdditionalInfo,
     isCorrect: Boolean,
 ): AdditionalInfo = with(additionalInfo) {
-    return if (isCorrect) {
-        copy(
-            difficulty = difficulty * 1.1, // Increase difficulty for correct responses,
-            consecutiveCorrectCount = consecutiveCorrectCount + 1,
-            memoryStrength = memoryStrength * 0.95, // Apply decay to memory strength over time
-            lastReviewTime = Clock.System.now(),
-        )
+    val (difficulty, consecutiveCorrectCount) = if (isCorrect) {
+        // Increase difficulty for correct responses
+        difficulty * 1.1 to (consecutiveCorrectCount + 1)
     } else {
-        copy(
-            difficulty = difficulty * 0.9, // Decrease difficulty for incorrect responses
-            consecutiveCorrectCount = 0,
-            memoryStrength = memoryStrength * 0.95, // Apply decay to memory strength over time
-            lastReviewTime = Clock.System.now(),
-        )
+        // Decrease difficulty for incorrect responses
+        difficulty * 0.9 to 0
     }
+
+    copy(
+        difficulty = difficulty,
+        consecutiveCorrectCount = consecutiveCorrectCount,
+        // Apply decay to memory strength over time
+        memoryStrength = memoryStrength * 0.95,
+        lastReviewTime = Clock.System.now(),
+    )
 }
 
 private fun calculateAdaptiveInterval(difficulty: Double, consecutiveCorrectCount: Int): Long {
