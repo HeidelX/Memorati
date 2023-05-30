@@ -1,7 +1,6 @@
 package com.memorati.feature.cards
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -55,7 +54,7 @@ internal fun CardsScreen(
         AnimatedVisibility(
             visible = state.map.isNotEmpty(),
             enter = fadeIn(),
-            exit = fadeOut()
+            exit = fadeOut(),
         ) {
             LazyColumn(
                 state = lazyListState,
@@ -95,7 +94,7 @@ internal fun CardsScreen(
         AnimatedVisibility(
             visible = state.map.isEmpty(),
             enter = fadeIn(),
-            exit = fadeOut()
+            exit = fadeOut(),
         ) {
             EmptyScreen(
                 imageVector = MemoratiIcons.CardMembership,
