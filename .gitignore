@@ -8,3 +8,4 @@
 .externalNativeBuild
 .cxx
 **/build
+fastlane/report.xml
