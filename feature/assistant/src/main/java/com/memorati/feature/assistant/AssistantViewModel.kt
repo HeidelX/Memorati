@@ -19,7 +19,11 @@ class AssistantViewModel @Inject constructor(
             cards.map { card ->
                 AssistantCard(
                     flashcard = card,
-                    answers = listOf(card.back, cards.random().back, cards.random().back).shuffled(),
+                    answers = listOf(
+                        card.back,
+                        cards.random().back,
+                        cards.random().back
+                    ).shuffled(),
                 )
             }
         }

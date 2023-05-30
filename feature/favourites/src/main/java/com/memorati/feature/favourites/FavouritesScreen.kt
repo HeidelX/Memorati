@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.model.Flashcard
 
@@ -15,7 +16,7 @@ internal fun FavouritesRoute(
     modifier: Modifier = Modifier,
     viewModel: FavouritesViewModel = hiltViewModel(),
 ) {
-    val cards by viewModel.cards.collectAsState(initial = listOf())
+    val cards by viewModel.cards.collectAsStateWithLifecycle()
     FavouritesScreen(cards, modifier) { card ->
         viewModel.toggleFavoured(card)
     }

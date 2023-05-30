@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
@@ -64,12 +65,12 @@ fun AssistantItem(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(30.dp))
-            .height(200.dp),
+            .wrapContentSize(),
     ) {
         Surface(
             Modifier
                 .background(MaterialTheme.colorScheme.primary)
-                .padding(16.dp)
+                .padding(24.dp)
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.primary,
         ) {
@@ -112,7 +113,7 @@ fun AssistantItem(
                         )
                         Text(
                             text = answer,
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
                         )
                     }
                 }

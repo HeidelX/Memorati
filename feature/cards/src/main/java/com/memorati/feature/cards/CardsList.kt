@@ -1,5 +1,6 @@
 package com.memorati.feature.cards
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -29,6 +30,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.memorati.core.design.component.EmptyScreen
+import com.memorati.core.design.icon.CardMembership
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
 import kotlinx.datetime.Clock
@@ -46,38 +49,47 @@ internal fun CardsList(
 ) {
     val lazyListState = rememberLazyListState()
     Box(modifier = modifier.fillMaxSize()) {
-        LazyColumn(
-            state = lazyListState,
-            contentPadding = PaddingValues(
-                horizontal = 16.dp,
-                vertical = 16.dp,
-            ),
-        ) {
-            state.map.forEach { (date, cards) ->
-                stickyHeader {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(all = 8.dp),
-                        text = date.toString(),
-                    )
+        AnimatedVisibility(visible = state.map.isNotEmpty()) {
+            LazyColumn(
+                state = lazyListState,
+                contentPadding = PaddingValues(
+                    horizontal = 16.dp,
+                    vertical = 16.dp,
+                ),
+            ) {
+                state.map.forEach { (date, cards) ->
+                    stickyHeader {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.surface)
+                                .padding(all = 8.dp),
+                            text = date.toString(),
+                        )
+                    }
+                    items(cards, key = { it.id }) { card ->
+                        CardItem(
+                            modifier = Modifier.animateItemPlacement(),
+                            card = card,
+                            toggleFavoured = toggleFavoured,
+                            onDelete = onDelete,
+                            onEdit = onEdit,
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                    }
                 }
-                items(cards, key = { it.id }) { card ->
-                    CardItem(
-                        modifier = Modifier.animateItemPlacement(),
-                        card = card,
-                        toggleFavoured = toggleFavoured,
-                        onDelete = onDelete,
-                        onEdit = onEdit,
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
-            }
 
-            item {
-                Spacer(modifier = Modifier.height(70.dp))
+                item {
+                    Spacer(modifier = Modifier.height(70.dp))
+                }
             }
+        }
+
+        AnimatedVisibility(visible = state.map.isEmpty()) {
+            EmptyScreen(
+                imageVector = MemoratiIcons.CardMembership,
+                message = stringResource(id = R.string.no_cards_message),
+            )
         }
 
         FabButton(
@@ -116,7 +128,7 @@ internal fun FabButton(
 @DevicePreviews
 @Composable
 internal fun CardsScreenPreview() {
-    CardsScreen(
+    CardsList(
         state = CardsState(
             mapOf(
                 LocalDate(2023, 12, 10) to listOf(
