@@ -42,9 +42,6 @@ class CardsViewModel @Inject constructor(
     fun deleteCard(flashcard: Flashcard) = viewModelScope.launch {
         flashcardsRepository.deleteCard(flashcard)
     }
-
-    fun editCard(flashcard: Flashcard) {
-    }
 }
 
 data class CardsState(
