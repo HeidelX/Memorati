@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -65,7 +66,7 @@ fun AssistantItem(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(30.dp))
-            .wrapContentSize(),
+            .wrapContentHeight(),
     ) {
         Surface(
             Modifier
@@ -74,7 +75,7 @@ fun AssistantItem(
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.primary,
         ) {
-            var selected by remember { mutableStateOf("A") }
+            var selected by remember { mutableStateOf("") }
             Column {
                 Text(
                     text = assistantCard.flashcard.front,
@@ -110,7 +111,7 @@ fun AssistantItem(
                                 selectedColor = MaterialTheme.colorScheme.onTertiaryContainer,
                             ),
 
-                        )
+                            )
                         Text(
                             text = answer,
                             style = MaterialTheme.typography.bodyMedium,
