@@ -1,5 +1,6 @@
 package com.memorati.core.db.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,6 +9,7 @@ import androidx.room.PrimaryKey
 )
 data class TopicEntity(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "topic_id")
     val topicId: Long,
     val label: String,
 )

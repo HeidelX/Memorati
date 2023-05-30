@@ -2,15 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "80d57e4e769bf6b185d20b3bd4157b25",
+    "identityHash": "0e851eb702f6e16e2eb3088bafdae7a3",
     "entities": [
       {
         "tableName": "flashcards",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`flashcardId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `front` TEXT NOT NULL, `back` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `favoured` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`flashcard_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `front` TEXT NOT NULL, `back` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `favoured` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "flashcardId",
-            "columnName": "flashcardId",
+            "columnName": "flashcard_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -42,7 +42,7 @@
         "primaryKey": {
           "autoGenerate": true,
           "columnNames": [
-            "flashcardId"
+            "flashcard_id"
           ]
         },
         "indices": [],
@@ -50,11 +50,11 @@
       },
       {
         "tableName": "topics",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`topicId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `label` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`topic_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `label` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "topicId",
-            "columnName": "topicId",
+            "columnName": "topic_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -68,7 +68,7 @@
         "primaryKey": {
           "autoGenerate": true,
           "columnNames": [
-            "topicId"
+            "topic_id"
           ]
         },
         "indices": [],
@@ -76,17 +76,17 @@
       },
       {
         "tableName": "flashcards_topics",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`flashcardId` INTEGER NOT NULL, `topicId` INTEGER NOT NULL, PRIMARY KEY(`flashcardId`, `topicId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`flashcard_id` INTEGER NOT NULL, `topic_id` INTEGER NOT NULL, PRIMARY KEY(`flashcard_id`, `topic_id`))",
         "fields": [
           {
             "fieldPath": "flashcardId",
-            "columnName": "flashcardId",
+            "columnName": "flashcard_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "topicId",
-            "columnName": "topicId",
+            "columnName": "topic_id",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -94,18 +94,28 @@
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "flashcardId",
-            "topicId"
+            "flashcard_id",
+            "topic_id"
           ]
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_flashcards_topics_topic_id",
+            "unique": false,
+            "columnNames": [
+              "topic_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_flashcards_topics_topic_id` ON `${TABLE_NAME}` (`topic_id`)"
+          }
+        ],
         "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '80d57e4e769bf6b185d20b3bd4157b25')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0e851eb702f6e16e2eb3088bafdae7a3')"
     ]
   }
 }
