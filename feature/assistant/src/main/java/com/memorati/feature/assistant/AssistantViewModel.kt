@@ -17,13 +17,17 @@ class AssistantViewModel @Inject constructor(
     val flashcards = flashcardsRepository.flashcards()
         .map { cards ->
             cards.map { card ->
+                val rest = cards.toMutableList()
+                    .apply { remove(card) }
+
+                val assistedAnswers = when {
+                    rest.isEmpty() -> emptyList()
+                    rest.size == 1 -> listOf(rest.random().back)
+                    else -> listOf(rest.random().back, rest.random().back).toSet().toList()
+                }
                 AssistantCard(
                     flashcard = card,
-                    answers = listOf(
-                        card.back,
-                        cards.random().back,
-                        cards.random().back,
-                    ).shuffled(),
+                    answers = (assistedAnswers + card.back).shuffled(),
                 )
             }
         }
