@@ -2,7 +2,6 @@ package com.memorati.feature.favourites
 
 import MemoratiIcons
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource

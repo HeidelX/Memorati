@@ -39,7 +39,7 @@ import kotlinx.datetime.LocalDate
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-internal fun CardsList(
+internal fun CardsScreen(
     state: CardsState,
     modifier: Modifier = Modifier,
     toggleFavoured: (Flashcard) -> Unit = {},
@@ -128,7 +128,7 @@ internal fun FabButton(
 @DevicePreviews
 @Composable
 internal fun CardsScreenPreview() {
-    CardsList(
+    CardsScreen(
         state = CardsState(
             mapOf(
                 LocalDate(2023, 12, 10) to listOf(

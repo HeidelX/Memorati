@@ -22,7 +22,7 @@ class AssistantViewModel @Inject constructor(
                     answers = listOf(
                         card.back,
                         cards.random().back,
-                        cards.random().back
+                        cards.random().back,
                     ).shuffled(),
                 )
             }

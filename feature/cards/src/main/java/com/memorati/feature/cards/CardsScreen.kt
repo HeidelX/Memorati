@@ -15,7 +15,7 @@ internal fun CardsRoute(
     onEdit: (Flashcard) -> Unit,
 ) {
     val state by viewModel.cards.collectAsStateWithLifecycle()
-    CardsList(
+    CardsScreen(
         state = state,
         modifier = modifier,
         toggleFavoured = viewModel::toggleFavoured,
