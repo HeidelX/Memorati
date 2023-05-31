@@ -12,8 +12,10 @@ data class FlashcardEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "flashcard_id")
     val flashcardId: Long,
+    @ColumnInfo(name = "created_at") val createdAt: Instant,
+    @ColumnInfo(name = "last_review_at") val lastReviewAt: Instant,
+    @ColumnInfo(name = "next_review_at") val nextReviewAt: Instant,
     val front: String,
     val back: String,
-    @ColumnInfo(name = "created_at") val createdAt: Instant,
     val favoured: Boolean,
 )

@@ -2,15 +2,33 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0e851eb702f6e16e2eb3088bafdae7a3",
+    "identityHash": "a2d2de187247ffa91d88c35a5f4148f7",
     "entities": [
       {
         "tableName": "flashcards",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`flashcard_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `front` TEXT NOT NULL, `back` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `favoured` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`flashcard_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `created_at` INTEGER NOT NULL, `last_review_at` INTEGER NOT NULL, `next_review_at` INTEGER NOT NULL, `front` TEXT NOT NULL, `back` TEXT NOT NULL, `favoured` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "flashcardId",
             "columnName": "flashcard_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastReviewAt",
+            "columnName": "last_review_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nextReviewAt",
+            "columnName": "next_review_at",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -24,12 +42,6 @@
             "fieldPath": "back",
             "columnName": "back",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "createdAt",
-            "columnName": "created_at",
-            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -115,7 +127,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0e851eb702f6e16e2eb3088bafdae7a3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a2d2de187247ffa91d88c35a5f4148f7')"
     ]
   }
 }

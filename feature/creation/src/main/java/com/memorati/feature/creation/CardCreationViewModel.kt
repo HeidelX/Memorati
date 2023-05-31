@@ -21,6 +21,8 @@ class CardCreationViewModel @Inject constructor(
                 front = front,
                 back = back,
                 createdAt = Clock.System.now(),
+                lastReviewAt = Clock.System.now(),
+                nextReviewAt = Clock.System.now(),
             ),
         )
     }

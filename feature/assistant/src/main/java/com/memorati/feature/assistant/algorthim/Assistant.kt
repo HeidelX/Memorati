@@ -21,27 +21,28 @@ fun scheduleNextReview(flashcard: Flashcard): Instant {
         minOf(adaptiveInterval, timeWeightedInterval).toDuration(DurationUnit.MILLISECONDS)
 
     // Calculate the next review date by adding the interval to the last review date.
-    return flashcard.additionalInfo.lastReviewTime.plus(nextReviewInterval)
+    return flashcard.lastReviewAt.plus(nextReviewInterval)
 }
 
 fun handleReviewResponse(
-    additionalInfo: AdditionalInfo,
+    flashcard: Flashcard,
     isCorrect: Boolean,
-): AdditionalInfo = with(additionalInfo) {
+): Flashcard = with(flashcard) {
     val (difficulty, consecutiveCorrectCount) = if (isCorrect) {
         // Increase difficulty for correct responses
-        difficulty * 1.1 to (consecutiveCorrectCount + 1)
+        additionalInfo.difficulty * 1.1 to (additionalInfo.consecutiveCorrectCount + 1)
     } else {
         // Decrease difficulty for incorrect responses
-        difficulty * 0.9 to 0
+        additionalInfo.difficulty * 0.9 to 0
     }
-
     copy(
-        difficulty = difficulty,
-        consecutiveCorrectCount = consecutiveCorrectCount,
-        // Apply decay to memory strength over time
-        memoryStrength = memoryStrength * 0.95,
-        lastReviewTime = Clock.System.now(),
+        additionalInfo = AdditionalInfo(
+            difficulty = difficulty,
+            consecutiveCorrectCount = consecutiveCorrectCount,
+            // Apply decay to memory strength over time
+            memoryStrength = additionalInfo.memoryStrength * 0.95,
+        ),
+        lastReviewAt = Clock.System.now(),
     )
 }
 

@@ -25,18 +25,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.memorati.core.data.fake.FlashcardData
 import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.design.icon.CardMembership
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 
 @Composable
@@ -141,27 +141,7 @@ internal fun CardsScreenPreview() {
     CardsScreen(
         state = CardsState(
             mapOf(
-                LocalDate(2023, 12, 10) to listOf(
-                    Flashcard(
-                        id = 1,
-                        front = "Hello",
-                        back = "Hallo",
-                        createdAt = Clock.System.now(),
-                    ),
-                    Flashcard(
-                        id = 2,
-                        front = "Hello",
-                        back = "Hallo",
-                        createdAt = Clock.System.now(),
-                        favoured = true,
-                    ),
-                    Flashcard(
-                        id = 3,
-                        front = "Hello",
-                        back = "Hallo",
-                        createdAt = Clock.System.now(),
-                    ),
-                ),
+                LocalDate(2023, 12, 10) to FlashcardData.flashcards,
             ),
         ),
         toggleFavoured = {},
@@ -176,8 +156,8 @@ internal fun CardsScreenPreview() {
  */
 @Composable
 private fun LazyListState.isScrollingUp(): Boolean {
-    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
-    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    var previousIndex by remember(this) { mutableIntStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableIntStateOf(firstVisibleItemScrollOffset) }
     return remember(this) {
         derivedStateOf {
             if (previousIndex != firstVisibleItemIndex) {

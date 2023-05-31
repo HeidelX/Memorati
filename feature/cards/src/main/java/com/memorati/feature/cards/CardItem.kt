@@ -38,9 +38,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.memorati.core.data.fake.FlashcardData
 import com.memorati.core.model.Flashcard
-import com.memorati.core.model.Topic
-import kotlinx.datetime.Clock
 import java.util.Locale
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -221,13 +220,7 @@ internal fun MemoratiChip(
 @Composable
 internal fun CardItemPreview() {
     CardItem(
-        card = Flashcard(
-            id = 1,
-            front = "Hello",
-            back = "Hallo",
-            createdAt = Clock.System.now(),
-            topics = listOf(Topic(0, "de"), Topic(0, "A1"), Topic(0, "A2")),
-        ),
+        card = FlashcardData.flashcard,
         toggleFavoured = {},
         onEdit = {},
         onDelete = {},

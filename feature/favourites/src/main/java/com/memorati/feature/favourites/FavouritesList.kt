@@ -29,9 +29,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.memorati.core.data.fake.FlashcardData
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
-import kotlinx.datetime.Clock
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
@@ -122,27 +122,7 @@ internal fun CardItem(
 @Composable
 internal fun CardsScreenPreview() {
     FavouritesScreen(
-        cards = listOf(
-            Flashcard(
-                id = 1,
-                front = "Hello",
-                back = "Hallo",
-                createdAt = Clock.System.now(),
-            ),
-            Flashcard(
-                id = 2,
-                front = "Hello",
-                back = "Hallo",
-                createdAt = Clock.System.now(),
-                favoured = true,
-            ),
-            Flashcard(
-                id = 3,
-                front = "Hello",
-                back = "Hallo",
-                createdAt = Clock.System.now(),
-            ),
-        ),
+        cards = FlashcardData.flashcards,
         toggleFavoured = {},
     )
 }
@@ -151,12 +131,7 @@ internal fun CardsScreenPreview() {
 @Composable
 internal fun CardItemPreview() {
     CardItem(
-        card = Flashcard(
-            id = 1,
-            front = "Hello",
-            back = "Hallo",
-            createdAt = Clock.System.now(),
-        ),
+        card = FlashcardData.flashcard,
         toggleFavoured = {},
     )
 }

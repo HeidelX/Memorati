@@ -31,10 +31,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.memorati.core.model.Flashcard
+import com.memorati.core.data.fake.FlashcardData
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.feature.assistant.model.AssistantCard
-import kotlinx.datetime.Clock
 
 @Composable
 fun AssistantList(modifier: Modifier = Modifier, flashcards: List<AssistantCard>) {
@@ -140,11 +139,6 @@ fun AssistantItemPreview() {
 }
 
 private val assistantCard = AssistantCard(
-    flashcard = Flashcard(
-        id = 1,
-        front = "Hello",
-        back = "Hallo",
-        createdAt = Clock.System.now(),
-    ),
+    flashcard = FlashcardData.flashcard,
     answers = listOf("A", "B", "C"),
 )
