@@ -28,10 +28,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.memorati.core.data.fake.FlashcardData
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
+import com.memorati.core.ui.provider.FlashcardProvider
+import com.memorati.core.ui.provider.FlashcardsProvider
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
@@ -120,18 +122,22 @@ internal fun CardItem(
 
 @DevicePreviews
 @Composable
-internal fun CardsScreenPreview() {
+internal fun CardsScreenPreview(
+    @PreviewParameter(FlashcardsProvider::class) flashcards: List<Flashcard>,
+) {
     FavouritesScreen(
-        cards = FlashcardData.flashcards,
+        cards = flashcards,
         toggleFavoured = {},
     )
 }
 
 @DevicePreviews
 @Composable
-internal fun CardItemPreview() {
+internal fun CardItemPreview(
+    @PreviewParameter(FlashcardProvider::class) flashcard: Flashcard,
+) {
     CardItem(
-        card = FlashcardData.flashcard,
+        card = flashcard,
         toggleFavoured = {},
     )
 }

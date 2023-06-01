@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ButtonDefaults
@@ -23,20 +22,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.memorati.core.data.fake.FlashcardData
 import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.design.icon.CardMembership
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
+import com.memorati.core.ui.ext.isScrollingUp
+import com.memorati.core.ui.provider.FlashcardsProvider
 import kotlinx.datetime.LocalDate
 
 @Composable
@@ -137,11 +133,13 @@ internal fun FabButton(
 
 @DevicePreviews
 @Composable
-internal fun CardsScreenPreview() {
+internal fun CardsScreenPreview(
+    @PreviewParameter(FlashcardsProvider::class) flashcards: List<Flashcard>,
+) {
     CardsScreen(
         state = CardsState(
             mapOf(
-                LocalDate(2023, 12, 10) to FlashcardData.flashcards,
+                LocalDate(2023, 12, 10) to flashcards,
             ),
         ),
         toggleFavoured = {},
@@ -149,25 +147,4 @@ internal fun CardsScreenPreview() {
         onDelete = {},
         onAddCard = {},
     )
-}
-
-/**
- * Returns whether the lazy list is currently scrolling up.
- */
-@Composable
-private fun LazyListState.isScrollingUp(): Boolean {
-    var previousIndex by remember(this) { mutableIntStateOf(firstVisibleItemIndex) }
-    var previousScrollOffset by remember(this) { mutableIntStateOf(firstVisibleItemScrollOffset) }
-    return remember(this) {
-        derivedStateOf {
-            if (previousIndex != firstVisibleItemIndex) {
-                previousIndex > firstVisibleItemIndex
-            } else {
-                previousScrollOffset >= firstVisibleItemScrollOffset
-            }.also {
-                previousIndex = firstVisibleItemIndex
-                previousScrollOffset = firstVisibleItemScrollOffset
-            }
-        }
-    }.value
 }

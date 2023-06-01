@@ -1,6 +1,4 @@
-package com.memorati.feature.assistant.model
-
-import com.memorati.core.model.Flashcard
+package com.memorati.core.model
 
 data class AssistantCard(
     val flashcard: Flashcard,

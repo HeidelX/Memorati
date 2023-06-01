@@ -3,7 +3,7 @@ package com.memorati.feature.assistant
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memorati.core.data.repository.FlashcardsRepository
-import com.memorati.feature.assistant.model.AssistantCard
+import com.memorati.core.model.AssistantCard
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class AssistantViewModel @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
-    val flashcards = flashcardsRepository.flashcards()
+    val assistantCards = flashcardsRepository.flashcards()
         .map { cards ->
             cards.map { card ->
                 val rest = cards.toMutableList()

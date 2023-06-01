@@ -30,13 +30,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.memorati.core.data.fake.FlashcardData
+import com.memorati.core.model.AssistantCard
 import com.memorati.core.ui.DevicePreviews
-import com.memorati.feature.assistant.model.AssistantCard
+import com.memorati.core.ui.provider.AssistantCardProvider
+import com.memorati.core.ui.provider.AssistantCardsProvider
 
 @Composable
-fun AssistantList(modifier: Modifier = Modifier, flashcards: List<AssistantCard>) {
+fun AssistantList(modifier: Modifier = Modifier, assistantCards: List<AssistantCard>) {
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(
@@ -44,7 +46,7 @@ fun AssistantList(modifier: Modifier = Modifier, flashcards: List<AssistantCard>
             vertical = 16.dp,
         ),
     ) {
-        items(flashcards) { flashcard ->
+        items(assistantCards) { flashcard ->
             AssistantItem(
                 assistantCard = flashcard,
                 onOptionSelected = {},
@@ -56,9 +58,9 @@ fun AssistantList(modifier: Modifier = Modifier, flashcards: List<AssistantCard>
 
 @Composable
 fun AssistantItem(
+    modifier: Modifier = Modifier,
     assistantCard: AssistantCard,
     onOptionSelected: (String) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
@@ -123,22 +125,21 @@ fun AssistantItem(
 
 @Composable
 @DevicePreviews
-fun AssistantScreenPreview() {
+fun AssistantScreenPreview(
+    @PreviewParameter(AssistantCardsProvider::class) assistantCards: List<AssistantCard>,
+) {
     AssistantScreen(
-        flashcards = listOf(assistantCard, assistantCard, assistantCard),
+        assistantCards = assistantCards,
     )
 }
 
 @Composable
 @Preview
-fun AssistantItemPreview() {
+fun AssistantItemPreview(
+    @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
+) {
     AssistantItem(
         assistantCard = assistantCard,
         onOptionSelected = {},
     )
 }
-
-private val assistantCard = AssistantCard(
-    flashcard = FlashcardData.flashcard,
-    answers = listOf("A", "B", "C"),
-)

@@ -8,27 +8,27 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.design.component.EmptyScreen
-import com.memorati.feature.assistant.model.AssistantCard
+import com.memorati.core.model.AssistantCard
 
 @Composable
 fun AssistantRoute(
     modifier: Modifier = Modifier,
     viewModel: AssistantViewModel = hiltViewModel(),
 ) {
-    val cards by viewModel.flashcards.collectAsStateWithLifecycle()
+    val cards by viewModel.assistantCards.collectAsStateWithLifecycle()
     AssistantScreen(
         modifier = modifier,
-        flashcards = cards,
+        assistantCards = cards,
     )
 }
 
 @Composable
 internal fun AssistantScreen(
     modifier: Modifier = Modifier,
-    flashcards: List<AssistantCard>,
+    assistantCards: List<AssistantCard>,
 ) {
-    if (flashcards.isNotEmpty()) {
-        AssistantList(flashcards = flashcards, modifier = modifier)
+    if (assistantCards.isNotEmpty()) {
+        AssistantList(assistantCards = assistantCards, modifier = modifier)
     } else {
         EmptyScreen(
             imageVector = MemoratiIcons.Assistant,

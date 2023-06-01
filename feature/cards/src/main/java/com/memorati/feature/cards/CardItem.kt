@@ -37,9 +37,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.memorati.core.data.fake.FlashcardData
 import com.memorati.core.model.Flashcard
+import com.memorati.core.ui.provider.FlashcardProvider
 import java.util.Locale
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -218,9 +219,11 @@ internal fun MemoratiChip(
 
 @Preview
 @Composable
-internal fun CardItemPreview() {
+internal fun CardItemPreview(
+    @PreviewParameter(FlashcardProvider::class) flashcard: Flashcard,
+) {
     CardItem(
-        card = FlashcardData.flashcard,
+        card = flashcard,
         toggleFavoured = {},
         onEdit = {},
         onDelete = {},
