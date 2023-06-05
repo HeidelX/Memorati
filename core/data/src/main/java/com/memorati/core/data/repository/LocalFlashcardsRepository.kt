@@ -6,6 +6,7 @@ import com.memorati.core.db.dao.FlashcardsDao
 import com.memorati.core.model.Flashcard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,6 +22,15 @@ class LocalFlashcardsRepository @Inject constructor(
                     entity.toFlashcard()
                 }
             }
+
+    override fun flashcardsToReview(time: Instant): Flow<List<Flashcard>> =
+        flashcardsDao.flashcardToReview(time.toEpochMilliseconds())
+            .map { entities ->
+                entities.map { entity ->
+                    entity.toFlashcard()
+                }
+            }
+
 
     override fun favourites(): Flow<List<Flashcard>> =
         flashcardsDao.getFavourites().map { entities ->

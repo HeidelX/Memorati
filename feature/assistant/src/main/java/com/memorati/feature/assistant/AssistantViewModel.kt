@@ -8,13 +8,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 @HiltViewModel
 class AssistantViewModel @Inject constructor(
-    private val flashcardsRepository: FlashcardsRepository,
+    flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
-    val assistantCards = flashcardsRepository.flashcards()
+    val assistantCards = flashcardsRepository.flashcardsToReview(
+        time = Clock.System.now()
+    )
         .map { cards ->
             cards.map { card ->
                 val rest = cards.toMutableList()
