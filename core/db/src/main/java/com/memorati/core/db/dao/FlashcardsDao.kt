@@ -3,6 +3,7 @@ package com.memorati.core.db.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
@@ -15,6 +16,9 @@ interface FlashcardsDao {
     @Query("SELECT * FROM flashcards")
     fun allFlashcard(): Flow<List<FlashcardEntity>>
 
+    @Query("SELECT * FROM flashcards WHERE flashcard_id=:id")
+    fun find(id: Long): Flow<FlashcardEntity?>
+
     @Transaction
     @Query("SELECT * FROM flashcards")
     fun allFlashcardWithTopics(): Flow<List<FlashcardsWithTopics>>
@@ -22,10 +26,10 @@ interface FlashcardsDao {
     @Query("SELECT * FROM flashcards WHERE favoured = 1")
     fun getFavourites(): Flow<List<FlashcardEntity>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(flashcardEntity: FlashcardEntity)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(flashcardEntity: FlashcardEntity)
 
     @Delete

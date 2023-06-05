@@ -1,8 +1,14 @@
 package com.memorati.feature.creation
 
+import MemoratiIcons
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -10,10 +16,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,39 +38,69 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.memorati.core.design.component.MemoratiChip
+import com.memorati.core.model.Flashcard
 
 @Composable
 internal fun CardCreationRoute(
     modifier: Modifier = Modifier,
     viewModel: CardCreationViewModel = hiltViewModel(),
-    onCardCreated: () -> Unit,
+    onBack: () -> Unit,
 ) {
-    CardCreationScreen(modifier = modifier) { front, back ->
-        viewModel.createCard(front, back)
-        onCardCreated()
-    }
+    val flashcard by viewModel.flashcard.collectAsStateWithLifecycle()
+    CardCreationScreen(
+        modifier = modifier,
+        flashcard = flashcard,
+        onCreate = { front, back ->
+            viewModel.createCard(front, back)
+            onBack()
+        },
+        onBack = onBack,
+    )
 }
 
+@SuppressLint("UnrememberedMutableState")
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 internal fun CardCreationScreen(
     modifier: Modifier = Modifier,
+    flashcard: Flashcard? = null,
     onCreate: (String, String) -> Unit,
+    onBack: () -> Unit,
 ) {
-    var idiom by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+    var idiom by mutableStateOf(flashcard?.front.orEmpty())
+    var description by mutableStateOf(flashcard?.back.orEmpty())
     val focusRequester = remember { FocusRequester() }
     Surface(modifier = modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(id = R.string.card_creation_title))
+                },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = MemoratiIcons.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back),
+                        )
+                    }
+                },
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
             TextField(
-                modifier = Modifier.focusRequester(focusRequester),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
                 value = idiom,
                 label = {
-                    Text(text = "Idiom")
+                    Text(text = stringResource(id = R.string.idiom))
                 },
                 onValueChange = { text ->
                     idiom = text
@@ -68,18 +108,40 @@ internal fun CardCreationScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
             TextField(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth(),
                 value = description,
                 label = {
-                    Text(text = "Description")
+                    Text(text = stringResource(id = R.string.description))
                 },
                 onValueChange = { text ->
                     description = text
                 },
             )
             Spacer(modifier = Modifier.height(20.dp))
+
+            Text(
+                text = "Topics",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                style = MaterialTheme.typography.titleLarge
+            )
+
+            FlowRow {
+                MemoratiChip(label = "A")
+                MemoratiChip(label = "A")
+                MemoratiChip(label = "A")
+                MemoratiChip(label = "A")
+                MemoratiChip(label = "A")
+            }
+
             Button(
                 enabled = idiom.isNotBlank() && description.isNotBlank(),
-                modifier = modifier.align(Alignment.End),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .align(Alignment.End),
                 onClick = {
                     onCreate(idiom, description)
                 },
@@ -93,7 +155,7 @@ internal fun CardCreationScreen(
                 Text(text = stringResource(id = R.string.save))
 
                 LaunchedEffect(Unit) {
-                    // focusRequester.requestFocus()
+                    focusRequester.requestFocus()
                 }
             }
         }
@@ -103,5 +165,8 @@ internal fun CardCreationScreen(
 @Preview
 @Composable
 internal fun CardCreationRoutePreview() {
-    CardCreationScreen { _, _ -> }
+    CardCreationScreen(
+        onCreate = { _, _ -> },
+        onBack = {},
+    )
 }

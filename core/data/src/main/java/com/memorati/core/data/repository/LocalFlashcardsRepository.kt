@@ -29,6 +29,11 @@ class LocalFlashcardsRepository @Inject constructor(
             }
         }
 
+    override fun findById(id: Long): Flow<Flashcard?> =
+        flashcardsDao.find(id).map { entity ->
+            entity?.toFlashcard()
+        }
+
     override suspend fun createCard(flashcard: Flashcard) {
         flashcardsDao.insert(
             flashcard.toFlashcardEntity(),

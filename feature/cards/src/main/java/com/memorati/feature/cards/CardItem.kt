@@ -12,10 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -130,7 +127,7 @@ internal fun CardItem(
                     modifier = Modifier.align(Alignment.BottomStart),
                 ) {
                     card.topics.forEach { topic ->
-                        MemoratiChip(topic.label)
+                        (topic.label)
                     }
                 }
             }
@@ -185,37 +182,6 @@ internal fun CardDropDownMenu(
     }
 }
 
-@Composable
-internal fun MemoratiChip(
-    label: String,
-    modifier: Modifier = Modifier,
-    disabled: Boolean = false,
-) {
-    AssistChip(
-        modifier = modifier.padding(2.dp),
-        onClick = {},
-        label = {
-            Text(
-                text = label.uppercase(Locale.getDefault()),
-                style = MaterialTheme.typography.labelSmall,
-            )
-        },
-        shape = CircleShape,
-        colors = AssistChipDefaults.assistChipColors(
-            labelColor = MaterialTheme.colorScheme.onPrimary,
-            disabledContainerColor = if (disabled) {
-                MaterialTheme.colorScheme.onBackground.copy(
-                    alpha = 0.12f,
-                )
-            } else {
-                Color.Transparent
-            },
-            disabledLabelColor = MaterialTheme.colorScheme.onBackground.copy(
-                alpha = 0.38f,
-            ),
-        ),
-    )
-}
 
 @Preview
 @Composable
@@ -228,10 +194,4 @@ internal fun CardItemPreview(
         onEdit = {},
         onDelete = {},
     )
-}
-
-@Preview
-@Composable
-internal fun ChipPreview() {
-    MemoratiChip("hello")
 }

@@ -1,5 +1,6 @@
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Assistant
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
@@ -21,4 +22,5 @@ object MemoratiIcons {
     val Favourites = Icons.Rounded.Favorite
     val FavouritesBorder = Icons.Rounded.FavoriteBorder
     val Assistant = Icons.Rounded.Assistant
+    val ArrowBack = Icons.Rounded.ArrowBack
 }

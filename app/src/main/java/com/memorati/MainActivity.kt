@@ -78,7 +78,9 @@ class MainActivity : ComponentActivity() {
                         ) {
                             cardsScreen(
                                 onAddCard = { navController.navigateToCardCreation() },
-                                onEdit = { navController.navigateToCardCreation() },
+                                onEdit = { flashcard ->
+                                    navController.navigateToCardCreation(flashcard.id)
+                                },
                             )
                             cardCreationScreen {
                                 navController.navigateUp()
