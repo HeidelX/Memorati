@@ -38,7 +38,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.provider.FlashcardProvider
-import java.util.Locale
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -181,7 +180,6 @@ internal fun CardDropDownMenu(
         }
     }
 }
-
 
 @Preview
 @Composable

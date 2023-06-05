@@ -2,7 +2,6 @@ package com.memorati.feature.creation
 
 import MemoratiIcons
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -126,7 +125,7 @@ internal fun CardCreationScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
 
             FlowRow {

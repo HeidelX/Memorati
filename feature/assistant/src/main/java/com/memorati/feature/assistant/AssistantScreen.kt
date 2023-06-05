@@ -5,10 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.model.AssistantCard
+import com.memorati.core.ui.provider.AssistantCardsProvider
 
 @Composable
 fun AssistantRoute(
@@ -31,8 +34,22 @@ internal fun AssistantScreen(
         AssistantList(assistantCards = assistantCards, modifier = modifier)
     } else {
         EmptyScreen(
-            imageVector = MemoratiIcons.Assistant,
+            imageVector = MemoratiIcons.AutoAwesome,
             message = stringResource(id = R.string.no_assistant_cards_message),
         )
     }
+}
+
+@Composable
+@Preview
+internal fun AssistantScreenPreview(
+    @PreviewParameter(AssistantCardsProvider::class) assistantCards: List<AssistantCard>,
+) {
+    AssistantScreen(assistantCards = assistantCards)
+}
+
+@Composable
+@Preview
+internal fun AssistantScreenEmptyPreview() {
+    AssistantScreen(assistantCards = emptyList())
 }

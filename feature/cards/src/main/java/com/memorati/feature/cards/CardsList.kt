@@ -60,7 +60,7 @@ internal fun CardsScreen(
                 ),
             ) {
                 state.map.forEach { (date, cards) ->
-                    stickyHeader(key = date) {
+                    stickyHeader(key = date.toString()) {
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()

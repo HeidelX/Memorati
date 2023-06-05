@@ -19,7 +19,6 @@ interface FlashcardsDao {
     @Query("SELECT * FROM flashcards WHERE flashcard_id=:id")
     fun find(id: Long): Flow<FlashcardEntity?>
 
-
     @Query("SELECT * FROM flashcards WHERE next_review_at<=:time")
     fun flashcardToReview(time: Long): Flow<List<FlashcardEntity>>
 

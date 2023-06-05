@@ -33,9 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.model.AssistantCard
-import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.provider.AssistantCardProvider
-import com.memorati.core.ui.provider.AssistantCardsProvider
 
 @Composable
 fun AssistantList(modifier: Modifier = Modifier, assistantCards: List<AssistantCard>) {
@@ -121,16 +119,6 @@ fun AssistantItem(
             }
         }
     }
-}
-
-@Composable
-@DevicePreviews
-fun AssistantScreenPreview(
-    @PreviewParameter(AssistantCardsProvider::class) assistantCards: List<AssistantCard>,
-) {
-    AssistantScreen(
-        assistantCards = assistantCards,
-    )
 }
 
 @Composable

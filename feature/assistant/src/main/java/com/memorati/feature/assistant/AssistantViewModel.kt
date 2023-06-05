@@ -16,7 +16,7 @@ class AssistantViewModel @Inject constructor(
     flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
     val assistantCards = flashcardsRepository.flashcardsToReview(
-        time = Clock.System.now()
+        time = Clock.System.now(),
     )
         .map { cards ->
             cards.map { card ->

@@ -31,7 +31,6 @@ class LocalFlashcardsRepository @Inject constructor(
                 }
             }
 
-
     override fun favourites(): Flow<List<Flashcard>> =
         flashcardsDao.getFavourites().map { entities ->
             entities.map { entity ->
