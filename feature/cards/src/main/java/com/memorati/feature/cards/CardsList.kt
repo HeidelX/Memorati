@@ -60,10 +60,11 @@ internal fun CardsScreen(
                 ),
             ) {
                 state.map.forEach { (date, cards) ->
-                    stickyHeader {
+                    stickyHeader(key = date) {
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .animateItemPlacement()
                                 .background(MaterialTheme.colorScheme.surface)
                                 .padding(all = 8.dp),
                             text = date.toString(),
