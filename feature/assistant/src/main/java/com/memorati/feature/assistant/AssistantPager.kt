@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,6 +19,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
@@ -178,6 +181,20 @@ fun AssistantPage(
                     visible = assistantCard.isAnswered,
                 ) {
                     Image(
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .background(Color.Black)
+                            .border(
+                                width = 2.dp,
+                                brush = Brush.linearGradient(
+                                    listOf(
+                                        Color.White,
+                                        Color.DarkGray,
+                                    ),
+                                ),
+                                shape = CircleShape,
+                            )
+                            .padding(5.dp),
                         imageVector = if (assistantCard.isCorrect) {
                             MemoratiIcons.Done
                         } else {
