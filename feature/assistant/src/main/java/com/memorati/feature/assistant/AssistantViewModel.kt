@@ -4,10 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.Flashcard
+import com.memorati.feature.assistant.state.AssistantState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.datetime.Clock
 import javax.inject.Inject
 
@@ -15,28 +20,48 @@ import javax.inject.Inject
 class AssistantViewModel @Inject constructor(
     flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
-    val assistantCards = flashcardsRepository.flashcardsToReview(
-        time = Clock.System.now(),
-    )
+    private val userReviews = MutableStateFlow<Map<Long, String>>(emptyMap())
+    private val flashcards = flashcardsRepository.flashcardsToReview(time = Clock.System.now())
         .map { cards ->
             cards.map { card ->
-                val rest = cards.toMutableList()
-                    .apply { remove(card) }
-
-                val assistedAnswers = when {
-                    rest.isEmpty() -> emptyList()
-                    rest.size == 1 -> listOf(rest.random().back)
-                    else -> listOf(rest.random().back, rest.random().back).toSet().toList()
-                }
+                val rest = cards.toMutableList().apply { remove(card) }
                 AssistantCard(
                     flashcard = card,
-                    answers = (assistedAnswers + card.back).shuffled(),
+                    answers = rest.assistantAnswers().plus(card.back).shuffled(),
                 )
             }
         }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(),
-            emptyList(),
+
+    val state = combine(
+        flashcards,
+        userReviews,
+    ) { cards, reviews ->
+        AssistantState(
+            reviews = cards.map { card ->
+                card.copy(
+                    response = when (reviews[card.flashcard.id]) {
+                        null -> AssistantCard.Answer.NO_ANSWER
+                        card.flashcard.back -> AssistantCard.Answer.CORRECT
+                        else -> AssistantCard.Answer.WRONG
+                    },
+                )
+            },
         )
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(),
+        AssistantState(),
+    )
+
+    fun selectOption(id: Long, selection: String) = userReviews.update { values ->
+        values.toMutableMap()
+            .apply { this[id] = selection }
+            .toMap()
+    }
+}
+
+internal fun List<Flashcard>.assistantAnswers(): List<String> = when {
+    isEmpty() -> emptyList()
+    size == 1 -> listOf(random().back)
+    else -> asSequence().shuffled().take(2).map { it.back }.toList()
 }

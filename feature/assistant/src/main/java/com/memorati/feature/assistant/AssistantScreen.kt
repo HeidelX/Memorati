@@ -6,32 +6,37 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.design.component.EmptyScreen
-import com.memorati.core.model.AssistantCard
-import com.memorati.core.ui.provider.AssistantCardsProvider
+import com.memorati.feature.assistant.state.AssistantState
 
 @Composable
 fun AssistantRoute(
     modifier: Modifier = Modifier,
     viewModel: AssistantViewModel = hiltViewModel(),
 ) {
-    val cards by viewModel.assistantCards.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     AssistantScreen(
         modifier = modifier,
-        assistantCards = cards,
+        state = state,
+        onOptionSelected = viewModel::selectOption,
     )
 }
 
 @Composable
 internal fun AssistantScreen(
     modifier: Modifier = Modifier,
-    assistantCards: List<AssistantCard>,
+    state: AssistantState,
+    onOptionSelected: (Long, String) -> Unit,
+
 ) {
-    if (assistantCards.isNotEmpty()) {
-        AssistantList(assistantCards = assistantCards, modifier = modifier)
+    if (state.reviews.isNotEmpty()) {
+        AssistantPager(
+            assistantCards = state.reviews,
+            modifier = modifier,
+            onOptionSelected = onOptionSelected,
+        )
     } else {
         EmptyScreen(
             imageVector = MemoratiIcons.AutoAwesome,
@@ -42,14 +47,8 @@ internal fun AssistantScreen(
 
 @Composable
 @Preview
-internal fun AssistantScreenPreview(
-    @PreviewParameter(AssistantCardsProvider::class) assistantCards: List<AssistantCard>,
-) {
-    AssistantScreen(assistantCards = assistantCards)
-}
-
-@Composable
-@Preview
 internal fun AssistantScreenEmptyPreview() {
-    AssistantScreen(assistantCards = emptyList())
+    AssistantScreen(
+        state = AssistantState(),
+    ) { _, _ -> }
 }
