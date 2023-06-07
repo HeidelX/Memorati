@@ -39,11 +39,7 @@ class AssistantViewModel @Inject constructor(
         AssistantState(
             reviews = cards.map { card ->
                 card.copy(
-                    response = when (reviews[card.flashcard.id]) {
-                        null -> AssistantCard.Answer.NO_ANSWER
-                        card.flashcard.back -> AssistantCard.Answer.CORRECT
-                        else -> AssistantCard.Answer.WRONG
-                    },
+                    response = reviews[card.flashcard.id],
                 )
             },
         )

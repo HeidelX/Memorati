@@ -29,8 +29,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -129,7 +127,6 @@ fun AssistantPage(
                 .fillMaxSize(),
             color = color,
         ) {
-            var selected by remember { mutableStateOf("") }
             Column {
                 Text(
                     text = assistantCard.flashcard.front,
@@ -146,25 +143,22 @@ fun AssistantPage(
                         modifier = Modifier
                             .fillMaxWidth()
                             .selectable(
-                                selected = selected == answer,
+                                selected = assistantCard.response == answer,
                                 onClick = {
-                                    selected = answer
                                     onOptionSelected(assistantCard.flashcard.id, answer)
                                 },
                             ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         RadioButton(
-                            selected = selected == answer,
+                            selected = assistantCard.response == answer,
                             onClick = {
-                                selected = answer
                                 onOptionSelected(assistantCard.flashcard.id, answer)
                             },
                             colors = RadioButtonDefaults.colors(
                                 unselectedColor = MaterialTheme.colorScheme.onPrimary,
                                 selectedColor = MaterialTheme.colorScheme.onTertiaryContainer,
                             ),
-
                         )
                         Text(
                             text = answer,
@@ -225,7 +219,7 @@ fun AssistantItemPreview(
     @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
 ) {
     AssistantPage(
-        assistantCard = assistantCard.copy(response = AssistantCard.Answer.CORRECT),
+        assistantCard = assistantCard.copy(response = "Hello"),
         onOptionSelected = { _, _ -> },
     )
 }
