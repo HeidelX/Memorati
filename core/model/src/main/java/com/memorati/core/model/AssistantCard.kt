@@ -5,6 +5,9 @@ data class AssistantCard(
     val answers: List<String>,
     val response: Answer = Answer.NO_ANSWER,
 ) {
+    val isCorrect get() = response == Answer.CORRECT
+    val isAnswered get() = response != Answer.NO_ANSWER
+
     enum class Answer {
         CORRECT,
         WRONG,

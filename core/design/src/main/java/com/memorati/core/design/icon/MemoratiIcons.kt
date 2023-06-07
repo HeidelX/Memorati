@@ -3,7 +3,9 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Assistant
 import androidx.compose.material.icons.rounded.AutoAwesome
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
@@ -25,4 +27,6 @@ object MemoratiIcons {
     val Assistant = Icons.Rounded.Assistant
     val ArrowBack = Icons.Rounded.ArrowBack
     val AutoAwesome = Icons.Rounded.AutoAwesome
+    val Done = Icons.Rounded.Done
+    val Close = Icons.Rounded.Close
 }

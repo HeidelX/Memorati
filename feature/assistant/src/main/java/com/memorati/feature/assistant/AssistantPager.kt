@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -77,9 +78,9 @@ private fun Modifier.pageTransition(
     // scroll position. We use the absolute value which allows us to mirror
     // any effects for both directions
     val pageOffset = (
-            (pagerState.currentPage - page) + pagerState
-                .currentPageOffsetFraction
-            ).absoluteValue
+        (pagerState.currentPage - page) + pagerState
+            .currentPageOffsetFraction
+        ).absoluteValue
 
     // We animate the alpha, between 50% and 100%
     alpha = lerp(
@@ -161,7 +162,7 @@ fun AssistantPage(
                                 selectedColor = MaterialTheme.colorScheme.onTertiaryContainer,
                             ),
 
-                            )
+                        )
                         Text(
                             text = answer,
                             style = MaterialTheme.typography.bodyLarge,
@@ -170,20 +171,22 @@ fun AssistantPage(
                 }
 
                 AnimatedVisibility(
-                    visible = assistantCard.response != AssistantCard.Answer.NO_ANSWER
+                    modifier = Modifier
+                        .padding(top = 24.dp)
+                        .size(60.dp)
+                        .align(Alignment.CenterHorizontally),
+                    visible = assistantCard.isAnswered,
                 ) {
                     Image(
-                        modifier = Modifier
-                            .padding(top = 24.dp)
-                            .align(Alignment.CenterHorizontally),
-                        imageVector = MemoratiIcons.AutoAwesome,
+                        imageVector = if (assistantCard.isCorrect) {
+                            MemoratiIcons.Done
+                        } else {
+                            MemoratiIcons.Close
+                        },
                         contentDescription = "",
                         colorFilter = ColorFilter.tint(
-                            when (assistantCard.response) {
-                                AssistantCard.Answer.CORRECT -> Color.Green
-                                else -> Color.Red
-                            }
-                        )
+                            if (assistantCard.isCorrect) Color.Green else Color.Red,
+                        ),
                     )
                 }
             }
@@ -205,7 +208,7 @@ fun AssistantItemPreview(
     @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
 ) {
     AssistantPage(
-        assistantCard = assistantCard,
+        assistantCard = assistantCard.copy(response = AssistantCard.Answer.CORRECT),
         onOptionSelected = { _, _ -> },
     )
 }
