@@ -21,5 +21,5 @@ class AssistantCardsProvider : PreviewParameterProvider<List<AssistantCard>> {
 
 private val assistantCard = AssistantCard(
     flashcard = flashcard,
-    answers = listOf("Hello", "Bye Bye", "OK"),
+    answers = listOf(flashcard.back, "Bye Bye", "OK"),
 )

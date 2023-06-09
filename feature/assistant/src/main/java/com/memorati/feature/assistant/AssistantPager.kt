@@ -28,8 +28,6 @@ import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -64,7 +62,7 @@ fun AssistantPager(
             modifier = Modifier
                 .pageTransition(pagerState, page)
                 .fillMaxWidth(),
-            assistantCard = assistantCards[page],
+            card = assistantCards[page],
             onOptionSelected = onOptionSelected,
         )
     }
@@ -79,8 +77,7 @@ private fun Modifier.pageTransition(
     // scroll position. We use the absolute value which allows us to mirror
     // any effects for both directions
     val pageOffset = (
-        (pagerState.currentPage - page) + pagerState
-            .currentPageOffsetFraction
+        (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
         ).absoluteValue
 
     // We animate the alpha, between 50% and 100%
@@ -107,7 +104,7 @@ private fun Modifier.pageTransition(
 @Composable
 fun AssistantPage(
     modifier: Modifier = Modifier,
-    assistantCard: AssistantCard,
+    card: AssistantCard,
     onOptionSelected: (Long, String) -> Unit,
 ) {
     Box(
@@ -120,16 +117,14 @@ fun AssistantPage(
         val color = MaterialTheme.colorScheme.primary
         Surface(
             Modifier
-                .background(
-                    color,
-                )
+                .background(color)
                 .padding(24.dp)
                 .fillMaxSize(),
             color = color,
         ) {
             Column {
                 Text(
-                    text = assistantCard.flashcard.front,
+                    text = card.flashcard.front,
                     style = MaterialTheme.typography.titleLarge,
                 )
                 Divider(
@@ -138,22 +133,33 @@ fun AssistantPage(
                         .padding(vertical = 10.dp),
                 )
 
-                assistantCard.answers.forEach { answer ->
+                card.answers.forEach { answer ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .selectable(
-                                selected = assistantCard.response == answer,
+                                enabled = !card.isAnswered,
+                                selected = card.response == answer,
                                 onClick = {
-                                    onOptionSelected(assistantCard.flashcard.id, answer)
+                                    onOptionSelected(card.flashcard.id, answer)
                                 },
+                            )
+                            .border(
+                                width = 2.dp,
+                                color = if (card.flashcard.back == answer && card.isAnswered) {
+                                    Color.Green.copy(alpha = 0.7f)
+                                } else {
+                                    Color.Transparent
+                                },
+                                shape = CircleShape,
                             ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         RadioButton(
-                            selected = assistantCard.response == answer,
+                            enabled = !card.isAnswered,
+                            selected = card.response == answer,
                             onClick = {
-                                onOptionSelected(assistantCard.flashcard.id, answer)
+                                onOptionSelected(card.flashcard.id, answer)
                             },
                             colors = RadioButtonDefaults.colors(
                                 unselectedColor = MaterialTheme.colorScheme.onPrimary,
@@ -172,7 +178,7 @@ fun AssistantPage(
                         .padding(top = 24.dp)
                         .size(60.dp)
                         .align(Alignment.CenterHorizontally),
-                    visible = assistantCard.isAnswered,
+                    visible = card.isAnswered,
                 ) {
                     Image(
                         modifier = Modifier
@@ -189,14 +195,14 @@ fun AssistantPage(
                                 shape = CircleShape,
                             )
                             .padding(5.dp),
-                        imageVector = if (assistantCard.isCorrect) {
+                        imageVector = if (card.isCorrect) {
                             MemoratiIcons.Done
                         } else {
                             MemoratiIcons.Close
                         },
                         contentDescription = "",
                         colorFilter = ColorFilter.tint(
-                            if (assistantCard.isCorrect) Color.Green else Color.Red,
+                            if (card.isCorrect) Color.Green else Color.Red,
                         ),
                     )
                 }
@@ -219,7 +225,29 @@ fun AssistantItemPreview(
     @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
 ) {
     AssistantPage(
-        assistantCard = assistantCard.copy(response = "Hello"),
+        card = assistantCard.copy(response = "Hallo"),
+        onOptionSelected = { _, _ -> },
+    )
+}
+
+@Composable
+@Preview
+fun AssistantWrongItemPreview(
+    @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
+) {
+    AssistantPage(
+        card = assistantCard.copy(response = "OK"),
+        onOptionSelected = { _, _ -> },
+    )
+}
+
+@Composable
+@Preview
+fun AssistantNoAnswerItemPreview(
+    @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
+) {
+    AssistantPage(
+        card = assistantCard,
         onOptionSelected = { _, _ -> },
     )
 }
