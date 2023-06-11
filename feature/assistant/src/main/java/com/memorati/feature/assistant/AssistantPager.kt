@@ -77,8 +77,8 @@ private fun Modifier.pageTransition(
     // scroll position. We use the absolute value which allows us to mirror
     // any effects for both directions
     val pageOffset = (
-        (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
-        ).absoluteValue
+            (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+            ).absoluteValue
 
     // We animate the alpha, between 50% and 100%
     alpha = lerp(
@@ -164,6 +164,8 @@ fun AssistantPage(
                             colors = RadioButtonDefaults.colors(
                                 unselectedColor = MaterialTheme.colorScheme.onPrimary,
                                 selectedColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                                disabledUnselectedColor = MaterialTheme.colorScheme.onPrimary,
+                                disabledSelectedColor = MaterialTheme.colorScheme.onTertiaryContainer,
                             ),
                         )
                         Text(
