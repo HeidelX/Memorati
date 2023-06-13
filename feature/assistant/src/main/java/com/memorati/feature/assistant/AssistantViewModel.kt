@@ -67,16 +67,8 @@ class AssistantViewModel @Inject constructor(
         }
 
     fun updateCard(card: AssistantCard) = viewModelScope.launch {
-        val flashcard = handleReviewResponse(
-            flashcard = card.flashcard,
-            isCorrect = card.isCorrect,
-        )
-
-        flashcardsRepository.updateCard(
-            flashcard.copy(
-                nextReviewAt = scheduleNextReview(flashcard),
-            ),
-        )
+        val flashcard = card.flashcard.handleReviewResponse(card.isCorrect).scheduleNextReview()
+        flashcardsRepository.updateCard(flashcard)
     }
 }
 

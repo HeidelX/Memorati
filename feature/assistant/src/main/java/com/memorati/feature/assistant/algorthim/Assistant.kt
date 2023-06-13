@@ -3,29 +3,29 @@ package com.memorati.feature.assistant.algorthim
 import com.memorati.core.model.AdditionalInfo
 import com.memorati.core.model.Flashcard
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlin.math.ln
 import kotlin.time.Duration.Companion.minutes
 
-fun scheduleNextReview(flashcard: Flashcard): Instant {
+fun Flashcard.scheduleNextReview(): Flashcard {
     val adaptiveInterval = calculateAdaptiveInterval(
-        flashcard.additionalInfo.difficulty,
-        flashcard.additionalInfo.consecutiveCorrectCount,
+        additionalInfo.difficulty,
+        additionalInfo.consecutiveCorrectCount,
     )
     val timeWeightedInterval =
-        calculateTimeWeightedInterval(flashcard.additionalInfo.memoryStrength)
+        calculateTimeWeightedInterval(additionalInfo.memoryStrength)
 
     // Choose the shorter interval between adaptive and time-weighted intervals.
     val nextReviewInterval = minOf(adaptiveInterval, timeWeightedInterval).minutes
 
     // Calculate the next review date by adding the interval to the last review date.
-    return flashcard.lastReviewAt.plus(nextReviewInterval)
+    return copy(
+        nextReviewAt = lastReviewAt.plus(nextReviewInterval)
+    )
 }
 
-fun handleReviewResponse(
-    flashcard: Flashcard,
+fun Flashcard.handleReviewResponse(
     isCorrect: Boolean,
-): Flashcard = with(flashcard) {
+): Flashcard {
     val (difficulty, consecutiveCorrectCount) = if (isCorrect) {
         // Increase difficulty for correct responses
         additionalInfo.difficulty * 1.1 to (additionalInfo.consecutiveCorrectCount + 1)
@@ -33,7 +33,7 @@ fun handleReviewResponse(
         // Decrease difficulty for incorrect responses
         additionalInfo.difficulty * 0.9 to 0
     }
-    copy(
+    return copy(
         additionalInfo = AdditionalInfo(
             difficulty = difficulty,
             consecutiveCorrectCount = consecutiveCorrectCount,
