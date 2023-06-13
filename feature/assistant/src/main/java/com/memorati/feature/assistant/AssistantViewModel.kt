@@ -23,6 +23,8 @@ class AssistantViewModel @Inject constructor(
     private val userReviews = MutableStateFlow<Map<Long, String>>(emptyMap())
     private val flashcards = flashcardsRepository.flashcardsToReview(time = Clock.System.now())
         .map { cards ->
+            // Clear user selection on new emissions, because answers will change
+            userReviews.update { emptyMap() }
             cards.map { card ->
                 val rest = cards.toMutableList().apply { remove(card) }
                 AssistantCard(
