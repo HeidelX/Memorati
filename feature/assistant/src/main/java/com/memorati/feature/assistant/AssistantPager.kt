@@ -57,6 +57,7 @@ fun AssistantPager(
         state = pagerState,
         modifier = modifier,
         contentPadding = PaddingValues(24.dp),
+        userScrollEnabled = false,
     ) { page ->
         AssistantPage(
             modifier = Modifier
