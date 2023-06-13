@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
-import com.memorati.core.model.Flashcard
 import com.memorati.feature.assistant.algorthim.handleReviewResponse
 import com.memorati.feature.assistant.algorthim.scheduleNextReview
 import com.memorati.feature.assistant.state.AssistantState
@@ -24,12 +23,18 @@ class AssistantViewModel @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
     private val userReviews = MutableStateFlow<Map<Long, String>>(emptyMap())
-    private val flashcards = flashcardsRepository.flashcardsToReview(time = Clock.System.now())
-        .map { cards ->
+    private val backs = flashcardsRepository.flashcards().map { cards ->
+        cards.map { card -> card.back }
+    }
+    private val flashcards =
+        combine(
+            flashcardsRepository.flashcardsToReview(time = Clock.System.now()),
+            backs,
+        ) { cards, backs ->
             // Clear user selection on new emissions, because answers will change
             userReviews.update { emptyMap() }
             cards.map { card ->
-                val rest = cards.toMutableList().apply { remove(card) }
+                val rest = backs.filterNot { back -> back == card.back }
                 AssistantCard(
                     flashcard = card,
                     answers = rest.assistantAnswers().plus(card.back).shuffled(),
@@ -75,8 +80,8 @@ class AssistantViewModel @Inject constructor(
     }
 }
 
-internal fun List<Flashcard>.assistantAnswers(): List<String> = when {
+internal fun List<String>.assistantAnswers(): List<String> = when {
     isEmpty() -> emptyList()
-    size == 1 -> listOf(random().back)
-    else -> asSequence().shuffled().take(2).map { it.back }.toList()
+    size == 1 -> listOf(random())
+    else -> asSequence().shuffled().take(2).toList()
 }
