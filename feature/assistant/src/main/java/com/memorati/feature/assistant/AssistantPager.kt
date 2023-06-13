@@ -55,7 +55,8 @@ import kotlin.math.absoluteValue
 fun AssistantPager(
     modifier: Modifier = Modifier,
     assistantCards: List<AssistantCard>,
-    onOptionSelected: (Long, String) -> Unit,
+    onOptionSelected: (AssistantCard, String) -> Unit,
+    onUpdateCard: (AssistantCard) -> Unit,
 ) {
     val pagerState = rememberPagerState { assistantCards.size }
     val coroutineScope = rememberCoroutineScope()
@@ -65,17 +66,19 @@ fun AssistantPager(
         contentPadding = PaddingValues(24.dp),
         userScrollEnabled = false,
     ) { page ->
+        val assistantCard = assistantCards[page]
         AssistantPage(
             modifier = Modifier
                 .pageTransition(pagerState, page)
                 .fillMaxWidth(),
-            card = assistantCards[page],
+            card = assistantCard,
             onOptionSelected = onOptionSelected,
             onNext = {
                 coroutineScope.launch {
                     pagerState.animateScrollToPage(
                         page = pagerState.currentPage.plus(1) % pagerState.pageCount,
                     )
+                    onUpdateCard(assistantCard)
                 }
             },
         )
@@ -119,7 +122,7 @@ private fun Modifier.pageTransition(
 fun AssistantPage(
     modifier: Modifier = Modifier,
     card: AssistantCard,
-    onOptionSelected: (Long, String) -> Unit,
+    onOptionSelected: (AssistantCard, String) -> Unit,
     onNext: () -> Unit,
 ) {
     Box(
@@ -208,7 +211,7 @@ private fun ColumnScope.AnswerIcon(card: AssistantCard) {
 private fun AnswerRadioButton(
     card: AssistantCard,
     answer: String,
-    onOptionSelected: (Long, String) -> Unit,
+    onOptionSelected: (AssistantCard, String) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -217,7 +220,7 @@ private fun AnswerRadioButton(
                 enabled = !card.isAnswered,
                 selected = card.response == answer,
                 onClick = {
-                    onOptionSelected(card.flashcard.id, answer)
+                    onOptionSelected(card, answer)
                 },
             )
             .border(
@@ -235,7 +238,7 @@ private fun AnswerRadioButton(
             enabled = !card.isAnswered,
             selected = card.response == answer,
             onClick = {
-                onOptionSelected(card.flashcard.id, answer)
+                onOptionSelected(card, answer)
             },
             colors = RadioButtonDefaults.colors(
                 unselectedColor = MaterialTheme.colorScheme.onPrimary,
@@ -256,7 +259,11 @@ private fun AnswerRadioButton(
 private fun AssistantScreenPreview(
     @PreviewParameter(AssistantCardsProvider::class) assistantCards: List<AssistantCard>,
 ) {
-    AssistantScreen(state = AssistantState(reviews = assistantCards)) { _, _ -> }
+    AssistantScreen(
+        state = AssistantState(reviews = assistantCards),
+        onOptionSelected = { _, _ -> },
+        onUpdateCard = {},
+    )
 }
 
 @Composable

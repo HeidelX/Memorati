@@ -5,8 +5,7 @@ import com.memorati.core.model.Flashcard
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlin.math.ln
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
+import kotlin.time.Duration.Companion.minutes
 
 fun scheduleNextReview(flashcard: Flashcard): Instant {
     val adaptiveInterval = calculateAdaptiveInterval(
@@ -17,8 +16,7 @@ fun scheduleNextReview(flashcard: Flashcard): Instant {
         calculateTimeWeightedInterval(flashcard.additionalInfo.memoryStrength)
 
     // Choose the shorter interval between adaptive and time-weighted intervals.
-    val nextReviewInterval =
-        minOf(adaptiveInterval, timeWeightedInterval).toDuration(DurationUnit.MILLISECONDS)
+    val nextReviewInterval = minOf(adaptiveInterval, timeWeightedInterval).minutes
 
     // Calculate the next review date by adding the interval to the last review date.
     return flashcard.lastReviewAt.plus(nextReviewInterval)

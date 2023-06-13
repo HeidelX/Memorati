@@ -9,6 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.design.component.EmptyScreen
+import com.memorati.core.model.AssistantCard
 import com.memorati.feature.assistant.state.AssistantState
 
 @Composable
@@ -21,6 +22,7 @@ fun AssistantRoute(
         modifier = modifier,
         state = state,
         onOptionSelected = viewModel::selectOption,
+        onUpdateCard = viewModel::updateCard,
     )
 }
 
@@ -28,7 +30,8 @@ fun AssistantRoute(
 internal fun AssistantScreen(
     modifier: Modifier = Modifier,
     state: AssistantState,
-    onOptionSelected: (Long, String) -> Unit,
+    onOptionSelected: (AssistantCard, String) -> Unit,
+    onUpdateCard: (AssistantCard) -> Unit,
 
 ) {
     if (state.reviews.isNotEmpty()) {
@@ -36,6 +39,7 @@ internal fun AssistantScreen(
             assistantCards = state.reviews,
             modifier = modifier,
             onOptionSelected = onOptionSelected,
+            onUpdateCard = onUpdateCard,
         )
     } else {
         EmptyScreen(
@@ -50,5 +54,7 @@ internal fun AssistantScreen(
 internal fun AssistantScreenEmptyPreview() {
     AssistantScreen(
         state = AssistantState(),
-    ) { _, _ -> }
+        onOptionSelected = { _, _ -> },
+        onUpdateCard = {},
+    )
 }
