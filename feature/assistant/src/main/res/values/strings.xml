@@ -2,4 +2,7 @@
 <resources>
     <string name="assistant">Assistant</string>
     <string name="no_assistant_cards_message">"No flashcards available for review at the moment. Keep up the good work and check back soon for new content!"</string>
+    <string name="next">Continue</string>
+    <string name="correct_result">Your answer is correct</string>
+    <string name="wrong_result">Your answer is wrong</string>
 </resources>
