@@ -1,7 +1,9 @@
 package com.memorati.core.data.mapper
 
+import com.memorati.core.db.model.AdditionalInfoEntity
 import com.memorati.core.db.model.FlashcardEntity
 import com.memorati.core.db.model.FlashcardsWithTopics
+import com.memorati.core.model.AdditionalInfo
 import com.memorati.core.model.Flashcard
 
 fun FlashcardEntity.toFlashcard() = Flashcard(
@@ -12,6 +14,11 @@ fun FlashcardEntity.toFlashcard() = Flashcard(
     favoured = favoured,
     lastReviewAt = lastReviewAt,
     nextReviewAt = nextReviewAt,
+    additionalInfo = AdditionalInfo(
+        difficulty = additionalInfoEntity.difficulty,
+        consecutiveCorrectCount = additionalInfoEntity.consecutiveCorrectCount,
+        memoryStrength = additionalInfoEntity.memoryStrength,
+    )
 )
 
 fun FlashcardsWithTopics.toFlashcard() = Flashcard(
@@ -33,4 +40,9 @@ fun Flashcard.toFlashcardEntity() = FlashcardEntity(
     favoured = favoured,
     lastReviewAt = lastReviewAt,
     nextReviewAt = nextReviewAt,
+    additionalInfoEntity = AdditionalInfoEntity(
+        difficulty = additionalInfo.difficulty,
+        consecutiveCorrectCount = additionalInfo.consecutiveCorrectCount,
+        memoryStrength = additionalInfo.memoryStrength,
+    )
 )

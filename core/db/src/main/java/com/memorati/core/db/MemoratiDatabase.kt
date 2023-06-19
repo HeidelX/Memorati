@@ -3,6 +3,7 @@ package com.memorati.core.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.memorati.core.db.converter.AdditionalInfoConverter
 import com.memorati.core.db.converter.InstantConverter
 import com.memorati.core.db.dao.FlashcardsDao
 import com.memorati.core.db.dao.TopicsDao
@@ -21,6 +22,7 @@ import com.memorati.core.db.model.TopicEntity
 @TypeConverters(
     value = [
         InstantConverter::class,
+        AdditionalInfoConverter::class,
     ],
 )
 abstract class MemoratiDatabase : RoomDatabase() {
