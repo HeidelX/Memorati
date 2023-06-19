@@ -3,7 +3,7 @@ plugins {
     id("memorati.android.library.jacoco")
     id("memorati.android.hilt")
     id("memorati.android.room")
-    kotlin("plugin.serialization")
+    id("kotlinx-serialization")
 }
 
 android {

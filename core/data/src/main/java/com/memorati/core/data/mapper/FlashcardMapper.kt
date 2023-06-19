@@ -18,7 +18,7 @@ fun FlashcardEntity.toFlashcard() = Flashcard(
         difficulty = additionalInfoEntity.difficulty,
         consecutiveCorrectCount = additionalInfoEntity.consecutiveCorrectCount,
         memoryStrength = additionalInfoEntity.memoryStrength,
-    )
+    ),
 )
 
 fun FlashcardsWithTopics.toFlashcard() = Flashcard(
@@ -44,5 +44,5 @@ fun Flashcard.toFlashcardEntity() = FlashcardEntity(
         difficulty = additionalInfo.difficulty,
         consecutiveCorrectCount = additionalInfo.consecutiveCorrectCount,
         memoryStrength = additionalInfo.memoryStrength,
-    )
+    ),
 )

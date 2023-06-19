@@ -19,7 +19,7 @@ fun Flashcard.scheduleNextReview(): Flashcard {
 
     // Calculate the next review date by adding the interval to the last review date.
     return copy(
-        nextReviewAt = lastReviewAt.plus(nextReviewInterval)
+        nextReviewAt = lastReviewAt.plus(nextReviewInterval),
     )
 }
 
