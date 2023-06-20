@@ -8,12 +8,14 @@ import java.time.Duration
 
 object AssistantScheduler {
 
-    fun schedule(context: Context) = WorkManager.getInstance(context)
-        .enqueueUniquePeriodicWork(
-            AssistantWorker.NAME,
-            ExistingPeriodicWorkPolicy.UPDATE,
-            PeriodicWorkRequestBuilder<DelegatingWorker>(
-                repeatInterval = Duration.ofHours(6),
-            ).setInputData(AssistantWorker::class.delegatedData()).build(),
-        )
+    fun schedule(context: Context) {
+        WorkManager.getInstance(context)
+            .enqueueUniquePeriodicWork(
+                AssistantWorker.NAME,
+                ExistingPeriodicWorkPolicy.UPDATE,
+                PeriodicWorkRequestBuilder<DelegatingWorker>(
+                    repeatInterval = Duration.ofHours(6),
+                ).setInputData(AssistantWorker::class.delegatedData()).build(),
+            )
+    }
 }

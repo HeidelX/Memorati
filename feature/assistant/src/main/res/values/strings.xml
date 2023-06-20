@@ -3,6 +3,10 @@
     <string name="assistant">Assistant</string>
     <string name="notification_title">Memorati</string>
     <string name="notification_content">You have flashcards ready for review. Enhance your learning by checking them out now. Happy reviewing!</string>
+
+    <string name="assistant_channel_name">Assistant</string>
+    <string name="assistant_channel_description">Assistant review time notifications</string>
+
     <string name="no_assistant_cards_message">"No flashcards available for review at the moment. Keep up the good work and check back soon for new content!"</string>
     <string name="next">Continue</string>
     <string name="correct_result">Your answer is correct</string>

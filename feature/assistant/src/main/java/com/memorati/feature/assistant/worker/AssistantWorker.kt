@@ -28,7 +28,7 @@ class AssistantWorker @AssistedInject constructor(
             .first()
             .isNotEmpty()
 
-        if (hasReviews) assistantNotifier.notify()
+        if (hasReviews) assistantNotifier.notifyUser()
         Result.success()
     }
 
