@@ -30,8 +30,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="memorati.com"
-                    android:scheme="https" />
+                    android:host="assistant"
+                    android:pathPattern=".*"
+                    android:scheme="memorati" />
             </intent-filter>
         </activity>
     </application>

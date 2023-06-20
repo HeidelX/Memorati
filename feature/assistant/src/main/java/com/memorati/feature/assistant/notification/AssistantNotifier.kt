@@ -5,13 +5,13 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
+import androidx.core.net.toUri
 import com.memorati.feature.assistant.R
 import com.memorati.feature.assistant.navigation.URI_PATTERN
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -24,7 +24,7 @@ class AssistantNotifier @Inject constructor(
     fun notifyUser() {
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(URI_PATTERN),
+            URI_PATTERN.toUri(),
         )
         val pendingIntent = PendingIntent.getActivity(
             context,
@@ -47,6 +47,7 @@ class AssistantNotifier @Inject constructor(
             .setContentTitle(context.getString(R.string.notification_title))
             .setContentText(context.getString(R.string.notification_content))
             .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
