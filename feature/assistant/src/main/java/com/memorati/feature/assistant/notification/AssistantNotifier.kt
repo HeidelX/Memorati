@@ -24,10 +24,13 @@ class AssistantNotifier @Inject constructor(
     fun notifyUser() {
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(URI_PATTERN)
+            Uri.parse(URI_PATTERN),
         )
         val pendingIntent = PendingIntent.getActivity(
-            context, 0, intent, PendingIntent.FLAG_IMMUTABLE
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE,
         )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

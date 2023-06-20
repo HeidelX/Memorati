@@ -19,8 +19,8 @@ fun NavGraphBuilder.assistantScreen() {
         deepLinks = listOf(
             navDeepLink {
                 uriPattern = URI_PATTERN
-            }
-        )
+            },
+        ),
     ) {
         AssistantRoute()
     }
