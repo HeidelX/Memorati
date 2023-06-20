@@ -45,6 +45,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", project(":core:ui"))
                 add("implementation", project(":core:data"))
                 add("implementation", project(":core:design"))
+                add("implementation", project(":core:common"))
 
                 add("testImplementation", kotlin("test"))
                 // TODO add("testImplementation", project(":core:testing"))

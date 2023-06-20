@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
 
 @HiltViewModel
 class CardCreationViewModel @Inject constructor(
@@ -39,7 +39,7 @@ class CardCreationViewModel @Inject constructor(
                 back = back,
                 createdAt = Clock.System.now(),
                 lastReviewAt = Clock.System.now(),
-                nextReviewAt = Clock.System.now().plus(1.days),
+                nextReviewAt = Clock.System.now().plus(6.minutes),
             ),
         )
     }
