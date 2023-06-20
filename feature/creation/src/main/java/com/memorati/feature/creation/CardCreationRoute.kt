@@ -120,7 +120,7 @@ internal fun CardCreationScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
 
-            Text(
+            /* TODO Text(
                 text = "Topics",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -134,7 +134,7 @@ internal fun CardCreationScreen(
                 MemoratiChip(label = "A")
                 MemoratiChip(label = "A")
                 MemoratiChip(label = "A")
-            }
+            }*/
 
             Button(
                 enabled = idiom.isNotBlank() && description.isNotBlank(),
