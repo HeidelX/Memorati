@@ -7,17 +7,30 @@ plugins {
     id("jacoco")
 }
 
+
 android {
     namespace = "com.memorati"
     compileSdk = 34
+
+    val versionMajor: String by project
+    val versionMinor: String by project
+    val versionPatch: String by project
+    val versionBuild: String by project
+
 
     defaultConfig {
         applicationId = "com.memorati"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = versionMajor.toInt().times(100_00_00_00)
+            .plus(versionMinor.toInt().times(100_00_00))
+            .plus(versionPatch.toInt().times(100_00))
+            .plus(versionBuild.toInt().times(1_00))
 
+        println(versionCode)
+        versionName = "$versionMajor.$versionMinor.$versionPatch.$versionBuild"
+
+        println(versionName)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
