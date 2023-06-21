@@ -27,16 +27,37 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    env:
+      alias_key_pass: '${{ secrets.ALIAS_KEY_PASS }}'
+      key_store_pass: '${{ secrets.KEY_STORE_PASS }}'
+      alias_key: '${{ secrets.ALIAS_KEY }}'
+      firebase_login_credentials: '${{ secrets.FIREBASE_LOGIN_CREDENTIALS }}'
+      firebase_app_id: '${{ secrets.FIREBASE_APP_ID }}'
     needs:
       - spotless
     steps:
       - uses: actions/checkout@v3
-      - name: set up JDK 11
+      - name: Setup JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.128.0
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Keystore
+        run: |
+          echo "${{ secrets.MEMORATI_KEYSTORE}}" > release.keystore.asc
+          gpg-d -passphrase "${{ secrets.GPG_PASS }}" -batch release.keystore.asc > fastlane/keystore.jks
+          echo "${{ secrets.FIREBASE_LOGIN_CREDENTIALS }}" > firebase.login.asc
+          gpg-d -passphrase "${{ secrets.GPG_FIREBASE_APP_DIST_PASS }}" -batch firebase.login.asc > fastlane/service_credentials.json
+          echo "release_tag=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo $firebase_login_credentials | base64 -di > ./fastlane/service_credentials.json
+
+      - name: Release to Firebase
+        run: bundle exec fastlane distribute
