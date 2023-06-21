@@ -52,9 +52,9 @@ jobs:
       - name: Keystore
         run: |
           echo "${{ secrets.MEMORATI_KEYSTORE}}" > release.keystore.asc
-          gpg-d -passphrase "${{ secrets.GPG_PASS }}" -batch release.keystore.asc > fastlane/keystore.jks
+          gpg -d --passphrase "${{ secrets.GPG_PASS }}" --batch release.keystore.asc > fastlane/keystore.jks
           echo "${{ secrets.FIREBASE_LOGIN_CREDENTIALS }}" > firebase.login.asc
-          gpg-d -passphrase "${{ secrets.GPG_FIREBASE_APP_DIST_PASS }}" -batch firebase.login.asc > fastlane/service_credentials.json
+          gpg -d --passphrase "${{ secrets.GPG_FIREBASE_APP_DIST_PASS }}" --batch firebase.login.asc > fastlane/service_credentials.json
           echo "release_tag=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
           echo $firebase_login_credentials | base64 -di > ./fastlane/service_credentials.json
 
