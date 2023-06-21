@@ -8,7 +8,7 @@ import androidx.navigation.navDeepLink
 import com.memorati.feature.assistant.AssistantRoute
 
 const val ASSISTANT_ROUTE = "assistant"
-internal const val URI_PATTERN = "memorati://assistant"
+internal const val URI_PATTERN = "memorati://memorati/assistant"
 fun NavController.navigateToAssistant(navOptions: NavOptions) {
     navigate(ASSISTANT_ROUTE, navOptions)
 }

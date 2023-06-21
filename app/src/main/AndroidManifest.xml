@@ -30,7 +30,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="assistant"
+                    android:host="memorati"
                     android:pathPattern=".*"
                     android:scheme="memorati" />
             </intent-filter>
