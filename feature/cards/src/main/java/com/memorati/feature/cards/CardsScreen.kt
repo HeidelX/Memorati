@@ -22,5 +22,6 @@ internal fun CardsRoute(
         onDelete = viewModel::deleteCard,
         onEdit = onEdit,
         onAddCard = onAddCard,
+        onQueryChange = viewModel::onQueryChange,
     )
 }

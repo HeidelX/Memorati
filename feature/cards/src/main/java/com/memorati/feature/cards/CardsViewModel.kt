@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.Flashcard
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -21,8 +23,14 @@ class CardsViewModel @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
 
-    val cards = flashcardsRepository.flashcards().map { flashcards ->
-        val map = flashcards.groupBy { card ->
+    private val queryFlow = MutableStateFlow("")
+    val cards = combine(
+        flashcardsRepository.flashcards(),
+        queryFlow,
+    ) { flashcards, query ->
+        val map = flashcards.filter { flashcard ->
+            if (query.isEmpty()) true else flashcard.contains(query)
+        }.groupBy { card ->
             card.createdAt.toLocalDateTime(TimeZone.currentSystemDefault()).date
         }.toSortedMap(compareByDescending { it })
 
@@ -42,6 +50,14 @@ class CardsViewModel @Inject constructor(
     fun deleteCard(flashcard: Flashcard) = viewModelScope.launch {
         flashcardsRepository.deleteCard(flashcard)
     }
+
+    fun onQueryChange(query: String) {
+        queryFlow.value = query
+    }
+}
+
+private fun Flashcard.contains(query: String): Boolean {
+    return back.contains(query, true) || front.contains(query, true)
 }
 
 data class CardsState(

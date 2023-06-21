@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.design.component.EmptyScreen
+import com.memorati.core.design.component.MemoratiTopAppBar
 import com.memorati.core.design.icon.CardMembership
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
@@ -44,6 +46,7 @@ internal fun CardsScreen(
     onDelete: (Flashcard) -> Unit = {},
     onEdit: (Flashcard) -> Unit = {},
     onAddCard: () -> Unit = {},
+    onQueryChange: (String) -> Unit = {},
 ) {
     val lazyListState = rememberLazyListState()
     Box(modifier = modifier.fillMaxSize()) {
@@ -52,38 +55,41 @@ internal fun CardsScreen(
             enter = fadeIn(),
             exit = fadeOut(),
         ) {
-            LazyColumn(
-                state = lazyListState,
-                contentPadding = PaddingValues(
-                    horizontal = 16.dp,
-                    vertical = 16.dp,
-                ),
-            ) {
-                state.map.forEach { (date, cards) ->
-                    stickyHeader(key = date.toString()) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .animateItemPlacement()
-                                .background(MaterialTheme.colorScheme.surface)
-                                .padding(all = 8.dp),
-                            text = date.toString(),
-                        )
+            Column {
+                MemoratiTopAppBar(onQueryChange = onQueryChange)
+                LazyColumn(
+                    state = lazyListState,
+                    contentPadding = PaddingValues(
+                        horizontal = 16.dp,
+                        vertical = 16.dp,
+                    ),
+                ) {
+                    state.map.forEach { (date, cards) ->
+                        stickyHeader(key = date.toString()) {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .animateItemPlacement()
+                                    .background(MaterialTheme.colorScheme.surface)
+                                    .padding(all = 8.dp),
+                                text = date.toString(),
+                            )
+                        }
+                        items(cards, key = { it.id }) { card ->
+                            CardItem(
+                                modifier = Modifier.animateItemPlacement(),
+                                card = card,
+                                toggleFavoured = toggleFavoured,
+                                onDelete = onDelete,
+                                onEdit = onEdit,
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
                     }
-                    items(cards, key = { it.id }) { card ->
-                        CardItem(
-                            modifier = Modifier.animateItemPlacement(),
-                            card = card,
-                            toggleFavoured = toggleFavoured,
-                            onDelete = onDelete,
-                            onEdit = onEdit,
-                        )
-                        Spacer(modifier = Modifier.height(10.dp))
-                    }
-                }
 
-                item {
-                    Spacer(modifier = Modifier.height(70.dp))
+                    item {
+                        Spacer(modifier = Modifier.height(70.dp))
+                    }
                 }
             }
         }
@@ -147,5 +153,6 @@ internal fun CardsScreenPreview(
         onEdit = {},
         onDelete = {},
         onAddCard = {},
+        onQueryChange = {},
     )
 }
