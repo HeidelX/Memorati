@@ -26,7 +26,7 @@ platform :android do
     gradle(task: "clean")
     gradle(
       task: "assemble",
-      flavor: "Prod"
+      flavor: "Prod",
       build_type: "Release",
       print_command: false,
       properties: {
