@@ -39,7 +39,7 @@ platform :android do
     
     firebase_app_distribution(
       app: ENV["firebase_app_id"],
-      apk_path: "Memorati/app/build/outputs/release/apk/prod/release/app-prod-release.apk",
+      apk_path: "/home/runner/work/Memorati/Memorati/app/build/outputs/apk/prod/release/app-prod-release.apk",
       release_notes: "https://github.com/mtwalli/Memorati/releases/tag/#{ENV["release_tag"]}",
       groups_file: "fastlane/groups.txt",
       service_credentials_file: "/home/runner/work/Memorati/Memorati/fastlane/service_credentials.json"
