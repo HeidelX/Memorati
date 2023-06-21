@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
 
 @HiltViewModel
 class CardCreationViewModel @Inject constructor(
