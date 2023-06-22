@@ -7,10 +7,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 val MemoratiIcons.CardMembership: ImageVector
     get() {
-        if (_card_membership != null) {
-            return _card_membership!!
+        if (imageVector != null) {
+            return imageVector!!
         }
-        _card_membership = materialIcon(name = "CardMembership") {
+        imageVector = materialIcon(name = "CardMembership") {
             materialPath {
                 moveTo(4f, 13f)
                 verticalLineToRelative(2f)
@@ -50,7 +50,7 @@ val MemoratiIcons.CardMembership: ImageVector
                 close()
             }
         }
-        return _card_membership!!
+        return imageVector!!
     }
 
-private var _card_membership: ImageVector? = null
+private var imageVector: ImageVector? = null
