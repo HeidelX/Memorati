@@ -23,12 +23,10 @@ class LocalFlashcardsRepository @Inject constructor(
                 }
             }
 
-    override fun flashcardsToReview(time: Instant): Flow<List<Flashcard>> =
+    override fun flashcardsToReview(time: Instant): List<Flashcard> =
         flashcardsDao.flashcardToReview(time.toEpochMilliseconds())
-            .map { entities ->
-                entities.map { entity ->
-                    entity.toFlashcard()
-                }
+            .map { entity ->
+                entity.toFlashcard()
             }
 
     override fun favourites(): Flow<List<Flashcard>> =

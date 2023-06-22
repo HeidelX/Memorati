@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.memorati.feature.favourites"
+    namespace = "com.memorati.feature.settings"
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

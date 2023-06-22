@@ -2,38 +2,41 @@ package com.memorati.feature.assistant
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.memorati.core.common.dispatcher.Dispatcher
+import com.memorati.core.common.dispatcher.MemoratiDispatchers.IO
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
 import com.memorati.feature.assistant.algorthim.handleReviewResponse
 import com.memorati.feature.assistant.algorthim.scheduleNextReview
 import com.memorati.feature.assistant.state.AssistantState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 @HiltViewModel
 class AssistantViewModel @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
+    @Dispatcher(IO) ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
+
     private val userReviews = MutableStateFlow<Map<Long, String>>(emptyMap())
-    private val backs = flashcardsRepository.flashcards().map { cards ->
-        cards.map { card -> card.back }
-    }
-    private val flashcards =
-        combine(
-            flashcardsRepository.flashcardsToReview(time = Clock.System.now()),
-            backs,
-        ) { cards, backs ->
-            // Clear user selection on new emissions, because answers will change
-            userReviews.update { emptyMap() }
-            cards.map { card ->
+    private val flashcards = flow {
+        val cards = withContext(ioDispatcher) {
+            val backs = flashcardsRepository.flashcards()
+                .map { cards -> cards.map { card -> card.back } }
+                .first()
+            flashcardsRepository.flashcardsToReview(time = Clock.System.now()).map { card ->
                 val rest = backs.filterNot { back -> back == card.back }
                 AssistantCard(
                     flashcard = card,
@@ -41,6 +44,8 @@ class AssistantViewModel @Inject constructor(
                 )
             }
         }
+        emit(cards)
+    }
 
     val state = combine(
         flashcards,

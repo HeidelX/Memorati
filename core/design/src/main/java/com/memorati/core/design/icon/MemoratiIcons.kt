@@ -12,7 +12,6 @@ import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material.icons.rounded.SyncAlt
 import androidx.compose.material.icons.rounded.ViewAgenda
 
 object MemoratiIcons {
@@ -30,5 +29,4 @@ object MemoratiIcons {
     val AutoAwesome = Icons.Rounded.AutoAwesome
     val Done = Icons.Rounded.Done
     val Close = Icons.Rounded.Close
-    val SyncAlt = Icons.Rounded.SyncAlt
 }

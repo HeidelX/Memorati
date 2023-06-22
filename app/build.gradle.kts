@@ -71,6 +71,7 @@ dependencies {
     implementation(project(":feature:favourites"))
     implementation(project(":feature:creation"))
     implementation(project(":feature:assistant"))
+    implementation(project(":feature:settings"))
 
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.androidx.activity.compose)

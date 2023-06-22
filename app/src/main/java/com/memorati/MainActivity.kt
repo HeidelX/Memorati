@@ -22,6 +22,8 @@ import com.memorati.feature.cards.navigation.cardsScreen
 import com.memorati.feature.creation.navigation.cardCreationScreen
 import com.memorati.feature.creation.navigation.navigateToCardCreation
 import com.memorati.feature.favourites.navigation.favouritesScreen
+import com.memorati.feature.settings.navigation.navigateToSettings
+import com.memorati.feature.settings.navigation.settingsScreen
 import com.memorati.navigation.TopDestination
 import com.memorati.navigation.navigateToTopDestination
 import com.memorati.ui.MemoratiNanBar
@@ -45,7 +47,6 @@ class MainActivity : ComponentActivity() {
                             visible = shouldShowTopBar(currentDestination),
                             enter = slideInVertically(initialOffsetY = { it }),
                             exit = slideOutVertically(targetOffsetY = { it }),
-
                         ) {
                             MemoratiNanBar(currentDestination) { topDest ->
                                 navController.navigateToTopDestination(topDest)
@@ -63,12 +64,20 @@ class MainActivity : ComponentActivity() {
                                 onEdit = { flashcard ->
                                     navController.navigateToCardCreation(flashcard.id)
                                 },
+
+                                openSettings = {
+                                    navController.navigateToSettings()
+                                },
+
                             )
                             cardCreationScreen {
                                 navController.navigateUp()
                             }
                             favouritesScreen()
                             assistantScreen()
+                            settingsScreen {
+                                navController.navigateUp()
+                            }
                         }
                     },
                 )

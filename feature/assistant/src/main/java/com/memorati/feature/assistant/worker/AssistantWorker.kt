@@ -11,7 +11,6 @@ import com.memorati.feature.assistant.notification.AssistantNotifier
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 
@@ -24,9 +23,8 @@ class AssistantWorker @AssistedInject constructor(
     private val assistantNotifier: AssistantNotifier,
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result = withContext(ioDispatcher) {
-        val hasReviews = flashcardsRepository.flashcardsToReview(time = Clock.System.now())
-            .first()
-            .isNotEmpty()
+        val hasReviews =
+            flashcardsRepository.flashcardsToReview(time = Clock.System.now()).isNotEmpty()
 
         if (hasReviews) assistantNotifier.notifyUser()
         Result.success()

@@ -1,0 +1,85 @@
+package com.memorati.feature.settings
+
+import MemoratiIcons
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.memorati.core.design.icon.CompareArrows
+import com.memorati.core.design.icon.Insights
+import com.memorati.feature.settings.model.SettingsState
+
+@Composable
+fun SettingsRoute(
+    modifier: Modifier = Modifier,
+    viewModel: SettingsViewModel = hiltViewModel(),
+    onBack: () -> Unit,
+) {
+    val state by viewModel.settings.collectAsStateWithLifecycle()
+    SettingsScreen(
+        modifier = modifier,
+        state = state,
+        onBack = onBack,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun SettingsScreen(
+    modifier: Modifier = Modifier,
+    state: SettingsState,
+    onBack: () -> Unit,
+) {
+    Column(modifier = modifier) {
+        TopAppBar(
+            modifier = Modifier.shadow(2.dp),
+            title = {
+                Text(text = stringResource(id = R.string.settings))
+            },
+            navigationIcon = {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = MemoratiIcons.ArrowBack,
+                        contentDescription = stringResource(id = R.string.back),
+                    )
+                }
+            },
+        )
+
+        SettingsTile(
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
+            title = stringResource(id = R.string.insights),
+            imageVector = MemoratiIcons.Insights,
+        ) {
+            Text(text = stringResource(id = R.string.flashcards_count, state.flashcardsCount))
+        }
+
+        SettingsTile(
+            modifier = Modifier.padding(horizontal = 5.dp),
+            title = stringResource(id = R.string.export_import),
+            imageVector = MemoratiIcons.CompareArrows,
+        ) {
+        }
+    }
+}
+
+@Composable
+@Preview
+internal fun SettingsScreenPreview(modifier: Modifier = Modifier) {
+    SettingsScreen(
+        state = SettingsState(flashcardsCount = 10),
+        onBack = {},
+    )
+}

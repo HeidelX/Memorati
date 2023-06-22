@@ -27,7 +27,11 @@ import com.memorati.core.design.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MemoratiTopAppBar(modifier: Modifier = Modifier, onQueryChange: (String) -> Unit) {
+fun MemoratiTopAppBar(
+    modifier: Modifier = Modifier,
+    onQueryChange: (String) -> Unit,
+    openSettings: () -> Unit,
+) {
     var text by rememberSaveable { mutableStateOf("") }
     Box(
         modifier
@@ -57,7 +61,7 @@ fun MemoratiTopAppBar(modifier: Modifier = Modifier, onQueryChange: (String) -> 
                 )
             },
             trailingIcon = {
-                IconButton(onClick = { }) {
+                IconButton(onClick = openSettings) {
                     Icon(
                         imageVector = MemoratiIcons.Settings,
                         contentDescription = stringResource(id = R.string.settings),
@@ -73,5 +77,8 @@ fun MemoratiTopAppBar(modifier: Modifier = Modifier, onQueryChange: (String) -> 
 @Preview
 @Composable
 fun MemoratiTopAppBarPreview() {
-    MemoratiTopAppBar {}
+    MemoratiTopAppBar(
+        openSettings = {},
+        onQueryChange = {},
+    )
 }

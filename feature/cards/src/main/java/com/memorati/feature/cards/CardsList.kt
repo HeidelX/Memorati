@@ -47,6 +47,7 @@ internal fun CardsScreen(
     onEdit: (Flashcard) -> Unit = {},
     onAddCard: () -> Unit = {},
     onQueryChange: (String) -> Unit = {},
+    openSettings: () -> Unit = {},
 ) {
     val lazyListState = rememberLazyListState()
     Box(modifier = modifier.fillMaxSize()) {
@@ -56,7 +57,10 @@ internal fun CardsScreen(
             exit = fadeOut(),
         ) {
             Column {
-                MemoratiTopAppBar(onQueryChange = onQueryChange)
+                MemoratiTopAppBar(
+                    onQueryChange = onQueryChange,
+                    openSettings = openSettings,
+                )
                 LazyColumn(
                     state = lazyListState,
                     contentPadding = PaddingValues(
@@ -154,5 +158,6 @@ internal fun CardsScreenPreview(
         onDelete = {},
         onAddCard = {},
         onQueryChange = {},
+        openSettings = {},
     )
 }

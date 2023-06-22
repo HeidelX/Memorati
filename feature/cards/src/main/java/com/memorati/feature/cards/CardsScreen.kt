@@ -13,6 +13,7 @@ internal fun CardsRoute(
     viewModel: CardsViewModel = hiltViewModel(),
     onAddCard: () -> Unit,
     onEdit: (Flashcard) -> Unit,
+    openSettings: () -> Unit,
 ) {
     val state by viewModel.cards.collectAsStateWithLifecycle()
     CardsScreen(
@@ -23,5 +24,6 @@ internal fun CardsRoute(
         onEdit = onEdit,
         onAddCard = onAddCard,
         onQueryChange = viewModel::onQueryChange,
+        openSettings = openSettings,
     )
 }

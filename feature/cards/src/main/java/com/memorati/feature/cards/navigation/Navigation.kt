@@ -15,8 +15,13 @@ fun NavController.navigateToCards(navOptions: NavOptions) {
 fun NavGraphBuilder.cardsScreen(
     onAddCard: () -> Unit,
     onEdit: (Flashcard) -> Unit,
+    openSettings: () -> Unit,
 ) {
     composable(CARDS_ROUTE) {
-        CardsRoute(onAddCard = onAddCard, onEdit = onEdit)
+        CardsRoute(
+            onAddCard = onAddCard,
+            onEdit = onEdit,
+            openSettings = openSettings,
+        )
     }
 }
