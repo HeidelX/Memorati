@@ -17,12 +17,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
@@ -37,18 +37,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.lerp
 import com.memorati.core.model.AssistantCard
 import com.memorati.core.ui.provider.AssistantCardProvider
 import com.memorati.core.ui.provider.AssistantCardsProvider
 import com.memorati.feature.assistant.state.AssistantCards
 import kotlinx.coroutines.launch
-import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -60,67 +58,44 @@ fun AssistantPager(
 ) {
     val pagerState = rememberPagerState { assistantCards.size }
     val coroutineScope = rememberCoroutineScope()
-    HorizontalPager(
-        state = pagerState,
-        modifier = modifier,
-        contentPadding = PaddingValues(24.dp),
-        userScrollEnabled = false,
-    ) { page ->
-        val assistantCard = assistantCards[page]
-        AssistantPage(
+    Column(modifier = modifier) {
+        HorizontalPager(
+            modifier = Modifier.weight(1.0f),
+            state = pagerState,
+            contentPadding = PaddingValues(24.dp),
+            userScrollEnabled = false,
+        ) { page ->
+            val assistantCard = assistantCards[page]
+            AssistantPage(
+                modifier = Modifier.fillMaxWidth(),
+                page = page + 1,
+                card = assistantCard,
+                onOptionSelected = onOptionSelected,
+                onNext = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(
+                            page = pagerState.currentPage.plus(1),
+                        )
+                        onUpdateCard(assistantCard)
+                    }
+                },
+            )
+        }
+
+        LinearProgressIndicator(
             modifier = Modifier
-                .pageTransition(pagerState, page)
-                .fillMaxWidth(),
-            card = assistantCard,
-            onOptionSelected = onOptionSelected,
-            onNext = {
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage(
-                        page = pagerState.currentPage.plus(1) % pagerState.pageCount,
-                    )
-                    onUpdateCard(assistantCard)
-                }
-            },
+                .fillMaxWidth()
+                .padding(16.dp)
+                .clip(CircleShape),
+            progress = pagerState.currentPage.toFloat() / assistantCards.size,
         )
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-private fun Modifier.pageTransition(
-    pagerState: PagerState,
-    page: Int,
-) = graphicsLayer {
-    // Calculate the absolute offset for the current page from the
-    // scroll position. We use the absolute value which allows us to mirror
-    // any effects for both directions
-    val pageOffset = (
-        (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
-        ).absoluteValue
-
-    // We animate the alpha, between 50% and 100%
-    alpha = lerp(
-        start = 0.5f,
-        stop = 1f,
-        fraction = 1f - pageOffset.coerceIn(0f, 1f),
-    )
-
-    // We animate the scaleX + scaleY, between 85% and 100%
-    lerp(
-        start = 0.85f,
-        stop = 1f,
-        fraction = 1f - pagerState.currentPageOffsetFraction.absoluteValue.coerceIn(
-            0f,
-            1f,
-        ),
-    ).also { scale ->
-        scaleX = scale
-        scaleY = scale
     }
 }
 
 @Composable
 fun AssistantPage(
     modifier: Modifier = Modifier,
+    page: Int,
     card: AssistantCard,
     onOptionSelected: (AssistantCard, String) -> Unit,
     onNext: () -> Unit,
@@ -169,6 +144,16 @@ fun AssistantPage(
                 }
             }
         }
+
+        Text(
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomCenter),
+            text = page.toString(),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = MaterialTheme.typography.bodyLarge,
+        )
     }
 }
 
@@ -275,6 +260,7 @@ private fun AssistantItemPreview(
         card = assistantCard.copy(response = "Hallo"),
         onOptionSelected = { _, _ -> },
         onNext = {},
+        page = 1,
     )
 }
 
@@ -287,6 +273,7 @@ private fun AssistantWrongItemPreview(
         card = assistantCard.copy(response = "OK"),
         onOptionSelected = { _, _ -> },
         onNext = {},
+        page = 1,
     )
 }
 
@@ -299,5 +286,6 @@ private fun AssistantNoAnswerItemPreview(
         card = assistantCard,
         onOptionSelected = { _, _ -> },
         onNext = {},
+        page = 1,
     )
 }

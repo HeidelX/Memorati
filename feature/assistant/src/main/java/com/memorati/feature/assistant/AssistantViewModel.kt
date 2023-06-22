@@ -33,6 +33,7 @@ class AssistantViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val userReviews = MutableStateFlow<Map<Long, String>>(emptyMap())
+    private val showResult = MutableStateFlow(false)
     private val flashcards = flow {
         val cards = withContext(ioDispatcher) {
             val backs = flashcardsRepository.flashcards()
@@ -54,22 +55,21 @@ class AssistantViewModel @Inject constructor(
     val state = combine(
         flashcards,
         userReviews,
-    ) { cards, reviews ->
+        showResult,
+    ) { cards, reviews, showResult ->
+
+        val reviewedCards = cards.map { card ->
+            card.copy(response = reviews[card.flashcard.id])
+        }
+
         when {
             cards.isEmpty() -> EmptyState
-
-            cards.size == reviews.size -> ReviewResult(
-                correctAnswers = cards.count { it.isCorrect },
-                wrongAnswers = cards.count { !it.isCorrect },
+            showResult -> ReviewResult(
+                correctAnswers = reviewedCards.count { it.isCorrect },
+                wrongAnswers = reviewedCards.count { !it.isCorrect },
             )
 
-            else -> AssistantCards(
-                reviews = cards.map { card ->
-                    card.copy(
-                        response = reviews[card.flashcard.id],
-                    )
-                },
-            )
+            else -> AssistantCards(reviews = reviewedCards)
         }
     }.stateIn(
         viewModelScope,
@@ -87,6 +87,7 @@ class AssistantViewModel @Inject constructor(
     fun updateCard(card: AssistantCard) = viewModelScope.launch {
         val flashcard = card.flashcard.handleReviewResponse(card.isCorrect).scheduleNextReview()
         flashcardsRepository.updateCard(flashcard)
+        showResult.value = userReviews.value.size == flashcards.first().size
     }
 }
 
