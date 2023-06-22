@@ -1,6 +1,5 @@
 package com.memorati.core.common.file
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -18,8 +17,8 @@ class MemoratiFileProvider @Inject constructor(
         file: File,
         title: String,
     ): IntentProvider = object : IntentProvider {
-        override fun intent(activity: Activity): Intent =
-            ShareCompat.IntentBuilder(activity)
+        override fun intent(context: Context): Intent =
+            ShareCompat.IntentBuilder(context)
                 .setType(file.mimeType())
                 .setStream(file.uri())
                 .setSubject(title)
@@ -35,7 +34,7 @@ class MemoratiFileProvider @Inject constructor(
     )
 
     interface IntentProvider {
-        fun intent(activity: Activity): Intent
+        fun intent(context: Context): Intent
     }
 
     companion object {

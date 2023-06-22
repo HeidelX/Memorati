@@ -1,6 +1,8 @@
 package com.memorati.core.data.di
 
+import com.memorati.core.data.repository.DataTransferRepository
 import com.memorati.core.data.repository.FlashcardsRepository
+import com.memorati.core.data.repository.LocalDataTransferRepository
 import com.memorati.core.data.repository.LocalFlashcardsRepository
 import com.memorati.core.data.repository.LocalTopicsRepository
 import com.memorati.core.data.repository.TopicsRepository
@@ -21,4 +23,9 @@ interface DataModule {
     fun topicsRepository(
         repository: LocalTopicsRepository,
     ): TopicsRepository
+
+    @Binds
+    fun dataTransferRepository(
+        repository: LocalDataTransferRepository,
+    ): DataTransferRepository
 }

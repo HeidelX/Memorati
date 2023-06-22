@@ -3,6 +3,9 @@
     <string name="settings">Settings</string>
     <string name="back">Back</string>
     <string name="insights">Insights</string>
-    <string name="export_import">Export / Import</string>
+    <string name="data_transfer">Data Transfer</string>
+    <string name="export">Export</string>
+    <string name="import_text">Import</string>
     <string name="flashcards_count">You have %d flashcards</string>
+    <string name="share_flashcards_message">Share your flashcards data file</string>
 </resources>

@@ -1,6 +1,8 @@
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ArrowCircleDown
+import androidx.compose.material.icons.rounded.ArrowCircleUp
 import androidx.compose.material.icons.rounded.Assistant
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.Close
@@ -29,4 +31,6 @@ object MemoratiIcons {
     val AutoAwesome = Icons.Rounded.AutoAwesome
     val Done = Icons.Rounded.Done
     val Close = Icons.Rounded.Close
+    val Export = Icons.Rounded.ArrowCircleUp
+    val Import = Icons.Rounded.ArrowCircleDown
 }

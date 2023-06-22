@@ -2,7 +2,11 @@ package com.memorati.feature.settings
 
 import MemoratiIcons
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -12,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,10 +33,15 @@ fun SettingsRoute(
     onBack: () -> Unit,
 ) {
     val state by viewModel.settings.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val title = stringResource(id = R.string.share_flashcards_message)
     SettingsScreen(
         modifier = modifier,
         state = state,
         onBack = onBack,
+        onExport = {
+            viewModel.exportFlashcards(title, context)
+        },
     )
 }
 
@@ -41,6 +51,7 @@ internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     state: SettingsState,
     onBack: () -> Unit,
+    onExport: () -> Unit,
 ) {
     Column(modifier = modifier) {
         TopAppBar(
@@ -68,9 +79,22 @@ internal fun SettingsScreen(
 
         SettingsTile(
             modifier = Modifier.padding(horizontal = 5.dp),
-            title = stringResource(id = R.string.export_import),
+            title = stringResource(id = R.string.data_transfer),
             imageVector = MemoratiIcons.CompareArrows,
         ) {
+            Button(
+                onClick = onExport,
+            ) {
+                Icon(
+                    modifier = Modifier.size(ButtonDefaults.IconSize),
+                    imageVector = MemoratiIcons.Export,
+                    contentDescription = stringResource(id = R.string.export),
+                )
+
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                Text(text = stringResource(id = R.string.export))
+            }
         }
     }
 }
@@ -81,5 +105,6 @@ internal fun SettingsScreenPreview(modifier: Modifier = Modifier) {
     SettingsScreen(
         state = SettingsState(flashcardsCount = 10),
         onBack = {},
+        onExport = {},
     )
 }

@@ -50,7 +50,7 @@ internal fun SettingsTile(
             )
         }
 
-        Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+        Column(modifier = Modifier.padding(all = 24.dp)) {
             content()
         }
     }
