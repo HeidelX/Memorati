@@ -37,7 +37,10 @@ fun EmptyScreen(
             imageVector = imageVector,
             contentDescription = "",
             contentScale = ContentScale.Fit,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary.copy(0.5f)),
+            colorFilter = ColorFilter.lighting(
+                MaterialTheme.colorScheme.primary,
+                MaterialTheme.colorScheme.inversePrimary,
+            ),
         )
 
         Text(
