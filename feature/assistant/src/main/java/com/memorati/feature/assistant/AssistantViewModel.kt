@@ -8,7 +8,9 @@ import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
 import com.memorati.feature.assistant.algorthim.handleReviewResponse
 import com.memorati.feature.assistant.algorthim.scheduleNextReview
-import com.memorati.feature.assistant.state.AssistantState
+import com.memorati.feature.assistant.state.AssistantCards
+import com.memorati.feature.assistant.state.EmptyState
+import com.memorati.feature.assistant.state.ReviewResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,13 +38,15 @@ class AssistantViewModel @Inject constructor(
             val backs = flashcardsRepository.flashcards()
                 .map { cards -> cards.map { card -> card.back } }
                 .first()
-            flashcardsRepository.flashcardsToReview(time = Clock.System.now()).map { card ->
-                val rest = backs.filterNot { back -> back == card.back }
-                AssistantCard(
-                    flashcard = card,
-                    answers = rest.assistantAnswers().plus(card.back).shuffled(),
-                )
-            }
+            flashcardsRepository.flashcardsToReview(time = Clock.System.now())
+                .take(30)
+                .map { card ->
+                    val rest = backs.filterNot { back -> back == card.back }
+                    AssistantCard(
+                        flashcard = card,
+                        answers = rest.assistantAnswers().plus(card.back).shuffled(),
+                    )
+                }
         }
         emit(cards)
     }
@@ -51,17 +55,26 @@ class AssistantViewModel @Inject constructor(
         flashcards,
         userReviews,
     ) { cards, reviews ->
-        AssistantState(
-            reviews = cards.map { card ->
-                card.copy(
-                    response = reviews[card.flashcard.id],
-                )
-            },
-        )
+        when {
+            cards.isEmpty() -> EmptyState
+
+            cards.size == reviews.size -> ReviewResult(
+                correctAnswers = cards.count { it.isCorrect },
+                wrongAnswers = cards.count { !it.isCorrect },
+            )
+
+            else -> AssistantCards(
+                reviews = cards.map { card ->
+                    card.copy(
+                        response = reviews[card.flashcard.id],
+                    )
+                },
+            )
+        }
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(),
-        AssistantState(),
+        EmptyState,
     )
 
     fun selectOption(card: AssistantCard, selection: String) =

@@ -10,7 +10,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.model.AssistantCard
+import com.memorati.feature.assistant.state.AssistantCards
 import com.memorati.feature.assistant.state.AssistantState
+import com.memorati.feature.assistant.state.EmptyState
+import com.memorati.feature.assistant.state.ReviewResult
 
 @Composable
 fun AssistantRoute(
@@ -32,17 +35,18 @@ internal fun AssistantScreen(
     state: AssistantState,
     onOptionSelected: (AssistantCard, String) -> Unit,
     onUpdateCard: (AssistantCard) -> Unit,
-
 ) {
-    if (state.reviews.isNotEmpty()) {
-        AssistantPager(
+    when (state) {
+        is AssistantCards -> AssistantPager(
             assistantCards = state.reviews,
             modifier = modifier,
             onOptionSelected = onOptionSelected,
             onUpdateCard = onUpdateCard,
         )
-    } else {
-        EmptyScreen(
+
+        is ReviewResult -> ReviewResultScreen(reviewResult = state)
+
+        EmptyState -> EmptyScreen(
             imageVector = MemoratiIcons.AutoAwesome,
             message = stringResource(id = R.string.no_assistant_cards_message),
         )
@@ -53,7 +57,7 @@ internal fun AssistantScreen(
 @Preview
 internal fun AssistantScreenEmptyPreview() {
     AssistantScreen(
-        state = AssistantState(),
+        state = EmptyState,
         onOptionSelected = { _, _ -> },
         onUpdateCard = {},
     )

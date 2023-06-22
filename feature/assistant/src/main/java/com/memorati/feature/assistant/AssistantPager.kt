@@ -46,7 +46,7 @@ import androidx.compose.ui.util.lerp
 import com.memorati.core.model.AssistantCard
 import com.memorati.core.ui.provider.AssistantCardProvider
 import com.memorati.core.ui.provider.AssistantCardsProvider
-import com.memorati.feature.assistant.state.AssistantState
+import com.memorati.feature.assistant.state.AssistantCards
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
@@ -260,7 +260,7 @@ private fun AssistantScreenPreview(
     @PreviewParameter(AssistantCardsProvider::class) assistantCards: List<AssistantCard>,
 ) {
     AssistantScreen(
-        state = AssistantState(reviews = assistantCards),
+        state = AssistantCards(reviews = assistantCards),
         onOptionSelected = { _, _ -> },
         onUpdateCard = {},
     )
