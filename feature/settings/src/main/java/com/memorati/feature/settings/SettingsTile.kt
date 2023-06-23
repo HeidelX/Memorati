@@ -38,7 +38,7 @@ internal fun SettingsTile(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.weight(1f),
                 text = title,
