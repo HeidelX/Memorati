@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,18 +33,19 @@ internal fun SettingsTile(
             modifier = modifier
                 .fillMaxWidth()
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.secondary.copy(alpha = 0.7f))
-                .padding(horizontal = 24.dp, vertical = 10.dp),
+                .background(MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.8f))
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSecondary,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.weight(1f),
                 text = title,
             )
 
             Icon(
+                modifier = Modifier.size(24.dp),
                 tint = MaterialTheme.colorScheme.onSecondary,
                 imageVector = imageVector,
                 contentDescription = title,
