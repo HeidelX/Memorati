@@ -2,6 +2,7 @@ package com.memorati.feature.settings
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -45,5 +46,9 @@ class SettingsViewModel @Inject constructor(
         } catch (e: Exception) {
             Log.e("SettingsViewModel", "exportFlashcards failed", e)
         }
+    }
+
+    fun importFile(uri: Uri?) = viewModelScope.launch {
+        uri?.let { dataTransferRepository.import(uri.toString()) }
     }
 }

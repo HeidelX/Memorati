@@ -8,4 +8,5 @@ interface DataTransferRepository {
      * might throw an error if file could not be created
      */
     suspend fun export(): File
+    suspend fun import(uri: String)
 }

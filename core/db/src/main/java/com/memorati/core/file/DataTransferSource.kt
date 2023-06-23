@@ -1,12 +1,17 @@
 package com.memorati.core.file
 
 import com.memorati.core.db.dao.FlashcardsDao
+import com.memorati.core.db.model.AdditionalInfoEntity
 import com.memorati.core.db.model.DataTransfer
+import com.memorati.core.db.model.FlashcardEntity
 import com.memorati.core.db.model.TransferableCard
 import kotlinx.coroutines.flow.first
+import kotlinx.datetime.Clock
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.hours
 
 class DataTransferSource @Inject constructor(
     private val flashcardsDao: FlashcardsDao,
@@ -20,9 +25,25 @@ class DataTransferSource @Inject constructor(
         }
 
         return Json.encodeToString(
-            DataTransfer(
-                cards = transferableCards,
-            ),
+            DataTransfer(cards = transferableCards),
         )
+    }
+
+    suspend fun import(json: String) {
+        val dataTransfer = Json.decodeFromString<DataTransfer>(json)
+        dataTransfer.cards.forEach { card ->
+            flashcardsDao.insert(
+                FlashcardEntity(
+                    flashcardId = 0,
+                    createdAt = Clock.System.now(),
+                    lastReviewAt = Clock.System.now(),
+                    nextReviewAt = Clock.System.now().plus(6.hours),
+                    front = card.idiom,
+                    back = card.description,
+                    favoured = false,
+                    additionalInfoEntity = AdditionalInfoEntity(),
+                ),
+            )
+        }
     }
 }

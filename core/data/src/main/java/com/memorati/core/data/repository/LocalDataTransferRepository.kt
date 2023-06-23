@@ -21,4 +21,10 @@ class LocalDataTransferRepository @Inject constructor(
 
         return file
     }
+
+    override suspend fun import(uri: String) {
+        File(uri).bufferedReader().use {
+            dataTransferSource.import(it.readText())
+        }
+    }
 }

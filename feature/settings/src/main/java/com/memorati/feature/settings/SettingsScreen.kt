@@ -1,6 +1,9 @@
 package com.memorati.feature.settings
 
 import MemoratiIcons
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -14,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
@@ -42,6 +46,7 @@ fun SettingsRoute(
         onExport = {
             viewModel.exportFlashcards(title, context)
         },
+        onImport = viewModel::importFile,
     )
 }
 
@@ -52,7 +57,14 @@ internal fun SettingsScreen(
     state: SettingsState,
     onBack: () -> Unit,
     onExport: () -> Unit,
+    onImport: (Uri?) -> Unit,
 ) {
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.GetContent(),
+    ) { uri ->
+        onImport(uri)
+    }
+
     Column(modifier = modifier) {
         TopAppBar(
             modifier = Modifier.shadow(2.dp),
@@ -95,6 +107,22 @@ internal fun SettingsScreen(
 
                 Text(text = stringResource(id = R.string.export))
             }
+
+            Button(
+                onClick = {
+                    launcher.launch("application/json")
+                },
+            ) {
+                Icon(
+                    modifier = Modifier.size(ButtonDefaults.IconSize),
+                    imageVector = MemoratiIcons.Import,
+                    contentDescription = stringResource(id = R.string.import_text),
+                )
+
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                Text(text = stringResource(id = R.string.import_text))
+            }
         }
     }
 }
@@ -106,5 +134,6 @@ internal fun SettingsScreenPreview(modifier: Modifier = Modifier) {
         state = SettingsState(flashcardsCount = 10),
         onBack = {},
         onExport = {},
+        onImport = {},
     )
 }
