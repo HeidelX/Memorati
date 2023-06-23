@@ -51,16 +51,16 @@ internal fun CardsScreen(
 ) {
     val lazyListState = rememberLazyListState()
     Box(modifier = modifier.fillMaxSize()) {
-        AnimatedVisibility(
-            visible = state.map.isNotEmpty(),
-            enter = fadeIn(),
-            exit = fadeOut(),
-        ) {
-            Column {
-                MemoratiTopAppBar(
-                    onQueryChange = onQueryChange,
-                    openSettings = openSettings,
-                )
+        Column {
+            MemoratiTopAppBar(
+                onQueryChange = onQueryChange,
+                openSettings = openSettings,
+            )
+            AnimatedVisibility(
+                visible = state.map.isNotEmpty(),
+                enter = fadeIn(),
+                exit = fadeOut(),
+            ) {
                 LazyColumn(
                     state = lazyListState,
                     contentPadding = PaddingValues(
