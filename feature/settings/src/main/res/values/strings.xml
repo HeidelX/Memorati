@@ -7,5 +7,5 @@
     <string name="export">Export</string>
     <string name="import_text">Import</string>
     <string name="flashcards_count">You have %d flashcards</string>
-    <string name="share_flashcards_message">Share your flashcards data file</string>
+    <string name="share_flashcards_message">Memorati Cards</string>
 </resources>
