@@ -1,5 +1,6 @@
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Alarm
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowCircleDown
 import androidx.compose.material.icons.rounded.ArrowCircleUp
@@ -37,4 +38,5 @@ object MemoratiIcons {
     val Import = Icons.Rounded.ArrowCircleDown
     val Celebration = Icons.Rounded.Celebration
     val Storage = Icons.Rounded.Storage
+    val Notifications = Icons.Rounded.Alarm
 }

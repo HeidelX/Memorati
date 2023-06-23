@@ -10,4 +10,6 @@
     <string name="clear">Clear Data</string>
     <string name="flashcards_count">You have %d flashcards</string>
     <string name="share_flashcards_message">Memorati Cards</string>
+    <string name="notifications">Notifications</string>
+    <string name="allow_notifications">Allow Notifications</string>
 </resources>
