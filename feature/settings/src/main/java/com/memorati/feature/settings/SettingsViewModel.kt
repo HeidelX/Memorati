@@ -20,7 +20,7 @@ import javax.inject.Inject
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    flashcardsRepository: FlashcardsRepository,
+    private val flashcardsRepository: FlashcardsRepository,
     private val dataTransferRepository: DataTransferRepository,
     private val memoratiFileProvider: MemoratiFileProvider,
 ) : ViewModel() {
@@ -50,5 +50,9 @@ class SettingsViewModel @Inject constructor(
 
     fun importFile(uri: Uri?) = viewModelScope.launch {
         uri?.let { dataTransferRepository.import(uri.toString()) }
+    }
+
+    fun clearData() = viewModelScope.launch {
+        flashcardsRepository.clear()
     }
 }

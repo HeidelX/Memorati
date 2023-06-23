@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -49,6 +50,7 @@ fun SettingsRoute(
             viewModel.exportFlashcards(title, context)
         },
         onImport = viewModel::importFile,
+        onClear = viewModel::clearData,
     )
 }
 
@@ -60,6 +62,7 @@ internal fun SettingsScreen(
     onBack: () -> Unit,
     onExport: () -> Unit,
     onImport: (Uri?) -> Unit,
+    onClear: () -> Unit,
 ) {
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent(),
@@ -68,7 +71,7 @@ internal fun SettingsScreen(
     }
 
     Column(
-        modifier = modifier.verticalScroll(rememberScrollState())
+        modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
         TopAppBar(
             modifier = Modifier.shadow(2.dp),
@@ -98,34 +101,56 @@ internal fun SettingsScreen(
             title = stringResource(id = R.string.data_transfer),
             imageVector = MemoratiIcons.CompareArrows,
         ) {
-            Button(
-                onClick = onExport,
-            ) {
-                Icon(
-                    modifier = Modifier.size(ButtonDefaults.IconSize),
-                    imageVector = MemoratiIcons.Export,
-                    contentDescription = stringResource(id = R.string.export),
-                )
+            Row {
+                Button(
+                    onClick = onExport,
+                ) {
+                    Icon(
+                        modifier = Modifier.size(ButtonDefaults.IconSize),
+                        imageVector = MemoratiIcons.Export,
+                        contentDescription = stringResource(id = R.string.export),
+                    )
 
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 
-                Text(text = stringResource(id = R.string.export))
+                    Text(text = stringResource(id = R.string.export))
+                }
+                Spacer(modifier = Modifier.weight(1.0f))
+                Button(
+                    onClick = {
+                        launcher.launch("application/json")
+                    },
+                ) {
+                    Icon(
+                        modifier = Modifier.size(ButtonDefaults.IconSize),
+                        imageVector = MemoratiIcons.Import,
+                        contentDescription = stringResource(id = R.string.import_text),
+                    )
+
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                    Text(text = stringResource(id = R.string.import_text))
+                }
             }
+        }
 
+        SettingsTile(
+            modifier = Modifier.padding(horizontal = 5.dp),
+            title = stringResource(id = R.string.app_data),
+            imageVector = MemoratiIcons.Storage,
+        ) {
             Button(
-                onClick = {
-                    launcher.launch("application/json")
-                },
+                onClick = onClear,
             ) {
                 Icon(
                     modifier = Modifier.size(ButtonDefaults.IconSize),
-                    imageVector = MemoratiIcons.Import,
-                    contentDescription = stringResource(id = R.string.import_text),
+                    imageVector = MemoratiIcons.Delete,
+                    contentDescription = stringResource(id = R.string.clear),
                 )
 
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 
-                Text(text = stringResource(id = R.string.import_text))
+                Text(text = stringResource(id = R.string.clear))
             }
         }
     }
@@ -139,5 +164,6 @@ internal fun SettingsScreenPreview(modifier: Modifier = Modifier) {
         onBack = {},
         onExport = {},
         onImport = {},
+        onClear = {},
     )
 }

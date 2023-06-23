@@ -40,4 +40,7 @@ interface FlashcardsDao {
 
     @Query("SELECT * FROM flashcards WHERE front LIKE :idiom AND back LIKE :description")
     suspend fun find(idiom: String, description: String): List<FlashcardEntity>
+
+    @Query("DELETE FROM flashcards")
+    suspend fun clear()
 }

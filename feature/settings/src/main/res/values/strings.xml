@@ -4,8 +4,10 @@
     <string name="back">Back</string>
     <string name="insights">Insights</string>
     <string name="data_transfer">Data Transfer</string>
+    <string name="app_data">App Data</string>
     <string name="export">Export</string>
     <string name="import_text">Import</string>
+    <string name="clear">Clear Data</string>
     <string name="flashcards_count">You have %d flashcards</string>
     <string name="share_flashcards_message">Memorati Cards</string>
 </resources>

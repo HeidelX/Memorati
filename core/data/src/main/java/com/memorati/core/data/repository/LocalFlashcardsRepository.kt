@@ -54,4 +54,8 @@ class LocalFlashcardsRepository @Inject constructor(
     override suspend fun deleteCard(flashcard: Flashcard) {
         flashcardsDao.delete(flashcard.toFlashcardEntity())
     }
+
+    override suspend fun clear() {
+        flashcardsDao.clear()
+    }
 }
