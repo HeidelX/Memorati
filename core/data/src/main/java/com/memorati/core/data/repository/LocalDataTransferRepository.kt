@@ -1,8 +1,10 @@
 package com.memorati.core.data.repository
 
 import android.content.Context
+import androidx.core.net.toUri
 import com.memorati.core.file.DataTransferSource
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.BufferedReader
 import java.io.File
 import javax.inject.Inject
 
@@ -23,8 +25,10 @@ class LocalDataTransferRepository @Inject constructor(
     }
 
     override suspend fun import(uri: String) {
-        File(uri).bufferedReader().use {
-            dataTransferSource.import(it.readText())
+        context.contentResolver.openInputStream(uri.toUri()).use { stream ->
+            stream?.bufferedReader()?.use {
+                dataTransferSource.import(it.readText())
+            }
         }
     }
 }

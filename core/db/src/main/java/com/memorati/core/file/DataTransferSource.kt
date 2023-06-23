@@ -32,18 +32,20 @@ class DataTransferSource @Inject constructor(
     suspend fun import(json: String) {
         val dataTransfer = Json.decodeFromString<DataTransfer>(json)
         dataTransfer.cards.forEach { card ->
-            flashcardsDao.insert(
-                FlashcardEntity(
-                    flashcardId = 0,
-                    createdAt = Clock.System.now(),
-                    lastReviewAt = Clock.System.now(),
-                    nextReviewAt = Clock.System.now().plus(6.hours),
-                    front = card.idiom,
-                    back = card.description,
-                    favoured = false,
-                    additionalInfoEntity = AdditionalInfoEntity(),
-                ),
-            )
+            if (flashcardsDao.find(card.idiom, card.description).isEmpty()) {
+                flashcardsDao.insert(
+                    FlashcardEntity(
+                        flashcardId = 0,
+                        createdAt = Clock.System.now(),
+                        lastReviewAt = Clock.System.now(),
+                        nextReviewAt = Clock.System.now().plus(6.hours),
+                        front = card.idiom,
+                        back = card.description,
+                        favoured = false,
+                        additionalInfoEntity = AdditionalInfoEntity(),
+                    ),
+                )
+            } // else scape repeated card
         }
     }
 }
