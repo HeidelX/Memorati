@@ -8,7 +8,6 @@ import kotlin.test.assertTrue
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
-
 class AssistantAlgorithmTest {
     @Test
     fun `Repeated wrong answers doesn't set next review time in the past`() {
