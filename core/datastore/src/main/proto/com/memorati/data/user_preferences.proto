@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "com.memorati.core.datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+  int32 start_time = 1;
+  int32 end_time = 2;
+}

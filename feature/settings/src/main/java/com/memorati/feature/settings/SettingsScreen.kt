@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -56,6 +54,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.design.icon.CompareArrows
 import com.memorati.core.design.icon.Insights
+import com.memorati.feature.settings.TimePickerRequest.DISMISS
+import com.memorati.feature.settings.TimePickerRequest.END
+import com.memorati.feature.settings.TimePickerRequest.START
 import com.memorati.feature.settings.model.SettingsState
 import kotlinx.coroutines.launch
 
@@ -79,6 +80,7 @@ fun SettingsRoute(
         onImport = viewModel::importFile,
         onClear = viewModel::clearData,
         appVersion = appVersion,
+        onTimeSelected = viewModel::onTimeSelected
     )
 }
 
@@ -92,6 +94,7 @@ internal fun SettingsScreen(
     onImport: (Uri?) -> Unit,
     onClear: () -> Unit,
     appVersion: String,
+    onTimeSelected: (TimePickerRequest, Int, Int) -> Unit
 ) {
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent(),
@@ -100,9 +103,9 @@ internal fun SettingsScreen(
     }
 
     var notificationEnabled by remember { mutableStateOf(true) }
-    var showTimePicker by remember { mutableStateOf(false) }
+    var pickerRequest by remember { mutableStateOf(DISMISS) }
     var showClearDialog by remember { mutableStateOf(false) }
-    val pickerState = rememberTimePickerState()
+    val pickerState = rememberTimePickerState(is24Hour = true)
     val snackState = remember { SnackbarHostState() }
     val snackScope = rememberCoroutineScope()
 
@@ -168,13 +171,7 @@ internal fun SettingsScreen(
 
                 AnimatedVisibility(visible = notificationEnabled) {
                     Column(
-                        modifier = Modifier
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.primary,
-                                shape = RoundedCornerShape(5.dp),
-                            )
-                            .padding(10.dp),
+                        modifier = Modifier.padding(10.dp),
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
@@ -193,7 +190,9 @@ internal fun SettingsScreen(
                         Row(
                             modifier = Modifier
                                 .height(50.dp)
-                                .clickable { },
+                                .clickable {
+                                    pickerRequest = START
+                                },
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
@@ -202,7 +201,7 @@ internal fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.weight(1.0f))
                             Text(
-                                text = "17:00",
+                                text = state.startTime.toString(),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                         }
@@ -210,7 +209,9 @@ internal fun SettingsScreen(
                         Row(
                             modifier = Modifier
                                 .height(50.dp)
-                                .clickable { },
+                                .clickable {
+                                    pickerRequest = END
+                                },
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
@@ -221,17 +222,22 @@ internal fun SettingsScreen(
                             Spacer(modifier = Modifier.weight(1.0f))
 
                             Text(
-                                text = "09:00",
+                                text = state.endTime.toString(),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                         }
                     }
                 }
-                if (showTimePicker) {
+                if (pickerRequest != DISMISS) {
                     TimePickerDialog(
-                        onCancel = { showTimePicker = false },
+                        onCancel = { pickerRequest = DISMISS },
                         onConfirm = {
-                            showTimePicker = false
+                            pickerRequest = DISMISS
+                            onTimeSelected(
+                                pickerRequest,
+                                pickerState.hour,
+                                pickerState.minute
+                            )
                         },
                     ) {
                         TimePicker(state = pickerState)
@@ -308,53 +314,11 @@ internal fun SettingsScreen(
             }
 
             if (showClearDialog) {
-                AlertDialog(
-                    onDismissRequest = { showClearDialog = false },
-                    title = {
-                        Text(stringResource(id = R.string.clear_dialog_title))
+                ClearDialog(
+                    onDismiss = {
+                        showClearDialog = false
                     },
-                    text = {
-                        Text(stringResource(id = R.string.clear_dialog_message))
-                    },
-                    confirmButton = {
-                        Button(
-                            onClick = {
-                                onClear()
-                                showClearDialog = false
-                            },
-                            contentPadding = PaddingValues(
-                                start = 20.dp,
-                                top = 12.dp,
-                                end = 20.dp,
-                                bottom = 12.dp,
-                            ),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.error,
-                            ),
-                        ) {
-                            Icon(
-                                MemoratiIcons.Delete,
-                                contentDescription = stringResource(id = R.string.clear),
-                                modifier = Modifier.size(ButtonDefaults.IconSize),
-                            )
-                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                            Text(stringResource(id = R.string.clear))
-                        }
-                    },
-                    dismissButton = {
-                        OutlinedButton(
-                            onClick = { showClearDialog = false },
-                        ) {
-                            Icon(
-                                MemoratiIcons.Close,
-                                contentDescription = stringResource(id = R.string.clear),
-                                modifier = Modifier.size(ButtonDefaults.IconSize),
-                            )
-                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
-                            Text(stringResource(id = R.string.cancel))
-                        }
-                    },
+                    onClear = onClear
                 )
             }
 
@@ -372,6 +336,58 @@ internal fun SettingsScreen(
 }
 
 @Composable
+private fun ClearDialog(onDismiss: () -> Unit, onClear: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(stringResource(id = R.string.clear_dialog_title))
+        },
+        text = {
+            Text(stringResource(id = R.string.clear_dialog_message))
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    onClear()
+                    onDismiss()
+                },
+                contentPadding = PaddingValues(
+                    start = 20.dp,
+                    top = 12.dp,
+                    end = 20.dp,
+                    bottom = 12.dp,
+                ),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                ),
+            ) {
+                Icon(
+                    MemoratiIcons.Delete,
+                    contentDescription = stringResource(id = R.string.clear),
+                    modifier = Modifier.size(ButtonDefaults.IconSize),
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text(stringResource(id = R.string.clear))
+            }
+        },
+        dismissButton = {
+            OutlinedButton(
+                onClick = onDismiss,
+            ) {
+                Icon(
+                    MemoratiIcons.Close,
+                    contentDescription = stringResource(id = R.string.clear),
+                    modifier = Modifier.size(ButtonDefaults.IconSize),
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                Text(stringResource(id = R.string.cancel))
+            }
+        },
+    )
+}
+
+@Composable
 @Preview
 internal fun SettingsScreenPreview() {
     SettingsScreen(
@@ -381,5 +397,12 @@ internal fun SettingsScreenPreview() {
         onImport = {},
         onClear = {},
         appVersion = "1.0.0.2",
+        onTimeSelected = { _, _, _ -> },
     )
+}
+
+enum class TimePickerRequest {
+    START,
+    END,
+    DISMISS
 }
