@@ -2,7 +2,7 @@
 <resources>
     <string name="assistant">Assistant</string>
     <string name="notification_title">Memorati</string>
-    <string name="notification_content">You have flashcards ready for review. Enhance your learning by checking them out now. Happy reviewing!</string>
+    <string name="notification_content">Ready to review? Enhance your learning now. Happy reviewing!</string>
 
     <string name="assistant_channel_name">Assistant</string>
     <string name="assistant_channel_description">Assistant review time notifications</string>
