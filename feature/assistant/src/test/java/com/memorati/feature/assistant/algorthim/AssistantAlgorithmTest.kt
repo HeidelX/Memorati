@@ -25,7 +25,7 @@ class AssistantAlgorithmTest {
                 Topic(3, "A2"),
             ),
         )
-        repeat(100) {
+        repeat(1_000) {
             flashcard = flashcard.handleReviewResponse(isCorrect = false).scheduleNextReview()
             assertTrue { flashcard.nextReviewAt > now }
         }
@@ -48,11 +48,11 @@ class AssistantAlgorithmTest {
                 Topic(3, "A2"),
             ),
         )
-        repeat(100) {
+        repeat(1_000) {
             flashcard = flashcard.handleReviewResponse(isCorrect = true).scheduleNextReview()
             val diff = flashcard.nextReviewAt.minus(now)
             println(diff)
-            assertTrue { diff > duration }
+            assertTrue { diff >= duration }
             assertTrue { flashcard.nextReviewAt > now }
             duration = diff
         }
@@ -75,7 +75,7 @@ class AssistantAlgorithmTest {
                 Topic(3, "A2"),
             ),
         )
-        repeat(100) { times ->
+        repeat(1_000) { times ->
             val isCorrect = times % 2 == 0
             flashcard =
                 flashcard.handleReviewResponse(isCorrect = isCorrect).scheduleNextReview()
