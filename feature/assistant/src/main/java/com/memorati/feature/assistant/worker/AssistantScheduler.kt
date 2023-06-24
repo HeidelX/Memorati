@@ -14,7 +14,7 @@ object AssistantScheduler {
                 AssistantWorker.NAME,
                 ExistingPeriodicWorkPolicy.UPDATE,
                 PeriodicWorkRequestBuilder<DelegatingWorker>(
-                    repeatInterval = Duration.ofHours(6),
+                    repeatInterval = Duration.ofHours(2),
                 ).setInputData(AssistantWorker::class.delegatedData()).build(),
             )
     }
