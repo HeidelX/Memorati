@@ -23,7 +23,7 @@ import androidx.compose.ui.window.DialogProperties
 
 @Composable
 fun TimePickerDialog(
-    title: String = stringResource(id = R.string.clear),
+    title: String = stringResource(id = R.string.select_time),
     onCancel: () -> Unit,
     onConfirm: () -> Unit,
     toggle: @Composable () -> Unit = {},
