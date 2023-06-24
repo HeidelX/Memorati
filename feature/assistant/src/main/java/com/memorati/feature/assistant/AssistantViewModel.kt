@@ -84,10 +84,10 @@ class AssistantViewModel @Inject constructor(
                 .toMap()
         }
 
-    fun updateCard(card: AssistantCard, page: Int) = viewModelScope.launch {
+    fun updateCard(card: AssistantCard, lastPage: Boolean) = viewModelScope.launch {
         val flashcard = card.flashcard.handleReviewResponse(card.isCorrect).scheduleNextReview()
         flashcardsRepository.updateCard(flashcard)
-        showResult.value = page + 1 == flashcards.first().size
+        showResult.value = lastPage
     }
 }
 

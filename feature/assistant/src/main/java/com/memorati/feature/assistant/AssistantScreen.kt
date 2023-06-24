@@ -34,7 +34,7 @@ internal fun AssistantScreen(
     modifier: Modifier = Modifier,
     state: AssistantState,
     onOptionSelected: (AssistantCard, String) -> Unit,
-    onUpdateCard: (AssistantCard, Int) -> Unit,
+    onUpdateCard: (AssistantCard, Boolean) -> Unit,
 ) {
     when (state) {
         is AssistantCards -> AssistantPager(

@@ -54,7 +54,7 @@ fun AssistantPager(
     modifier: Modifier = Modifier,
     assistantCards: List<AssistantCard>,
     onOptionSelected: (AssistantCard, String) -> Unit,
-    onUpdateCard: (AssistantCard, Int) -> Unit,
+    onUpdateCard: (AssistantCard, Boolean) -> Unit,
 ) {
     val pagerState = rememberPagerState { assistantCards.size }
     val coroutineScope = rememberCoroutineScope()
@@ -76,7 +76,7 @@ fun AssistantPager(
                         pagerState.animateScrollToPage(
                             page = pagerState.currentPage.plus(1),
                         )
-                        onUpdateCard(assistantCard, page)
+                        onUpdateCard(assistantCard, page.plus(1) == pagerState.pageCount)
                     }
                 },
             )
@@ -87,7 +87,7 @@ fun AssistantPager(
                 .fillMaxWidth()
                 .padding(16.dp)
                 .clip(CircleShape),
-            progress = pagerState.currentPage.toFloat() / assistantCards.size,
+            progress = pagerState.currentPage.plus(1).toFloat() / pagerState.pageCount,
         )
     }
 }
