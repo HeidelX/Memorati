@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -86,6 +87,7 @@ fun AssistantPager(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
+                .height(8.dp)
                 .clip(CircleShape),
             progress = pagerState.currentPage.plus(1).toFloat() / pagerState.pageCount,
         )
