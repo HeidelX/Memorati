@@ -1,10 +1,12 @@
 package com.memorati.feature.settings
 
 import MemoratiIcons
+import android.app.TimePickerDialog
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,13 +21,20 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TimeInput
+import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +49,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.design.icon.CompareArrows
 import com.memorati.core.design.icon.Insights
 import com.memorati.feature.settings.model.SettingsState
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @Composable
 fun SettingsRoute(
@@ -78,120 +95,157 @@ internal fun SettingsScreen(
         onImport(uri)
     }
 
-    Column(
-        modifier = modifier.verticalScroll(rememberScrollState()),
-    ) {
-        TopAppBar(
-            modifier = Modifier.shadow(2.dp),
-            title = {
-                Text(text = stringResource(id = R.string.settings))
-            },
-            navigationIcon = {
-                IconButton(onClick = onBack) {
-                    Icon(
-                        imageVector = MemoratiIcons.ArrowBack,
-                        contentDescription = stringResource(id = R.string.back),
+    var checked by remember { mutableStateOf(false) }
+    var showTimePicker by remember { mutableStateOf(false) }
+    val pickerState = rememberTimePickerState()
+    val snackState = remember { SnackbarHostState() }
+    val snackScope = rememberCoroutineScope()
+
+
+    if (state.error != null) {
+        LaunchedEffect(state.error) {
+            snackScope.launch {
+                snackState.showSnackbar(state.error.localizedMessage ?: "Unknown error occurred")
+            }
+        }
+    }
+
+    Box(propagateMinConstraints = false) {
+        Column(
+            modifier = modifier.verticalScroll(rememberScrollState()),
+        ) {
+            TopAppBar(
+                modifier = Modifier.shadow(2.dp),
+                title = {
+                    Text(text = stringResource(id = R.string.settings))
+                },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = MemoratiIcons.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back),
+                        )
+                    }
+                },
+            )
+
+            SettingsTile(
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
+                title = stringResource(id = R.string.notifications),
+                imageVector = MemoratiIcons.Notifications,
+            ) {
+
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(CircleShape)
+                        .clickable {
+                            checked = !checked
+                        },
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1.0f),
+                        text = stringResource(id = R.string.allow_notifications),
+                    )
+
+                    Switch(
+                        modifier = Modifier.padding(start = 10.dp),
+                        checked = checked,
+                        onCheckedChange = {
+                            checked = it
+                        },
                     )
                 }
-            },
+
+                Text(text = "Start Time", modifier = Modifier.clickable {
+                    showTimePicker = true
+                })
+
+
+                if (showTimePicker) {
+                    TimePickerDialog(
+                        onCancel = { showTimePicker = false },
+                        onConfirm = {
+                            showTimePicker = false
+                        },
+                    ) {
+                        TimePicker(state = pickerState)
+                    }
+                }
+            }
+
+            SettingsTile(
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
+                title = stringResource(id = R.string.insights),
+                imageVector = MemoratiIcons.Insights,
+            ) {
+                Text(text = stringResource(id = R.string.flashcards_count, state.flashcardsCount))
+            }
+
+            SettingsTile(
+                modifier = Modifier.padding(horizontal = 5.dp),
+                title = stringResource(id = R.string.data_transfer),
+                imageVector = MemoratiIcons.CompareArrows,
+            ) {
+                Row {
+                    Button(
+                        onClick = onExport,
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(ButtonDefaults.IconSize),
+                            imageVector = MemoratiIcons.Export,
+                            contentDescription = stringResource(id = R.string.export),
+                        )
+
+                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                        Text(text = stringResource(id = R.string.export))
+                    }
+                    Spacer(modifier = Modifier.weight(1.0f))
+                    Button(
+                        onClick = {
+                            launcher.launch("application/json")
+                        },
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(ButtonDefaults.IconSize),
+                            imageVector = MemoratiIcons.Import,
+                            contentDescription = stringResource(id = R.string.import_text),
+                        )
+
+                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                        Text(text = stringResource(id = R.string.import_text))
+                    }
+                }
+            }
+
+            SettingsTile(
+                modifier = Modifier.padding(horizontal = 5.dp),
+                title = stringResource(id = R.string.app_data),
+                imageVector = MemoratiIcons.Storage,
+            ) {
+                Button(
+                    onClick = onClear,
+                ) {
+                    Icon(
+                        modifier = Modifier.size(ButtonDefaults.IconSize),
+                        imageVector = MemoratiIcons.Delete,
+                        contentDescription = stringResource(id = R.string.clear),
+                    )
+
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                    Text(text = stringResource(id = R.string.clear))
+                }
+            }
+        }
+        SnackbarHost(
+            hostState = snackState,
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
-
-        var checked by remember { mutableStateOf(false) }
-
-        SettingsTile(
-            modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
-            title = stringResource(id = R.string.notifications),
-            imageVector = MemoratiIcons.Notifications,
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(CircleShape)
-                    .clickable {
-                        checked = !checked
-                    },
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    modifier = Modifier.weight(1.0f),
-                    text = stringResource(id = R.string.allow_notifications),
-                )
-
-                Switch(
-                    modifier = Modifier.padding(start = 10.dp),
-                    checked = checked,
-                    onCheckedChange = {
-                        checked = it
-                    },
-                )
-            }
-        }
-
-        SettingsTile(
-            modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
-            title = stringResource(id = R.string.insights),
-            imageVector = MemoratiIcons.Insights,
-        ) {
-            Text(text = stringResource(id = R.string.flashcards_count, state.flashcardsCount))
-        }
-
-        SettingsTile(
-            modifier = Modifier.padding(horizontal = 5.dp),
-            title = stringResource(id = R.string.data_transfer),
-            imageVector = MemoratiIcons.CompareArrows,
-        ) {
-            Row {
-                Button(
-                    onClick = onExport,
-                ) {
-                    Icon(
-                        modifier = Modifier.size(ButtonDefaults.IconSize),
-                        imageVector = MemoratiIcons.Export,
-                        contentDescription = stringResource(id = R.string.export),
-                    )
-
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
-                    Text(text = stringResource(id = R.string.export))
-                }
-                Spacer(modifier = Modifier.weight(1.0f))
-                Button(
-                    onClick = {
-                        launcher.launch("application/json")
-                    },
-                ) {
-                    Icon(
-                        modifier = Modifier.size(ButtonDefaults.IconSize),
-                        imageVector = MemoratiIcons.Import,
-                        contentDescription = stringResource(id = R.string.import_text),
-                    )
-
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
-                    Text(text = stringResource(id = R.string.import_text))
-                }
-            }
-        }
-
-        SettingsTile(
-            modifier = Modifier.padding(horizontal = 5.dp),
-            title = stringResource(id = R.string.app_data),
-            imageVector = MemoratiIcons.Storage,
-        ) {
-            Button(
-                onClick = onClear,
-            ) {
-                Icon(
-                    modifier = Modifier.size(ButtonDefaults.IconSize),
-                    imageVector = MemoratiIcons.Delete,
-                    contentDescription = stringResource(id = R.string.clear),
-                )
-
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
-                Text(text = stringResource(id = R.string.clear))
-            }
-        }
     }
 }
 
