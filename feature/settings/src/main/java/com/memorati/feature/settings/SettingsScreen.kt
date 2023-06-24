@@ -21,11 +21,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberTimePickerState
@@ -50,13 +50,6 @@ import com.memorati.core.design.icon.CompareArrows
 import com.memorati.core.design.icon.Insights
 import com.memorati.feature.settings.model.SettingsState
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 @Composable
 fun SettingsRoute(
@@ -101,11 +94,14 @@ internal fun SettingsScreen(
     val snackState = remember { SnackbarHostState() }
     val snackScope = rememberCoroutineScope()
 
-
     if (state.error != null) {
         LaunchedEffect(state.error) {
             snackScope.launch {
-                snackState.showSnackbar(state.error.localizedMessage ?: "Unknown error occurred")
+                snackState.showSnackbar(
+                    message = state.error.localizedMessage ?: "Unknown error occurred",
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Long,
+                )
             }
         }
     }
@@ -134,8 +130,6 @@ internal fun SettingsScreen(
                 title = stringResource(id = R.string.notifications),
                 imageVector = MemoratiIcons.Notifications,
             ) {
-
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -159,10 +153,12 @@ internal fun SettingsScreen(
                     )
                 }
 
-                Text(text = "Start Time", modifier = Modifier.clickable {
-                    showTimePicker = true
-                })
-
+                Text(
+                    text = "Start Time",
+                    modifier = Modifier.clickable {
+                        showTimePicker = true
+                    },
+                )
 
                 if (showTimePicker) {
                     TimePickerDialog(
@@ -244,7 +240,7 @@ internal fun SettingsScreen(
         }
         SnackbarHost(
             hostState = snackState,
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomCenter),
         )
     }
 }
