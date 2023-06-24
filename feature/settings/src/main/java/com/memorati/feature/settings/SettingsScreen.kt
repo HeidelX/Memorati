@@ -4,6 +4,8 @@ import MemoratiIcons
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,10 +13,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -94,7 +99,7 @@ internal fun SettingsScreen(
         onImport(uri)
     }
 
-    var checked by remember { mutableStateOf(false) }
+    var notificationEnabled by remember { mutableStateOf(true) }
     var showTimePicker by remember { mutableStateOf(false) }
     var showClearDialog by remember { mutableStateOf(false) }
     val pickerState = rememberTimePickerState()
@@ -136,38 +141,92 @@ internal fun SettingsScreen(
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
                 title = stringResource(id = R.string.notifications),
                 imageVector = MemoratiIcons.Notifications,
-                visible = false,
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(CircleShape)
                         .clickable {
-                            checked = !checked
+                            notificationEnabled = !notificationEnabled
                         },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         modifier = Modifier.weight(1.0f),
                         text = stringResource(id = R.string.allow_notifications),
+                        style = MaterialTheme.typography.bodyMedium,
                     )
 
                     Switch(
                         modifier = Modifier.padding(start = 10.dp),
-                        checked = checked,
+                        checked = notificationEnabled,
                         onCheckedChange = {
-                            checked = it
+                            notificationEnabled = it
                         },
                     )
                 }
 
-                Text(
-                    text = "Start Time",
-                    modifier = Modifier.clickable {
-                        showTimePicker = true
-                    },
-                )
+                AnimatedVisibility(visible = notificationEnabled) {
+                    Column(
+                        modifier = Modifier
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = RoundedCornerShape(5.dp),
+                            )
+                            .padding(10.dp),
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = MemoratiIcons.Snooze,
+                                contentDescription = stringResource(R.string.quiet_time),
+                            )
+                            Spacer(modifier = Modifier.width(5.dp))
+                            Text(
+                                text = stringResource(R.string.quiet_time),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
 
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Row(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .clickable { },
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.start_time),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                            Spacer(modifier = Modifier.weight(1.0f))
+                            Text(
+                                text = "17:00",
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .clickable { },
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.end_time),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+
+                            Spacer(modifier = Modifier.weight(1.0f))
+
+                            Text(
+                                text = "09:00",
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+                    }
+                }
                 if (showTimePicker) {
                     TimePickerDialog(
                         onCancel = { showTimePicker = false },

@@ -17,4 +17,7 @@
     <string name="allow_notifications">Allow Notifications</string>
     <string name="clear_dialog_title">Permanently clear app data?</string>
     <string name="clear_dialog_message">"Warning: All flashcards will be permanently deleted. Export your data before proceeding"</string>
+    <string name="quiet_time">Quiet time</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
 </resources>
