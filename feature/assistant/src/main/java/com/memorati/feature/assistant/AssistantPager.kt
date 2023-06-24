@@ -54,7 +54,7 @@ fun AssistantPager(
     modifier: Modifier = Modifier,
     assistantCards: List<AssistantCard>,
     onOptionSelected: (AssistantCard, String) -> Unit,
-    onUpdateCard: (AssistantCard) -> Unit,
+    onUpdateCard: (AssistantCard, Int) -> Unit,
 ) {
     val pagerState = rememberPagerState { assistantCards.size }
     val coroutineScope = rememberCoroutineScope()
@@ -76,7 +76,7 @@ fun AssistantPager(
                         pagerState.animateScrollToPage(
                             page = pagerState.currentPage.plus(1),
                         )
-                        onUpdateCard(assistantCard)
+                        onUpdateCard(assistantCard, page)
                     }
                 },
             )
@@ -247,7 +247,7 @@ private fun AssistantScreenPreview(
     AssistantScreen(
         state = AssistantCards(reviews = assistantCards),
         onOptionSelected = { _, _ -> },
-        onUpdateCard = {},
+        onUpdateCard = { _, _ -> },
     )
 }
 
