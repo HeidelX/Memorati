@@ -23,7 +23,7 @@ class SettingsViewModel @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
     private val dataTransferRepository: DataTransferRepository,
     private val memoratiFileProvider: MemoratiFileProvider,
-    private val preferencesDataSource: PreferencesDataSource
+    private val preferencesDataSource: PreferencesDataSource,
 ) : ViewModel() {
 
     private val error = MutableStateFlow<Exception?>(null)

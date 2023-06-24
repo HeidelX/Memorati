@@ -80,7 +80,7 @@ fun SettingsRoute(
         onImport = viewModel::importFile,
         onClear = viewModel::clearData,
         appVersion = appVersion,
-        onTimeSelected = viewModel::onTimeSelected
+        onTimeSelected = viewModel::onTimeSelected,
     )
 }
 
@@ -94,7 +94,7 @@ internal fun SettingsScreen(
     onImport: (Uri?) -> Unit,
     onClear: () -> Unit,
     appVersion: String,
-    onTimeSelected: (TimePickerRequest, Int, Int) -> Unit
+    onTimeSelected: (TimePickerRequest, Int, Int) -> Unit,
 ) {
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent(),
@@ -232,12 +232,12 @@ internal fun SettingsScreen(
                     TimePickerDialog(
                         onCancel = { pickerRequest = DISMISS },
                         onConfirm = {
-                            pickerRequest = DISMISS
                             onTimeSelected(
                                 pickerRequest,
                                 pickerState.hour,
-                                pickerState.minute
+                                pickerState.minute,
                             )
+                            pickerRequest = DISMISS
                         },
                     ) {
                         TimePicker(state = pickerState)
@@ -318,7 +318,7 @@ internal fun SettingsScreen(
                     onDismiss = {
                         showClearDialog = false
                     },
-                    onClear = onClear
+                    onClear = onClear,
                 )
             }
 
@@ -404,5 +404,5 @@ internal fun SettingsScreenPreview() {
 enum class TimePickerRequest {
     START,
     END,
-    DISMISS
+    DISMISS,
 }

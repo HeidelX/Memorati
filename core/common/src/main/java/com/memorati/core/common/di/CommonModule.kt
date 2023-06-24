@@ -44,8 +44,6 @@ class CommonModule {
     ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 }
 
-
 @Retention(AnnotationRetention.RUNTIME)
 @Qualifier
 annotation class ApplicationScope
-
