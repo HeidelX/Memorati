@@ -15,4 +15,6 @@
     <string name="share_flashcards_message">Memorati Cards</string>
     <string name="notifications">Notifications</string>
     <string name="allow_notifications">Allow Notifications</string>
+    <string name="clear_dialog_title">Permanently clear app data?</string>
+    <string name="clear_dialog_message">"Warning: All flashcards will be permanently deleted. Export your data before proceeding"</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,12 +16,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -93,6 +96,7 @@ internal fun SettingsScreen(
 
     var checked by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
+    var showClearDialog by remember { mutableStateOf(false) }
     val pickerState = rememberTimePickerState()
     val snackState = remember { SnackbarHostState() }
     val snackScope = rememberCoroutineScope()
@@ -228,7 +232,9 @@ internal fun SettingsScreen(
                 imageVector = MemoratiIcons.Storage,
             ) {
                 Button(
-                    onClick = onClear,
+                    onClick = {
+                        showClearDialog = true
+                    },
                 ) {
                     Icon(
                         modifier = Modifier.size(ButtonDefaults.IconSize),
@@ -240,6 +246,57 @@ internal fun SettingsScreen(
 
                     Text(text = stringResource(id = R.string.clear))
                 }
+            }
+
+            if (showClearDialog) {
+                AlertDialog(
+                    onDismissRequest = { showClearDialog = false },
+                    title = {
+                        Text(stringResource(id = R.string.clear_dialog_title))
+                    },
+                    text = {
+                        Text(stringResource(id = R.string.clear_dialog_message))
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                onClear()
+                                showClearDialog = false
+                            },
+                            contentPadding = PaddingValues(
+                                start = 20.dp,
+                                top = 12.dp,
+                                end = 20.dp,
+                                bottom = 12.dp,
+                            ),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.error,
+                            ),
+                        ) {
+                            Icon(
+                                MemoratiIcons.Delete,
+                                contentDescription = stringResource(id = R.string.clear),
+                                modifier = Modifier.size(ButtonDefaults.IconSize),
+                            )
+                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                            Text(stringResource(id = R.string.clear))
+                        }
+                    },
+                    dismissButton = {
+                        OutlinedButton(
+                            onClick = { showClearDialog = false },
+                        ) {
+                            Icon(
+                                MemoratiIcons.Close,
+                                contentDescription = stringResource(id = R.string.clear),
+                                modifier = Modifier.size(ButtonDefaults.IconSize),
+                            )
+                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                            Text(stringResource(id = R.string.cancel))
+                        }
+                    },
+                )
             }
 
             Text(
