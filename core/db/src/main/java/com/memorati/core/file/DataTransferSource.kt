@@ -1,5 +1,6 @@
 package com.memorati.core.file
 
+import com.memorati.core.common.Defaults.REVIEW_DURATION
 import com.memorati.core.db.dao.FlashcardsDao
 import com.memorati.core.db.model.AdditionalInfoEntity
 import com.memorati.core.db.model.DataTransfer
@@ -11,7 +12,6 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.hours
 
 class DataTransferSource @Inject constructor(
     private val flashcardsDao: FlashcardsDao,
@@ -38,7 +38,7 @@ class DataTransferSource @Inject constructor(
                         flashcardId = 0,
                         createdAt = Clock.System.now(),
                         lastReviewAt = Clock.System.now(),
-                        nextReviewAt = Clock.System.now().plus(6.hours),
+                        nextReviewAt = Clock.System.now().plus(REVIEW_DURATION),
                         front = card.idiom,
                         back = card.description,
                         favoured = false,
