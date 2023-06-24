@@ -33,7 +33,7 @@ fun ReviewResultScreen(
         Image(
             modifier = Modifier.size(200.dp),
             imageVector = MemoratiIcons.Celebration,
-            contentDescription = stringResource(id = R.string.congratulations),
+            contentDescription = stringResource(id = R.string.great_job),
             colorFilter = ColorFilter.lighting(
                 MaterialTheme.colorScheme.primary,
                 MaterialTheme.colorScheme.inversePrimary,
@@ -41,7 +41,7 @@ fun ReviewResultScreen(
         )
 
         Text(
-            text = stringResource(id = R.string.congratulations),
+            text = stringResource(id = R.string.great_job),
             style = MaterialTheme.typography.titleLarge,
         )
 
