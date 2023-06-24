@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
                             }
                             favouritesScreen()
                             assistantScreen()
-                            settingsScreen {
+                            settingsScreen(appVersion = BuildConfig.VERSION_NAME) {
                                 navController.navigateUp()
                             }
                         }

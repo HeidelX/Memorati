@@ -11,11 +11,15 @@ fun NavController.navigateToSettings() {
 }
 
 fun NavGraphBuilder.settingsScreen(
+    appVersion: String,
     onBack: () -> Unit,
 ) {
     composable(
         route = SETTINGS_ROUTE,
     ) {
-        SettingsRoute(onBack = onBack)
+        SettingsRoute(
+            appVersion = appVersion,
+            onBack = onBack,
+        )
     }
 }

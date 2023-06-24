@@ -1,7 +1,6 @@
 package com.memorati.feature.settings
 
 import MemoratiIcons
-import android.app.TimePickerDialog
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,6 +20,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -56,6 +56,7 @@ fun SettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel(),
     onBack: () -> Unit,
+    appVersion: String,
 ) {
     val state by viewModel.settings.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -69,6 +70,7 @@ fun SettingsRoute(
         },
         onImport = viewModel::importFile,
         onClear = viewModel::clearData,
+        appVersion = appVersion,
     )
 }
 
@@ -81,6 +83,7 @@ internal fun SettingsScreen(
     onExport: () -> Unit,
     onImport: (Uri?) -> Unit,
     onClear: () -> Unit,
+    appVersion: String,
 ) {
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent(),
@@ -129,6 +132,7 @@ internal fun SettingsScreen(
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
                 title = stringResource(id = R.string.notifications),
                 imageVector = MemoratiIcons.Notifications,
+                visible = false,
             ) {
                 Row(
                     modifier = Modifier
@@ -237,6 +241,12 @@ internal fun SettingsScreen(
                     Text(text = stringResource(id = R.string.clear))
                 }
             }
+
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text = "App Version $appVersion",
+                style = MaterialTheme.typography.labelSmall,
+            )
         }
         SnackbarHost(
             hostState = snackState,
@@ -247,12 +257,13 @@ internal fun SettingsScreen(
 
 @Composable
 @Preview
-internal fun SettingsScreenPreview(modifier: Modifier = Modifier) {
+internal fun SettingsScreenPreview() {
     SettingsScreen(
         state = SettingsState(flashcardsCount = 10),
         onBack = {},
         onExport = {},
         onImport = {},
         onClear = {},
+        appVersion = "1.0.0.2",
     )
 }

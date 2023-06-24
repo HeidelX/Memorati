@@ -24,36 +24,39 @@ internal fun SettingsTile(
     modifier: Modifier = Modifier,
     title: String,
     imageVector: ImageVector,
+    visible: Boolean = true,
     content: @Composable () -> Unit,
 ) {
-    Column(
-        modifier = modifier.fillMaxWidth(),
-    ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.8f))
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
+    if (visible) {
+        Column(
+            modifier = modifier.fillMaxWidth(),
         ) {
-            Text(
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.weight(1f),
-                text = title,
-            )
+            Row(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.8f))
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.weight(1f),
+                    text = title,
+                )
 
-            Icon(
-                modifier = Modifier.size(24.dp),
-                tint = MaterialTheme.colorScheme.onSecondary,
-                imageVector = imageVector,
-                contentDescription = title,
-            )
-        }
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    tint = MaterialTheme.colorScheme.onSecondary,
+                    imageVector = imageVector,
+                    contentDescription = title,
+                )
+            }
 
-        Column(modifier = Modifier.padding(all = 24.dp)) {
-            content()
+            Column(modifier = Modifier.padding(all = 24.dp)) {
+                content()
+            }
         }
     }
 }

@@ -35,6 +35,13 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("int", "VERSION_CODE", versionCode.toString())
+        buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -86,6 +93,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.window.manager)
     implementation(libs.androidx.profileinstaller)
+    implementation(project(mapOf("path" to ":core:common")))
 
     debugImplementation(libs.androidx.compose.ui.testManifest)
 

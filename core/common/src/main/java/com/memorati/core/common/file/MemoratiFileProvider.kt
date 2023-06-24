@@ -5,12 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
+import com.memorati.core.common.di.AppId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
 
 class MemoratiFileProvider @Inject constructor(
     @ApplicationContext private val context: Context,
+    @AppId private val appId: String,
 ) {
 
     fun intentProvider(
@@ -29,16 +31,12 @@ class MemoratiFileProvider @Inject constructor(
 
     private fun File.uri(): Uri = FileProvider.getUriForFile(
         context,
-        AUTHORITY,
+        "$appId.fileProvider",
         this,
     )
 
     interface IntentProvider {
         fun intent(context: Context): Intent
-    }
-
-    companion object {
-        private const val AUTHORITY = "com.memorati.fileProvider"
     }
 }
 
