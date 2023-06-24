@@ -15,7 +15,7 @@ fun Flashcard.scheduleNextReview(): Flashcard {
         calculateTimeWeightedInterval(additionalInfo.memoryStrength)
 
     // Choose the shorter interval between adaptive and time-weighted intervals.
-    val nextReviewInterval = minOf(adaptiveInterval, timeWeightedInterval).minutes
+    val nextReviewInterval = maxOf(adaptiveInterval, timeWeightedInterval).minutes
 
     // Calculate the next review date by adding the interval to the last review date.
     return copy(
