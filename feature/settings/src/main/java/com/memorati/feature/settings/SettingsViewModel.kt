@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
 import javax.inject.Inject
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
@@ -87,10 +86,10 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onAlarmIntervalSelected(hour: Int, minute: Int) {
+    fun onDurationSelected(hours: Int, minutes: Int) {
         viewModelScope.launch {
             preferencesDataSource.setAlarmInterval(
-                hour.hours.plus(minute.minutes).inWholeMilliseconds
+                hours.hours.plus(minutes.minutes).inWholeMilliseconds,
             )
         }
     }

@@ -32,6 +32,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberTimePickerState
@@ -59,6 +60,7 @@ import com.memorati.feature.settings.TimePickerRequest.END
 import com.memorati.feature.settings.TimePickerRequest.START
 import com.memorati.feature.settings.model.SettingsState
 import kotlinx.coroutines.launch
+import kotlin.time.toJavaDuration
 
 @Composable
 fun SettingsRoute(
@@ -81,6 +83,7 @@ fun SettingsRoute(
         onClear = viewModel::clearData,
         appVersion = appVersion,
         onTimeSelected = viewModel::onTimeSelected,
+        onDurationSelected = viewModel::onDurationSelected,
     )
 }
 
@@ -95,6 +98,7 @@ internal fun SettingsScreen(
     onClear: () -> Unit,
     appVersion: String,
     onTimeSelected: (TimePickerRequest, Int, Int) -> Unit,
+    onDurationSelected: (Int, Int) -> Unit,
 ) {
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent(),
@@ -102,10 +106,19 @@ internal fun SettingsScreen(
         onImport(uri)
     }
 
+    val hours = state.userData.reminderInterval.toJavaDuration().toHoursPart()
+    val minutes = state.userData.reminderInterval.toJavaDuration().toMinutesPart()
+
     var notificationEnabled by remember { mutableStateOf(true) }
+    var showDurationPicker by remember { mutableStateOf(false) }
     var pickerRequest by remember { mutableStateOf(DISMISS) }
     var showClearDialog by remember { mutableStateOf(false) }
     val pickerState = rememberTimePickerState(is24Hour = true)
+    val durationState = rememberTimePickerState(
+        initialHour = hours,
+        initialMinute = minutes,
+        is24Hour = true,
+    )
     val snackState = remember { SnackbarHostState() }
     val snackScope = rememberCoroutineScope()
 
@@ -189,7 +202,7 @@ internal fun SettingsScreen(
 
                         Row(
                             modifier = Modifier
-                                .height(50.dp)
+                                .height(40.dp)
                                 .clickable {
                                     pickerRequest = START
                                 },
@@ -208,7 +221,7 @@ internal fun SettingsScreen(
 
                         Row(
                             modifier = Modifier
-                                .height(50.dp)
+                                .height(40.dp)
                                 .clickable {
                                     pickerRequest = END
                                 },
@@ -223,6 +236,54 @@ internal fun SettingsScreen(
 
                             Text(
                                 text = state.userData.endTime.toString(),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = MemoratiIcons.Snooze,
+                                contentDescription = stringResource(R.string.reminder_interval),
+                            )
+                            Spacer(modifier = Modifier.width(5.dp))
+                            Text(
+                                text = stringResource(R.string.reminder_interval),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        Text(
+                            text = stringResource(id = R.string.interval_description),
+                            style = MaterialTheme.typography.titleSmall,
+                        )
+
+                        Spacer(modifier = Modifier.height(5.dp))
+
+                        Row(
+                            modifier = Modifier
+                                .height(40.dp)
+                                .clickable {
+                                    showDurationPicker = true
+                                },
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.interval),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+
+                            Spacer(modifier = Modifier.weight(1.0f))
+
+                            Text(
+                                text = stringResource(
+                                    R.string.interval_format,
+                                    hours,
+                                    minutes,
+                                ),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                         }
@@ -322,6 +383,24 @@ internal fun SettingsScreen(
                 )
             }
 
+            if (showDurationPicker) {
+                TimePickerDialog(
+                    title = stringResource(id = R.string.select_duration),
+                    onCancel = {
+                        showDurationPicker = false
+                    },
+                    onConfirm = {
+                        onDurationSelected(
+                            durationState.hour,
+                            durationState.minute,
+                        )
+                        showDurationPicker = false
+                    },
+                ) {
+                    TimeInput(state = durationState)
+                }
+            }
+
             Text(
                 modifier = Modifier.padding(16.dp),
                 text = "App Version $appVersion",
@@ -398,6 +477,7 @@ internal fun SettingsScreenPreview() {
         onClear = {},
         appVersion = "1.0.0.2",
         onTimeSelected = { _, _, _ -> },
+        onDurationSelected = { _, _ -> },
     )
 }
 

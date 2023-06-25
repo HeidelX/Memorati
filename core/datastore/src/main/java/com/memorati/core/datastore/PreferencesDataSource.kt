@@ -19,7 +19,7 @@ class PreferencesDataSource @Inject constructor(
         UserData(
             startTime = if (it.startTime == 0) START else LocalTime.fromMillisecondOfDay(it.startTime),
             endTime = if (it.endTime == 0) END else LocalTime.fromMillisecondOfDay(it.endTime),
-            reminderInterval = if (it.alarmInterval == 0L) INTERVAL else it.alarmInterval.milliseconds
+            reminderInterval = if (it.alarmInterval == 0L) INTERVAL else it.alarmInterval.milliseconds,
         )
     }
 
