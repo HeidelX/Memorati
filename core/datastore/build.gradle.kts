@@ -40,5 +40,6 @@ dependencies {
     implementation(libs.androidx.dataStore.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.protobuf.kotlin.lite)
+    implementation(libs.kotlinx.datetime)
 
 }

@@ -201,7 +201,7 @@ internal fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.weight(1.0f))
                             Text(
-                                text = state.startTime.toString(),
+                                text = state.userData.startTime.toString(),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                         }
@@ -222,7 +222,7 @@ internal fun SettingsScreen(
                             Spacer(modifier = Modifier.weight(1.0f))
 
                             Text(
-                                text = state.endTime.toString(),
+                                text = state.userData.endTime.toString(),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                         }

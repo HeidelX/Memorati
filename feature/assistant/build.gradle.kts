@@ -1,7 +1,7 @@
 plugins {
-    id("memorati.android.feature")
     id("memorati.android.library.compose")
     id("memorati.android.library.jacoco")
+    id("memorati.android.feature")
 }
 
 android {

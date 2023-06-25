@@ -17,6 +17,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -34,8 +37,7 @@ class SettingsViewModel @Inject constructor(
     ) { flashcards, userData, error ->
         SettingsState(
             flashcardsCount = flashcards.size,
-            startTime = LocalTime.fromMillisecondOfDay(userData.startTime),
-            endTime = LocalTime.fromMillisecondOfDay(userData.endTime),
+            userData = userData,
             error = error,
         )
     }.stateIn(
@@ -82,6 +84,14 @@ class SettingsViewModel @Inject constructor(
                 TimePickerRequest.END -> preferencesDataSource.setEndTime(time)
                 TimePickerRequest.DISMISS -> Unit
             }
+        }
+    }
+
+    fun onAlarmIntervalSelected(hour: Int, minute: Int) {
+        viewModelScope.launch {
+            preferencesDataSource.setAlarmInterval(
+                hour.hours.plus(minute.minutes).inWholeMilliseconds
+            )
         }
     }
 }

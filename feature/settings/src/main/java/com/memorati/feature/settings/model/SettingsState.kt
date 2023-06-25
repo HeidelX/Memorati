@@ -1,10 +1,9 @@
 package com.memorati.feature.settings.model
 
-import kotlinx.datetime.LocalTime
+import com.memorati.core.model.UserData
 
 data class SettingsState(
     val flashcardsCount: Int,
-    val startTime: LocalTime = LocalTime(hour = 9, minute = 0),
-    val endTime: LocalTime = LocalTime(hour = 18, minute = 0),
+    val userData: UserData = UserData(),
     val error: Exception? = null,
 )
