@@ -32,7 +32,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberTimePickerState
@@ -114,11 +113,7 @@ internal fun SettingsScreen(
     var pickerRequest by remember { mutableStateOf(DISMISS) }
     var showClearDialog by remember { mutableStateOf(false) }
     val pickerState = rememberTimePickerState(is24Hour = true)
-    val durationState = rememberTimePickerState(
-        initialHour = hours,
-        initialMinute = minutes,
-        is24Hour = true,
-    )
+    val durationState = rememberTimePickerState(is24Hour = true)
     val snackState = remember { SnackbarHostState() }
     val snackScope = rememberCoroutineScope()
 
@@ -397,7 +392,7 @@ internal fun SettingsScreen(
                         showDurationPicker = false
                     },
                 ) {
-                    TimeInput(state = durationState)
+                    TimePicker(state = durationState)
                 }
             }
 
