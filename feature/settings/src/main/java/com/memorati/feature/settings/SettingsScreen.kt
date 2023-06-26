@@ -239,7 +239,7 @@ internal fun SettingsScreen(
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
-                                imageVector = MemoratiIcons.Snooze,
+                                imageVector = MemoratiIcons.Timelapse,
                                 contentDescription = stringResource(R.string.reminder_interval),
                             )
                             Spacer(modifier = Modifier.width(5.dp))
