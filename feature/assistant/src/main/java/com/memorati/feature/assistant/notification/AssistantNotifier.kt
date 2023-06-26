@@ -44,7 +44,9 @@ class AssistantNotifier @Inject constructor(
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(com.memorati.core.design.R.drawable.ic_neurology)
-            .setContentTitle(context.getString(R.string.notification_title))
+            .setContentTitle(
+                context.getString(com.memorati.core.common.R.string.notification_title)
+            )
             .setContentText(context.getString(R.string.notification_content))
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
