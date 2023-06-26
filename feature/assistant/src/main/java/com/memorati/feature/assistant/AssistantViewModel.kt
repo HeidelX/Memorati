@@ -35,6 +35,8 @@ class AssistantViewModel @Inject constructor(
     private val userReviews = MutableStateFlow<Map<Long, String>>(emptyMap())
     private val showResult = MutableStateFlow(false)
     private val flashcards = flow {
+        userReviews.update { emptyMap() }
+        showResult.update { false }
         val cards = withContext(ioDispatcher) {
             val backs = flashcardsRepository.flashcards()
                 .map { cards -> cards.map { card -> card.back } }
