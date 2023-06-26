@@ -14,4 +14,5 @@ interface FlashcardsRepository {
     suspend fun updateCard(flashcard: Flashcard)
     suspend fun deleteCard(flashcard: Flashcard)
     suspend fun clear()
+    suspend fun searchBy(query: String): List<Flashcard>
 }

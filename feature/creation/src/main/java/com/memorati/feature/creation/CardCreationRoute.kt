@@ -44,9 +44,11 @@ internal fun CardCreationRoute(
     onBack: () -> Unit,
 ) {
     val flashcard by viewModel.flashcard.collectAsStateWithLifecycle()
+    val similarities by viewModel.queryResult.collectAsStateWithLifecycle()
     CardCreationScreen(
         modifier = modifier,
         flashcard = flashcard,
+        similarities = similarities,
         onCreate = { front, back ->
             viewModel.createCard(front, back)
             onBack()
@@ -61,6 +63,7 @@ internal fun CardCreationRoute(
 internal fun CardCreationScreen(
     modifier: Modifier = Modifier,
     flashcard: Flashcard? = null,
+    similarities: List<Flashcard> = emptyList(),
     onCreate: (String, String) -> Unit,
     onBack: () -> Unit,
 ) {

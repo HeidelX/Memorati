@@ -55,6 +55,12 @@ class LocalFlashcardsRepository @Inject constructor(
         flashcardsDao.delete(flashcard.toFlashcardEntity())
     }
 
+    override suspend fun searchBy(query: String):List<Flashcard> {
+       return flashcardsDao.findBy(query).map {
+            it.toFlashcard()
+        }
+    }
+
     override suspend fun clear() {
         flashcardsDao.clear()
     }
