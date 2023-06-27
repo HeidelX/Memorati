@@ -1,5 +1,6 @@
 package com.memorati.feature.creation
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,10 +26,11 @@ class CardCreationViewModel @Inject constructor(
 
     private val queryFlow = MutableStateFlow<String?>(null)
     val queryResult = queryFlow.mapLatest { query ->
-        query?.let {
-            flashcardsRepository.searchBy(query)
-        } ?: emptyList()
-
+        if (query.isNullOrEmpty()) {
+            emptyList()
+        } else {
+            flashcardsRepository.searchBy(query).map { it.front }
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),

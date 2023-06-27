@@ -13,7 +13,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -44,16 +47,17 @@ internal fun CardCreationRoute(
     onBack: () -> Unit,
 ) {
     val flashcard by viewModel.flashcard.collectAsStateWithLifecycle()
-    val similarities by viewModel.queryResult.collectAsStateWithLifecycle()
+    val options by viewModel.queryResult.collectAsStateWithLifecycle()
     CardCreationScreen(
         modifier = modifier,
         flashcard = flashcard,
-        similarities = similarities,
+        options = options,
         onCreate = { front, back ->
             viewModel.createCard(front, back)
             onBack()
         },
         onBack = onBack,
+        onValueChange = viewModel::query,
     )
 }
 
@@ -63,13 +67,17 @@ internal fun CardCreationRoute(
 internal fun CardCreationScreen(
     modifier: Modifier = Modifier,
     flashcard: Flashcard? = null,
-    similarities: List<Flashcard> = emptyList(),
+    options: List<String> = emptyList(),
     onCreate: (String, String) -> Unit,
     onBack: () -> Unit,
+    onValueChange: (String) -> Unit,
 ) {
-    var idiom by mutableStateOf(flashcard?.front.orEmpty())
-    var description by mutableStateOf(flashcard?.back.orEmpty())
+    var idiom by remember {
+        mutableStateOf(flashcard?.front.orEmpty())
+    }
     val focusRequester = remember { FocusRequester() }
+    var description by mutableStateOf(flashcard?.back.orEmpty())
+    var expanded by remember { mutableStateOf(false) }
     Surface(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -91,19 +99,46 @@ internal fun CardCreationScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            TextField(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-                    .focusRequester(focusRequester),
-                value = idiom,
-                label = {
-                    Text(text = stringResource(id = R.string.idiom))
-                },
-                onValueChange = { text ->
-                    idiom = text
-                },
-            )
+            ExposedDropdownMenuBox(
+                expanded = expanded,
+                onExpandedChange = { expanded = !expanded },
+            ) {
+                TextField(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester)
+                        .menuAnchor(),
+                    value = idiom,
+                    onValueChange = {
+                        idiom = it
+                        onValueChange(it)
+                    },
+                    label = { Text(text = stringResource(id = R.string.idiom)) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                )
+
+                if (options.isNotEmpty()) {
+                    ExposedDropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                    ) {
+                        options.forEach { option ->
+                            DropdownMenuItem(
+                                text = { Text(option) },
+                                onClick = {
+                                    idiom = option
+                                    expanded = false
+                                    onValueChange(option)
+                                },
+                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                            )
+                        }
+                    }
+                }
+            }
+
             Spacer(modifier = Modifier.height(20.dp))
             TextField(
                 modifier = Modifier
@@ -153,7 +188,6 @@ internal fun CardCreationScreen(
                 Text(text = stringResource(id = R.string.save))
 
                 LaunchedEffect(Unit) {
-                    focusRequester.requestFocus()
                 }
             }
         }
@@ -166,5 +200,6 @@ internal fun CardCreationRoutePreview() {
     CardCreationScreen(
         onCreate = { _, _ -> },
         onBack = {},
+        onValueChange = {},
     )
 }
