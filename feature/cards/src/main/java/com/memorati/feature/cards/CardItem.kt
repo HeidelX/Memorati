@@ -145,7 +145,7 @@ private fun annotatedString(
     append(text)
     groups.forEach { group ->
         addStyle(
-            SpanStyle(color = Color.Green),
+            SpanStyle(color = Color.Green.copy(alpha = 0.8f)),
             group.range.first,
             group.range.last + 1,
         )
