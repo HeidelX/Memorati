@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -24,7 +23,7 @@ class CardsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val queryFlow = MutableStateFlow("")
-    val cards = combine(
+    val state = combine(
         flashcardsRepository.flashcards(),
         queryFlow,
     ) { flashcards, query ->
@@ -34,7 +33,10 @@ class CardsViewModel @Inject constructor(
             card.createdAt.toLocalDateTime(TimeZone.currentSystemDefault()).date
         }.toSortedMap(compareByDescending { it })
 
-        CardsState(map)
+        CardsState(
+            map = map,
+            query = query,
+        )
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(),
@@ -62,4 +64,5 @@ private fun Flashcard.contains(query: String): Boolean {
 
 data class CardsState(
     val map: Map<LocalDate, List<Flashcard>> = emptyMap(),
+    val query: String = "",
 )
