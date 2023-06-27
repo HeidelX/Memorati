@@ -15,7 +15,7 @@ internal fun CardsRoute(
     onEdit: (Flashcard) -> Unit,
     openSettings: () -> Unit,
 ) {
-    val state by viewModel.cards.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     CardsScreen(
         state = state,
         modifier = modifier,

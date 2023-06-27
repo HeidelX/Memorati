@@ -28,7 +28,6 @@ class CardCreationViewModel @Inject constructor(
         query?.let {
             flashcardsRepository.searchBy(query)
         } ?: emptyList()
-
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
