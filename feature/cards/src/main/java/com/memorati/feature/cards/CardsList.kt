@@ -83,6 +83,7 @@ internal fun CardsScreen(
                             CardItem(
                                 modifier = Modifier.animateItemPlacement(),
                                 card = card,
+                                query = state.query,
                                 toggleFavoured = toggleFavoured,
                                 onDelete = onDelete,
                                 onEdit = onEdit,

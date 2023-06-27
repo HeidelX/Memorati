@@ -33,6 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -44,6 +46,7 @@ import com.memorati.core.ui.provider.FlashcardProvider
 internal fun CardItem(
     modifier: Modifier = Modifier,
     card: Flashcard,
+    query: String,
     toggleFavoured: (Flashcard) -> Unit,
     onDelete: (Flashcard) -> Unit,
     onEdit: (Flashcard) -> Unit,
@@ -68,18 +71,17 @@ internal fun CardItem(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     Text(
-                        text = card.front,
+                        text = annotatedString(query, card.front),
                         style = MaterialTheme.typography.headlineMedium,
                         maxLines = 1,
                     )
-
                     Divider(
                         modifier = Modifier
                             .width(150.dp)
                             .padding(vertical = 10.dp),
                     )
                     Text(
-                        text = card.back,
+                        text = annotatedString(query, card.back),
                         style = MaterialTheme.typography.titleLarge,
                     )
                 }
@@ -132,6 +134,24 @@ internal fun CardItem(
             }
         }
     }
+}
+
+private fun annotatedString(
+    query: String,
+    text: String,
+) = buildAnnotatedString {
+    val matches = query.toRegex(RegexOption.IGNORE_CASE).findAll(text)
+    val groups = matches.flatMap { it.groups.filterNotNull() }
+    append(text)
+    groups.forEach { group ->
+        addStyle(
+            SpanStyle(color = Color.Green.copy(alpha = 0.8f)),
+            group.range.first,
+            group.range.last + 1,
+        )
+    }
+
+    toAnnotatedString()
 }
 
 @Composable
@@ -191,5 +211,6 @@ internal fun CardItemPreview(
         toggleFavoured = {},
         onEdit = {},
         onDelete = {},
+        query = "H",
     )
 }
