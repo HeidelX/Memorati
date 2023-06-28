@@ -84,16 +84,18 @@ internal fun CardCreationScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            TextField(
+            AutoCompleteTextField(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
                     .focusRequester(focusRequester),
-                value = state.idiom,
+                text = state.idiom,
+                suggestions = state.suggestions,
                 label = {
                     Text(text = stringResource(id = R.string.idiom))
                 },
                 onValueChange = onIdiomChange,
+                onSuggestionSelected = onIdiomChange,
             )
 
             Spacer(modifier = Modifier.height(20.dp))

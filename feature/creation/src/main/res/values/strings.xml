@@ -5,4 +5,6 @@
     <string name="back">Go Back</string>
     <string name="idiom">Idiom</string>
     <string name="description">Description</string>
+    <string name="clear">Clear</string>
+    <string name="idiom_exists">Idiom exists already</string>
 </resources>
