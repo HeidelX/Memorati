@@ -116,7 +116,10 @@ internal fun CardCreationScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .align(Alignment.End),
-                onClick = onSave,
+                onClick = {
+                    onSave()
+                    onBack()
+                },
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Save,
