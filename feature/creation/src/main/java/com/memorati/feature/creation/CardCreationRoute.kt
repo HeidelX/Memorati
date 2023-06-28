@@ -91,6 +91,7 @@ internal fun CardCreationScreen(
                     .focusRequester(focusRequester),
                 text = state.idiom,
                 suggestions = state.suggestions,
+                disableSuggestions = state.editMode,
                 label = {
                     Text(text = stringResource(id = R.string.idiom))
                 },
@@ -98,7 +99,7 @@ internal fun CardCreationScreen(
                 onSuggestionSelected = onIdiomChange,
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             TextField(
                 modifier = Modifier
