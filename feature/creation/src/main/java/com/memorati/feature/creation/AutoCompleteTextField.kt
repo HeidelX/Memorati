@@ -41,8 +41,9 @@ import com.memorati.core.design.text.formAnnotatedString
 fun AutoCompleteTextField(
     modifier: Modifier = Modifier,
     text: String,
-    label: @Composable () -> Unit,
     suggestions: List<String>,
+    disableSuggestions: Boolean,
+    label: @Composable () -> Unit,
     onValueChange: (String) -> Unit,
     onSuggestionSelected: (String) -> Unit,
 ) {
@@ -61,16 +62,16 @@ fun AutoCompleteTextField(
                 }
                 .fillMaxWidth(),
             value = text,
-            isError = exists,
+            isError = exists && !disableSuggestions,
             supportingText = {
-                if (exists) {
+                if (exists && !disableSuggestions) {
                     Text(text = stringResource(R.string.idiom_exists))
                 }
             },
             onValueChange = onValueChange,
             label = label,
             trailingIcon = {
-                if (focused) {
+                if (focused && !disableSuggestions) {
                     IconButton(onClick = { onValueChange("") }) {
                         Icon(
                             imageVector = MemoratiIcons.Close,
@@ -81,7 +82,11 @@ fun AutoCompleteTextField(
             },
         )
 
-        AnimatedVisibility(visible = suggestions.any { !it.equals(text, ignoreCase = false) }) {
+        AnimatedVisibility(
+            visible = suggestions.any {
+                !it.equals(text, ignoreCase = false)
+            } && !disableSuggestions,
+        ) {
             LazyColumn(
                 modifier = Modifier
                     .clip(RoundedCornerShape(5.dp))
@@ -116,9 +121,23 @@ fun AutoCompleteTextField(
 fun AutoCompleteTextFieldPreview() {
     AutoCompleteTextField(
         text = "Idiom",
+        disableSuggestions = false,
         suggestions = listOf("Apple", "Google", "Microsoft"),
+        label = {},
         onValueChange = {},
         onSuggestionSelected = {},
+    )
+}
+
+@Preview
+@Composable
+fun AutoCompleteTextFieldPreviewNoSuggestion() {
+    AutoCompleteTextField(
+        text = "Idiom",
+        disableSuggestions = true,
+        suggestions = listOf("Apple", "Google", "Microsoft"),
         label = {},
+        onValueChange = {},
+        onSuggestionSelected = {},
     )
 }

@@ -42,11 +42,17 @@ class CardCreationViewModel @Inject constructor(
         }
     }
 
-    val state = combine(idiom, description, suggestions) { idiom, description, suggestions ->
+    val state = combine(
+        flashcard,
+        idiom,
+        description,
+        suggestions,
+    ) { flashcard, idiom, description, suggestions ->
         CreationState(
             idiom = idiom,
             description = description,
             suggestions = suggestions,
+            editMode = flashcard != null,
         )
     }.stateIn(
         scope = viewModelScope,
