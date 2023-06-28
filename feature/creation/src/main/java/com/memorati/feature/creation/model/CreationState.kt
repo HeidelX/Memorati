@@ -5,5 +5,5 @@ data class CreationState(
     val description: String = "",
     val suggestions: List<String> = emptyList(),
 ) {
-    val isValid get() = idiom.isNotBlank() && idiom.isNotBlank()
+    val isValid get() = idiom.isNotBlank() && description.isNotBlank()
 }
