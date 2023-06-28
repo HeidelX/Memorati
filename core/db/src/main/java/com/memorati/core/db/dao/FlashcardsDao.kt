@@ -44,6 +44,6 @@ interface FlashcardsDao {
     @Query("DELETE FROM flashcards")
     suspend fun clear()
 
-    @Query("SELECT * FROM flashcards WHERE front LIKE :query")
+    @Query("SELECT * FROM flashcards WHERE front LIKE '%' || :query || '%'")
     suspend fun findBy(query: String): List<FlashcardEntity>
 }

@@ -1,7 +1,6 @@
 package com.memorati.feature.creation
 
 import MemoratiIcons
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +22,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,7 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.memorati.core.model.Flashcard
+import com.memorati.feature.creation.model.CreationState
 
 @Composable
 internal fun CardCreationRoute(
@@ -43,32 +41,27 @@ internal fun CardCreationRoute(
     viewModel: CardCreationViewModel = hiltViewModel(),
     onBack: () -> Unit,
 ) {
-    val flashcard by viewModel.flashcard.collectAsStateWithLifecycle()
-    val similarities by viewModel.queryResult.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     CardCreationScreen(
         modifier = modifier,
-        flashcard = flashcard,
-        similarities = similarities,
-        onCreate = { front, back ->
-            viewModel.createCard(front, back)
-            onBack()
-        },
+        state = state,
         onBack = onBack,
+        onSave = viewModel::save,
+        onIdiomChange = viewModel::onIdiomChange,
+        onDescriptionChange = viewModel::onDescriptionChange,
     )
 }
 
-@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CardCreationScreen(
     modifier: Modifier = Modifier,
-    flashcard: Flashcard? = null,
-    similarities: List<Flashcard> = emptyList(),
-    onCreate: (String, String) -> Unit,
+    state: CreationState,
+    onSave: () -> Unit,
     onBack: () -> Unit,
+    onIdiomChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
 ) {
-    var idiom by mutableStateOf(flashcard?.front.orEmpty())
-    var description by mutableStateOf(flashcard?.back.orEmpty())
     val focusRequester = remember { FocusRequester() }
     Surface(modifier = modifier.fillMaxSize()) {
         Column(
@@ -91,57 +84,43 @@ internal fun CardCreationScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            TextField(
+            AutoCompleteTextField(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
                     .focusRequester(focusRequester),
-                value = idiom,
+                text = state.idiom,
+                suggestions = state.suggestions,
                 label = {
                     Text(text = stringResource(id = R.string.idiom))
                 },
-                onValueChange = { text ->
-                    idiom = text
-                },
+                onValueChange = onIdiomChange,
+                onSuggestionSelected = onIdiomChange,
             )
+
             Spacer(modifier = Modifier.height(20.dp))
+
             TextField(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
-                value = description,
+                value = state.description,
                 label = {
                     Text(text = stringResource(id = R.string.description))
                 },
-                onValueChange = { text ->
-                    description = text
-                },
+                onValueChange = onDescriptionChange,
             )
+
             Spacer(modifier = Modifier.height(20.dp))
 
-            /* TODO Text(
-                text = "Topics",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                style = MaterialTheme.typography.titleLarge,
-            )
-
-            FlowRow {
-                MemoratiChip(label = "A")
-                MemoratiChip(label = "A")
-                MemoratiChip(label = "A")
-                MemoratiChip(label = "A")
-                MemoratiChip(label = "A")
-            }*/
-
             Button(
-                enabled = idiom.isNotBlank() && description.isNotBlank(),
+                enabled = state.isValid,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .align(Alignment.End),
                 onClick = {
-                    onCreate(idiom, description)
+                    onSave()
+                    onBack()
                 },
             ) {
                 Icon(
@@ -164,7 +143,10 @@ internal fun CardCreationScreen(
 @Composable
 internal fun CardCreationRoutePreview() {
     CardCreationScreen(
-        onCreate = { _, _ -> },
+        state = CreationState(),
         onBack = {},
+        onSave = {},
+        onIdiomChange = {},
+        onDescriptionChange = {},
     )
 }
