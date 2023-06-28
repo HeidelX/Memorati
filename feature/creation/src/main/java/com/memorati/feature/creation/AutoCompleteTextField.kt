@@ -50,6 +50,7 @@ fun AutoCompleteTextField(
     val view = LocalView.current
     val lazyListState = rememberLazyListState()
     var focused by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(true) }
 
     Column(
         modifier = modifier.heightIn(max = TextFieldDefaults.MinHeight * 4),
@@ -59,6 +60,7 @@ fun AutoCompleteTextField(
             modifier = Modifier
                 .onFocusChanged {
                     focused = it.isFocused
+                    expanded = it.isFocused
                 }
                 .fillMaxWidth(),
             value = text,
@@ -83,9 +85,7 @@ fun AutoCompleteTextField(
         )
 
         AnimatedVisibility(
-            visible = suggestions.any {
-                !it.equals(text, ignoreCase = false)
-            } && !disableSuggestions,
+            visible = suggestions.isNotEmpty() && !disableSuggestions && expanded,
         ) {
             LazyColumn(
                 modifier = Modifier
@@ -100,6 +100,7 @@ fun AutoCompleteTextField(
                             .fillMaxWidth()
                             .clickable {
                                 onSuggestionSelected(suggestion)
+                                expanded = false
                                 view.clearFocus()
                             },
                     ) {
