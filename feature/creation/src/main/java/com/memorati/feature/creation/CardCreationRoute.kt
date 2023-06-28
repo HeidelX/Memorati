@@ -1,7 +1,6 @@
 package com.memorati.feature.creation
 
 import MemoratiIcons
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,10 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -26,7 +22,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,7 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.memorati.core.model.Flashcard
+import com.memorati.feature.creation.model.CreationState
 
 @Composable
 internal fun CardCreationRoute(
@@ -46,38 +41,28 @@ internal fun CardCreationRoute(
     viewModel: CardCreationViewModel = hiltViewModel(),
     onBack: () -> Unit,
 ) {
-    val flashcard by viewModel.flashcard.collectAsStateWithLifecycle()
-    val options by viewModel.queryResult.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     CardCreationScreen(
         modifier = modifier,
-        flashcard = flashcard,
-        options = options,
-        onCreate = { front, back ->
-            viewModel.createCard(front, back)
-            onBack()
-        },
+        state = state,
         onBack = onBack,
-        onValueChange = viewModel::query,
+        onSave = viewModel::save,
+        onIdiomChange = viewModel::onIdiomChange,
+        onDescriptionChange = viewModel::onDescriptionChange,
     )
 }
 
-@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CardCreationScreen(
     modifier: Modifier = Modifier,
-    flashcard: Flashcard? = null,
-    options: List<String> = emptyList(),
-    onCreate: (String, String) -> Unit,
+    state: CreationState,
+    onSave: () -> Unit,
     onBack: () -> Unit,
-    onValueChange: (String) -> Unit,
+    onIdiomChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
 ) {
-    var idiom by remember {
-        mutableStateOf(flashcard?.front.orEmpty())
-    }
     val focusRequester = remember { FocusRequester() }
-    var description by mutableStateOf(flashcard?.back.orEmpty())
-    var expanded by remember { mutableStateOf(false) }
     Surface(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -99,85 +84,39 @@ internal fun CardCreationScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            ExposedDropdownMenuBox(
-                expanded = expanded,
-                onExpandedChange = { expanded = !expanded },
-            ) {
-                TextField(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth()
-                        .focusRequester(focusRequester)
-                        .menuAnchor(),
-                    value = idiom,
-                    onValueChange = {
-                        idiom = it
-                        onValueChange(it)
-                    },
-                    label = { Text(text = stringResource(id = R.string.idiom)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                )
-
-                if (options.isNotEmpty()) {
-                    ExposedDropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                    ) {
-                        options.forEach { option ->
-                            DropdownMenuItem(
-                                text = { Text(option) },
-                                onClick = {
-                                    idiom = option
-                                    expanded = false
-                                    onValueChange(option)
-                                },
-                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                            )
-                        }
-                    }
-                }
-            }
+            TextField(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
+                value = state.idiom,
+                label = {
+                    Text(text = stringResource(id = R.string.idiom))
+                },
+                onValueChange = onIdiomChange,
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
+
             TextField(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
-                value = description,
+                value = state.description,
                 label = {
                     Text(text = stringResource(id = R.string.description))
                 },
-                onValueChange = { text ->
-                    description = text
-                },
+                onValueChange = onDescriptionChange,
             )
+
             Spacer(modifier = Modifier.height(20.dp))
 
-            /* TODO Text(
-                text = "Topics",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                style = MaterialTheme.typography.titleLarge,
-            )
-
-            FlowRow {
-                MemoratiChip(label = "A")
-                MemoratiChip(label = "A")
-                MemoratiChip(label = "A")
-                MemoratiChip(label = "A")
-                MemoratiChip(label = "A")
-            }*/
-
             Button(
-                enabled = idiom.isNotBlank() && description.isNotBlank(),
+                enabled = state.isValid,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .align(Alignment.End),
-                onClick = {
-                    onCreate(idiom, description)
-                },
+                onClick = onSave,
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Save,
@@ -188,6 +127,7 @@ internal fun CardCreationScreen(
                 Text(text = stringResource(id = R.string.save))
 
                 LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
                 }
             }
         }
@@ -198,8 +138,10 @@ internal fun CardCreationScreen(
 @Composable
 internal fun CardCreationRoutePreview() {
     CardCreationScreen(
-        onCreate = { _, _ -> },
+        state = CreationState(),
         onBack = {},
-        onValueChange = {},
+        onSave = {},
+        onIdiomChange = {},
+        onDescriptionChange = {},
     )
 }
