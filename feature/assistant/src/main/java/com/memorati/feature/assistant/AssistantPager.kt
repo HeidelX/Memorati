@@ -2,6 +2,7 @@ package com.memorati.feature.assistant
 
 import MemoratiIcons
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,9 +20,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +34,7 @@ import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +50,6 @@ import androidx.compose.ui.unit.dp
 import com.memorati.core.model.AssistantCard
 import com.memorati.core.ui.provider.AssistantCardProvider
 import com.memorati.core.ui.provider.AssistantCardsProvider
-import com.memorati.feature.assistant.state.AssistantCards
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -83,15 +86,31 @@ fun AssistantPager(
             )
         }
 
-        LinearProgressIndicator(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .height(8.dp)
-                .clip(CircleShape),
-            progress = pagerState.currentPage.plus(1).toFloat() / pagerState.pageCount,
+        ReviewProgress(
+            currentPage = pagerState.currentPage,
+            count = pagerState.pageCount,
         )
     }
+}
+
+@Composable
+private fun ReviewProgress(
+    modifier: Modifier = Modifier,
+    currentPage: Int,
+    count: Int,
+) {
+    val progress by animateFloatAsState(
+        targetValue = currentPage.plus(1) / count.toFloat(),
+        label = "FloatAnimation",
+    )
+    LinearProgressIndicator(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .height(8.dp)
+            .clip(CircleShape),
+        progress = progress,
+    )
 }
 
 @Composable
@@ -117,7 +136,10 @@ fun AssistantPage(
                 .fillMaxSize(),
             color = color,
         ) {
-            Column {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState()),
+            ) {
                 Text(
                     text = card.flashcard.front,
                     style = MaterialTheme.typography.titleLarge,
@@ -246,8 +268,8 @@ private fun AnswerRadioButton(
 private fun AssistantScreenPreview(
     @PreviewParameter(AssistantCardsProvider::class) assistantCards: List<AssistantCard>,
 ) {
-    AssistantScreen(
-        state = AssistantCards(reviews = assistantCards),
+    AssistantPager(
+        assistantCards = assistantCards,
         onOptionSelected = { _, _ -> },
         onUpdateCard = { _, _ -> },
     )
