@@ -1,7 +1,11 @@
 package com.memorati.feature.settings
 
 import MemoratiIcons
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -107,8 +111,8 @@ internal fun SettingsScreen(
 
     val hours = state.userData.reminderInterval.toJavaDuration().toHoursPart()
     val minutes = state.userData.reminderInterval.toJavaDuration().toMinutesPart()
+    val context = LocalContext.current
 
-    var notificationEnabled by remember { mutableStateOf(true) }
     var showDurationPicker by remember { mutableStateOf(false) }
     var pickerRequest by remember { mutableStateOf(DISMISS) }
     var showClearDialog by remember { mutableStateOf(false) }
@@ -158,7 +162,7 @@ internal fun SettingsScreen(
                         .fillMaxWidth()
                         .clip(CircleShape)
                         .clickable {
-                            notificationEnabled = !notificationEnabled
+                            context.openNotificationsSettings()
                         },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -170,14 +174,14 @@ internal fun SettingsScreen(
 
                     Switch(
                         modifier = Modifier.padding(start = 10.dp),
-                        checked = notificationEnabled,
+                        checked = state.notificationsEnabled,
                         onCheckedChange = {
-                            notificationEnabled = it
+                            context.openNotificationsSettings()
                         },
                     )
                 }
 
-                AnimatedVisibility(visible = notificationEnabled) {
+                AnimatedVisibility(visible = state.notificationsEnabled) {
                     Column(
                         modifier = Modifier.padding(10.dp),
                     ) {
@@ -398,7 +402,7 @@ internal fun SettingsScreen(
 
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = "App Version $appVersion",
+                text = stringResource(R.string.app_version, appVersion),
                 style = MaterialTheme.typography.labelSmall,
             )
         }
@@ -459,6 +463,24 @@ private fun ClearDialog(onDismiss: () -> Unit, onClear: () -> Unit) {
             }
         },
     )
+}
+
+fun Context.openNotificationsSettings() {
+    val intent = Intent().apply {
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            }
+
+            else -> {
+                action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                putExtra("app_package", packageName)
+                putExtra("app_uid", applicationInfo.uid)
+            }
+        }
+    }
+    startActivity(intent)
 }
 
 @Composable
