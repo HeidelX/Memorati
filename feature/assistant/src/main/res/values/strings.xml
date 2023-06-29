@@ -8,8 +8,8 @@
     <string name="next">Continue</string>
     <string name="correct_result">Your answer is correct</string>
     <string name="wrong_result">Your answer is wrong</string>
-    <string name="great_job">Great job!</string>
-    <string name="review_result_message">You\'ve successfully answered %d idioms correctly and %d idioms with a slight slip. Keep up the excellent work!</string>
+    <string name="result">Result</string>
+    <string name="review_result_message">Correct: %d\nWrong:  %d\n\nKeep up the excellent work!</string>
     <string name="notification_permission">To receive timely reminders about pending reviews, it\'s crucial to grant the notification permission for this app. Kindly provide the necessary permission.</string>
     <string name="grant">Grant</string>
 </resources>

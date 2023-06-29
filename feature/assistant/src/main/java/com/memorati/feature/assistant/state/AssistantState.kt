@@ -12,4 +12,6 @@ object EmptyState : AssistantState
 data class ReviewResult(
     val correctAnswers: Int,
     val wrongAnswers: Int,
-) : AssistantState
+) : AssistantState {
+    val progress get() = correctAnswers.toFloat() / correctAnswers.plus(wrongAnswers)
+}
