@@ -16,6 +16,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +30,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.permissions.shouldShowRationale
 import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.model.AssistantCard
@@ -107,17 +107,17 @@ private fun PostNotificationPermission() {
 
                 OutlinedButton(
                     onClick = {
-                        if (!permissionState.status.shouldShowRationale) {
-                            permissionState.launchPermissionRequest()
-                        } else {
-                            context.openNotificationsSettings()
-                        }
+                        context.openNotificationsSettings()
                     },
                 ) {
                     Text(
                         text = stringResource(R.string.grant),
                     )
                 }
+            }
+
+            LaunchedEffect(Unit) {
+                permissionState.launchPermissionRequest()
             }
         }
     }
