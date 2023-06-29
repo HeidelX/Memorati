@@ -32,7 +32,7 @@ class DataTransferSource @Inject constructor(
     suspend fun import(json: String) {
         val dataTransfer = Json.decodeFromString<DataTransfer>(json)
         dataTransfer.cards.forEach { card ->
-            if (flashcardsDao.find(card.idiom, card.description).isEmpty()) {
+            if (flashcardsDao.findBy(card.idiom).isEmpty()) {
                 flashcardsDao.insert(
                     FlashcardEntity(
                         flashcardId = 0,
