@@ -19,8 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.memorati.feature.assistant.state.ReviewResult
 
 @Composable
@@ -38,9 +40,11 @@ fun ReviewResultScreen(
         verticalArrangement = Arrangement.Center,
     ) {
         Box(contentAlignment = Alignment.Center) {
+            
             Text(
-                text = "%.00f %%".format(reviewResult.progress.times(100)),
-                style = MaterialTheme.typography.titleLarge,
+                text = "%.00f%%".format(reviewResult.progress.times(100)),
+                fontFamily = FontFamily.Monospace,
+                fontSize = 50.sp,
             )
 
             CircularProgressIndicator(
@@ -57,6 +61,7 @@ fun ReviewResultScreen(
         Text(
             text = stringResource(id = R.string.result),
             style = MaterialTheme.typography.titleLarge,
+            fontFamily = FontFamily.SansSerif,
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -68,6 +73,7 @@ fun ReviewResultScreen(
                 reviewResult.wrongAnswers,
             ),
             style = MaterialTheme.typography.bodyLarge,
+            fontFamily = FontFamily.SansSerif,
         )
     }
 }
