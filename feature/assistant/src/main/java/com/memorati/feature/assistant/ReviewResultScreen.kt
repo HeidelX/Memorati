@@ -40,7 +40,6 @@ fun ReviewResultScreen(
         verticalArrangement = Arrangement.Center,
     ) {
         Box(contentAlignment = Alignment.Center) {
-            
             Text(
                 text = "%.00f%%".format(reviewResult.progress.times(100)),
                 fontFamily = FontFamily.Monospace,
