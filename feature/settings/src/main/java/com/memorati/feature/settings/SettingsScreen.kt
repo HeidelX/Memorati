@@ -1,11 +1,7 @@
 package com.memorati.feature.settings
 
 import MemoratiIcons
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -56,6 +52,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.icon.CompareArrows
 import com.memorati.core.design.icon.Insights
 import com.memorati.feature.settings.TimePickerRequest.DISMISS
@@ -463,24 +460,6 @@ private fun ClearDialog(onDismiss: () -> Unit, onClear: () -> Unit) {
             }
         },
     )
-}
-
-fun Context.openNotificationsSettings() {
-    val intent = Intent().apply {
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
-                action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-            }
-
-            else -> {
-                action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                putExtra("app_package", packageName)
-                putExtra("app_uid", applicationInfo.uid)
-            }
-        }
-    }
-    startActivity(intent)
 }
 
 @Composable
