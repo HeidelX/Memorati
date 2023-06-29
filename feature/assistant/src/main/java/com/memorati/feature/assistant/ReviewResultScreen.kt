@@ -1,6 +1,5 @@
 package com.memorati.feature.assistant
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,10 +38,9 @@ fun ReviewResultScreen(
         verticalArrangement = Arrangement.Center,
     ) {
         Box(contentAlignment = Alignment.Center) {
-
             Text(
-                text = "${reviewResult.progress.times(100)}%",
-                style = MaterialTheme.typography.titleLarge
+                text = "%.00f %%".format(reviewResult.progress.times(100)),
+                style = MaterialTheme.typography.titleLarge,
             )
 
             CircularProgressIndicator(
@@ -50,7 +48,7 @@ fun ReviewResultScreen(
                 progress = reviewResult.progress,
                 trackColor = MaterialTheme.colorScheme.primary,
                 color = MaterialTheme.colorScheme.inversePrimary,
-                strokeWidth = 10.dp
+                strokeWidth = 10.dp,
             )
         }
 
