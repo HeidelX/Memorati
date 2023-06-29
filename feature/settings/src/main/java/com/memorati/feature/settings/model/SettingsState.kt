@@ -6,4 +6,5 @@ data class SettingsState(
     val flashcardsCount: Int,
     val userData: UserData = UserData(),
     val error: Exception? = null,
+    val notificationsEnabled: Boolean = true,
 )

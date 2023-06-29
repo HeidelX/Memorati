@@ -2,9 +2,11 @@ package com.memorati.feature.settings
 
 import android.content.Context
 import android.net.Uri
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memorati.core.common.file.MemoratiFileProvider
+import com.memorati.core.common.flow.tickerFlow
 import com.memorati.core.data.repository.DataTransferRepository
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.datastore.PreferencesDataSource
@@ -13,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
@@ -26,17 +29,23 @@ class SettingsViewModel @Inject constructor(
     private val dataTransferRepository: DataTransferRepository,
     private val memoratiFileProvider: MemoratiFileProvider,
     private val preferencesDataSource: PreferencesDataSource,
+    private val notificationManagerCompat: NotificationManagerCompat,
 ) : ViewModel() {
 
+    private val notificationsEnabled = tickerFlow().map {
+        notificationManagerCompat.areNotificationsEnabled()
+    }
     private val error = MutableStateFlow<Exception?>(null)
     val settings = combine(
         flashcardsRepository.flashcards(),
         preferencesDataSource.userData,
+        notificationsEnabled,
         error,
-    ) { flashcards, userData, error ->
+    ) { flashcards, userData, notificationsEnabled, error ->
         SettingsState(
             flashcardsCount = flashcards.size,
             userData = userData,
+            notificationsEnabled = notificationsEnabled,
             error = error,
         )
     }.stateIn(

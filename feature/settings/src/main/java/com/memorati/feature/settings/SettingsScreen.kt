@@ -52,6 +52,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.icon.CompareArrows
 import com.memorati.core.design.icon.Insights
 import com.memorati.feature.settings.TimePickerRequest.DISMISS
@@ -107,8 +108,8 @@ internal fun SettingsScreen(
 
     val hours = state.userData.reminderInterval.toJavaDuration().toHoursPart()
     val minutes = state.userData.reminderInterval.toJavaDuration().toMinutesPart()
+    val context = LocalContext.current
 
-    var notificationEnabled by remember { mutableStateOf(true) }
     var showDurationPicker by remember { mutableStateOf(false) }
     var pickerRequest by remember { mutableStateOf(DISMISS) }
     var showClearDialog by remember { mutableStateOf(false) }
@@ -158,7 +159,7 @@ internal fun SettingsScreen(
                         .fillMaxWidth()
                         .clip(CircleShape)
                         .clickable {
-                            notificationEnabled = !notificationEnabled
+                            context.openNotificationsSettings()
                         },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -170,14 +171,14 @@ internal fun SettingsScreen(
 
                     Switch(
                         modifier = Modifier.padding(start = 10.dp),
-                        checked = notificationEnabled,
+                        checked = state.notificationsEnabled,
                         onCheckedChange = {
-                            notificationEnabled = it
+                            context.openNotificationsSettings()
                         },
                     )
                 }
 
-                AnimatedVisibility(visible = notificationEnabled) {
+                AnimatedVisibility(visible = state.notificationsEnabled) {
                     Column(
                         modifier = Modifier.padding(10.dp),
                     ) {
@@ -398,7 +399,7 @@ internal fun SettingsScreen(
 
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = "App Version $appVersion",
+                text = stringResource(R.string.app_version, appVersion),
                 style = MaterialTheme.typography.labelSmall,
             )
         }
