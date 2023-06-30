@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -43,6 +42,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -126,24 +126,19 @@ fun AssistantPage(
     toggleFavoured: (Flashcard) -> Unit,
     onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 5.dp)
+    val color = MaterialTheme.colorScheme.primary
+    Surface(
+        modifier
+            .padding(10.dp)
+            .fillMaxSize()
             .clip(RoundedCornerShape(30.dp))
-            .wrapContentHeight(),
+            .background(color)
+            .padding(16.dp),
+        color = color,
     ) {
-        val color = MaterialTheme.colorScheme.primary
-        Surface(
-            Modifier
-                .background(color)
-                .padding(24.dp)
-                .fillMaxSize(),
-            color = color,
-        ) {
+        Box {
             Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState()),
+                modifier = Modifier.verticalScroll(rememberScrollState()),
             ) {
                 Text(
                     text = card.flashcard.front,
@@ -172,27 +167,24 @@ fun AssistantPage(
                     }
                 }
             }
+
+            Text(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                text = page.toString(),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleLarge,
+                fontFamily = FontFamily.SansSerif,
+            )
+
+            FavouriteButton(
+                modifier = Modifier.align(Alignment.BottomEnd),
+                favoured = card.flashcard.favoured,
+                onCheckedChange = {
+                    toggleFavoured(card.flashcard)
+                },
+            )
         }
-
-        Text(
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.BottomCenter),
-            text = page.toString(),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onPrimary,
-            style = MaterialTheme.typography.bodyLarge,
-        )
-
-        FavouriteButton(
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.BottomEnd),
-            favoured = card.flashcard.favoured,
-            onCheckedChange = {
-                toggleFavoured(card.flashcard)
-            },
-        )
     }
 }
 
