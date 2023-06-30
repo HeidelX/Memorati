@@ -6,6 +6,7 @@ import com.memorati.core.common.dispatcher.Dispatcher
 import com.memorati.core.common.dispatcher.MemoratiDispatchers.IO
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.Flashcard
 import com.memorati.feature.assistant.algorthim.handleReviewResponse
 import com.memorati.feature.assistant.algorthim.scheduleNextReview
 import com.memorati.feature.assistant.state.AssistantCards
@@ -25,7 +26,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.days
 
 @HiltViewModel
 class AssistantViewModel @Inject constructor(
@@ -91,6 +91,12 @@ class AssistantViewModel @Inject constructor(
         val flashcard = card.flashcard.handleReviewResponse(card.isCorrect).scheduleNextReview()
         flashcardsRepository.updateCard(flashcard)
         showResult.value = lastPage
+    }
+
+    fun toggleFavoured(flashcard: Flashcard) {
+        viewModelScope.launch {
+            flashcardsRepository.updateCard(flashcard.copy(favoured = !flashcard.favoured))
+        }
     }
 }
 

@@ -47,7 +47,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.memorati.core.design.component.FavouriteButton
 import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.provider.AssistantCardProvider
 import com.memorati.core.ui.provider.AssistantCardsProvider
 import kotlinx.coroutines.launch
@@ -57,8 +59,9 @@ import kotlinx.coroutines.launch
 fun AssistantPager(
     modifier: Modifier = Modifier,
     assistantCards: List<AssistantCard>,
-    onOptionSelected: (AssistantCard, String) -> Unit,
     onUpdateCard: (AssistantCard, Boolean) -> Unit,
+    onOptionSelected: (AssistantCard, String) -> Unit,
+    toggleFavoured: (Flashcard) -> Unit,
 ) {
     val pagerState = rememberPagerState { assistantCards.size }
     val coroutineScope = rememberCoroutineScope()
@@ -83,6 +86,7 @@ fun AssistantPager(
                         onUpdateCard(assistantCard, page.plus(1) == pagerState.pageCount)
                     }
                 },
+                toggleFavoured = toggleFavoured,
             )
         }
 
@@ -118,8 +122,9 @@ fun AssistantPage(
     modifier: Modifier = Modifier,
     page: Int,
     card: AssistantCard,
-    onOptionSelected: (AssistantCard, String) -> Unit,
     onNext: () -> Unit,
+    toggleFavoured: (Flashcard) -> Unit,
+    onOptionSelected: (AssistantCard, String) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -177,6 +182,16 @@ fun AssistantPage(
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onPrimary,
             style = MaterialTheme.typography.bodyLarge,
+        )
+
+        FavouriteButton(
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd),
+            favoured = card.flashcard.favoured,
+            onCheckedChange = {
+                toggleFavoured(card.flashcard)
+            },
         )
     }
 }
@@ -270,8 +285,9 @@ private fun AssistantScreenPreview(
 ) {
     AssistantPager(
         assistantCards = assistantCards,
-        onOptionSelected = { _, _ -> },
+        toggleFavoured = {},
         onUpdateCard = { _, _ -> },
+        onOptionSelected = { _, _ -> },
     )
 }
 
@@ -282,9 +298,10 @@ private fun AssistantItemPreview(
 ) {
     AssistantPage(
         card = assistantCard.copy(response = "Hallo"),
-        onOptionSelected = { _, _ -> },
-        onNext = {},
         page = 1,
+        onNext = {},
+        toggleFavoured = {},
+        onOptionSelected = { _, _ -> },
     )
 }
 
@@ -295,9 +312,10 @@ private fun AssistantWrongItemPreview(
 ) {
     AssistantPage(
         card = assistantCard.copy(response = "OK"),
-        onOptionSelected = { _, _ -> },
-        onNext = {},
         page = 1,
+        onNext = {},
+        toggleFavoured = {},
+        onOptionSelected = { _, _ -> },
     )
 }
 
@@ -308,8 +326,9 @@ private fun AssistantNoAnswerItemPreview(
 ) {
     AssistantPage(
         card = assistantCard,
-        onOptionSelected = { _, _ -> },
-        onNext = {},
         page = 1,
+        onNext = {},
+        toggleFavoured = {},
+        onOptionSelected = { _, _ -> },
     )
 }

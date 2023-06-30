@@ -33,6 +33,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.Flashcard
 import com.memorati.feature.assistant.state.AssistantCards
 import com.memorati.feature.assistant.state.AssistantState
 import com.memorati.feature.assistant.state.EmptyState
@@ -49,6 +50,7 @@ fun AssistantRoute(
         state = state,
         onOptionSelected = viewModel::selectOption,
         onUpdateCard = viewModel::updateCard,
+        toggleFavoured = viewModel::toggleFavoured,
     )
 }
 
@@ -58,6 +60,7 @@ internal fun AssistantScreen(
     state: AssistantState,
     onOptionSelected: (AssistantCard, String) -> Unit,
     onUpdateCard: (AssistantCard, Boolean) -> Unit,
+    toggleFavoured: (Flashcard) -> Unit,
 ) {
     Column {
         Box(modifier = Modifier.weight(1.0f)) {
@@ -67,6 +70,7 @@ internal fun AssistantScreen(
                     modifier = modifier,
                     onOptionSelected = onOptionSelected,
                     onUpdateCard = onUpdateCard,
+                    toggleFavoured = toggleFavoured,
                 )
 
                 is ReviewResult -> ReviewResultScreen(reviewResult = state)
@@ -130,5 +134,6 @@ internal fun AssistantScreenEmptyPreview() {
         state = EmptyState,
         onOptionSelected = { _, _ -> },
         onUpdateCard = { _, _ -> },
+        toggleFavoured = {},
     )
 }
