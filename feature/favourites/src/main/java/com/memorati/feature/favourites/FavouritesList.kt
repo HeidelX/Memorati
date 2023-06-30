@@ -48,7 +48,7 @@ internal fun FavouritesList(
             vertical = 16.dp,
         ),
 
-    ) {
+        ) {
         items(cards, key = { it.id }) { card ->
             CardItem(
                 card = card,
@@ -88,7 +88,7 @@ internal fun CardItem(
                     Text(
                         text = card.front,
                         style = MaterialTheme.typography.headlineMedium,
-                        maxLines = 1,
+                        maxLines = 2,
                     )
 
                     Divider(
@@ -99,6 +99,7 @@ internal fun CardItem(
                     Text(
                         text = card.back,
                         style = MaterialTheme.typography.titleLarge,
+                        maxLines = 2,
                     )
                 }
 
