@@ -48,7 +48,7 @@ internal fun FavouritesList(
             vertical = 16.dp,
         ),
 
-        ) {
+    ) {
         items(cards, key = { it.id }) { card ->
             CardItem(
                 card = card,
