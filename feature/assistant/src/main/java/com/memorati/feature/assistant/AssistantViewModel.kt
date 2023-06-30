@@ -2,6 +2,7 @@ package com.memorati.feature.assistant
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.memorati.core.common.di.ApplicationScope
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
 import com.memorati.core.model.Flashcard
@@ -11,6 +12,7 @@ import com.memorati.feature.assistant.state.AssistantCards
 import com.memorati.feature.assistant.state.EmptyState
 import com.memorati.feature.assistant.state.ReviewResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -25,6 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AssistantViewModel @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
+    @ApplicationScope private val scope: CoroutineScope,
 ) : ViewModel() {
 
     private val userAnswers = MutableStateFlow<Map<Long, String>>(emptyMap())
@@ -96,11 +99,8 @@ class AssistantViewModel @Inject constructor(
                 )
             }
 
-            launch {
-                patch.forEach { flashcard ->
-                    flashcardsRepository.updateCard(flashcard)
-                }
-
+            scope.launch {
+                flashcardsRepository.updateCards(patch.toList())
                 patch.clear()
                 answersSets.clear()
                 userAnswers.update { emptyMap() }

@@ -13,6 +13,7 @@ interface FlashcardsRepository {
     suspend fun searchBy(query: String): List<Flashcard>
     suspend fun createCard(flashcard: Flashcard)
     suspend fun updateCard(flashcard: Flashcard)
+    suspend fun updateCards(flashcards: List<Flashcard>)
     suspend fun deleteCard(flashcard: Flashcard)
     suspend fun clear()
 }

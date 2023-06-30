@@ -35,6 +35,9 @@ interface FlashcardsDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(flashcardEntity: FlashcardEntity)
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(flashcardEntities: List<FlashcardEntity>)
+
     @Delete
     suspend fun delete(flashcardEntity: FlashcardEntity)
 
