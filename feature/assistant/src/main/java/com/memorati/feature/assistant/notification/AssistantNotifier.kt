@@ -11,6 +11,7 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
+import androidx.core.app.TaskStackBuilder
 import androidx.core.net.toUri
 import com.memorati.feature.assistant.R
 import com.memorati.feature.assistant.navigation.URI_PATTERN
@@ -22,16 +23,9 @@ class AssistantNotifier @Inject constructor(
     private val notificationManagerCompat: NotificationManagerCompat,
 ) {
     fun notifyUser() {
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            URI_PATTERN.toUri(),
-        )
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE,
-        )
+        val pendingIntent = TaskStackBuilder.create(context)
+            .addNextIntentWithParentStack(Intent(Intent.ACTION_VIEW, URI_PATTERN.toUri()))
+            .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannelCompat.Builder(CHANNEL_ID, IMPORTANCE_DEFAULT)
