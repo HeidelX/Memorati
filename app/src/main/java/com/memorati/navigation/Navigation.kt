@@ -44,7 +44,7 @@ enum class TopDestination(
 fun NavController.navigateToTopDestination(topDestination: TopDestination) {
     val navOptions = navOptions {
         popUpTo(graph.findStartDestination().id) {
-            saveState = true
+            // TODO saveState = true it seems to be a bug in Navigation compose library
         }
         launchSingleTop = true
         restoreState = true
