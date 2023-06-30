@@ -72,7 +72,7 @@ internal fun CardItem(
                     Text(
                         text = formAnnotatedString(query, card.front),
                         style = MaterialTheme.typography.headlineMedium,
-                        maxLines = 1,
+                        maxLines = 2,
                     )
                     Divider(
                         modifier = Modifier
@@ -82,6 +82,7 @@ internal fun CardItem(
                     Text(
                         text = formAnnotatedString(query, card.back),
                         style = MaterialTheme.typography.titleLarge,
+                        maxLines = 2,
                     )
                 }
 
