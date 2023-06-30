@@ -60,7 +60,7 @@ internal fun CardItem(
             Modifier
                 .background(MaterialTheme.colorScheme.primary)
                 .fillMaxSize()
-                .padding(10.dp),
+                .padding(16.dp),
             color = MaterialTheme.colorScheme.primary,
         ) {
             Box {

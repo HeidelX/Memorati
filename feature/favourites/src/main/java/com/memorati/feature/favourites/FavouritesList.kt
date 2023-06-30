@@ -48,7 +48,7 @@ internal fun FavouritesList(
             vertical = 16.dp,
         ),
 
-    ) {
+        ) {
         items(cards, key = { it.id }) { card ->
             CardItem(
                 card = card,
@@ -76,7 +76,7 @@ internal fun CardItem(
                 .clip(RoundedCornerShape(30.dp))
                 .background(MaterialTheme.colorScheme.primary)
                 .fillMaxSize()
-                .padding(30.dp),
+                .padding(16.dp),
             color = MaterialTheme.colorScheme.primary,
         ) {
             Box(modifier = Modifier) {
