@@ -60,7 +60,7 @@ fun AssistantPager(
     modifier: Modifier = Modifier,
     assistantCards: List<AssistantCard>,
     onUpdateCard: (AssistantCard, Boolean) -> Unit,
-    onOptionSelected: (AssistantCard, String) -> Unit,
+    onAnswerSelected: (AssistantCard, String) -> Unit,
     toggleFavoured: (Flashcard) -> Unit,
 ) {
     val pagerState = rememberPagerState { assistantCards.size }
@@ -77,7 +77,7 @@ fun AssistantPager(
                 modifier = Modifier.fillMaxWidth(),
                 page = page + 1,
                 card = assistantCard,
-                onOptionSelected = onOptionSelected,
+                onAnswerSelected = onAnswerSelected,
                 onNext = {
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(
@@ -124,7 +124,7 @@ fun AssistantPage(
     card: AssistantCard,
     onNext: () -> Unit,
     toggleFavoured: (Flashcard) -> Unit,
-    onOptionSelected: (AssistantCard, String) -> Unit,
+    onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -156,7 +156,7 @@ fun AssistantPage(
                 )
 
                 card.answers.forEach { answer ->
-                    AnswerRadioButton(card, answer, onOptionSelected)
+                    AnswerRadioButton(card, answer, onAnswerSelected)
                 }
                 AnswerIcon(card)
 
@@ -287,7 +287,7 @@ private fun AssistantScreenPreview(
         assistantCards = assistantCards,
         toggleFavoured = {},
         onUpdateCard = { _, _ -> },
-        onOptionSelected = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
     )
 }
 
@@ -301,7 +301,7 @@ private fun AssistantItemPreview(
         page = 1,
         onNext = {},
         toggleFavoured = {},
-        onOptionSelected = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
     )
 }
 
@@ -315,7 +315,7 @@ private fun AssistantWrongItemPreview(
         page = 1,
         onNext = {},
         toggleFavoured = {},
-        onOptionSelected = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
     )
 }
 
@@ -329,6 +329,6 @@ private fun AssistantNoAnswerItemPreview(
         page = 1,
         onNext = {},
         toggleFavoured = {},
-        onOptionSelected = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
     )
 }

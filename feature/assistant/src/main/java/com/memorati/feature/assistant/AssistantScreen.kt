@@ -48,7 +48,7 @@ fun AssistantRoute(
     AssistantScreen(
         modifier = modifier,
         state = state,
-        onOptionSelected = viewModel::selectOption,
+        onAnswerSelected = viewModel::selectAnswer,
         onUpdateCard = viewModel::updateCard,
         toggleFavoured = viewModel::toggleFavoured,
     )
@@ -58,7 +58,7 @@ fun AssistantRoute(
 internal fun AssistantScreen(
     modifier: Modifier = Modifier,
     state: AssistantState,
-    onOptionSelected: (AssistantCard, String) -> Unit,
+    onAnswerSelected: (AssistantCard, String) -> Unit,
     onUpdateCard: (AssistantCard, Boolean) -> Unit,
     toggleFavoured: (Flashcard) -> Unit,
 ) {
@@ -68,7 +68,7 @@ internal fun AssistantScreen(
                 is AssistantCards -> AssistantPager(
                     assistantCards = state.reviews,
                     modifier = modifier,
-                    onOptionSelected = onOptionSelected,
+                    onAnswerSelected = onAnswerSelected,
                     onUpdateCard = onUpdateCard,
                     toggleFavoured = toggleFavoured,
                 )
@@ -132,7 +132,7 @@ private fun PostNotificationPermission() {
 internal fun AssistantScreenEmptyPreview() {
     AssistantScreen(
         state = EmptyState,
-        onOptionSelected = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
         onUpdateCard = { _, _ -> },
         toggleFavoured = {},
     )
