@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.days
 
 @HiltViewModel
 class AssistantViewModel @Inject constructor(
@@ -36,7 +35,7 @@ class AssistantViewModel @Inject constructor(
     }
 
     private val flashcards = flashcardsRepository.flashcardsToReview(
-        time = Clock.System.now().plus(10.days),
+        time = Clock.System.now(),
     ).map { cardsToReview ->
         cardsToReview
             .take(30)
