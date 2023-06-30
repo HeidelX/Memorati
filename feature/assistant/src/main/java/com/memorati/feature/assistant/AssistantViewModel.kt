@@ -30,6 +30,7 @@ class AssistantViewModel @Inject constructor(
     private val userAnswers = MutableStateFlow<Map<Long, String>>(emptyMap())
     private val reviewResult = MutableStateFlow<Review?>(null)
     private val answersSets = mutableMapOf<Long, List<String>>()
+    private val patch = mutableSetOf<Flashcard>()
     private val backs = flashcardsRepository.flashcards().map { cards ->
         cards.map { card -> card.back }
     }
@@ -85,9 +86,7 @@ class AssistantViewModel @Inject constructor(
         }
 
     fun updateCard(card: AssistantCard, lastPage: Boolean) = viewModelScope.launch {
-        flashcardsRepository.updateCard(
-            card.flashcard.handleReviewResponse(card.isCorrect).scheduleNextReview(),
-        )
+        patch.add(card.flashcard.handleReviewResponse(card.isCorrect).scheduleNextReview())
         if (lastPage) {
             val assistantCards = reviewedCards.first()
             reviewResult.update {
@@ -96,8 +95,16 @@ class AssistantViewModel @Inject constructor(
                     wrongAnswers = assistantCards.count { !it.isCorrect },
                 )
             }
-            answersSets.clear()
-            userAnswers.update { emptyMap() }
+
+            launch {
+                patch.forEach { flashcard ->
+                    flashcardsRepository.updateCard(flashcard)
+                }
+
+                patch.clear()
+                answersSets.clear()
+                userAnswers.update { emptyMap() }
+            }
         }
     }
 
