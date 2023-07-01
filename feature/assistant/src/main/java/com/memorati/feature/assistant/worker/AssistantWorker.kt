@@ -48,9 +48,7 @@ class AssistantWorker @AssistedInject constructor(
                 )
                 Log.d(NAME, "time=%s ,userData=%s".format(time, userData))
                 Log.d(NAME, "isNotQuietTime=$isNotQuietTime")
-                val hasReviews = flashcardsRepository.flashcardsToReview(
-                    time = Clock.System.now(),
-                ).first().isNotEmpty()
+                val hasReviews = flashcardsRepository.flashcardsToReview().first().isNotEmpty()
 
                 if (hasReviews && isNotQuietTime) {
                     Log.d(NAME, "notifyUser")
