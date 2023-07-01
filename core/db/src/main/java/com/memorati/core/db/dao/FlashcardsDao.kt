@@ -20,7 +20,7 @@ interface FlashcardsDao {
     fun find(id: Long): Flow<FlashcardEntity?>
 
     @Query("SELECT * FROM flashcards WHERE next_review_at<=:time")
-    fun flashcardToReview(time: Long): List<FlashcardEntity>
+    fun flashcardToReview(time: Long): Flow<List<FlashcardEntity>>
 
     @Transaction
     @Query("SELECT * FROM flashcards")
@@ -34,6 +34,9 @@ interface FlashcardsDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(flashcardEntity: FlashcardEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(flashcardEntities: List<FlashcardEntity>)
 
     @Delete
     suspend fun delete(flashcardEntity: FlashcardEntity)

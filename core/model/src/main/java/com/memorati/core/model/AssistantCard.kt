@@ -3,8 +3,9 @@ package com.memorati.core.model
 data class AssistantCard(
     val flashcard: Flashcard,
     val answers: List<String>,
-    val response: String? = null,
+    val answer: String? = null,
+    val favoured: Boolean = false,
 ) {
-    val isCorrect get() = response == flashcard.back
-    val isAnswered get() = response != null
+    val isCorrect get() = answer == flashcard.back
+    val isAnswered get() = answer != null
 }

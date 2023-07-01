@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -43,11 +42,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.memorati.core.design.component.FavouriteButton
 import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.provider.AssistantCardProvider
 import com.memorati.core.ui.provider.AssistantCardsProvider
 import kotlinx.coroutines.launch
@@ -57,8 +59,9 @@ import kotlinx.coroutines.launch
 fun AssistantPager(
     modifier: Modifier = Modifier,
     assistantCards: List<AssistantCard>,
-    onOptionSelected: (AssistantCard, String) -> Unit,
     onUpdateCard: (AssistantCard, Boolean) -> Unit,
+    onAnswerSelected: (AssistantCard, String) -> Unit,
+    toggleFavoured: (Flashcard, Boolean) -> Unit,
 ) {
     val pagerState = rememberPagerState { assistantCards.size }
     val coroutineScope = rememberCoroutineScope()
@@ -74,7 +77,7 @@ fun AssistantPager(
                 modifier = Modifier.fillMaxWidth(),
                 page = page + 1,
                 card = assistantCard,
-                onOptionSelected = onOptionSelected,
+                onAnswerSelected = onAnswerSelected,
                 onNext = {
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(
@@ -83,6 +86,7 @@ fun AssistantPager(
                         onUpdateCard(assistantCard, page.plus(1) == pagerState.pageCount)
                     }
                 },
+                toggleFavoured = toggleFavoured,
             )
         }
 
@@ -118,27 +122,23 @@ fun AssistantPage(
     modifier: Modifier = Modifier,
     page: Int,
     card: AssistantCard,
-    onOptionSelected: (AssistantCard, String) -> Unit,
     onNext: () -> Unit,
+    toggleFavoured: (Flashcard, Boolean) -> Unit,
+    onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 5.dp)
+    val color = MaterialTheme.colorScheme.primary
+    Surface(
+        modifier
+            .padding(10.dp)
+            .fillMaxSize()
             .clip(RoundedCornerShape(30.dp))
-            .wrapContentHeight(),
+            .background(color)
+            .padding(16.dp),
+        color = color,
     ) {
-        val color = MaterialTheme.colorScheme.primary
-        Surface(
-            Modifier
-                .background(color)
-                .padding(24.dp)
-                .fillMaxSize(),
-            color = color,
-        ) {
+        Box {
             Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState()),
+                modifier = Modifier.verticalScroll(rememberScrollState()),
             ) {
                 Text(
                     text = card.flashcard.front,
@@ -151,7 +151,7 @@ fun AssistantPage(
                 )
 
                 card.answers.forEach { answer ->
-                    AnswerRadioButton(card, answer, onOptionSelected)
+                    AnswerRadioButton(card, answer, onAnswerSelected)
                 }
                 AnswerIcon(card)
 
@@ -167,17 +167,24 @@ fun AssistantPage(
                     }
                 }
             }
-        }
 
-        Text(
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.BottomCenter),
-            text = page.toString(),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onPrimary,
-            style = MaterialTheme.typography.bodyLarge,
-        )
+            Text(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                text = page.toString(),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleLarge,
+                fontFamily = FontFamily.SansSerif,
+            )
+
+            FavouriteButton(
+                modifier = Modifier.align(Alignment.BottomEnd),
+                favoured = card.favoured,
+                onCheckedChange = {
+                    toggleFavoured(card.flashcard, it)
+                },
+            )
+        }
     }
 }
 
@@ -227,7 +234,7 @@ private fun AnswerRadioButton(
             .fillMaxWidth()
             .selectable(
                 enabled = !card.isAnswered,
-                selected = card.response == answer,
+                selected = card.answer == answer,
                 onClick = {
                     onOptionSelected(card, answer)
                 },
@@ -245,7 +252,7 @@ private fun AnswerRadioButton(
     ) {
         RadioButton(
             enabled = !card.isAnswered,
-            selected = card.response == answer,
+            selected = card.answer == answer,
             onClick = {
                 onOptionSelected(card, answer)
             },
@@ -270,8 +277,9 @@ private fun AssistantScreenPreview(
 ) {
     AssistantPager(
         assistantCards = assistantCards,
-        onOptionSelected = { _, _ -> },
+        toggleFavoured = { _, _ -> },
         onUpdateCard = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
     )
 }
 
@@ -281,10 +289,11 @@ private fun AssistantItemPreview(
     @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
 ) {
     AssistantPage(
-        card = assistantCard.copy(response = "Hallo"),
-        onOptionSelected = { _, _ -> },
-        onNext = {},
+        card = assistantCard.copy(answer = "Hallo"),
         page = 1,
+        onNext = {},
+        toggleFavoured = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
     )
 }
 
@@ -294,10 +303,11 @@ private fun AssistantWrongItemPreview(
     @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
 ) {
     AssistantPage(
-        card = assistantCard.copy(response = "OK"),
-        onOptionSelected = { _, _ -> },
-        onNext = {},
+        card = assistantCard.copy(answer = "OK"),
         page = 1,
+        onNext = {},
+        toggleFavoured = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
     )
 }
 
@@ -308,8 +318,9 @@ private fun AssistantNoAnswerItemPreview(
 ) {
     AssistantPage(
         card = assistantCard,
-        onOptionSelected = { _, _ -> },
-        onNext = {},
         page = 1,
+        onNext = {},
+        toggleFavoured = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
     )
 }

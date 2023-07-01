@@ -6,6 +6,7 @@ import com.memorati.core.common.dispatcher.Dispatcher
 import com.memorati.core.common.dispatcher.MemoratiDispatchers.IO
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.Flashcard
 import com.memorati.feature.assistant.algorthim.handleReviewResponse
 import com.memorati.feature.assistant.algorthim.scheduleNextReview
 import com.memorati.feature.assistant.state.AssistantCards
@@ -33,15 +34,19 @@ class AssistantViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val userReviews = MutableStateFlow<Map<Long, String>>(emptyMap())
+    private val favourites = MutableStateFlow<Map<Long, Boolean>>(emptyMap())
     private val showResult = MutableStateFlow(false)
     private val flashcards = flow {
         userReviews.update { emptyMap() }
         showResult.update { false }
+        favourites.update { emptyMap() }
+
         val cards = withContext(ioDispatcher) {
             val backs = flashcardsRepository.flashcards()
                 .map { cards -> cards.map { card -> card.back } }
                 .first()
             flashcardsRepository.flashcardsToReview(time = Clock.System.now())
+                .first()
                 .take(30)
                 .map { card ->
                     val rest = backs.filterNot { back -> back == card.back }
@@ -58,10 +63,14 @@ class AssistantViewModel @Inject constructor(
         flashcards,
         userReviews,
         showResult,
-    ) { cards, reviews, showResult ->
+        favourites,
+    ) { cards, reviews, showResult, favourites ->
 
         val reviewedCards = cards.map { card ->
-            card.copy(response = reviews[card.flashcard.id])
+            card.copy(
+                answer = reviews[card.flashcard.id],
+                favoured = favourites[card.flashcard.id] ?: card.flashcard.favoured,
+            )
         }
 
         when {
@@ -79,7 +88,7 @@ class AssistantViewModel @Inject constructor(
         EmptyState,
     )
 
-    fun selectOption(card: AssistantCard, selection: String) =
+    fun onAnswerSelected(card: AssistantCard, selection: String) =
         userReviews.update { values ->
             values.toMutableMap()
                 .apply { this[card.flashcard.id] = selection }
@@ -88,8 +97,18 @@ class AssistantViewModel @Inject constructor(
 
     fun updateCard(card: AssistantCard, lastPage: Boolean) = viewModelScope.launch {
         val flashcard = card.flashcard.handleReviewResponse(card.isCorrect).scheduleNextReview()
-        flashcardsRepository.updateCard(flashcard)
+        flashcardsRepository.updateCard(flashcard.copy(favoured = card.favoured))
         showResult.value = lastPage
+    }
+
+    fun toggleFavoured(flashcard: Flashcard, favoured: Boolean) = viewModelScope.launch {
+        favourites.update { values ->
+            values.toMutableMap()
+                .apply { this[flashcard.id] = favoured }
+                .toMap()
+        }
+
+        flashcardsRepository.updateCard(flashcard.copy(favoured = favoured))
     }
 }
 

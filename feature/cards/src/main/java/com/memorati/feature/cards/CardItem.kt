@@ -16,10 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,11 +29,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.memorati.core.design.component.FavouriteButton
 import com.memorati.core.design.text.formAnnotatedString
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.provider.FlashcardProvider
@@ -86,37 +84,13 @@ internal fun CardItem(
                     )
                 }
 
-                FilledIconToggleButton(
+                FavouriteButton(
                     modifier = Modifier.align(Alignment.BottomEnd),
-                    checked = card.favoured,
+                    favoured = card.favoured,
                     onCheckedChange = {
                         toggleFavoured(card)
                     },
-                    colors = IconButtonDefaults.iconToggleButtonColors(
-                        checkedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        checkedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        disabledContainerColor = if (card.favoured) {
-                            MaterialTheme.colorScheme.onBackground.copy(
-                                alpha = 0.12f,
-                            )
-                        } else {
-                            Color.Transparent
-                        },
-                    ),
-                ) {
-                    Icon(
-                        imageVector = if (card.favoured) {
-                            MemoratiIcons.Favourites
-                        } else {
-                            MemoratiIcons.FavouritesBorder
-                        },
-                        contentDescription = if (card.favoured) {
-                            stringResource(id = R.string.remove_from_favourites)
-                        } else {
-                            stringResource(id = R.string.add_to_favourites)
-                        },
-                    )
-                }
+                )
 
                 CardDropDownMenu(
                     modifier = Modifier.align(Alignment.TopEnd),

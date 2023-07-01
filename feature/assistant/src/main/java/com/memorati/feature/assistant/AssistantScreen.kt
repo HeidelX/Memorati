@@ -33,6 +33,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.Flashcard
 import com.memorati.feature.assistant.state.AssistantCards
 import com.memorati.feature.assistant.state.AssistantState
 import com.memorati.feature.assistant.state.EmptyState
@@ -47,8 +48,9 @@ fun AssistantRoute(
     AssistantScreen(
         modifier = modifier,
         state = state,
-        onOptionSelected = viewModel::selectOption,
+        onAnswerSelected = viewModel::onAnswerSelected,
         onUpdateCard = viewModel::updateCard,
+        toggleFavoured = viewModel::toggleFavoured,
     )
 }
 
@@ -56,8 +58,9 @@ fun AssistantRoute(
 internal fun AssistantScreen(
     modifier: Modifier = Modifier,
     state: AssistantState,
-    onOptionSelected: (AssistantCard, String) -> Unit,
+    onAnswerSelected: (AssistantCard, String) -> Unit,
     onUpdateCard: (AssistantCard, Boolean) -> Unit,
+    toggleFavoured: (Flashcard, Boolean) -> Unit,
 ) {
     Column {
         Box(modifier = Modifier.weight(1.0f)) {
@@ -65,8 +68,9 @@ internal fun AssistantScreen(
                 is AssistantCards -> AssistantPager(
                     assistantCards = state.reviews,
                     modifier = modifier,
-                    onOptionSelected = onOptionSelected,
+                    onAnswerSelected = onAnswerSelected,
                     onUpdateCard = onUpdateCard,
+                    toggleFavoured = toggleFavoured,
                 )
 
                 is ReviewResult -> ReviewResultScreen(reviewResult = state)
@@ -128,7 +132,8 @@ private fun PostNotificationPermission() {
 internal fun AssistantScreenEmptyPreview() {
     AssistantScreen(
         state = EmptyState,
-        onOptionSelected = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
         onUpdateCard = { _, _ -> },
+        toggleFavoured = { _, _ -> },
     )
 }
