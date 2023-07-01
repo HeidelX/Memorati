@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="assistant">Assistent</string>
+    <string name="notification_content">Bereit zur Überprüfung? Verbessere jetzt dein Lernen. Viel Spaß beim Überprüfen!</string>
+    <string name="assistant_channel_name">Assistent</string>
+    <string name="assistant_channel_description">Benachrichtigungen für Überprüfungszeiten des Assistenten</string>
+    <string name="no_assistant_cards_message">"Im Moment sind keine Lernkarten zur Überprüfung verfügbar. Mach weiter so und schau bald wieder vorbei, um neuen Inhalt zu erhalten!"</string>
+    <string name="next">Weiter</string>
+    <string name="correct_result">Deine Antwort ist richtig</string>
+    <string name="wrong_result">Deine Antwort ist falsch</string>
+    <string name="result">Ergebnis</string>
+    <string name="review_result_message">Richtig: %d\nFalsch: %d\n\nMach weiterhin eine ausgezeichnete Arbeit!</string>
+    <string name="notification_permission">Um rechtzeitige Erinnerungen an ausstehende Überprüfungen zu erhalten, ist es wichtig, die Benachrichtigungsberechtigung für diese App zu gewähren. Bitte gewähre die erforderliche Berechtigung.</string>
+    <string name="grant">Gewähren</string>
+</resources>

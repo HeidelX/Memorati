@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Einstellungen</string>
+    <string name="back">Zurück</string>
+    <string name="insights">Einblicke</string>
+    <string name="data_transfer">Datenübertragung</string>
+    <string name="app_data">App-Daten</string>
+    <string name="export">Exportieren</string>
+    <string name="import_text">Importieren</string>
+    <string name="clear">Daten löschen</string>
+    <string name="select_time">Zeit auswählen</string>
+    <string name="select_duration">Dauer auswählen</string>
+    <string name="interval_format">%01$d Stunden : %02$d Minuten</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="flashcards_count">Du hast %1$d Karteikarten</string>
+    <string name="share_flashcards_message">Memorati-Karten</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="allow_notifications">Benachrichtigungen erlauben</string>
+    <string name="clear_dialog_title">App-Daten dauerhaft löschen?</string>
+    <string name="clear_dialog_message">"Warnung: Alle Karteikarten werden dauerhaft gelöscht. Exportieren Sie Ihre Daten, bevor Sie fortfahren."</string>
+    <string name="quiet_time">Ruhezeit</string>
+    <string name="start_time">Startzeit</string>
+    <string name="end_time">Endzeit</string>
+    <string name="interval">Intervall</string>
+    <string name="reminder_interval">Erinnerungsintervall</string>
+    <string name="interval_description">Wann möchtest du regelmäßig an ausstehende Karteikarten-Reviews erinnert werden?</string>
+    <string name="app_version">App-Version %1$s</string>
+</resources>

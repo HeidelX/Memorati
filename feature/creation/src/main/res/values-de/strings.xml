@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save">Speichern</string>
+    <string name="card_creation_title">Erstellen oder Bearbeiten Sie Ihre Redewendung</string>
+    <string name="back">Zurück</string>
+    <string name="idiom">Redewendung</string>
+    <string name="description">Beschreibung</string>
+    <string name="clear">Löschen</string>
+    <string name="idiom_exists">Die Redewendung existiert bereits</string>
+</resources>

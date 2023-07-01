@@ -38,6 +38,7 @@ android {
 
         buildConfigField("int", "VERSION_CODE", versionCode.toString())
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
+        resourceConfigurations += arrayOf("de", "en", "ar")
     }
 
     buildFeatures {

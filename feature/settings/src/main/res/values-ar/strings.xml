@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">الإعدادات</string>
+    <string name="back">رجوع</string>
+    <string name="insights">إحصاءات</string>
+    <string name="data_transfer">نقل البيانات</string>
+    <string name="app_data">بيانات التطبيق</string>
+    <string name="export">تصدير</string>
+    <string name="import_text">استيراد</string>
+    <string name="clear">مسح البيانات</string>
+    <string name="select_time">تحديد الوقت</string>
+    <string name="select_duration">تحديد المدة</string>
+    <string name="interval_format">ساعات:  دقائق</string>
+    <string name="ok">موافق</string>
+    <string name="cancel">إلغاء</string>
+    <string name="flashcards_count">لديك %d بطاقة فلاش</string>
+    <string name="share_flashcards_message">بطاقات Memorati</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="allow_notifications">السماح بالإشعارات</string>
+    <string name="clear_dialog_title">مسح بيانات التطبيق بشكل دائم؟</string>
+    <string name="clear_dialog_message">"تحذير: ستتم مسح جميع بطاقات الفلاش بشكل دائم. قم بتصدير بياناتك قبل المتابعة"</string>
+    <string name="quiet_time">وقت هادئ</string>
+    <string name="start_time">وقت البدء</string>
+    <string name="end_time">وقت الانتهاء</string>
+    <string name="interval">فاصل زمني</string>
+    <string name="reminder_interval">فاصل التذكير</string>
+    <string name="interval_description">متى ترغب في تلقي تذكير بشأن مراجعة بطاقات الفلاش المعلقة بانتظام؟</string>
+    <string name="app_version">نسخة التطبيق %1$s</string>
+</resources>
