@@ -10,7 +10,7 @@
     <string name="clear">مسح البيانات</string>
     <string name="select_time">تحديد الوقت</string>
     <string name="select_duration">تحديد المدة</string>
-    <string name="interval_format">ساعات:  دقائق</string>
+    <string name="interval_format">ساعات: %d  دقائق: %d</string>
     <string name="ok">موافق</string>
     <string name="cancel">إلغاء</string>
     <string name="flashcards_count">لديك %d بطاقة فلاش</string>
