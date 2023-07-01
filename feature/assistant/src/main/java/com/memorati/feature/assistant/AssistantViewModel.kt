@@ -69,11 +69,12 @@ class AssistantViewModel @Inject constructor(
         reviewResult,
     ) { reviewedCards, result ->
         when {
-            reviewedCards.isEmpty() -> EmptyState
             result != null -> ReviewResult(
                 correctAnswers = result.correctAnswers,
                 wrongAnswers = result.wrongAnswers,
             )
+            
+            reviewedCards.isEmpty() -> EmptyState
 
             else -> AssistantCards(reviews = reviewedCards)
         }
