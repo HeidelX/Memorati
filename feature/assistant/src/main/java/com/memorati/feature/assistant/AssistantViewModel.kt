@@ -2,7 +2,8 @@ package com.memorati.feature.assistant
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.memorati.core.common.di.ApplicationScope
+import com.memorati.core.common.dispatcher.Dispatcher
+import com.memorati.core.common.dispatcher.MemoratiDispatchers.IO
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
 import com.memorati.core.model.Flashcard
@@ -12,66 +13,72 @@ import com.memorati.feature.assistant.state.AssistantCards
 import com.memorati.feature.assistant.state.EmptyState
 import com.memorati.feature.assistant.state.ReviewResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 @HiltViewModel
 class AssistantViewModel @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
-    @ApplicationScope private val scope: CoroutineScope,
+    @Dispatcher(IO) ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
-    private val userAnswers = MutableStateFlow<Map<Long, String>>(emptyMap())
-    private val reviewResult = MutableStateFlow<Review?>(null)
-    private val answersSets = mutableMapOf<Long, List<String>>()
-    private val patch = mutableSetOf<Flashcard>()
-    private val backs = flashcardsRepository.flashcards().map { cards ->
-        cards.map { card -> card.back }
-    }
+    private val userReviews = MutableStateFlow<Map<Long, String>>(emptyMap())
+    private val favourites = MutableStateFlow<Map<Long, Boolean>>(emptyMap())
+    private val showResult = MutableStateFlow(false)
+    private val flashcards = flow {
+        userReviews.update { emptyMap() }
+        showResult.update { false }
+        favourites.update { emptyMap() }
 
-    private val flashcards = flashcardsRepository.flashcardsToReview().map { cardsToReview ->
-        cardsToReview
-            .take(30)
-            .map { card ->
-                val rest = backs.first().filterNot { back -> back == card.back }
-                AssistantCard(
-                    flashcard = card,
-                    answers = answersSets[card.id] ?: rest.assistantAnswers().plus(card.back)
-                        .shuffled().also {
-                            answersSets[card.id] = it
-                        },
-                )
-            }
-    }
-
-    private val reviewedCards = combine(
-        flashcards,
-        userAnswers,
-    ) { cards, reviews ->
-        cards.map { card ->
-            card.copy(response = reviews[card.flashcard.id])
+        val cards = withContext(ioDispatcher) {
+            val backs = flashcardsRepository.flashcards()
+                .map { cards -> cards.map { card -> card.back } }
+                .first()
+            flashcardsRepository.flashcardsToReview(time = Clock.System.now())
+                .first()
+                .take(30)
+                .map { card ->
+                    val rest = backs.filterNot { back -> back == card.back }
+                    AssistantCard(
+                        flashcard = card,
+                        answers = rest.assistantAnswers().plus(card.back).shuffled(),
+                    )
+                }
         }
+        emit(cards)
     }
 
     val state = combine(
-        reviewedCards,
-        reviewResult,
-    ) { reviewedCards, result ->
-        when {
-            result != null -> ReviewResult(
-                correctAnswers = result.correctAnswers,
-                wrongAnswers = result.wrongAnswers,
-            )
+        flashcards,
+        userReviews,
+        showResult,
+        favourites,
+    ) { cards, reviews, showResult, favourites ->
 
-            reviewedCards.isEmpty() -> EmptyState
+        val reviewedCards = cards.map { card ->
+            card.copy(
+                answer = reviews[card.flashcard.id],
+                favoured = favourites[card.flashcard.id] ?: card.flashcard.favoured,
+            )
+        }
+
+        when {
+            cards.isEmpty() -> EmptyState
+            showResult -> ReviewResult(
+                correctAnswers = reviewedCards.count { it.isCorrect },
+                wrongAnswers = reviewedCards.count { !it.isCorrect },
+            )
 
             else -> AssistantCards(reviews = reviewedCards)
         }
@@ -81,42 +88,29 @@ class AssistantViewModel @Inject constructor(
         EmptyState,
     )
 
-    fun selectAnswer(card: AssistantCard, answer: String) =
-        userAnswers.update { values ->
-            values.toMutableMap().apply { this[card.flashcard.id] = answer }.toMap()
+    fun onAnswerSelected(card: AssistantCard, selection: String) =
+        userReviews.update { values ->
+            values.toMutableMap()
+                .apply { this[card.flashcard.id] = selection }
+                .toMap()
         }
 
     fun updateCard(card: AssistantCard, lastPage: Boolean) = viewModelScope.launch {
-        patch.add(card.flashcard.handleReviewResponse(card.isCorrect).scheduleNextReview())
-        if (lastPage) {
-            val assistantCards = reviewedCards.first()
-            reviewResult.update {
-                Review(
-                    correctAnswers = assistantCards.count { it.isCorrect },
-                    wrongAnswers = assistantCards.count { !it.isCorrect },
-                )
-            }
-
-            scope.launch {
-                flashcardsRepository.updateCards(patch.toList())
-                patch.clear()
-                answersSets.clear()
-                userAnswers.update { emptyMap() }
-            }
-        }
+        val flashcard = card.flashcard.handleReviewResponse(card.isCorrect).scheduleNextReview()
+        flashcardsRepository.updateCard(flashcard.copy(favoured = card.favoured))
+        showResult.value = lastPage
     }
 
-    fun toggleFavoured(flashcard: Flashcard) {
-        viewModelScope.launch {
-            flashcardsRepository.updateCard(flashcard.copy(favoured = !flashcard.favoured))
+    fun toggleFavoured(flashcard: Flashcard, favoured: Boolean) = viewModelScope.launch {
+        favourites.update { values ->
+            values.toMutableMap()
+                .apply { this[flashcard.id] = favoured }
+                .toMap()
         }
+
+        flashcardsRepository.updateCard(flashcard.copy(favoured = favoured))
     }
 }
-
-private data class Review(
-    val correctAnswers: Int,
-    val wrongAnswers: Int,
-)
 
 internal fun List<String>.assistantAnswers(): List<String> = when {
     isEmpty() -> emptyList()

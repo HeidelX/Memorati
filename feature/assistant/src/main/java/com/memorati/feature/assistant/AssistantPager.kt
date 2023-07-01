@@ -61,7 +61,7 @@ fun AssistantPager(
     assistantCards: List<AssistantCard>,
     onUpdateCard: (AssistantCard, Boolean) -> Unit,
     onAnswerSelected: (AssistantCard, String) -> Unit,
-    toggleFavoured: (Flashcard) -> Unit,
+    toggleFavoured: (Flashcard, Boolean) -> Unit,
 ) {
     val pagerState = rememberPagerState { assistantCards.size }
     val coroutineScope = rememberCoroutineScope()
@@ -123,7 +123,7 @@ fun AssistantPage(
     page: Int,
     card: AssistantCard,
     onNext: () -> Unit,
-    toggleFavoured: (Flashcard) -> Unit,
+    toggleFavoured: (Flashcard, Boolean) -> Unit,
     onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
     val color = MaterialTheme.colorScheme.primary
@@ -179,9 +179,9 @@ fun AssistantPage(
 
             FavouriteButton(
                 modifier = Modifier.align(Alignment.BottomEnd),
-                favoured = card.flashcard.favoured,
+                favoured = card.favoured,
                 onCheckedChange = {
-                    toggleFavoured(card.flashcard)
+                    toggleFavoured(card.flashcard, it)
                 },
             )
         }
@@ -234,7 +234,7 @@ private fun AnswerRadioButton(
             .fillMaxWidth()
             .selectable(
                 enabled = !card.isAnswered,
-                selected = card.response == answer,
+                selected = card.answer == answer,
                 onClick = {
                     onOptionSelected(card, answer)
                 },
@@ -252,7 +252,7 @@ private fun AnswerRadioButton(
     ) {
         RadioButton(
             enabled = !card.isAnswered,
-            selected = card.response == answer,
+            selected = card.answer == answer,
             onClick = {
                 onOptionSelected(card, answer)
             },
@@ -277,7 +277,7 @@ private fun AssistantScreenPreview(
 ) {
     AssistantPager(
         assistantCards = assistantCards,
-        toggleFavoured = {},
+        toggleFavoured = { _, _ -> },
         onUpdateCard = { _, _ -> },
         onAnswerSelected = { _, _ -> },
     )
@@ -289,10 +289,10 @@ private fun AssistantItemPreview(
     @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
 ) {
     AssistantPage(
-        card = assistantCard.copy(response = "Hallo"),
+        card = assistantCard.copy(answer = "Hallo"),
         page = 1,
         onNext = {},
-        toggleFavoured = {},
+        toggleFavoured = { _, _ -> },
         onAnswerSelected = { _, _ -> },
     )
 }
@@ -303,10 +303,10 @@ private fun AssistantWrongItemPreview(
     @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
 ) {
     AssistantPage(
-        card = assistantCard.copy(response = "OK"),
+        card = assistantCard.copy(answer = "OK"),
         page = 1,
         onNext = {},
-        toggleFavoured = {},
+        toggleFavoured = { _, _ -> },
         onAnswerSelected = { _, _ -> },
     )
 }
@@ -320,7 +320,7 @@ private fun AssistantNoAnswerItemPreview(
         card = assistantCard,
         page = 1,
         onNext = {},
-        toggleFavoured = {},
+        toggleFavoured = { _, _ -> },
         onAnswerSelected = { _, _ -> },
     )
 }

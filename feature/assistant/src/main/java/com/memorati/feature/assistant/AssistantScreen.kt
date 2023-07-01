@@ -48,7 +48,7 @@ fun AssistantRoute(
     AssistantScreen(
         modifier = modifier,
         state = state,
-        onAnswerSelected = viewModel::selectAnswer,
+        onAnswerSelected = viewModel::onAnswerSelected,
         onUpdateCard = viewModel::updateCard,
         toggleFavoured = viewModel::toggleFavoured,
     )
@@ -60,7 +60,7 @@ internal fun AssistantScreen(
     state: AssistantState,
     onAnswerSelected: (AssistantCard, String) -> Unit,
     onUpdateCard: (AssistantCard, Boolean) -> Unit,
-    toggleFavoured: (Flashcard) -> Unit,
+    toggleFavoured: (Flashcard, Boolean) -> Unit,
 ) {
     Column {
         Box(modifier = Modifier.weight(1.0f)) {
@@ -134,6 +134,6 @@ internal fun AssistantScreenEmptyPreview() {
         state = EmptyState,
         onAnswerSelected = { _, _ -> },
         onUpdateCard = { _, _ -> },
-        toggleFavoured = {},
+        toggleFavoured = { _, _ -> },
     )
 }
