@@ -81,6 +81,7 @@ dependencies {
     implementation(project(":feature:settings"))
 
     implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.kotlinx.datetime)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

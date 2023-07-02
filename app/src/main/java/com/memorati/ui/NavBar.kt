@@ -1,5 +1,8 @@
 package com.memorati.ui
 
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -9,30 +12,42 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import com.memorati.NavBarItem
 import com.memorati.navigation.TopDestination
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemoratiNanBar(
     currentDestination: NavDestination?,
+    destinations: List<NavBarItem>,
     onClickAction: (TopDestination) -> Unit,
 ) {
     NavigationBar {
-        TopDestination.values().forEach { topDest ->
+        destinations.forEach { navItem ->
             NavigationBarItem(
                 selected = currentDestination?.hierarchy?.any { navDest ->
-                    navDest.route == topDest.route
+                    navDest.route == navItem.topDestination.route
                 } == true,
                 onClick = {
-                    onClickAction(topDest)
+                    onClickAction(navItem.topDestination)
                 },
                 icon = {
-                    Icon(
-                        imageVector = topDest.icon,
-                        contentDescription = stringResource(topDest.iconDescriptionId),
-                    )
+                    if (navItem.showBadge) {
+                        BadgedBox(badge = { Badge { } }) {
+                            Icon(
+                                imageVector = navItem.topDestination.icon,
+                                contentDescription = stringResource(navItem.topDestination.iconDescriptionId),
+                            )
+                        }
+                    } else {
+                        Icon(
+                            imageVector = navItem.topDestination.icon,
+                            contentDescription = stringResource(navItem.topDestination.iconDescriptionId),
+                        )
+                    }
                 },
                 label = {
-                    Text(text = stringResource(topDest.labelId))
+                    Text(text = stringResource(navItem.topDestination.labelId))
                 },
             )
         }
@@ -42,5 +57,5 @@ fun MemoratiNanBar(
 @Preview
 @Composable
 fun NavBarPreview() {
-    MemoratiNanBar(currentDestination = null, onClickAction = {})
+    MemoratiNanBar(currentDestination = null, destinations = TopDestination.toNavItems()) {}
 }
