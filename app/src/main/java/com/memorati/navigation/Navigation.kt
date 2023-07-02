@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.navOptions
+import com.memorati.NavBarItem
 import com.memorati.feature.assistant.navigation.ASSISTANT_ROUTE
 import com.memorati.feature.assistant.navigation.navigateToAssistant
 import com.memorati.feature.cards.navigation.CARDS_ROUTE
@@ -15,6 +16,7 @@ import com.memorati.feature.assistant.R as AssistantR
 import com.memorati.feature.cards.R as CardsR
 import com.memorati.feature.favourites.R as FavouritesR
 
+@Suppress("ktlint:no-semi", "ktlint:trailing-comma-on-declaration-site")
 enum class TopDestination(
     val route: String,
     val icon: ImageVector,
@@ -38,7 +40,16 @@ enum class TopDestination(
         icon = MemoratiIcons.Assistant,
         labelId = AssistantR.string.assistant,
         iconDescriptionId = AssistantR.string.assistant,
-    ),
+    );
+
+    companion object {
+        fun toNavItems() = values().map { topDestination ->
+            NavBarItem(
+                topDestination = topDestination,
+                showBadge = false,
+            )
+        }
+    }
 }
 
 fun NavController.navigateToTopDestination(topDestination: TopDestination) {

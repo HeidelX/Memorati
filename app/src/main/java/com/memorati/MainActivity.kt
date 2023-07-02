@@ -12,6 +12,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
@@ -39,6 +41,8 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
+            val viewModel: MainActivityViewModel = hiltViewModel()
+            val destinations by viewModel.state.collectAsStateWithLifecycle()
             MemoratiTheme {
                 Scaffold(
                     floatingActionButtonPosition = FabPosition.End,
@@ -48,7 +52,7 @@ class MainActivity : ComponentActivity() {
                             enter = slideInVertically(initialOffsetY = { it }),
                             exit = slideOutVertically(targetOffsetY = { it }),
                         ) {
-                            MemoratiNanBar(currentDestination) { topDest ->
+                            MemoratiNanBar(currentDestination, destinations) { topDest ->
                                 navController.navigateToTopDestination(topDest)
                             }
                         }
