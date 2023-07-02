@@ -168,7 +168,6 @@ fun AssistantPage(
                 }
             }
 
-
             Text(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 text = page.toString(),
