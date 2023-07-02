@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cards">البطاقات</string>
+    <string name="more">المزيد</string>
+    <string name="add">إضافة</string>
+    <string name="edit">تعديل</string>
+    <string name="delete">حذف</string>
+    <string name="no_cards_message">"لا توجد بطاقات حاليًا. ابدأ في إنشاء بطاقاتك باستخدام زر \"إضافة\"."</string>
+</resources>

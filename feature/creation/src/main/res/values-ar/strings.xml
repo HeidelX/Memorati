@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save">حفظ</string>
+    <string name="card_creation_title">إنشاء أو تعديل العبارة الخاصة بك</string>
+    <string name="back">العودة</string>
+    <string name="idiom">العبارة</string>
+    <string name="description">المعنى</string>
+    <string name="clear">مسح</string>
+    <string name="idiom_exists">العبارة موجودة بالفعل</string>
+</resources>

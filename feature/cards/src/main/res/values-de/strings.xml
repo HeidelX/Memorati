@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cards">Karten</string>
+    <string name="more">Mehr</string>
+    <string name="add">Hinzufügen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="delete">Löschen</string>
+    <string name="no_cards_message">"Es gibt momentan keine Karten. Beginnen Sie mit der Erstellung Ihrer Karten, indem Sie die Schaltfläche \"Hinzufügen\" verwenden."</string>
+</resources>

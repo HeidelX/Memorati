@@ -168,13 +168,14 @@ fun AssistantPage(
                 }
             }
 
+
             Text(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 text = page.toString(),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.titleLarge,
-                fontFamily = FontFamily.SansSerif,
+                fontFamily = FontFamily.Monospace,
             )
 
             FavouriteButton(

@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.design.component.EmptyScreen
@@ -77,6 +78,7 @@ internal fun CardsScreen(
                                     .background(MaterialTheme.colorScheme.surface)
                                     .padding(all = 8.dp),
                                 text = date.toString(),
+                                fontFamily = FontFamily.Monospace,
                             )
                         }
                         items(cards, key = { it.id }) { card ->
