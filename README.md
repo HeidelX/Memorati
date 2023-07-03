@@ -33,4 +33,4 @@ Memorati is open-source software licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-For any inquiries or feedback, please contact us at [mi.metwalli@gmail.com](mi.metwalli@gmail.com).
+For any inquiries or feedback, please contact us at the following [form](https://forms.gle/RdMns7GMZHam2PH49).
