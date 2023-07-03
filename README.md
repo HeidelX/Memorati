@@ -20,9 +20,8 @@ Memorati is a versatile and feature-rich Android application designed to enhance
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/mtwalli/Memorati.git`
-2. Open the project in Android Studio.
-3. Build and run the app on your device or emulator.
+[<img src="google-play-badge.png" width="300">](https://play.google.com/store/apps/details?id=)
+
 
 ## Contributing
 
