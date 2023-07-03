@@ -1,5 +1,6 @@
-
-<img src="play.png" />
+<p align="center">
+ <img src="play.png" />
+</p>
 
 # Memorati
 Flashcards App for learning purposes
