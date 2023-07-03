@@ -20,7 +20,7 @@ Memorati is a versatile and feature-rich Android application designed to enhance
 
 ## Installation
 
-[<img src="google-play-badge.png" width="300">](https://play.google.com/store/apps/details?id=)
+[<img src="google-play-badge.png" width="300">](https://play.google.com/store/apps/details?id=com.memorati)
 
 
 ## Contributing
