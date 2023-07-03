@@ -1,3 +1,6 @@
+
+<img src="play.png" />
+
 # Memorati
 Flashcards App for learning purposes
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
