@@ -150,7 +150,7 @@ internal fun SettingsScreen(
                         )
                     }
 
-                    AnimatedVisibility(visible = false) {
+                    AnimatedVisibility(visible = state.notificationsEnabled) {
                         NotificationsSettings(
                             userData = userData,
                             timeRequest = { showTimePicker = it },
