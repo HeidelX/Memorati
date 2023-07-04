@@ -9,7 +9,7 @@
     <string name="correct_result">Deine Antwort ist richtig</string>
     <string name="wrong_result">Deine Antwort ist falsch</string>
     <string name="result">Ergebnis</string>
-    <string name="review_result_message">Richtig: %d\nFalsch: %d\n\nMach weiterhin eine ausgezeichnete Arbeit!</string>
+    <string name="review_result_message">Richtig: %d\nFalsch: %d\nMach weiterhin eine ausgezeichnete Arbeit!</string>
     <string name="notification_permission">Um rechtzeitige Erinnerungen an ausstehende Überprüfungen zu erhalten, ist es wichtig, die Benachrichtigungsberechtigung für diese App zu gewähren. Bitte gewähre die erforderliche Berechtigung.</string>
     <string name="grant">Gewähren</string>
 </resources>

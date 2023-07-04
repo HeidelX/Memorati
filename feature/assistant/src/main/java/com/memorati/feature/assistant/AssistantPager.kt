@@ -173,7 +173,7 @@ fun AssistantPage(
                 text = page.toString(),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 fontFamily = FontFamily.Monospace,
             )
 
