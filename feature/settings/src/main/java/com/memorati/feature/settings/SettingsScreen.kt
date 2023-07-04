@@ -257,7 +257,7 @@ internal fun SettingsScreen(
                 }
 
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
-                
+
                 LinksPanel()
 
                 Divider(modifier = Modifier.padding(horizontal = 16.dp))
