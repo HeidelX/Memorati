@@ -21,13 +21,6 @@ internal fun CardsRoute(
     openSettings: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val context = LocalContext.current
-    val tts = remember {
-        TextToSpeech(context) {
-            Log.d("TextToSpeech", it.toString())
-        }
-    }
-
     CardsScreen(
         state = state,
         modifier = modifier,
@@ -37,9 +30,6 @@ internal fun CardsRoute(
         onAddCard = onAddCard,
         onQueryChange = viewModel::onQueryChange,
         openSettings = openSettings,
-        speak = {
-            tts.setLanguage(Locale.GERMAN)
-            tts.speak(it, TextToSpeech.QUEUE_FLUSH, null, it)
-        }
+        speak = viewModel::speak,
     )
 }

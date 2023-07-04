@@ -1,8 +1,13 @@
 package com.memorati.feature.cards
 
+import android.speech.tts.TextToSpeech
+import android.util.Log
+import androidx.core.os.bundleOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.Task
+import com.google.mlkit.nl.languageid.LanguageIdentifier
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.Flashcard
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,14 +16,18 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class CardsViewModel @Inject constructor(
+    private val tts: TextToSpeech,
     private val savedStateHandle: SavedStateHandle,
+    private val languageIdentifier: LanguageIdentifier,
     private val flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
 
@@ -55,6 +64,27 @@ class CardsViewModel @Inject constructor(
 
     fun onQueryChange(query: String) {
         queryFlow.value = query
+    }
+
+    fun speak(text: String) {
+        viewModelScope.launch {
+            try {
+                val languages = languageIdentifier.identifyPossibleLanguages(text).await()
+                languages.forEach {
+                    Log.d(
+                        "CardsViewModel",
+                        it.languageTag + " " + it.confidence.toString()
+                    )
+                }
+                tts.setLanguage(Locale(languages[0].languageTag))
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, bundleOf(), text)
+            } catch (e: Exception) {
+                Log.d(
+                    "CardsViewModel",
+                    e.localizedMessage ?: e.message ?: e::class.qualifiedName.toString()
+                )
+            }
+        }
     }
 }
 
