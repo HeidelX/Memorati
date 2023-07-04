@@ -1,5 +1,5 @@
 <p align="center">
- <img src="play.png" />
+ <img src="app/src/main/ic_launcher-playstore.png" />
 </p>
 
 # Memorati
