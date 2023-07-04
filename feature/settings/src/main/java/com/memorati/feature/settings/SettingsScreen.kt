@@ -3,38 +3,32 @@ package com.memorati.feature.settings
 import MemoratiIcons
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -56,11 +50,9 @@ import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.icon.CompareArrows
 import com.memorati.core.design.icon.Insights
 import com.memorati.feature.settings.TimePickerRequest.DISMISS
-import com.memorati.feature.settings.TimePickerRequest.END
 import com.memorati.feature.settings.TimePickerRequest.START
 import com.memorati.feature.settings.model.SettingsState
 import kotlinx.coroutines.launch
-import kotlin.time.toJavaDuration
 
 @Composable
 fun SettingsRoute(
@@ -76,14 +68,12 @@ fun SettingsRoute(
         modifier = modifier,
         state = state,
         onBack = onBack,
-        onExport = {
-            viewModel.exportFlashcards(title, context)
-        },
-        onImport = viewModel::importFile,
-        onClear = viewModel::clearData,
         appVersion = appVersion,
+        onClear = viewModel::clearData,
+        onImport = viewModel::importFile,
         onTimeSelected = viewModel::onTimeSelected,
         onDurationSelected = viewModel::onDurationSelected,
+        onExport = { viewModel.exportFlashcards(title, context) },
     )
 }
 
@@ -100,366 +90,196 @@ internal fun SettingsScreen(
     onTimeSelected: (TimePickerRequest, Int, Int) -> Unit,
     onDurationSelected: (Int, Int) -> Unit,
 ) {
-    val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent(),
-    ) { uri ->
-        onImport(uri)
-    }
+    Surface(modifier = modifier) {
+        val context = LocalContext.current
+        val snackScope = rememberCoroutineScope()
+        val snackState = remember { SnackbarHostState() }
+        var showTimePicker by remember { mutableStateOf(DISMISS) }
+        var showClearDialog by remember { mutableStateOf(false) }
+        var showDurationPicker by remember { mutableStateOf(false) }
+        val launcher = rememberLauncherForActivityResult(GetContent()) { uri -> onImport(uri) }
 
-    val hours = state.userData.reminderInterval.toJavaDuration().toHoursPart()
-    val minutes = state.userData.reminderInterval.toJavaDuration().toMinutesPart()
-    val context = LocalContext.current
-
-    var showDurationPicker by remember { mutableStateOf(false) }
-    var pickerRequest by remember { mutableStateOf(DISMISS) }
-    var showClearDialog by remember { mutableStateOf(false) }
-    val pickerState = rememberTimePickerState(is24Hour = true)
-    val durationState = rememberTimePickerState(is24Hour = true)
-    val snackState = remember { SnackbarHostState() }
-    val snackScope = rememberCoroutineScope()
-
-    if (state.error != null) {
-        LaunchedEffect(state.error) {
-            snackScope.launch {
-                snackState.showSnackbar(
-                    message = state.error.localizedMessage ?: "Unknown error occurred",
-                    withDismissAction = true,
-                    duration = SnackbarDuration.Long,
-                )
+        if (state.error != null) {
+            LaunchedEffect(state.error) {
+                snackScope.launch {
+                    snackState.showSnackbar(
+                        message = state.error.localizedMessage ?: "Unknown error occurred",
+                        withDismissAction = true,
+                        duration = SnackbarDuration.Long,
+                    )
+                }
             }
         }
-    }
 
-    Box(propagateMinConstraints = false) {
-        Column(
-            modifier = modifier.verticalScroll(rememberScrollState()),
-        ) {
-            TopAppBar(
-                modifier = Modifier.shadow(2.dp),
-                title = {
-                    Text(text = stringResource(id = R.string.settings))
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = MemoratiIcons.ArrowBack,
-                            contentDescription = stringResource(id = R.string.back),
+        Box(propagateMinConstraints = false) {
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+            ) {
+                TopAppBar(
+                    modifier = Modifier.shadow(2.dp),
+                    title = {
+                        Text(text = stringResource(id = R.string.settings))
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = onBack) {
+                            Icon(
+                                imageVector = MemoratiIcons.ArrowBack,
+                                contentDescription = stringResource(id = R.string.back),
+                            )
+                        }
+                    },
+                )
+
+                val userData = state.userData
+
+                SettingsTile(
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
+                    title = stringResource(id = R.string.notifications),
+                    imageVector = MemoratiIcons.Notifications,
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(CircleShape)
+                            .clickable {
+                                context.openNotificationsSettings()
+                            },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            modifier = Modifier.weight(1.0f),
+                            text = stringResource(id = R.string.allow_notifications),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+
+                        Switch(
+                            modifier = Modifier.padding(start = 10.dp),
+                            checked = state.notificationsEnabled,
+                            onCheckedChange = {
+                                context.openNotificationsSettings()
+                            },
                         )
                     }
-                },
-            )
 
-            SettingsTile(
-                modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
-                title = stringResource(id = R.string.notifications),
-                imageVector = MemoratiIcons.Notifications,
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(CircleShape)
-                        .clickable {
-                            context.openNotificationsSettings()
-                        },
-                    verticalAlignment = Alignment.CenterVertically,
+                    AnimatedVisibility(visible = state.notificationsEnabled) {
+                        NotificationsSettings(
+                            userData = userData,
+                            timeRequest = { showTimePicker = it },
+                            showDurationPicker = { showDurationPicker = it },
+                        )
+                    }
+                    if (showTimePicker != DISMISS) {
+                        MemoratiTimePicker(
+                            initialTime = if (showTimePicker == START) userData.startTime else userData.endTime,
+                            onTimeSelected = { h, m -> onTimeSelected(showTimePicker, h, m) },
+                            onDismiss = { showTimePicker = DISMISS },
+                        )
+                    }
+                }
+
+                SettingsTile(
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
+                    title = stringResource(id = R.string.insights),
+                    imageVector = MemoratiIcons.Insights,
                 ) {
                     Text(
-                        modifier = Modifier.weight(1.0f),
-                        text = stringResource(id = R.string.allow_notifications),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-
-                    Switch(
-                        modifier = Modifier.padding(start = 10.dp),
-                        checked = state.notificationsEnabled,
-                        onCheckedChange = {
-                            context.openNotificationsSettings()
-                        },
+                        text = stringResource(
+                            id = R.string.flashcards_count,
+                            state.flashcardsCount,
+                        ),
                     )
                 }
 
-                AnimatedVisibility(visible = state.notificationsEnabled) {
-                    Column(
-                        modifier = Modifier.padding(10.dp),
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                SettingsTile(
+                    modifier = Modifier.padding(horizontal = 5.dp),
+                    title = stringResource(id = R.string.data_transfer),
+                    imageVector = MemoratiIcons.CompareArrows,
+                ) {
+                    Row {
+                        Button(
+                            onClick = onExport,
+                        ) {
                             Icon(
-                                imageVector = MemoratiIcons.Snooze,
-                                contentDescription = stringResource(R.string.quiet_time),
+                                modifier = Modifier.size(ButtonDefaults.IconSize),
+                                imageVector = MemoratiIcons.Export,
+                                contentDescription = stringResource(id = R.string.export),
                             )
-                            Spacer(modifier = Modifier.width(5.dp))
-                            Text(
-                                text = stringResource(R.string.quiet_time),
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
+
+                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                            Text(text = stringResource(id = R.string.export))
                         }
-
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Row(
-                            modifier = Modifier
-                                .height(40.dp)
-                                .clickable {
-                                    pickerRequest = START
-                                },
-                            verticalAlignment = Alignment.CenterVertically,
+                        Spacer(modifier = Modifier.weight(1.0f))
+                        Button(
+                            onClick = {
+                                launcher.launch("application/json")
+                            },
                         ) {
-                            Text(
-                                text = stringResource(R.string.start_time),
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-                            Spacer(modifier = Modifier.weight(1.0f))
-                            Text(
-                                text = state.userData.startTime.toString(),
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-                        }
-
-                        Row(
-                            modifier = Modifier
-                                .height(40.dp)
-                                .clickable {
-                                    pickerRequest = END
-                                },
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = stringResource(R.string.end_time),
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-
-                            Spacer(modifier = Modifier.weight(1.0f))
-
-                            Text(
-                                text = state.userData.endTime.toString(),
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(10.dp))
-
-                        Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
-                                imageVector = MemoratiIcons.Timelapse,
-                                contentDescription = stringResource(R.string.reminder_interval),
-                            )
-                            Spacer(modifier = Modifier.width(5.dp))
-                            Text(
-                                text = stringResource(R.string.reminder_interval),
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(10.dp))
-
-                        Text(
-                            text = stringResource(id = R.string.interval_description),
-                            style = MaterialTheme.typography.titleSmall,
-                        )
-
-                        Spacer(modifier = Modifier.height(5.dp))
-
-                        Row(
-                            modifier = Modifier
-                                .height(40.dp)
-                                .clickable {
-                                    showDurationPicker = true
-                                },
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = stringResource(R.string.interval),
-                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.size(ButtonDefaults.IconSize),
+                                imageVector = MemoratiIcons.Import,
+                                contentDescription = stringResource(id = R.string.import_text),
                             )
 
-                            Spacer(modifier = Modifier.weight(1.0f))
+                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 
-                            Text(
-                                text = stringResource(
-                                    R.string.interval_format,
-                                    hours,
-                                    minutes,
-                                ),
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
+                            Text(text = stringResource(id = R.string.import_text))
                         }
                     }
                 }
-                if (pickerRequest != DISMISS) {
-                    TimePickerDialog(
-                        onCancel = { pickerRequest = DISMISS },
-                        onConfirm = {
-                            onTimeSelected(
-                                pickerRequest,
-                                pickerState.hour,
-                                pickerState.minute,
-                            )
-                            pickerRequest = DISMISS
-                        },
-                    ) {
-                        TimePicker(state = pickerState)
-                    }
-                }
-            }
 
-            SettingsTile(
-                modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
-                title = stringResource(id = R.string.insights),
-                imageVector = MemoratiIcons.Insights,
-            ) {
-                Text(text = stringResource(id = R.string.flashcards_count, state.flashcardsCount))
-            }
-
-            SettingsTile(
-                modifier = Modifier.padding(horizontal = 5.dp),
-                title = stringResource(id = R.string.data_transfer),
-                imageVector = MemoratiIcons.CompareArrows,
-            ) {
-                Row {
-                    Button(
-                        onClick = onExport,
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(ButtonDefaults.IconSize),
-                            imageVector = MemoratiIcons.Export,
-                            contentDescription = stringResource(id = R.string.export),
-                        )
-
-                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
-                        Text(text = stringResource(id = R.string.export))
-                    }
-                    Spacer(modifier = Modifier.weight(1.0f))
+                SettingsTile(
+                    modifier = Modifier.padding(horizontal = 5.dp),
+                    title = stringResource(id = R.string.app_data),
+                    imageVector = MemoratiIcons.Storage,
+                ) {
                     Button(
                         onClick = {
-                            launcher.launch("application/json")
+                            showClearDialog = true
                         },
                     ) {
                         Icon(
                             modifier = Modifier.size(ButtonDefaults.IconSize),
-                            imageVector = MemoratiIcons.Import,
-                            contentDescription = stringResource(id = R.string.import_text),
+                            imageVector = MemoratiIcons.Delete,
+                            contentDescription = stringResource(id = R.string.clear),
                         )
 
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 
-                        Text(text = stringResource(id = R.string.import_text))
+                        Text(text = stringResource(id = R.string.clear))
                     }
                 }
-            }
 
-            SettingsTile(
-                modifier = Modifier.padding(horizontal = 5.dp),
-                title = stringResource(id = R.string.app_data),
-                imageVector = MemoratiIcons.Storage,
-            ) {
-                Button(
-                    onClick = {
-                        showClearDialog = true
-                    },
-                ) {
-                    Icon(
-                        modifier = Modifier.size(ButtonDefaults.IconSize),
-                        imageVector = MemoratiIcons.Delete,
-                        contentDescription = stringResource(id = R.string.clear),
+                if (showClearDialog) {
+                    ClearAppDataDialog(
+                        onDismiss = {
+                            showClearDialog = false
+                        },
+                        onClear = onClear,
                     )
-
-                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
-                    Text(text = stringResource(id = R.string.clear))
                 }
-            }
 
-            if (showClearDialog) {
-                ClearDialog(
-                    onDismiss = {
-                        showClearDialog = false
-                    },
-                    onClear = onClear,
+                if (showDurationPicker) {
+                    DurationPicker(
+                        duration = userData.reminderInterval,
+                        onDismiss = { showDurationPicker = false },
+                        onDurationSelected = onDurationSelected,
+                    )
+                }
+
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    text = stringResource(R.string.app_version, appVersion),
+                    style = MaterialTheme.typography.labelSmall,
                 )
             }
 
-            if (showDurationPicker) {
-                TimePickerDialog(
-                    title = stringResource(id = R.string.select_duration),
-                    onCancel = {
-                        showDurationPicker = false
-                    },
-                    onConfirm = {
-                        onDurationSelected(
-                            durationState.hour,
-                            durationState.minute,
-                        )
-                        showDurationPicker = false
-                    },
-                ) {
-                    TimePicker(state = durationState)
-                }
-            }
-
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text = stringResource(R.string.app_version, appVersion),
-                style = MaterialTheme.typography.labelSmall,
+            SnackbarHost(
+                hostState = snackState,
+                modifier = Modifier.align(Alignment.BottomCenter),
             )
         }
-        SnackbarHost(
-            hostState = snackState,
-            modifier = Modifier.align(Alignment.BottomCenter),
-        )
     }
-}
-
-@Composable
-private fun ClearDialog(onDismiss: () -> Unit, onClear: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(stringResource(id = R.string.clear_dialog_title))
-        },
-        text = {
-            Text(stringResource(id = R.string.clear_dialog_message))
-        },
-        confirmButton = {
-            Button(
-                onClick = {
-                    onClear()
-                    onDismiss()
-                },
-                contentPadding = PaddingValues(
-                    start = 20.dp,
-                    top = 12.dp,
-                    end = 20.dp,
-                    bottom = 12.dp,
-                ),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error,
-                ),
-            ) {
-                Icon(
-                    MemoratiIcons.Delete,
-                    contentDescription = stringResource(id = R.string.clear),
-                    modifier = Modifier.size(ButtonDefaults.IconSize),
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text(stringResource(id = R.string.clear))
-            }
-        },
-        dismissButton = {
-            OutlinedButton(
-                onClick = onDismiss,
-            ) {
-                Icon(
-                    MemoratiIcons.Close,
-                    contentDescription = stringResource(id = R.string.clear),
-                    modifier = Modifier.size(ButtonDefaults.IconSize),
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
-                Text(stringResource(id = R.string.cancel))
-            }
-        },
-    )
 }
 
 @Composable
