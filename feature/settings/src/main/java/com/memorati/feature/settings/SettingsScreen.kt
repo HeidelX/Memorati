@@ -99,18 +99,6 @@ internal fun SettingsScreen(
         var showDurationPicker by remember { mutableStateOf(false) }
         val launcher = rememberLauncherForActivityResult(GetContent()) { uri -> onImport(uri) }
 
-        if (state.error != null) {
-            LaunchedEffect(state.error) {
-                snackScope.launch {
-                    snackState.showSnackbar(
-                        message = state.error.localizedMessage ?: "Unknown error occurred",
-                        withDismissAction = true,
-                        duration = SnackbarDuration.Long,
-                    )
-                }
-            }
-        }
-
         Box(propagateMinConstraints = false) {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -272,6 +260,18 @@ internal fun SettingsScreen(
                     text = stringResource(R.string.app_version, appVersion),
                     style = MaterialTheme.typography.labelSmall,
                 )
+            }
+
+            if (state.error != null) {
+                LaunchedEffect(state.error) {
+                    snackScope.launch {
+                        snackState.showSnackbar(
+                            message = state.error.localizedMessage ?: "Unknown error occurred",
+                            withDismissAction = true,
+                            duration = SnackbarDuration.Long,
+                        )
+                    }
+                }
             }
 
             SnackbarHost(
