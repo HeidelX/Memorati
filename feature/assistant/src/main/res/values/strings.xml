@@ -9,7 +9,7 @@
     <string name="correct_result">Your answer is correct</string>
     <string name="wrong_result">Your answer is wrong</string>
     <string name="result">Result</string>
-    <string name="review_result_message">Correct: %d\nWrong:  %d\n\nKeep up the excellent work!</string>
+    <string name="review_result_message">Correct: %d\nWrong:  %d\nKeep up the excellent work!</string>
     <string name="notification_permission">To receive timely reminders about pending reviews, it\'s crucial to grant the notification permission for this app. Kindly provide the necessary permission.</string>
     <string name="grant">Grant</string>
 </resources>

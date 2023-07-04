@@ -32,10 +32,10 @@ fun ReviewResultScreen(
 ) {
     Column(
         modifier = modifier
-            .padding(16.dp)
+            .fillMaxSize()
+            .padding(10.dp)
             .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp))
-            .fillMaxSize(),
+            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -63,15 +63,14 @@ fun ReviewResultScreen(
             fontFamily = FontFamily.SansSerif,
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
-
         Text(
+            modifier = Modifier.padding(16.dp),
             text = stringResource(
                 id = R.string.review_result_message,
                 reviewResult.correctAnswers,
                 reviewResult.wrongAnswers,
             ),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             fontFamily = FontFamily.SansSerif,
         )
     }
