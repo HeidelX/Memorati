@@ -62,14 +62,16 @@ class CardCreationViewModel @Inject constructor(
 
     fun save() {
         viewModelScope.launch {
+            val front = idiom.value.trim()
+            val back = description.value.trim()
             cardsRepository.createCard(
                 flashcard.first()?.copy(
-                    front = idiom.value,
-                    back = description.value,
+                    front = front,
+                    back = back,
                 ) ?: Flashcard(
                     id = 0,
-                    front = idiom.value,
-                    back = description.value,
+                    front = front,
+                    back = back,
                     createdAt = Clock.System.now(),
                     lastReviewAt = Clock.System.now(),
                     nextReviewAt = Clock.System.now().plus(REVIEW_DURATION),
