@@ -49,6 +49,7 @@ internal fun CardsScreen(
     onAddCard: () -> Unit = {},
     onQueryChange: (String) -> Unit = {},
     openSettings: () -> Unit = {},
+    speak: (String) -> Unit = {},
 ) {
     val lazyListState = rememberLazyListState()
     Box(modifier = modifier.fillMaxSize()) {
@@ -89,6 +90,7 @@ internal fun CardsScreen(
                                 toggleFavoured = toggleFavoured,
                                 onDelete = onDelete,
                                 onEdit = onEdit,
+                                speak = speak,
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                         }
@@ -162,5 +164,6 @@ internal fun CardsScreenPreview(
         onAddCard = {},
         onQueryChange = {},
         openSettings = {},
+        speak = {},
     )
 }

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.rounded.Snooze
 import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material.icons.rounded.Timelapse
 import androidx.compose.material.icons.rounded.ViewAgenda
+import androidx.compose.material.icons.rounded.VolumeUp
 
 object MemoratiIcons {
     val Settings = Icons.Rounded.Settings
@@ -38,9 +39,9 @@ object MemoratiIcons {
     val Close = Icons.Rounded.Close
     val Export = Icons.Rounded.ArrowCircleUp
     val Import = Icons.Rounded.ArrowCircleDown
-    val Celebration = Icons.Rounded.Celebration
     val Storage = Icons.Rounded.Storage
     val Notifications = Icons.Rounded.Alarm
     val Snooze = Icons.Rounded.Snooze
     val Timelapse = Icons.Rounded.Timelapse
+    val Speak = Icons.Rounded.VolumeUp
 }

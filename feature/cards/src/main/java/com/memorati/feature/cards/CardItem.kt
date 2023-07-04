@@ -47,6 +47,7 @@ internal fun CardItem(
     toggleFavoured: (Flashcard) -> Unit,
     onDelete: (Flashcard) -> Unit,
     onEdit: (Flashcard) -> Unit,
+    speak: (String) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -82,6 +83,13 @@ internal fun CardItem(
                         style = MaterialTheme.typography.titleLarge,
                         maxLines = 2,
                     )
+                }
+
+
+                IconButton(
+                    modifier = Modifier.align(Alignment.TopStart),
+                    onClick = { speak(card.front) }) {
+                    Icon(imageVector = MemoratiIcons.Speak, contentDescription = "Speak")
                 }
 
                 FavouriteButton(
@@ -168,5 +176,6 @@ internal fun CardItemPreview(
         onEdit = {},
         onDelete = {},
         query = "H",
+        speak = {},
     )
 }
