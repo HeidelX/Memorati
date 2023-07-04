@@ -26,4 +26,6 @@
     <string name="reminder_interval">فاصل التذكير</string>
     <string name="interval_description">متى ترغب في تلقي تذكير بشأن مراجعة بطاقات الفلاش المعلقة بانتظام؟</string>
     <string name="app_version">نسخة التطبيق %1$s</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="feedback">تعليقات</string>
 </resources>

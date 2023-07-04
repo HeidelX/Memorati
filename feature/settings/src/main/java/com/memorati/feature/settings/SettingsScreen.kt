@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -149,7 +150,7 @@ internal fun SettingsScreen(
                         )
                     }
 
-                    AnimatedVisibility(visible = state.notificationsEnabled) {
+                    AnimatedVisibility(visible = false) {
                         NotificationsSettings(
                             userData = userData,
                             timeRequest = { showTimePicker = it },
@@ -254,6 +255,12 @@ internal fun SettingsScreen(
                         onDurationSelected = onDurationSelected,
                     )
                 }
+
+                Divider(modifier = Modifier.padding(horizontal = 16.dp))
+                
+                LinksPanel()
+
+                Divider(modifier = Modifier.padding(horizontal = 16.dp))
 
                 Text(
                     modifier = Modifier.padding(16.dp),
