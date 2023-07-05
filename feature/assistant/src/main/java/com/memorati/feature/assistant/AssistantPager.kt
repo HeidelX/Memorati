@@ -164,27 +164,27 @@ fun AssistantPage(
                         onOptionSelected = onAnswerSelected,
                     )
                 }
-
-                Button(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .align(Alignment.End),
-                    enabled = card.isAnswered,
-                    onClick = onNext,
-                ) {
-                    Text(
-                        text = stringResource(R.string.next),
-                    )
-                }
             }
 
             FavouriteButton(
-                modifier = Modifier.align(Alignment.BottomEnd),
+                modifier = Modifier.align(Alignment.BottomStart),
                 favoured = card.favoured,
                 onCheckedChange = {
                     toggleFavoured(card.flashcard, it)
                 },
             )
+
+            Button(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .align(Alignment.BottomEnd),
+                enabled = card.isAnswered,
+                onClick = onNext,
+            ) {
+                Text(
+                    text = stringResource(R.string.next),
+                )
+            }
         }
     }
 }
