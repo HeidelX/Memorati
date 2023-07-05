@@ -28,4 +28,6 @@
     <string name="app_version">نسخة التطبيق %1$s</string>
     <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="feedback">تعليقات</string>
+    <string name="experimental">تجريبي</string>
+    <string name="idiom_pronunciation">نطق المُصطلح</string>
 </resources>

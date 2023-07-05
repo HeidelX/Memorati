@@ -49,6 +49,7 @@ internal fun CardsScreen(
     onAddCard: () -> Unit = {},
     onQueryChange: (String) -> Unit = {},
     openSettings: () -> Unit = {},
+    speak: (String) -> Unit = {},
 ) {
     val lazyListState = rememberLazyListState()
     Box(modifier = modifier.fillMaxSize()) {
@@ -85,10 +86,11 @@ internal fun CardsScreen(
                             CardItem(
                                 modifier = Modifier.animateItemPlacement(),
                                 card = card,
-                                query = state.query,
+                                state = state,
                                 toggleFavoured = toggleFavoured,
                                 onDelete = onDelete,
                                 onEdit = onEdit,
+                                speak = speak,
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                         }
@@ -152,9 +154,11 @@ internal fun CardsScreenPreview(
 ) {
     CardsScreen(
         state = CardsState(
-            mapOf(
+            map = mapOf(
                 LocalDate(2023, 12, 10) to flashcards,
             ),
+            query = "omm",
+            isSpeechEnabled = true,
         ),
         toggleFavoured = {},
         onEdit = {},
@@ -162,5 +166,6 @@ internal fun CardsScreenPreview(
         onAddCard = {},
         onQueryChange = {},
         openSettings = {},
+        speak = {},
     )
 }

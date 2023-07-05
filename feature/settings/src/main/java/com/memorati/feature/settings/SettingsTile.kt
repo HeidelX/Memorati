@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,20 +36,18 @@ internal fun SettingsTile(
                 modifier = modifier
                     .fillMaxWidth()
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.8f))
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp))
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.weight(1f),
                     text = title,
                 )
 
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSecondary,
                     imageVector = imageVector,
                     contentDescription = title,
                 )

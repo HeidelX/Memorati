@@ -102,4 +102,10 @@ class SettingsViewModel @Inject constructor(
             )
         }
     }
+
+    fun setSpeechEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            preferencesDataSource.setSpeechEnabled(enabled)
+        }
+    }
 }

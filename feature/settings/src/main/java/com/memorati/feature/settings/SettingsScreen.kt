@@ -50,6 +50,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.icon.CompareArrows
 import com.memorati.core.design.icon.Insights
+import com.memorati.core.design.icon.Labs
 import com.memorati.feature.settings.TimePickerRequest.DISMISS
 import com.memorati.feature.settings.TimePickerRequest.START
 import com.memorati.feature.settings.model.SettingsState
@@ -75,6 +76,7 @@ fun SettingsRoute(
         onTimeSelected = viewModel::onTimeSelected,
         onDurationSelected = viewModel::onDurationSelected,
         onExport = { viewModel.exportFlashcards(title, context) },
+        onIdiomPronunciationEnabled = viewModel::setSpeechEnabled,
     )
 }
 
@@ -90,6 +92,7 @@ internal fun SettingsScreen(
     appVersion: String,
     onTimeSelected: (TimePickerRequest, Int, Int) -> Unit,
     onDurationSelected: (Int, Int) -> Unit,
+    onIdiomPronunciationEnabled: (Boolean) -> Unit,
 ) {
     Surface(modifier = modifier) {
         val context = LocalContext.current
@@ -126,29 +129,13 @@ internal fun SettingsScreen(
                     title = stringResource(id = R.string.notifications),
                     imageVector = MemoratiIcons.Notifications,
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(CircleShape)
-                            .clickable {
-                                context.openNotificationsSettings()
-                            },
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            modifier = Modifier.weight(1.0f),
-                            text = stringResource(id = R.string.allow_notifications),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-
-                        Switch(
-                            modifier = Modifier.padding(start = 10.dp),
-                            checked = state.notificationsEnabled,
-                            onCheckedChange = {
-                                context.openNotificationsSettings()
-                            },
-                        )
-                    }
+                    MemoratiSwitch(
+                        checked = state.notificationsEnabled,
+                        text = stringResource(id = R.string.allow_notifications),
+                        onChecked = {
+                            context.openNotificationsSettings()
+                        },
+                    )
 
                     AnimatedVisibility(visible = state.notificationsEnabled) {
                         NotificationsSettings(
@@ -239,6 +226,18 @@ internal fun SettingsScreen(
                     }
                 }
 
+                SettingsTile(
+                    modifier = Modifier.padding(horizontal = 5.dp),
+                    title = stringResource(id = R.string.experimental),
+                    imageVector = MemoratiIcons.Labs,
+                ) {
+                    MemoratiSwitch(
+                        checked = userData.isSpeechEnabled,
+                        text = stringResource(id = R.string.idiom_pronunciation),
+                        onChecked = onIdiomPronunciationEnabled,
+                    )
+                }
+
                 if (showClearDialog) {
                     ClearAppDataDialog(
                         onDismiss = {
@@ -290,6 +289,36 @@ internal fun SettingsScreen(
 }
 
 @Composable
+private fun MemoratiSwitch(
+    modifier: Modifier = Modifier,
+    checked: Boolean,
+    text: String,
+    onChecked: (Boolean) -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(CircleShape)
+            .clickable {
+                onChecked(!checked)
+            },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            modifier = Modifier.weight(1.0f),
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+
+        Switch(
+            modifier = Modifier.padding(start = 10.dp),
+            checked = checked,
+            onCheckedChange = onChecked,
+        )
+    }
+}
+
+@Composable
 @Preview
 internal fun SettingsScreenPreview() {
     SettingsScreen(
@@ -301,6 +330,7 @@ internal fun SettingsScreenPreview() {
         appVersion = "1.0.0.2",
         onTimeSelected = { _, _, _ -> },
         onDurationSelected = { _, _ -> },
+        onIdiomPronunciationEnabled = {},
     )
 }
 

@@ -25,5 +25,6 @@ internal fun CardsRoute(
         onAddCard = onAddCard,
         onQueryChange = viewModel::onQueryChange,
         openSettings = openSettings,
+        speak = viewModel::speak,
     )
 }
