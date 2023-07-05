@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="search">Suche</string>
-    <string name="settings">Einstellungen</string>
     <string name="add_to_favourites">Zu Favoriten hinzufügen</string>
     <string name="remove_from_favourites">Aus Favoriten entfernen</string>
 </resources>

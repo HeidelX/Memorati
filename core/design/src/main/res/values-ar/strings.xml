@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="search">بحث</string>
-    <string name="settings">الإعدادات</string>
     <string name="add_to_favourites">إضافة إلى المفضلة</string>
     <string name="remove_from_favourites">إزالة من المفضلة</string>
 </resources>

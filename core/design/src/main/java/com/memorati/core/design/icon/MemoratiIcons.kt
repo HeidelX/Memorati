@@ -15,6 +15,7 @@ import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Snooze
 import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material.icons.rounded.Timelapse
@@ -43,4 +44,5 @@ object MemoratiIcons {
     val Snooze = Icons.Rounded.Snooze
     val Timelapse = Icons.Rounded.Timelapse
     val Speak = Icons.Rounded.VolumeUp
+    val Share = Icons.Rounded.Share
 }

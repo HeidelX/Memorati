@@ -7,4 +7,8 @@
     <string name="delete">Löschen</string>
     <string name="no_cards_message">"Es gibt momentan keine Karten. Beginnen Sie mit der Erstellung Ihrer Karten, indem Sie die Schaltfläche \"Hinzufügen\" verwenden."</string>
     <string name="speak">Sprechen</string>
+    <string name="search">Suche</string>
+    <string name="settings">Einstellungen</string>
+    <string name="share">Teilen</string>
+    <string name="share_memorati">Lade jetzt die Memorati-App herunter!</string>
 </resources>
