@@ -28,4 +28,6 @@
     <string name="app_version">App Version %1$s</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="feedback">Feedback</string>
+    <string name="experimental">Experimental</string>
+    <string name="idiom_pronunciation">Idiom\'s Pronunciation</string>
 </resources>

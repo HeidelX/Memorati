@@ -6,4 +6,5 @@
     <string name="edit">تعديل</string>
     <string name="delete">حذف</string>
     <string name="no_cards_message">"لا توجد بطاقات حاليًا. ابدأ في إنشاء بطاقاتك باستخدام زر \"إضافة\"."</string>
+    <string name="speak">تحدث</string>
 </resources>

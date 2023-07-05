@@ -7,4 +7,5 @@ message UserPreferences {
   int32 start_time = 1;
   int32 end_time = 2;
   int64 alarm_interval = 3;
+  bool is_speech_enabled = 4;
 }

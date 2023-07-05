@@ -7,11 +7,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
@@ -43,7 +44,7 @@ import com.memorati.core.ui.provider.FlashcardProvider
 internal fun CardItem(
     modifier: Modifier = Modifier,
     card: Flashcard,
-    query: String,
+    state: CardsState,
     toggleFavoured: (Flashcard) -> Unit,
     onDelete: (Flashcard) -> Unit,
     onEdit: (Flashcard) -> Unit,
@@ -51,9 +52,9 @@ internal fun CardItem(
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
             .clip(RoundedCornerShape(30.dp))
-            .height(200.dp),
+            .fillMaxWidth()
+            .wrapContentHeight(),
     ) {
         Surface(
             Modifier
@@ -66,12 +67,15 @@ internal fun CardItem(
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .padding(vertical = 32.dp)
+                        .fillMaxSize()
+                        .defaultMinSize(minHeight = 150.dp),
                 ) {
                     Text(
-                        text = formAnnotatedString(query, card.front),
+                        text = formAnnotatedString(state.query, card.front),
                         style = MaterialTheme.typography.headlineMedium,
-                        maxLines = 2,
+                        maxLines = 3,
                     )
                     Divider(
                         modifier = Modifier
@@ -79,17 +83,22 @@ internal fun CardItem(
                             .padding(vertical = 10.dp),
                     )
                     Text(
-                        text = formAnnotatedString(query, card.back),
+                        text = formAnnotatedString(state.query, card.back),
                         style = MaterialTheme.typography.titleLarge,
-                        maxLines = 2,
+                        maxLines = 3,
                     )
                 }
 
-
-                IconButton(
-                    modifier = Modifier.align(Alignment.TopStart),
-                    onClick = { speak(card.front) }) {
-                    Icon(imageVector = MemoratiIcons.Speak, contentDescription = "Speak")
+                if (state.isSpeechEnabled) {
+                    IconButton(
+                        modifier = Modifier.align(Alignment.TopStart),
+                        onClick = { speak(card.front) },
+                    ) {
+                        Icon(
+                            imageVector = MemoratiIcons.Speak,
+                            contentDescription = stringResource(R.string.speak),
+                        )
+                    }
                 }
 
                 FavouriteButton(
@@ -175,7 +184,10 @@ internal fun CardItemPreview(
         toggleFavoured = {},
         onEdit = {},
         onDelete = {},
-        query = "H",
+        state = CardsState(
+            query = "ommu",
+            isSpeechEnabled = true,
+        ),
         speak = {},
     )
 }

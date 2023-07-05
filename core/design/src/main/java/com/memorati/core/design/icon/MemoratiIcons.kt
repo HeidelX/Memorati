@@ -6,7 +6,6 @@ import androidx.compose.material.icons.rounded.ArrowCircleDown
 import androidx.compose.material.icons.rounded.ArrowCircleUp
 import androidx.compose.material.icons.rounded.Assistant
 import androidx.compose.material.icons.rounded.AutoAwesome
-import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Done

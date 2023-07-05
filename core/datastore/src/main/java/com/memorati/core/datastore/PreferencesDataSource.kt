@@ -20,6 +20,7 @@ class PreferencesDataSource @Inject constructor(
             startTime = if (it.startTime == 0) START else LocalTime.fromMillisecondOfDay(it.startTime),
             endTime = if (it.endTime == 0) END else LocalTime.fromMillisecondOfDay(it.endTime),
             reminderInterval = if (it.alarmInterval == 0L) INTERVAL else it.alarmInterval.milliseconds,
+            isSpeechEnabled = it.isSpeechEnabled,
         )
     }
 
@@ -52,6 +53,18 @@ class PreferencesDataSource @Inject constructor(
             userPreferences.updateData {
                 it.copy {
                     alarmInterval = interval
+                }
+            }
+        } catch (ioException: IOException) {
+            Log.e("PreferencesDataSource", "Failed to update user preferences", ioException)
+        }
+    }
+
+    suspend fun setSpeechEnabled(enabled: Boolean) {
+        try {
+            userPreferences.updateData {
+                it.copy {
+                    isSpeechEnabled = enabled
                 }
             }
         } catch (ioException: IOException) {

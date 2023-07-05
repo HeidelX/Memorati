@@ -31,7 +31,7 @@ class CardsModule {
         return LanguageIdentification.getClient(
             LanguageIdentificationOptions.Builder()
                 .setConfidenceThreshold(0.34f)
-                .build()
+                .build(),
         )
     }
 }

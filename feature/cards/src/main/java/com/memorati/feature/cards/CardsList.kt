@@ -86,7 +86,7 @@ internal fun CardsScreen(
                             CardItem(
                                 modifier = Modifier.animateItemPlacement(),
                                 card = card,
-                                query = state.query,
+                                state = state,
                                 toggleFavoured = toggleFavoured,
                                 onDelete = onDelete,
                                 onEdit = onEdit,
@@ -154,9 +154,11 @@ internal fun CardsScreenPreview(
 ) {
     CardsScreen(
         state = CardsState(
-            mapOf(
+            map = mapOf(
                 LocalDate(2023, 12, 10) to flashcards,
             ),
+            query = "omm",
+            isSpeechEnabled = true,
         ),
         toggleFavoured = {},
         onEdit = {},
