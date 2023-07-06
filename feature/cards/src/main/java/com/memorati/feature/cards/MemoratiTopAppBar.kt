@@ -1,7 +1,6 @@
 package com.memorati.feature.cards
 
 import MemoratiIcons
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenu
@@ -34,9 +33,9 @@ fun MemoratiTopAppBar(
     onQueryChange: (String) -> Unit,
 ) {
     var text by rememberSaveable { mutableStateOf("") }
-    val context = LocalContext.current
 
     TopAppBar(
+        modifier = modifier,
         title = {
             SearchBar(
                 modifier = Modifier.fillMaxWidth(),
@@ -61,7 +60,7 @@ fun MemoratiTopAppBar(
             )
         },
         actions = {
-            AppBarMenu(modifier, openSettings, context)
+            AppBarMenu(openSettings = openSettings)
         },
         scrollBehavior = scrollBehavior,
     )
@@ -69,10 +68,10 @@ fun MemoratiTopAppBar(
 
 @Composable
 private fun AppBarMenu(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     openSettings: () -> Unit,
-    context: Context,
 ) {
+    val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
     IconButton(onClick = { expanded = true }) {
         Icon(

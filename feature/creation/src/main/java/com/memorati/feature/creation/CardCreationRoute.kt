@@ -7,23 +7,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -70,7 +65,15 @@ internal fun CardCreationScreen(
         ) {
             TopAppBar(
                 title = {
-                    Text(text = stringResource(id = R.string.card_creation_title))
+                    Text(
+                        text = stringResource(
+                            id = if (!state.editMode) {
+                                R.string.create_new_idiom
+                            } else {
+                                R.string.update_idiom
+                            },
+                        ),
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
@@ -101,7 +104,7 @@ internal fun CardCreationScreen(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            TextField(
+            OutlinedTextField(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
@@ -124,17 +127,11 @@ internal fun CardCreationScreen(
                     onBack()
                 },
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.Save,
-                    contentDescription = stringResource(id = R.string.save),
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
                 Text(text = stringResource(id = R.string.save))
+            }
 
-                LaunchedEffect(Unit) {
-                    focusRequester.requestFocus()
-                }
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
             }
         }
     }

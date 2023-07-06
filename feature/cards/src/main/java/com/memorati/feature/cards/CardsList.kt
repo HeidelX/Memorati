@@ -65,7 +65,9 @@ internal fun CardsScreen(
         },
     ) { contentPadding ->
         Box(
-            modifier = modifier.padding(contentPadding).fillMaxSize(),
+            modifier = Modifier
+                .padding(contentPadding)
+                .fillMaxSize(),
         ) {
             when {
                 state.map.isNotEmpty() -> Cards(

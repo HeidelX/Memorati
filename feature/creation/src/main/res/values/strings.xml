@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="save">Save</string>
-    <string name="card_creation_title">Create or edit your idiom</string>
+    <string name="create_new_idiom">Create new idiom</string>
+    <string name="update_idiom">Update idiom</string>
     <string name="back">Go Back</string>
     <string name="idiom">Idiom</string>
     <string name="description">Description</string>
