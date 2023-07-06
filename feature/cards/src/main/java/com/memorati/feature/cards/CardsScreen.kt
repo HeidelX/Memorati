@@ -17,14 +17,14 @@ internal fun CardsRoute(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     CardsScreen(
-        state = state,
         modifier = modifier,
-        toggleFavoured = viewModel::toggleFavoured,
-        onDelete = viewModel::deleteCard,
+        state = state,
         onEdit = onEdit,
         onAddCard = onAddCard,
-        onQueryChange = viewModel::onQueryChange,
         openSettings = openSettings,
         speak = viewModel::speak,
+        onDelete = viewModel::deleteCard,
+        onQueryChange = viewModel::onQueryChange,
+        toggleFavoured = viewModel::toggleFavoured,
     )
 }

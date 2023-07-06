@@ -1,6 +1,5 @@
 package com.memorati.feature.favourites
 
-import MemoratiIcons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -31,7 +30,7 @@ internal fun FavouritesScreen(
         FavouritesList(cards, toggleFavoured, modifier)
     } else {
         EmptyScreen(
-            imageVector = MemoratiIcons.FavouritesBorder,
+            resource = R.raw.favourites,
             message = stringResource(id = R.string.no_favourites_message),
         )
     }

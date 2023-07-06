@@ -12,6 +12,8 @@
     <string name="review_result_message">صحيح: %d\nخاطئ: %d\nاستمر في العمل الممتاز!</string>
     <string name="notification_permission">لتلقي تذكيرات مواعيد المراجعة المعلقة في الوقت المناسب، من الضروري منح إذن الإشعارات لهذا التطبيق. يرجى منح الإذن اللازم.</string>
     <string name="grant">منح</string>
+    <string name="question_count">\u00A0من %d</string>
+
 </resources>
 
 
