@@ -47,22 +47,23 @@ import kotlinx.coroutines.launch
 fun AssistantPager(
     modifier: Modifier = Modifier,
     assistantCards: List<AssistantCard>,
+    toggleFavoured: (Flashcard, Boolean) -> Unit,
     onUpdateCard: (AssistantCard, Boolean) -> Unit,
     onAnswerSelected: (AssistantCard, String) -> Unit,
-    toggleFavoured: (Flashcard, Boolean) -> Unit,
 ) {
     val pagerState = rememberPagerState { assistantCards.size }
     val coroutineScope = rememberCoroutineScope()
     Column(modifier = modifier) {
-        ReviewProgress(
-            currentPage = pagerState.currentPage,
-            count = pagerState.pageCount,
-        )
 
         ProgressTitle(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(bottom = 5.dp),
+                .padding(top = 10.dp),
+            currentPage = pagerState.currentPage,
+            count = pagerState.pageCount,
+        )
+
+        ReviewProgress(
             currentPage = pagerState.currentPage,
             count = pagerState.pageCount,
         )
@@ -104,7 +105,7 @@ private fun ReviewProgress(
     LinearProgressIndicator(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(10.dp)
             .clip(CircleShape),
         progress = progress,
     )
