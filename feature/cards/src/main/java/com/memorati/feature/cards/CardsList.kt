@@ -30,7 +30,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.design.component.EmptyScreen
-import com.memorati.core.design.icon.CardMembership
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.ext.isScrollingUp
@@ -108,7 +107,7 @@ internal fun CardsScreen(
             exit = fadeOut(),
         ) {
             EmptyScreen(
-                imageVector = MemoratiIcons.CardMembership,
+                resource = R.raw.cards,
                 message = stringResource(id = R.string.no_cards_message),
             )
         }

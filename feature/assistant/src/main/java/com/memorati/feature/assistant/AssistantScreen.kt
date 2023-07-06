@@ -1,6 +1,5 @@
 package com.memorati.feature.assistant
 
-import MemoratiIcons
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.os.Build
 import androidx.compose.foundation.background
@@ -76,7 +75,7 @@ internal fun AssistantScreen(
                 is ReviewResult -> ReviewResultScreen(reviewResult = state)
 
                 EmptyState -> EmptyScreen(
-                    imageVector = MemoratiIcons.AutoAwesome,
+                    resource = R.raw.assistant,
                     message = stringResource(id = R.string.no_assistant_cards_message),
                 )
             }
