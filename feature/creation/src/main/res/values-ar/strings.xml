@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="save">حفظ</string>
-    <string name="card_creation_title">إنشاء أو تعديل العبارة الخاصة بك</string>
+    <string name="create_new_idiom">إنشاء تعبير جديد</string>
+    <string name="update_idiom">تحديث التعبير</string>
     <string name="back">العودة</string>
     <string name="idiom">العبارة</string>
     <string name="description">المعنى</string>
