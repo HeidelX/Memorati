@@ -54,7 +54,6 @@ fun AssistantPager(
     val pagerState = rememberPagerState { assistantCards.size }
     val coroutineScope = rememberCoroutineScope()
     Column(modifier = modifier) {
-
         ProgressTitle(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
