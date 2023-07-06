@@ -43,6 +43,7 @@ fun EmptyScreen(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = message,
             style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
         )
     }
 }
