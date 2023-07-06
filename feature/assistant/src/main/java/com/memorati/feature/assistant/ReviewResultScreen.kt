@@ -72,6 +72,7 @@ fun ReviewResultScreen(
             ),
             style = MaterialTheme.typography.bodyMedium,
             fontFamily = FontFamily.SansSerif,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
         )
     }
 }
