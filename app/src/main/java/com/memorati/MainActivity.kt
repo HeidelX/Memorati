@@ -9,6 +9,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -44,47 +45,49 @@ class MainActivity : ComponentActivity() {
             val viewModel: MainActivityViewModel = hiltViewModel()
             val destinations by viewModel.state.collectAsStateWithLifecycle()
             MemoratiTheme {
-                Scaffold(
-                    floatingActionButtonPosition = FabPosition.End,
-                    bottomBar = {
-                        AnimatedVisibility(
-                            visible = shouldShowTopBar(currentDestination),
-                            enter = slideInVertically(initialOffsetY = { it }),
-                            exit = slideOutVertically(targetOffsetY = { it }),
-                        ) {
-                            MemoratiNanBar(currentDestination, destinations) { topDest ->
-                                navController.navigateToTopDestination(topDest)
+                Surface {
+                    Scaffold(
+                        floatingActionButtonPosition = FabPosition.End,
+                        bottomBar = {
+                            AnimatedVisibility(
+                                visible = shouldShowTopBar(currentDestination),
+                                enter = slideInVertically(initialOffsetY = { it }),
+                                exit = slideOutVertically(targetOffsetY = { it }),
+                            ) {
+                                MemoratiNanBar(currentDestination, destinations) { topDest ->
+                                    navController.navigateToTopDestination(topDest)
+                                }
                             }
-                        }
-                    },
-                    content = { innerPadding ->
-                        NavHost(
-                            navController = navController,
-                            startDestination = TopDestination.CARDS.route,
-                            modifier = Modifier.padding(innerPadding),
-                        ) {
-                            cardsScreen(
-                                onAddCard = { navController.navigateToCardCreation() },
-                                onEdit = { flashcard ->
-                                    navController.navigateToCardCreation(flashcard.id)
-                                },
+                        },
+                        content = { innerPadding ->
+                            NavHost(
+                                navController = navController,
+                                startDestination = TopDestination.CARDS.route,
+                                modifier = Modifier.padding(innerPadding),
+                            ) {
+                                cardsScreen(
+                                    onAddCard = { navController.navigateToCardCreation() },
+                                    onEdit = { flashcard ->
+                                        navController.navigateToCardCreation(flashcard.id)
+                                    },
 
-                                openSettings = {
-                                    navController.navigateToSettings()
-                                },
+                                    openSettings = {
+                                        navController.navigateToSettings()
+                                    },
 
-                            )
-                            cardCreationScreen {
-                                navController.navigateUp()
+                                )
+                                cardCreationScreen {
+                                    navController.navigateUp()
+                                }
+                                favouritesScreen()
+                                assistantScreen()
+                                settingsScreen(appVersion = BuildConfig.VERSION_NAME) {
+                                    navController.navigateUp()
+                                }
                             }
-                            favouritesScreen()
-                            assistantScreen()
-                            settingsScreen(appVersion = BuildConfig.VERSION_NAME) {
-                                navController.navigateUp()
-                            }
-                        }
-                    },
-                )
+                        },
+                    )
+                }
             }
         }
     }
