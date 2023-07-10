@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,9 +44,8 @@ class AssistantViewModel @Inject constructor(
             val backs = flashcardsRepository.flashcards()
                 .map { cards -> cards.map { card -> card.back } }
                 .first()
-            flashcardsRepository.flashcardsToReview(time = Clock.System.now())
+            flashcardsRepository.flashcardsToReview()
                 .first()
-                .take(30)
                 .map { card ->
                     val rest = backs.filterNot { back -> back == card.back }
                     AssistantCard(
