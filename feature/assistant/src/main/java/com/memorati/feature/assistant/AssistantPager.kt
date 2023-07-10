@@ -1,5 +1,6 @@
 package com.memorati.feature.assistant
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -25,7 +27,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -138,6 +143,8 @@ fun AssistantPage(
     toggleFavoured: (Flashcard, Boolean) -> Unit,
     onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
+    var showAnswers by remember { mutableStateOf(false) }
+
     Surface {
         Box(
             modifier = modifier.padding(
@@ -156,13 +163,31 @@ fun AssistantPage(
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
-                card.answers.forEach { answer ->
-                    AnswerRadioButton(
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        card = card,
-                        answer = answer,
-                        onOptionSelected = onAnswerSelected,
-                    )
+
+                AnimatedContent(
+                    targetState = showAnswers,
+                    label = "Answers",
+                ) { state ->
+                    if (state) {
+                        AnswerRadioButtons(
+                            modifier = Modifier.padding(vertical = 5.dp),
+                            card = card,
+                            onAnswerSelected = onAnswerSelected,
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .heightIn(min = 200.dp),
+                        ) {
+                            Button(
+                                modifier = Modifier.align(Alignment.Center),
+                                onClick = { showAnswers = true },
+                            ) {
+                                Text(text = stringResource(R.string.show_answers))
+                            }
+                        }
+                    }
                 }
             }
 
@@ -190,11 +215,29 @@ fun AssistantPage(
 }
 
 @Composable
+private fun AnswerRadioButtons(
+    modifier: Modifier = Modifier,
+    card: AssistantCard,
+    onAnswerSelected: (AssistantCard, String) -> Unit,
+) {
+    Column(modifier = modifier) {
+        card.answers.forEach { answer ->
+            AnswerRadioButton(
+                modifier = Modifier.padding(vertical = 5.dp),
+                card = card,
+                answer = answer,
+                onAnswerSelected = onAnswerSelected,
+            )
+        }
+    }
+}
+
+@Composable
 private fun AnswerRadioButton(
     modifier: Modifier = Modifier,
     card: AssistantCard,
     answer: String,
-    onOptionSelected: (AssistantCard, String) -> Unit,
+    onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
     val selected = answer == card.answer
     Surface(
@@ -210,7 +253,7 @@ private fun AnswerRadioButton(
                 enabled = !card.isAnswered,
                 selected = selected,
                 onClick = {
-                    onOptionSelected(card, answer)
+                    onAnswerSelected(card, answer)
                 },
                 role = Role.RadioButton,
             ),

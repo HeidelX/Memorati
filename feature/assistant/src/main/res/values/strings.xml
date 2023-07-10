@@ -13,4 +13,5 @@
     <string name="notification_permission">To receive timely reminders about pending reviews, it\'s crucial to grant the notification permission for this app. Kindly provide the necessary permission.</string>
     <string name="grant">Grant</string>
     <string name="question_count">\u00A0of %d</string>
+    <string name="show_answers">Show Answers</string>
 </resources>
