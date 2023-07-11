@@ -54,9 +54,11 @@ internal fun SwipeFlip(
             if (swipeState.offset.value <= 90f) {
                 front()
             } else {
-                Box(modifier = Modifier
-                    .padding(16.dp)
-                    .graphicsLayer { rotationX = 180f }) {
+                Box(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .graphicsLayer { rotationX = 180f },
+                ) {
                     back()
                 }
             }
