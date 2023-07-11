@@ -1,17 +1,13 @@
 package com.memorati.feature.assistant
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -27,8 +23,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -143,8 +137,6 @@ fun AssistantPage(
     toggleFavoured: (Flashcard, Boolean) -> Unit,
     onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
-    var showAnswers by remember { mutableStateOf(false) }
-
     Surface {
         Box(
             modifier = modifier.padding(
@@ -157,38 +149,21 @@ fun AssistantPage(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState()),
             ) {
-                Text(
-                    text = card.flashcard.front,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                AnimatedContent(
-                    targetState = showAnswers,
-                    label = "Answers",
-                ) { state ->
-                    if (state) {
+                SwipeFlip(
+                    front = {
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            text = card.flashcard.front,
+                            style = MaterialTheme.typography.titleLarge,
+                        )
+                    },
+                    back = {
                         AnswerRadioButtons(
-                            modifier = Modifier.padding(vertical = 5.dp),
                             card = card,
                             onAnswerSelected = onAnswerSelected,
                         )
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .heightIn(min = 200.dp),
-                        ) {
-                            Button(
-                                modifier = Modifier.align(Alignment.Center),
-                                onClick = { showAnswers = true },
-                            ) {
-                                Text(text = stringResource(R.string.show_answers))
-                            }
-                        }
-                    }
-                }
+                    },
+                )
             }
 
             FavouriteButton(
