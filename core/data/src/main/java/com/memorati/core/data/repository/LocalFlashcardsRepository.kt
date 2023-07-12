@@ -25,7 +25,7 @@ class LocalFlashcardsRepository @Inject constructor(
                 }
             }
 
-    override fun flashcardsToReview(time: Instant): Flow<List<Flashcard>> =
+    override fun dueFlashcards(time: Instant): Flow<List<Flashcard>> =
         flashcardsDao.flashcardToReview(time.toEpochMilliseconds())
             .map { entities ->
                 val today = time.toLocalDateTime(TimeZone.currentSystemDefault()).date

@@ -7,7 +7,7 @@ import kotlinx.datetime.Instant
 
 interface FlashcardsRepository {
     fun flashcards(): Flow<List<Flashcard>>
-    fun flashcardsToReview(time: Instant = Clock.System.now()): Flow<List<Flashcard>>
+    fun dueFlashcards(time: Instant = Clock.System.now()): Flow<List<Flashcard>>
     fun favourites(): Flow<List<Flashcard>>
     fun findById(id: Long): Flow<Flashcard?>
 

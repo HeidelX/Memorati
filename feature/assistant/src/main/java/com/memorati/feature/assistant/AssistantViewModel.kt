@@ -44,7 +44,7 @@ class AssistantViewModel @Inject constructor(
             val backs = flashcardsRepository.flashcards()
                 .map { cards -> cards.map { card -> card.back } }
                 .first()
-            flashcardsRepository.flashcardsToReview()
+            flashcardsRepository.dueFlashcards()
                 .first()
                 .map { card ->
                     val rest = backs.filterNot { back -> back == card.back }
