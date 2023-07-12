@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.hours
 
 class GetDueFlashcards @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
@@ -21,8 +23,13 @@ class GetDueFlashcards @Inject constructor(
             val backs = flashcardsRepository.flashcards()
                 .map { cards -> cards.map { card -> card.back } }
                 .first()
+
             flashcardsRepository.dueFlashcards()
                 .first()
+                .sortedByDescending { card -> card.additionalInfo.consecutiveCorrectCount }
+                // Filter out cards that aren't reviewed today
+                .filter { card -> Clock.System.now().minus(card.lastReviewAt) > 24.hours }
+                .take(30)
                 .map { card ->
                     val rest = backs.filterNot { back -> back == card.back }
                     AssistantCard(
