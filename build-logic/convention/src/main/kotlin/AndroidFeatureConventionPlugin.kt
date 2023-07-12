@@ -47,6 +47,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", project(":core:datastore"))
                 add("implementation", project(":core:design"))
                 add("implementation", project(":core:common"))
+                add("implementation", project(":core:domain"))
 
                 add("testImplementation", kotlin("test"))
                 add("testImplementation", project(":core:testing"))

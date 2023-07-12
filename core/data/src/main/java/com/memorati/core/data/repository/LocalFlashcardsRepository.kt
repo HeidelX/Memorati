@@ -7,8 +7,6 @@ import com.memorati.core.model.Flashcard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,16 +24,9 @@ class LocalFlashcardsRepository @Inject constructor(
             }
 
     override fun dueFlashcards(time: Instant): Flow<List<Flashcard>> =
-        flashcardsDao.flashcardToReview(time.toEpochMilliseconds())
+        flashcardsDao.dueFlashcards(time.toEpochMilliseconds())
             .map { entities ->
-                val today = time.toLocalDateTime(TimeZone.currentSystemDefault()).date
                 entities.map { it.toFlashcard() }
-                    .filter {
-                        it.lastReviewAt.toLocalDateTime(TimeZone.currentSystemDefault()).date != today
-                    }
-                    .filter { it.additionalInfo.consecutiveCorrectCount < 2 }
-                    .shuffled()
-                    .take(30)
             }
 
     override fun favourites(): Flow<List<Flashcard>> =
