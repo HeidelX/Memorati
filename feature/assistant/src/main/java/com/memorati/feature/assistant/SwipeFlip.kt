@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.rememberSwipeableState
@@ -43,12 +42,12 @@ internal fun SwipeFlip(
                 .align(Alignment.Center)
                 .graphicsLayer {
                     rotationX = swipeState.offset.value
-                    cameraDistance = 10 * density
+                    cameraDistance = 20 * density
                 }
                 .heightIn(min = 250.dp)
                 .background(
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp),
-                    shape = RoundedCornerShape(10.dp),
+                    shape = MaterialTheme.shapes.large,
                 ),
         ) {
             if (swipeState.offset.value <= 90f) {
