@@ -1,21 +1,19 @@
 package com.memorati.feature.assistant
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
@@ -30,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
@@ -76,16 +75,14 @@ fun AssistantPager(
             AssistantPage(
                 modifier = Modifier.fillMaxWidth(),
                 card = assistantCard,
-                onAnswerSelected = onAnswerSelected,
                 onNext = {
                     coroutineScope.launch {
-                        pagerState.animateScrollToPage(
-                            page = pagerState.currentPage.plus(1),
-                        )
+                        pagerState.animateScrollToPage(page = pagerState.currentPage.plus(1))
                         onUpdateCard(assistantCard, page.plus(1) == pagerState.pageCount)
                     }
                 },
                 toggleFavoured = toggleFavoured,
+                onAnswerSelected = onAnswerSelected,
             )
         }
     }
@@ -150,20 +147,21 @@ fun AssistantPage(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState()),
             ) {
-                Text(
-                    text = card.flashcard.front,
-                    style = MaterialTheme.typography.titleLarge,
+                SwipeFlip(
+                    front = {
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            text = card.flashcard.front,
+                            style = MaterialTheme.typography.titleLarge,
+                        )
+                    },
+                    back = {
+                        AnswerRadioButtons(
+                            card = card,
+                            onAnswerSelected = onAnswerSelected,
+                        )
+                    },
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
-                card.answers.forEach { answer ->
-                    AnswerRadioButton(
-                        modifier = Modifier.padding(vertical = 5.dp),
-                        card = card,
-                        answer = answer,
-                        onOptionSelected = onAnswerSelected,
-                    )
-                }
             }
 
             FavouriteButton(
@@ -190,27 +188,45 @@ fun AssistantPage(
 }
 
 @Composable
+private fun AnswerRadioButtons(
+    modifier: Modifier = Modifier,
+    card: AssistantCard,
+    onAnswerSelected: (AssistantCard, String) -> Unit,
+) {
+    Column(modifier = modifier) {
+        card.answers.forEachIndexed { index, answer ->
+            AnswerRadioButton(
+                modifier = Modifier.padding(vertical = 0.5.dp),
+                card = card,
+                answer = answer,
+                index = index,
+                total = card.answers.size,
+                onAnswerSelected = onAnswerSelected,
+            )
+        }
+    }
+}
+
+@Composable
 private fun AnswerRadioButton(
     modifier: Modifier = Modifier,
     card: AssistantCard,
     answer: String,
-    onOptionSelected: (AssistantCard, String) -> Unit,
+    index: Int,
+    total: Int,
+    onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
     val selected = answer == card.answer
     Surface(
-        shape = MaterialTheme.shapes.large,
+        shape = cornerBasedShape(index, total),
         color = surfaceColor(card, answer),
-        border = BorderStroke(
-            width = 1.dp,
-            color = borderColor(card, answer),
-        ),
         modifier = modifier
-            .clip(MaterialTheme.shapes.small)
+            .clip(cornerBasedShape(index, total))
             .selectable(
                 enabled = !card.isAnswered,
                 selected = selected,
                 onClick = {
-                    onOptionSelected(card, answer)
+                    onAnswerSelected(card, answer)
                 },
                 role = Role.RadioButton,
             ),
@@ -231,6 +247,23 @@ private fun AnswerRadioButton(
 }
 
 @Composable
+private fun cornerBasedShape(index: Int, total: Int): Shape {
+    return when (index) {
+        0 -> RoundedCornerShape(
+            topStart = 15.dp,
+            topEnd = 15.dp,
+        )
+
+        total - 1 -> RoundedCornerShape(
+            bottomStart = 15.dp,
+            bottomEnd = 15.dp,
+        )
+
+        else -> RoundedCornerShape(0.dp)
+    }
+}
+
+@Composable
 private fun surfaceColor(card: AssistantCard, answer: String): Color {
     val selected = card.answer == answer
     return if (card.isAnswered) {
@@ -243,22 +276,6 @@ private fun surfaceColor(card: AssistantCard, answer: String): Color {
         }
     } else {
         MaterialTheme.colorScheme.surface
-    }
-}
-
-@Composable
-private fun borderColor(card: AssistantCard, answer: String): Color {
-    val selected = card.answer == answer
-    return if (card.isAnswered) {
-        if (card.flashcard.back == answer) {
-            Color.Green
-        } else if (selected && !card.isCorrect) {
-            MaterialTheme.colorScheme.error
-        } else {
-            MaterialTheme.colorScheme.outline
-        }
-    } else {
-        MaterialTheme.colorScheme.outline
     }
 }
 
@@ -290,26 +307,9 @@ private fun AssistantItemPreview(
 
 @Composable
 @Preview
-private fun AssistantWrongItemPreview(
-    @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
-) {
-    AssistantPage(
-        card = assistantCard.copy(answer = "OK"),
-        onNext = {},
-        toggleFavoured = { _, _ -> },
-        onAnswerSelected = { _, _ -> },
-    )
-}
-
-@Composable
-@Preview
-private fun AssistantNoAnswerItemPreview(
-    @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
-) {
-    AssistantPage(
+private fun AnswerRadioButtonsPreview(@PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard) {
+    AnswerRadioButtons(
         card = assistantCard,
-        onNext = {},
-        toggleFavoured = { _, _ -> },
         onAnswerSelected = { _, _ -> },
     )
 }
