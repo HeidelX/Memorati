@@ -4,15 +4,14 @@ import com.memorati.core.common.dispatcher.Dispatcher
 import com.memorati.core.common.dispatcher.MemoratiDispatchers.IO
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.Flashcard
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.hours
 
 class GetDueFlashcards @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
@@ -26,9 +25,11 @@ class GetDueFlashcards @Inject constructor(
 
             flashcardsRepository.dueFlashcards()
                 .first()
-                .sortedByDescending { card -> card.additionalInfo.consecutiveCorrectCount }
-                // Filter out cards that aren't reviewed today
-                .filter { card -> Clock.System.now().minus(card.lastReviewAt) > 24.hours }
+                .sortedWith(
+                    compareByDescending<Flashcard> {
+                        it.additionalInfo.consecutiveCorrectCount
+                    }.thenByDescending { it.lastReviewAt },
+                )
                 .take(30)
                 .map { card ->
                     val rest = backs.filterNot { back -> back == card.back }
