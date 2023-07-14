@@ -6,8 +6,11 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -80,7 +83,7 @@ fun SettingsRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
@@ -171,7 +174,13 @@ internal fun SettingsScreen(
                     title = stringResource(id = R.string.data_transfer),
                     imageVector = MemoratiIcons.CompareArrows,
                 ) {
-                    Row {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = 16.dp,
+                            alignment = Alignment.CenterHorizontally,
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
                         Button(
                             onClick = onExport,
                         ) {
@@ -185,7 +194,6 @@ internal fun SettingsScreen(
 
                             Text(text = stringResource(id = R.string.export))
                         }
-                        Spacer(modifier = Modifier.weight(1.0f))
                         Button(
                             onClick = {
                                 launcher.launch("application/json")
