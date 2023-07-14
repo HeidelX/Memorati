@@ -1,8 +1,8 @@
 package com.memorati.core.design.text
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 
 fun formAnnotatedString(
     query: String,
@@ -13,7 +13,7 @@ fun formAnnotatedString(
     append(text)
     groups.forEach { group ->
         addStyle(
-            SpanStyle(fontWeight = FontWeight.SemiBold),
+            SpanStyle(color = Color.Yellow),
             group.range.first,
             group.range.last + 1,
         )
