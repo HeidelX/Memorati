@@ -10,11 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -144,10 +142,9 @@ fun AssistantPage(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
+                    .fillMaxSize(),
             ) {
-                SwipeFlip(
+                Flippable(
                     front = {
                         Text(
                             modifier = Modifier.align(Alignment.Center),
@@ -165,7 +162,9 @@ fun AssistantPage(
             }
 
             FavouriteButton(
-                modifier = Modifier.align(Alignment.BottomStart),
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.BottomStart),
                 favoured = card.favoured,
                 onCheckedChange = {
                     toggleFavoured(card.flashcard, it)
@@ -174,7 +173,7 @@ fun AssistantPage(
 
             Button(
                 modifier = Modifier
-                    .padding(top = 16.dp)
+                    .padding(16.dp)
                     .align(Alignment.BottomEnd),
                 enabled = card.isAnswered,
                 onClick = onNext,
@@ -268,15 +267,15 @@ private fun surfaceColor(card: AssistantCard, answer: String): Color {
     val selected = card.answer == answer
     return if (card.isAnswered) {
         if (card.flashcard.back == answer) {
-            Color.Green.copy(alpha = 0.4f)
+            Color.Green
         } else if (selected && !card.isCorrect) {
-            MaterialTheme.colorScheme.errorContainer
+            MaterialTheme.colorScheme.error
         } else {
             MaterialTheme.colorScheme.surface
         }
     } else {
         MaterialTheme.colorScheme.surface
-    }
+    }.copy(alpha = 0.4f)
 }
 
 @Composable
