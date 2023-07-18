@@ -20,6 +20,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.assistant.navigation.assistantScreen
 import com.memorati.feature.cards.navigation.cardsScreen
 import com.memorati.feature.creation.navigation.cardCreationScreen
@@ -30,7 +31,6 @@ import com.memorati.feature.settings.navigation.settingsScreen
 import com.memorati.navigation.TopDestination
 import com.memorati.navigation.navigateToTopDestination
 import com.memorati.ui.MemoratiNanBar
-import com.memorati.ui.theme.MemoratiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

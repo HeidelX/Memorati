@@ -1,4 +1,4 @@
-package com.memorati.ui.theme
+package com.memorati.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

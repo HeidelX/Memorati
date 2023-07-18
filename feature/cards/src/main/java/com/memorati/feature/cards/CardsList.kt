@@ -10,16 +10,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults.enterAlwaysScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
@@ -36,6 +39,7 @@ import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.ext.isScrollingUp
 import com.memorati.core.ui.provider.FlashcardsProvider
+import com.memorati.core.ui.theme.MemoratiTheme
 import kotlinx.datetime.LocalDate
 
 @Composable
@@ -51,7 +55,7 @@ internal fun CardsScreen(
     onQueryChange: (String) -> Unit = {},
     toggleFavoured: (Flashcard) -> Unit = {},
 ) {
-    val lazyListState = rememberLazyListState()
+    val lazyGridState = rememberLazyGridState()
     val scrollBehavior = enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -72,7 +76,7 @@ internal fun CardsScreen(
             when {
                 state.map.isNotEmpty() -> Cards(
                     state = state,
-                    lazyListState = lazyListState,
+                    lazyListState = lazyGridState,
                     speak = speak,
                     onEdit = onEdit,
                     onDelete = onDelete,
@@ -89,7 +93,7 @@ internal fun CardsScreen(
                 modifier = Modifier
                     .padding(16.dp)
                     .align(Alignment.BottomEnd),
-                expanded = lazyListState.isScrollingUp(),
+                expanded = lazyGridState.isScrollingUp(),
                 onClickAction = onAddCard,
             )
         }
@@ -99,14 +103,15 @@ internal fun CardsScreen(
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 private fun Cards(
-    lazyListState: LazyListState,
+    lazyListState: LazyGridState,
     state: CardsState,
     toggleFavoured: (Flashcard) -> Unit,
     onDelete: (Flashcard) -> Unit,
     onEdit: (Flashcard) -> Unit,
     speak: (String) -> Unit,
 ) {
-    LazyColumn(
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 300.dp),
         state = lazyListState,
         contentPadding = PaddingValues(
             horizontal = 16.dp,
@@ -114,7 +119,7 @@ private fun Cards(
         ),
     ) {
         state.map.forEach { (date, cards) ->
-            stickyHeader(key = date.toString()) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -127,7 +132,9 @@ private fun Cards(
             }
             items(cards, key = { it.id }) { card ->
                 CardItem(
-                    modifier = Modifier.animateItemPlacement(),
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .animateItemPlacement(),
                     card = card,
                     state = state,
                     toggleFavoured = toggleFavoured,
@@ -135,7 +142,6 @@ private fun Cards(
                     onEdit = onEdit,
                     speak = speak,
                 )
-                Spacer(modifier = Modifier.height(10.dp))
             }
         }
 
@@ -173,20 +179,24 @@ internal fun FabButton(
 internal fun CardsScreenPreview(
     @PreviewParameter(FlashcardsProvider::class) flashcards: List<Flashcard>,
 ) {
-    CardsScreen(
-        state = CardsState(
-            map = mapOf(
-                LocalDate(2023, 12, 10) to flashcards,
-            ),
-            query = "omm",
-            isSpeechEnabled = true,
-        ),
-        speak = {},
-        onEdit = {},
-        onDelete = {},
-        onAddCard = {},
-        openSettings = {},
-        onQueryChange = {},
-        toggleFavoured = {},
-    )
+    MemoratiTheme {
+        Surface {
+            CardsScreen(
+                state = CardsState(
+                    map = mapOf(
+                        LocalDate(2023, 12, 10) to flashcards,
+                    ),
+                    query = "omm",
+                    isSpeechEnabled = true,
+                ),
+                speak = {},
+                onEdit = {},
+                onDelete = {},
+                onAddCard = {},
+                openSettings = {},
+                onQueryChange = {},
+                toggleFavoured = {},
+            )
+        }
+    }
 }
