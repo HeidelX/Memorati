@@ -1,5 +1,6 @@
 package com.memorati.core.db
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -10,6 +11,7 @@ import com.memorati.core.db.dao.TopicsDao
 import com.memorati.core.db.model.FlashcardEntity
 import com.memorati.core.db.model.FlashcardTopicCrossRef
 import com.memorati.core.db.model.TopicEntity
+import com.memorati.core.v2.V1V2AutoMigrationSpecs
 
 @Database(
     entities = [
@@ -17,7 +19,10 @@ import com.memorati.core.db.model.TopicEntity
         TopicEntity::class,
         FlashcardTopicCrossRef::class,
     ],
-    version = 1,
+    version = 2,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2, spec = V1V2AutoMigrationSpecs::class),
+    ],
 )
 @TypeConverters(
     value = [

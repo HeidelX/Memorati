@@ -8,8 +8,8 @@ import com.memorati.core.model.Flashcard
 
 fun FlashcardEntity.toFlashcard() = Flashcard(
     id = flashcardId,
-    front = front,
-    back = back,
+    idiom = idiom,
+    meaning = meaning,
     createdAt = createdAt,
     favoured = favoured,
     lastReviewAt = lastReviewAt,
@@ -19,23 +19,27 @@ fun FlashcardEntity.toFlashcard() = Flashcard(
         consecutiveCorrectCount = additionalInfoEntity.consecutiveCorrectCount,
         memoryStrength = additionalInfoEntity.memoryStrength,
     ),
+    idiomLanguageTag = idiomLanguageTag,
 )
 
-fun FlashcardsWithTopics.toFlashcard() = Flashcard(
-    id = flashcard.flashcardId,
-    front = flashcard.front,
-    back = flashcard.back,
-    createdAt = flashcard.createdAt,
-    favoured = flashcard.favoured,
-    lastReviewAt = flashcard.lastReviewAt,
-    nextReviewAt = flashcard.nextReviewAt,
-    topics = topics.map { topicEntity -> topicEntity.toTopic() },
-)
+fun FlashcardsWithTopics.toFlashcard() = with(flashcard) {
+    Flashcard(
+        id = flashcardId,
+        idiom = idiom,
+        meaning = meaning,
+        createdAt = createdAt,
+        favoured = favoured,
+        lastReviewAt = lastReviewAt,
+        nextReviewAt = nextReviewAt,
+        topics = topics.map { topicEntity -> topicEntity.toTopic() },
+        idiomLanguageTag = idiomLanguageTag,
+    )
+}
 
 fun Flashcard.toFlashcardEntity() = FlashcardEntity(
     flashcardId = id,
-    front = front,
-    back = back,
+    idiom = idiom,
+    meaning = meaning,
     createdAt = createdAt,
     favoured = favoured,
     lastReviewAt = lastReviewAt,
@@ -45,4 +49,5 @@ fun Flashcard.toFlashcardEntity() = FlashcardEntity(
         consecutiveCorrectCount = additionalInfo.consecutiveCorrectCount,
         memoryStrength = additionalInfo.memoryStrength,
     ),
+    idiomLanguageTag = idiomLanguageTag,
 )

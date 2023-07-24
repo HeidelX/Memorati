@@ -28,7 +28,7 @@ internal fun AnswerRadioButtons(
     onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
     Column(modifier = modifier) {
-        card.answers.forEachIndexed { index, answer ->
+        card.answers.forEach { answer ->
             AnswerRadioButton(
                 modifier = Modifier.padding(vertical = 0.5.dp),
                 card = card,
@@ -75,7 +75,7 @@ private fun AnswerRadioButton(
 private fun surfaceColor(card: AssistantCard, answer: String): Color {
     val selected = card.answer == answer
     return if (card.isAnswered) {
-        if (card.flashcard.back == answer) {
+        if (card.flashcard.meaning == answer) {
             Color.Green
         } else if (selected && !card.isCorrect) {
             MaterialTheme.colorScheme.error

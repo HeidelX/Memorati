@@ -238,9 +238,10 @@ internal fun SettingsScreen(
                     modifier = Modifier.padding(horizontal = 5.dp),
                     title = stringResource(id = R.string.experimental),
                     imageVector = MemoratiIcons.Labs,
+                    visible = false,
                 ) {
                     MemoratiSwitch(
-                        checked = userData.isSpeechEnabled,
+                        checked = false,
                         text = stringResource(id = R.string.idiom_pronunciation),
                         onChecked = onIdiomPronunciationEnabled,
                     )

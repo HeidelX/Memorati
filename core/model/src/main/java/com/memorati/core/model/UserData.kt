@@ -8,7 +8,6 @@ data class UserData(
     val startTime: LocalTime = START,
     val endTime: LocalTime = END,
     val reminderInterval: Duration = INTERVAL,
-    val isSpeechEnabled: Boolean = false,
 ) {
     companion object {
         val START = LocalTime(18, 0)

@@ -14,8 +14,8 @@ class AssistantAlgorithmTest {
         val now = Clock.System.now()
         var flashcard = Flashcard(
             id = 1,
-            front = "Hello",
-            back = "Hallo",
+            idiom = "Hello",
+            meaning = "Hallo",
             createdAt = now,
             lastReviewAt = now,
             nextReviewAt = now.plus(1.hours),
@@ -37,8 +37,8 @@ class AssistantAlgorithmTest {
         val now = Clock.System.now()
         var flashcard = Flashcard(
             id = 1,
-            front = "Hello",
-            back = "Hallo",
+            idiom = "Hello",
+            meaning = "Hallo",
             createdAt = now,
             lastReviewAt = now,
             nextReviewAt = now.plus(6.hours),
@@ -64,8 +64,8 @@ class AssistantAlgorithmTest {
         val now = Clock.System.now()
         var flashcard = Flashcard(
             id = 1,
-            front = "Hello",
-            back = "Hallo",
+            idiom = "Hello",
+            meaning = "Hallo",
             createdAt = now,
             lastReviewAt = now,
             nextReviewAt = now.plus(6.hours),

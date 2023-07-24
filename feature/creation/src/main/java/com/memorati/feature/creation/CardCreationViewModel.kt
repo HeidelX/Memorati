@@ -30,14 +30,14 @@ class CardCreationViewModel @Inject constructor(
     private val description = MutableStateFlow("")
     private val flashcard = cardsRepository.findById(checkNotNull(savedStateHandle[CARD_ID]))
     private val suggestions = idiom.mapLatest { query ->
-        if (query.isEmpty()) emptyList() else cardsRepository.searchBy(query).map { it.front }
+        if (query.isEmpty()) emptyList() else cardsRepository.searchBy(query).map { it.idiom }
     }
 
     init {
         viewModelScope.launch {
             flashcard.first()?.let { card ->
-                idiom.update { card.front }
-                description.update { card.back }
+                idiom.update { card.idiom }
+                description.update { card.meaning }
             }
         }
     }
@@ -66,15 +66,16 @@ class CardCreationViewModel @Inject constructor(
             val back = description.value.trim()
             cardsRepository.createCard(
                 flashcard.first()?.copy(
-                    front = front,
-                    back = back,
+                    idiom = front,
+                    meaning = back,
                 ) ?: Flashcard(
                     id = 0,
-                    front = front,
-                    back = back,
+                    idiom = front,
+                    meaning = back,
                     createdAt = Clock.System.now(),
                     lastReviewAt = Clock.System.now(),
                     nextReviewAt = Clock.System.now().plus(REVIEW_DURATION),
+                    idiomLanguageTag = "DE",
                 ),
             )
         }

@@ -16,7 +16,8 @@ data class FlashcardEntity(
     @ColumnInfo(name = "last_review_at") val lastReviewAt: Instant,
     @ColumnInfo(name = "next_review_at") val nextReviewAt: Instant,
     @ColumnInfo(name = "additional_info") val additionalInfoEntity: AdditionalInfoEntity,
-    val front: String,
-    val back: String,
+    @ColumnInfo(name = "idiom_language_tag") val idiomLanguageTag: String?,
+    val idiom: String,
+    val meaning: String,
     val favoured: Boolean,
 )
