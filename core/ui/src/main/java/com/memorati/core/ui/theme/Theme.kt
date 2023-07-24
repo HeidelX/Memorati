@@ -97,10 +97,15 @@ fun MemoratiTheme(
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
+        val systemUiColor = colorScheme.surface.toArgb()
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = systemUiColor
+            window.navigationBarColor = systemUiColor
+            WindowCompat.getInsetsController(window, view).apply {
+                isAppearanceLightStatusBars = !darkTheme
+                isAppearanceLightNavigationBars = !darkTheme
+            }
         }
     }
 
