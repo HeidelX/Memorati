@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
+import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.ext.isScrollingUp
 import com.memorati.core.ui.provider.FlashcardsProvider
 import com.memorati.core.ui.theme.MemoratiTheme
@@ -175,28 +176,27 @@ internal fun FabButton(
 }
 
 @DevicePreviews
+@LocalePreviews
 @Composable
 internal fun CardsScreenPreview(
     @PreviewParameter(FlashcardsProvider::class) flashcards: List<Flashcard>,
 ) {
     MemoratiTheme {
-        Surface {
-            CardsScreen(
-                state = CardsState(
-                    map = mapOf(
-                        LocalDate(2023, 12, 10) to flashcards,
-                    ),
-                    query = "omm",
-                    isSpeechEnabled = true,
+        CardsScreen(
+            state = CardsState(
+                map = mapOf(
+                    LocalDate(2023, 12, 10) to flashcards,
                 ),
-                speak = {},
-                onEdit = {},
-                onDelete = {},
-                onAddCard = {},
-                openSettings = {},
-                onQueryChange = {},
-                toggleFavoured = {},
-            )
-        }
+                query = "omm",
+                isSpeechEnabled = true,
+            ),
+            speak = {},
+            onEdit = {},
+            onDelete = {},
+            onAddCard = {},
+            openSettings = {},
+            onQueryChange = {},
+            toggleFavoured = {},
+        )
     }
 }

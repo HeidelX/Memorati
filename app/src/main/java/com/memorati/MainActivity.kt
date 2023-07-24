@@ -3,9 +3,6 @@ package com.memorati
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
@@ -49,15 +46,10 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         floatingActionButtonPosition = FabPosition.End,
                         bottomBar = {
-                            AnimatedVisibility(
-                                visible = shouldShowTopBar(currentDestination),
-                                enter = slideInVertically(initialOffsetY = { it }),
-                                exit = slideOutVertically(targetOffsetY = { it }),
-                            ) {
+                            if (shouldShowTopBar(currentDestination))
                                 MemoratiNanBar(currentDestination, destinations) { topDest ->
                                     navController.navigateToTopDestination(topDest)
                                 }
-                            }
                         },
                         content = { innerPadding ->
                             NavHost(
@@ -75,7 +67,7 @@ class MainActivity : ComponentActivity() {
                                         navController.navigateToSettings()
                                     },
 
-                                )
+                                    )
                                 cardCreationScreen {
                                     navController.navigateUp()
                                 }
