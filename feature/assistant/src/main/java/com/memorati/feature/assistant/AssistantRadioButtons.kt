@@ -65,7 +65,11 @@ private fun AnswerRadioButton(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(answer, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+            Text(
+                answer, Modifier.weight(1f),
+                style = MaterialTheme.typography.bodyLarge,
+                color = textColor(card, answer)
+            )
             RadioButton(selected, onClick = null)
         }
     }
@@ -76,15 +80,31 @@ private fun surfaceColor(card: AssistantCard, answer: String): Color {
     val selected = card.answer == answer
     return if (card.isAnswered) {
         if (card.flashcard.meaning == answer) {
-            Color.Green
+            Color.Green.copy(alpha = 0.5f)
         } else if (selected && !card.isCorrect) {
-            MaterialTheme.colorScheme.error
+            MaterialTheme.colorScheme.errorContainer
         } else {
-            MaterialTheme.colorScheme.surface
+            MaterialTheme.colorScheme.surfaceContainer
         }
     } else {
-        MaterialTheme.colorScheme.surface
-    }.copy(alpha = 0.4f)
+        MaterialTheme.colorScheme.surfaceContainer
+    }
+}
+
+@Composable
+private fun textColor(card: AssistantCard, answer: String): Color {
+    val selected = card.answer == answer
+    return if (card.isAnswered) {
+        if (card.flashcard.meaning == answer) {
+            MaterialTheme.colorScheme.onSurface
+        } else if (selected && !card.isCorrect) {
+            MaterialTheme.colorScheme.onErrorContainer
+        } else {
+            MaterialTheme.colorScheme.onSurface
+        }
+    } else {
+        MaterialTheme.colorScheme.onSurface
+    }
 }
 
 @Composable
