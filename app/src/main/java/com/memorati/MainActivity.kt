@@ -46,10 +46,11 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         floatingActionButtonPosition = FabPosition.End,
                         bottomBar = {
-                            if (shouldShowTopBar(currentDestination))
+                            if (shouldShowTopBar(currentDestination)) {
                                 MemoratiNanBar(currentDestination, destinations) { topDest ->
                                     navController.navigateToTopDestination(topDest)
                                 }
+                            }
                         },
                         content = { innerPadding ->
                             NavHost(
@@ -67,7 +68,7 @@ class MainActivity : ComponentActivity() {
                                         navController.navigateToSettings()
                                     },
 
-                                    )
+                                )
                                 cardCreationScreen {
                                     navController.navigateUp()
                                 }
