@@ -8,6 +8,7 @@ data class UserData(
     val startTime: LocalTime = START,
     val endTime: LocalTime = END,
     val reminderInterval: Duration = INTERVAL,
+    val idiomLanguageTag: String? = null,
 ) {
     companion object {
         val START = LocalTime(18, 0)

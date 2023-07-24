@@ -79,7 +79,6 @@ fun SettingsRoute(
         onTimeSelected = viewModel::onTimeSelected,
         onDurationSelected = viewModel::onDurationSelected,
         onExport = { viewModel.exportFlashcards(title, context) },
-        onIdiomPronunciationEnabled = viewModel::setSpeechEnabled,
     )
 }
 
@@ -95,7 +94,6 @@ internal fun SettingsScreen(
     appVersion: String,
     onTimeSelected: (TimePickerRequest, Int, Int) -> Unit,
     onDurationSelected: (Int, Int) -> Unit,
-    onIdiomPronunciationEnabled: (Boolean) -> Unit,
 ) {
     Surface(modifier = modifier) {
         val context = LocalContext.current
@@ -106,7 +104,7 @@ internal fun SettingsScreen(
         var showDurationPicker by remember { mutableStateOf(false) }
         val launcher = rememberLauncherForActivityResult(GetContent()) { uri -> onImport(uri) }
 
-        Box(propagateMinConstraints = false) {
+        Box {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
             ) {
@@ -240,11 +238,7 @@ internal fun SettingsScreen(
                     imageVector = MemoratiIcons.Labs,
                     visible = false,
                 ) {
-                    MemoratiSwitch(
-                        checked = false,
-                        text = stringResource(id = R.string.idiom_pronunciation),
-                        onChecked = onIdiomPronunciationEnabled,
-                    )
+                    // Add flags for experimental features
                 }
 
                 if (showClearDialog) {
@@ -339,7 +333,6 @@ internal fun SettingsScreenPreview() {
         appVersion = "1.0.0.2",
         onTimeSelected = { _, _, _ -> },
         onDurationSelected = { _, _ -> },
-        onIdiomPronunciationEnabled = {},
     )
 }
 

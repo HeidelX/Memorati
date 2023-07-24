@@ -2,34 +2,44 @@ package com.memorati.feature.creation
 
 import MemoratiIcons
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.PopupProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.creation.model.CreationState
+import java.util.Locale
 
 @Composable
 internal fun CardCreationRoute(
@@ -59,6 +69,8 @@ internal fun CardCreationScreen(
     onDescriptionChange: (String) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
+    var showLanguagesMenu by remember { mutableStateOf(false) }
+
     Surface(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -88,20 +100,53 @@ internal fun CardCreationScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            AutoCompleteTextField(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-                    .focusRequester(focusRequester),
-                text = state.idiom,
-                suggestions = state.suggestions,
-                disableSuggestions = state.editMode,
-                label = {
-                    Text(text = stringResource(id = R.string.idiom))
-                },
-                onValueChange = onIdiomChange,
-                onSuggestionSelected = onIdiomChange,
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                AutoCompleteTextField(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .weight(1.0f)
+                        .focusRequester(focusRequester),
+                    text = state.idiom,
+                    suggestions = state.suggestions,
+                    disableSuggestions = state.editMode,
+                    label = {
+                        Text(text = stringResource(id = R.string.idiom))
+                    },
+                    onValueChange = onIdiomChange,
+                    onSuggestionSelected = onIdiomChange,
+                )
+
+                TextButton(
+                    onClick = {
+                        showLanguagesMenu = !showLanguagesMenu
+                    }
+                ) {
+                    Text(text = "__")
+
+                    Icon(
+                        imageVector = MemoratiIcons.ArrowDown,
+                        contentDescription = stringResource(R.string.choose_idiom_language)
+                    )
+                }
+
+                DropdownMenu(
+                    modifier = Modifier.heightIn(max = 200.dp),
+                    expanded = showLanguagesMenu,
+                    onDismissRequest = { showLanguagesMenu = false }
+                ) {
+                    Locale.getISOLanguages().map { it.uppercase() }.toSet().forEach { lang ->
+                        DropdownMenuItem(
+                            text = {
+                                Text(text = Locale(lang).displayLanguage)
+                            },
+                            onClick = { }
+                        )
+                    }
+
+                }
+
+            }
+
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -109,9 +154,9 @@ internal fun CardCreationScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
-                value = state.description,
+                value = state.meaning,
                 label = {
-                    Text(text = stringResource(id = R.string.description))
+                    Text(text = stringResource(id = R.string.meaning))
                 },
                 onValueChange = onDescriptionChange,
             )

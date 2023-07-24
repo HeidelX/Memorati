@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memorati.core.common.file.MemoratiFileProvider
 import com.memorati.core.common.flow.tickerFlow
+import com.memorati.core.common.viewmodel.launch
 import com.memorati.core.data.repository.DataTransferRepository
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.datastore.PreferencesDataSource
@@ -54,7 +55,7 @@ class SettingsViewModel @Inject constructor(
         initialValue = SettingsState(flashcardsCount = 0),
     )
 
-    fun exportFlashcards(title: String, context: Context) = viewModelScope.launch {
+    fun exportFlashcards(title: String, context: Context) = launch {
         try {
             val file = dataTransferRepository.export()
             val intent = memoratiFileProvider.intentProvider(
@@ -68,7 +69,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun importFile(uri: Uri?) = viewModelScope.launch {
+    fun importFile(uri: Uri?) = launch {
         try {
             uri?.let { dataTransferRepository.import(uri.toString()) }
         } catch (e: Exception) {
@@ -76,7 +77,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun clearData() = viewModelScope.launch {
+    fun clearData() = launch {
         flashcardsRepository.clear()
     }
 
@@ -85,7 +86,7 @@ class SettingsViewModel @Inject constructor(
         hour: Int,
         minute: Int,
     ) {
-        viewModelScope.launch {
+        launch {
             val time = LocalTime(hour, minute).toMillisecondOfDay()
             when (request) {
                 TimePickerRequest.START -> preferencesDataSource.setStartTime(time)
@@ -96,16 +97,10 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onDurationSelected(hours: Int, minutes: Int) {
-        viewModelScope.launch {
+        launch {
             preferencesDataSource.setAlarmInterval(
                 hours.hours.plus(minutes.minutes).inWholeMilliseconds,
             )
-        }
-    }
-
-    fun setSpeechEnabled(enabled: Boolean) {
-        viewModelScope.launch {
-            preferencesDataSource.setSpeechEnabled(enabled)
         }
     }
 }

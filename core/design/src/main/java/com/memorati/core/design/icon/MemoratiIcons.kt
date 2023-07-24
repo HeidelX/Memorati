@@ -9,6 +9,7 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
@@ -43,4 +44,5 @@ object MemoratiIcons {
     val Timelapse = Icons.Rounded.Timelapse
     val Speak = Icons.Rounded.VolumeUp
     val Share = Icons.Rounded.Share
+    val ArrowDown = Icons.Rounded.KeyboardArrowDown
 }

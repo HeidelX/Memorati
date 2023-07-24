@@ -4,7 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memorati.core.common.Defaults.REVIEW_DURATION
+import com.memorati.core.common.viewmodel.launch
 import com.memorati.core.data.repository.FlashcardsRepository
+import com.memorati.core.datastore.PreferencesDataSource
 import com.memorati.core.model.Flashcard
 import com.memorati.feature.creation.model.CreationState
 import com.memorati.feature.creation.navigation.CARD_ID
@@ -23,11 +25,12 @@ import javax.inject.Inject
 @HiltViewModel
 class CardCreationViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    private val preferencesDataSource: PreferencesDataSource,
     private val cardsRepository: FlashcardsRepository,
 ) : ViewModel() {
 
     private val idiom = MutableStateFlow("")
-    private val description = MutableStateFlow("")
+    private val meaning = MutableStateFlow("")
     private val flashcard = cardsRepository.findById(checkNotNull(savedStateHandle[CARD_ID]))
     private val suggestions = idiom.mapLatest { query ->
         if (query.isEmpty()) emptyList() else cardsRepository.searchBy(query).map { it.idiom }
@@ -37,7 +40,7 @@ class CardCreationViewModel @Inject constructor(
         viewModelScope.launch {
             flashcard.first()?.let { card ->
                 idiom.update { card.idiom }
-                description.update { card.meaning }
+                meaning.update { card.meaning }
             }
         }
     }
@@ -45,12 +48,12 @@ class CardCreationViewModel @Inject constructor(
     val state = combine(
         flashcard,
         idiom,
-        description,
+        meaning,
         suggestions,
     ) { flashcard, idiom, description, suggestions ->
         CreationState(
             idiom = idiom,
-            description = description,
+            meaning = description,
             suggestions = suggestions,
             editMode = flashcard != null,
         )
@@ -60,25 +63,24 @@ class CardCreationViewModel @Inject constructor(
         initialValue = CreationState(),
     )
 
-    fun save() {
-        viewModelScope.launch {
-            val front = idiom.value.trim()
-            val back = description.value.trim()
-            cardsRepository.createCard(
-                flashcard.first()?.copy(
-                    idiom = front,
-                    meaning = back,
-                ) ?: Flashcard(
-                    id = 0,
-                    idiom = front,
-                    meaning = back,
-                    createdAt = Clock.System.now(),
-                    lastReviewAt = Clock.System.now(),
-                    nextReviewAt = Clock.System.now().plus(REVIEW_DURATION),
-                    idiomLanguageTag = "DE",
-                ),
-            )
-        }
+    fun save() = launch {
+        val idiom = idiom.value.trim()
+        val meaning = meaning.value.trim()
+        val idiomLanguageTag = preferencesDataSource.userData.first().idiomLanguageTag
+        cardsRepository.createCard(
+            flashcard.first()?.copy(
+                idiom = idiom,
+                meaning = meaning,
+            ) ?: Flashcard(
+                id = 0,
+                idiom = idiom,
+                meaning = meaning,
+                createdAt = Clock.System.now(),
+                lastReviewAt = Clock.System.now(),
+                nextReviewAt = Clock.System.now().plus(REVIEW_DURATION),
+                idiomLanguageTag = idiomLanguageTag,
+            ),
+        )
     }
 
     fun onIdiomChange(newIdiom: String) {
@@ -86,6 +88,10 @@ class CardCreationViewModel @Inject constructor(
     }
 
     fun onDescriptionChange(newDescription: String) {
-        description.update { newDescription }
+        meaning.update { newDescription }
+    }
+
+    fun setIdiomLanguageTag(tag: String) = launch {
+        preferencesDataSource.setIdiomLanguageTag(tag)
     }
 }
