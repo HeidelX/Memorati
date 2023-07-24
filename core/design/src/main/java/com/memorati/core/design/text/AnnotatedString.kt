@@ -15,12 +15,12 @@ fun formAnnotatedString(
     append(text)
     groups.forEach { group ->
         addStyle(
-            SpanStyle(
-                background = MaterialTheme.colorScheme.secondary,
-                color = MaterialTheme.colorScheme.onSecondary,
+            style = SpanStyle(
+                background = MaterialTheme.colorScheme.tertiary,
+                color = MaterialTheme.colorScheme.onTertiary,
             ),
-            group.range.first,
-            group.range.last + 1,
+            start = group.range.first,
+            end = group.range.last + 1,
         )
     }
 

@@ -2,10 +2,8 @@ package com.memorati.feature.cards
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,18 +15,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults.enterAlwaysScrollBehavior
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -43,7 +36,6 @@ import com.memorati.core.ui.theme.MemoratiTheme
 import kotlinx.datetime.LocalDate
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 internal fun CardsScreen(
     modifier: Modifier = Modifier,
     state: CardsState,
@@ -56,45 +48,38 @@ internal fun CardsScreen(
     toggleFavoured: (Flashcard) -> Unit = {},
 ) {
     val lazyGridState = rememberLazyGridState()
-    val scrollBehavior = enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier,
         topBar = {
             MemoratiTopAppBar(
+                modifier = Modifier.padding(horizontal = 16.dp),
                 onQueryChange = onQueryChange,
                 openSettings = openSettings,
-                scrollBehavior = scrollBehavior,
+            )
+        },
+
+        floatingActionButton = {
+            FabButton(
+                expanded = lazyGridState.isScrollingUp(),
+                onClickAction = onAddCard,
             )
         },
     ) { contentPadding ->
-        Box(
-            modifier = Modifier
-                .padding(contentPadding)
-                .fillMaxSize(),
-        ) {
-            when {
-                state.map.isNotEmpty() -> Cards(
-                    state = state,
-                    lazyListState = lazyGridState,
-                    speak = speak,
-                    onEdit = onEdit,
-                    onDelete = onDelete,
-                    toggleFavoured = toggleFavoured,
-                )
+        when {
+            state.map.isNotEmpty() -> Cards(
+                modifier = Modifier.padding(contentPadding),
+                state = state,
+                lazyListState = lazyGridState,
+                speak = speak,
+                onEdit = onEdit,
+                onDelete = onDelete,
+                toggleFavoured = toggleFavoured,
+            )
 
-                else -> EmptyScreen(
-                    resource = R.raw.cards,
-                    message = stringResource(id = R.string.no_cards_message),
-                )
-            }
-
-            FabButton(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.BottomEnd),
-                expanded = lazyGridState.isScrollingUp(),
-                onClickAction = onAddCard,
+            else -> EmptyScreen(
+                resource = R.raw.cards,
+                message = stringResource(id = R.string.no_cards_message),
             )
         }
     }
@@ -103,6 +88,7 @@ internal fun CardsScreen(
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 private fun Cards(
+    modifier: Modifier = Modifier,
     lazyListState: LazyGridState,
     state: CardsState,
     toggleFavoured: (Flashcard) -> Unit,
@@ -111,6 +97,7 @@ private fun Cards(
     speak: (String) -> Unit,
 ) {
     LazyVerticalGrid(
+        modifier = modifier,
         columns = GridCells.Adaptive(minSize = 300.dp),
         state = lazyListState,
         contentPadding = PaddingValues(
@@ -133,7 +120,7 @@ private fun Cards(
             items(cards, key = { it.id }) { card ->
                 CardItem(
                     modifier = Modifier
-                        .padding(5.dp)
+                        .padding(2.dp)
                         .animateItemPlacement(),
                     card = card,
                     state = state,

@@ -5,14 +5,12 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -26,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,8 +32,10 @@ import androidx.compose.ui.unit.dp
 import com.memorati.core.design.component.FavouriteButton
 import com.memorati.core.model.AssistantCard
 import com.memorati.core.model.Flashcard
+import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.provider.AssistantCardProvider
 import com.memorati.core.ui.provider.AssistantCardsProvider
+import com.memorati.core.ui.theme.MemoratiTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -133,55 +132,48 @@ fun AssistantPage(
     toggleFavoured: (Flashcard, Boolean) -> Unit,
     onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
-    Surface {
-        Box(
-            modifier = modifier.padding(
-                vertical = 32.dp,
-                horizontal = 16.dp,
-            ),
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-            ) {
-                Flippable(
-                    front = {
-                        Text(
-                            modifier = Modifier.align(Alignment.Center),
-                            text = card.flashcard.front,
-                            style = MaterialTheme.typography.titleLarge,
-                        )
-                    },
-                    back = {
-                        AnswerRadioButtons(
-                            card = card,
-                            onAnswerSelected = onAnswerSelected,
-                        )
-                    },
-                )
-            }
-
-            FavouriteButton(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.BottomStart),
-                favoured = card.favoured,
-                onCheckedChange = {
-                    toggleFavoured(card.flashcard, it)
-                },
-            )
-
-            Button(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.BottomEnd),
-                enabled = card.isAnswered,
-                onClick = onNext,
-            ) {
+    Box(
+        modifier = modifier.padding(
+            vertical = 32.dp,
+            horizontal = 16.dp,
+        ),
+    ) {
+        Flippable(
+            front = {
                 Text(
-                    text = stringResource(R.string.next),
+                    modifier = Modifier.align(Alignment.Center),
+                    text = card.flashcard.front,
+                    style = MaterialTheme.typography.titleLarge,
                 )
-            }
+            },
+            back = {
+                AnswerRadioButtons(
+                    card = card,
+                    onAnswerSelected = onAnswerSelected,
+                )
+            },
+        )
+
+        FavouriteButton(
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomStart),
+            favoured = card.favoured,
+            onCheckedChange = {
+                toggleFavoured(card.flashcard, it)
+            },
+        )
+
+        Button(
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd),
+            enabled = card.isAnswered,
+            onClick = onNext,
+        ) {
+            Text(
+                text = stringResource(R.string.next),
+            )
         }
     }
 }
@@ -198,8 +190,6 @@ private fun AnswerRadioButtons(
                 modifier = Modifier.padding(vertical = 0.5.dp),
                 card = card,
                 answer = answer,
-                index = index,
-                total = card.answers.size,
                 onAnswerSelected = onAnswerSelected,
             )
         }
@@ -211,16 +201,12 @@ private fun AnswerRadioButton(
     modifier: Modifier = Modifier,
     card: AssistantCard,
     answer: String,
-    index: Int,
-    total: Int,
     onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
     val selected = answer == card.answer
     Surface(
-        shape = cornerBasedShape(index, total),
         color = surfaceColor(card, answer),
         modifier = modifier
-            .clip(cornerBasedShape(index, total))
             .selectable(
                 enabled = !card.isAnswered,
                 selected = selected,
@@ -237,28 +223,8 @@ private fun AnswerRadioButton(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(answer, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
-
-            Box(Modifier.padding(8.dp)) {
-                RadioButton(selected, onClick = null)
-            }
+            RadioButton(selected, onClick = null)
         }
-    }
-}
-
-@Composable
-private fun cornerBasedShape(index: Int, total: Int): Shape {
-    return when (index) {
-        0 -> RoundedCornerShape(
-            topStart = 15.dp,
-            topEnd = 15.dp,
-        )
-
-        total - 1 -> RoundedCornerShape(
-            bottomStart = 15.dp,
-            bottomEnd = 15.dp,
-        )
-
-        else -> RoundedCornerShape(0.dp)
     }
 }
 
@@ -279,29 +245,33 @@ private fun surfaceColor(card: AssistantCard, answer: String): Color {
 }
 
 @Composable
-@Preview
+@DevicePreviews
 private fun AssistantScreenPreview(
     @PreviewParameter(AssistantCardsProvider::class) assistantCards: List<AssistantCard>,
 ) {
-    AssistantPager(
-        assistantCards = assistantCards,
-        toggleFavoured = { _, _ -> },
-        onUpdateCard = { _, _ -> },
-        onAnswerSelected = { _, _ -> },
-    )
+    MemoratiTheme {
+        AssistantPager(
+            assistantCards = assistantCards,
+            toggleFavoured = { _, _ -> },
+            onUpdateCard = { _, _ -> },
+            onAnswerSelected = { _, _ -> },
+        )
+    }
 }
 
 @Composable
-@Preview
+@DevicePreviews
 private fun AssistantItemPreview(
     @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
 ) {
-    AssistantPage(
-        card = assistantCard.copy(answer = "Communication skills"),
-        onNext = {},
-        toggleFavoured = { _, _ -> },
-        onAnswerSelected = { _, _ -> },
-    )
+    MemoratiTheme {
+        AssistantPage(
+            card = assistantCard.copy(answer = "Communication skills"),
+            onNext = {},
+            toggleFavoured = { _, _ -> },
+            onAnswerSelected = { _, _ -> },
+        )
+    }
 }
 
 @Composable

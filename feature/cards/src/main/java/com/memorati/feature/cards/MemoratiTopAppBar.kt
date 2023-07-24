@@ -11,8 +11,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,46 +21,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemoratiTopAppBar(
     modifier: Modifier = Modifier,
-    scrollBehavior: TopAppBarScrollBehavior? = null,
     openSettings: () -> Unit,
     onQueryChange: (String) -> Unit,
 ) {
     var text by rememberSaveable { mutableStateOf("") }
 
-    TopAppBar(
-        modifier = modifier,
-        title = {
-            SearchBar(
-                modifier = Modifier.fillMaxWidth(),
-                query = text,
-                onQueryChange = {
-                    text = it
-                    onQueryChange(text)
-                },
-                onSearch = { },
-                active = false,
-                onActiveChange = {},
-                placeholder = { Text(text = stringResource(id = R.string.search)) },
-                leadingIcon = {
-                    Icon(
-                        MemoratiIcons.Search,
-                        contentDescription = stringResource(id = R.string.search),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                    )
-                },
-                trailingIcon = {},
-                content = {},
+    SearchBar(
+        modifier = modifier.fillMaxWidth(),
+        query = text,
+        onQueryChange = {
+            text = it
+            onQueryChange(text)
+        },
+        onSearch = { },
+        active = false,
+        onActiveChange = {},
+        placeholder = { Text(text = stringResource(id = R.string.search)) },
+        leadingIcon = {
+            Icon(
+                MemoratiIcons.Search,
+                contentDescription = stringResource(id = R.string.search),
+                tint = MaterialTheme.colorScheme.onSurface,
             )
         },
-        actions = {
-            AppBarMenu(openSettings = openSettings)
+        trailingIcon = {
+            AppBarMenu { openSettings() }
         },
-        scrollBehavior = scrollBehavior,
+        content = {},
+        shadowElevation = 2.dp,
+        shape = MaterialTheme.shapes.small,
     )
 }
 
@@ -121,13 +114,11 @@ private fun AppBarMenu(
 
 private const val GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.memorati"
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun MemoratiTopAppBarPreview() {
     MemoratiTopAppBar(
         onQueryChange = {},
         openSettings = {},
-        scrollBehavior = null,
     )
 }
