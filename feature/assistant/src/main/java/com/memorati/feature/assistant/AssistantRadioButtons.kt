@@ -66,9 +66,10 @@ private fun AnswerRadioButton(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                answer, Modifier.weight(1f),
+                answer,
+                Modifier.weight(1f),
                 style = MaterialTheme.typography.bodyLarge,
-                color = textColor(card, answer)
+                color = textColor(card, answer),
             )
             RadioButton(selected, onClick = null)
         }

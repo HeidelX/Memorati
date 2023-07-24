@@ -31,10 +31,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.PopupProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.ui.theme.MemoratiTheme
@@ -119,34 +117,31 @@ internal fun CardCreationScreen(
                 TextButton(
                     onClick = {
                         showLanguagesMenu = !showLanguagesMenu
-                    }
+                    },
                 ) {
                     Text(text = "__")
 
                     Icon(
                         imageVector = MemoratiIcons.ArrowDown,
-                        contentDescription = stringResource(R.string.choose_idiom_language)
+                        contentDescription = stringResource(R.string.choose_idiom_language),
                     )
                 }
 
                 DropdownMenu(
                     modifier = Modifier.heightIn(max = 200.dp),
                     expanded = showLanguagesMenu,
-                    onDismissRequest = { showLanguagesMenu = false }
+                    onDismissRequest = { showLanguagesMenu = false },
                 ) {
                     Locale.getISOLanguages().map { it.uppercase() }.toSet().forEach { lang ->
                         DropdownMenuItem(
                             text = {
                                 Text(text = Locale(lang).displayLanguage)
                             },
-                            onClick = { }
+                            onClick = { },
                         )
                     }
-
                 }
-
             }
-
 
             Spacer(modifier = Modifier.height(10.dp))
 
