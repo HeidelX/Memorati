@@ -11,11 +11,11 @@ import kotlin.coroutines.EmptyCoroutineContext
 fun ViewModel.launch(
     context: CoroutineContext = EmptyCoroutineContext,
     start: CoroutineStart = CoroutineStart.DEFAULT,
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> Unit,
 ) {
     viewModelScope.launch(
         context = context,
         start = start,
-        block = block
+        block = block,
     )
 }
