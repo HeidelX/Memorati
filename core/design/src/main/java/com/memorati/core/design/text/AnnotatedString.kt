@@ -1,9 +1,11 @@
 package com.memorati.core.design.text
 
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 
+@Composable
 fun formAnnotatedString(
     query: String,
     text: String,
@@ -13,7 +15,10 @@ fun formAnnotatedString(
     append(text)
     groups.forEach { group ->
         addStyle(
-            SpanStyle(color = Color.Yellow),
+            SpanStyle(
+                background = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.onSecondary,
+            ),
             group.range.first,
             group.range.last + 1,
         )
