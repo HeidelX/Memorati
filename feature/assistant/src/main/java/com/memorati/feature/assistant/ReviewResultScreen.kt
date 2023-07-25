@@ -12,17 +12,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.memorati.core.ui.DevicePreviews
+import com.memorati.core.ui.LocalePreviews
+import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.assistant.state.ReviewResult
 
 @Composable
@@ -35,7 +37,7 @@ fun ReviewResultScreen(
             .fillMaxSize()
             .padding(10.dp)
             .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)),
+            .background(MaterialTheme.colorScheme.surfaceVariant),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -60,7 +62,6 @@ fun ReviewResultScreen(
         Text(
             text = stringResource(id = R.string.result),
             style = MaterialTheme.typography.titleLarge,
-            fontFamily = FontFamily.SansSerif,
         )
 
         Text(
@@ -71,14 +72,18 @@ fun ReviewResultScreen(
                 reviewResult.wrongAnswers,
             ),
             style = MaterialTheme.typography.bodyMedium,
-            fontFamily = FontFamily.SansSerif,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
         )
     }
 }
 
 @Composable
-@Preview
+@DevicePreviews
+@LocalePreviews
 fun ReviewResultScreenPreview() {
-    ReviewResultScreen(reviewResult = ReviewResult(5, 5))
+    MemoratiTheme {
+        Surface {
+            ReviewResultScreen(reviewResult = ReviewResult(5, 5))
+        }
+    }
 }
