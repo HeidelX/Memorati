@@ -1,6 +1,7 @@
 package com.memorati.feature.creation
 
 import MemoratiIcons
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,13 +32,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.memorati.core.ui.DevicePreviews
+import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.creation.model.CreationState
-import java.util.Locale
 
 @Composable
 internal fun CardCreationRoute(
@@ -53,6 +54,7 @@ internal fun CardCreationRoute(
         onSave = viewModel::save,
         onIdiomChange = viewModel::onIdiomChange,
         onDescriptionChange = viewModel::onDescriptionChange,
+        onIdiomLanguageChange = viewModel::setIdiomLanguageTag,
     )
 }
 
@@ -65,9 +67,10 @@ internal fun CardCreationScreen(
     onBack: () -> Unit,
     onIdiomChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
+    onIdiomLanguageChange: (String) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
-    var showLanguagesMenu by remember { mutableStateOf(false) }
+    var languagesMenuExpanded by remember { mutableStateOf(false) }
 
     Surface(modifier = modifier.fillMaxSize()) {
         Column(
@@ -114,31 +117,37 @@ internal fun CardCreationScreen(
                     onSuggestionSelected = onIdiomChange,
                 )
 
-                TextButton(
-                    onClick = {
-                        showLanguagesMenu = !showLanguagesMenu
-                    },
-                ) {
-                    Text(text = "__")
+                Box(modifier = Modifier.align(Alignment.Top)) {
+                    TextButton(
+                        modifier = Modifier.align(Alignment.TopEnd),
+                        onClick = {
+                            languagesMenuExpanded = !languagesMenuExpanded
+                        },
+                    ) {
+                        Text(text = state.selectedLanguage?.uppercase().orEmpty())
 
-                    Icon(
-                        imageVector = MemoratiIcons.ArrowDown,
-                        contentDescription = stringResource(R.string.choose_idiom_language),
-                    )
-                }
-
-                DropdownMenu(
-                    modifier = Modifier.heightIn(max = 200.dp),
-                    expanded = showLanguagesMenu,
-                    onDismissRequest = { showLanguagesMenu = false },
-                ) {
-                    Locale.getISOLanguages().map { it.uppercase() }.toSet().forEach { lang ->
-                        DropdownMenuItem(
-                            text = {
-                                Text(text = Locale(lang).displayLanguage)
-                            },
-                            onClick = { },
+                        Icon(
+                            imageVector = MemoratiIcons.ArrowDown,
+                            contentDescription = stringResource(R.string.choose_idiom_language),
                         )
+                    }
+
+                    DropdownMenu(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .heightIn(max = 200.dp),
+                        expanded = languagesMenuExpanded,
+                        onDismissRequest = { languagesMenuExpanded = false },
+                    ) {
+                        state.languages.forEach { language ->
+                            DropdownMenuItem(
+                                text = { Text(text = language.displayName) },
+                                onClick = {
+                                    onIdiomLanguageChange(language.tag)
+                                    languagesMenuExpanded = false
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -178,7 +187,8 @@ internal fun CardCreationScreen(
     }
 }
 
-@PreviewLightDark
+@DevicePreviews
+@LocalePreviews
 @Composable
 internal fun CardCreationRoutePreview() {
     MemoratiTheme {
@@ -188,6 +198,7 @@ internal fun CardCreationRoutePreview() {
             onSave = {},
             onIdiomChange = {},
             onDescriptionChange = {},
+            onIdiomLanguageChange = {},
         )
     }
 }

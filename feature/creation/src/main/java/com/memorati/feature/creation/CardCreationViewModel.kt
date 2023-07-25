@@ -9,6 +9,7 @@ import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.datastore.PreferencesDataSource
 import com.memorati.core.model.Flashcard
 import com.memorati.feature.creation.model.CreationState
+import com.memorati.feature.creation.model.Lang
 import com.memorati.feature.creation.navigation.CARD_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,17 +47,40 @@ class CardCreationViewModel @Inject constructor(
         }
     }
 
+    private val languages by lazy {
+        Locale.getISOLanguages()
+            .distinctBy { it.subSequence(0, 2) }
+            .map(Locale::forLanguageTag)
+            .mapNotNull { locale ->
+                val displayLanguage = locale.getDisplayLanguage(locale)
+                if (displayLanguage.isNotEmpty()) {
+                    Lang(
+                        displayName = displayLanguage,
+                        tag = locale.toLanguageTag(),
+                    )
+                } else {
+                    null
+                }
+            }
+            .sortedBy { lang ->
+                lang.displayName
+            }
+    }
+
     val state = combine(
         flashcard,
         idiom,
         meaning,
         suggestions,
-    ) { flashcard, idiom, description, suggestions ->
+        preferencesDataSource.userData,
+    ) { flashcard, idiom, meaning, suggestions, userData ->
         CreationState(
             idiom = idiom,
-            meaning = description,
+            meaning = meaning,
             suggestions = suggestions,
             editMode = flashcard != null,
+            languages = languages,
+            selectedLanguage = userData.idiomLanguageTag,
         )
     }.stateIn(
         scope = viewModelScope,
@@ -71,6 +96,7 @@ class CardCreationViewModel @Inject constructor(
             flashcard.first()?.copy(
                 idiom = idiom,
                 meaning = meaning,
+                idiomLanguageTag = idiomLanguageTag,
             ) ?: Flashcard(
                 id = 0,
                 idiom = idiom,
