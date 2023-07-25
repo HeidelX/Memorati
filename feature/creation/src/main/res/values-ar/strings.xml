@@ -5,7 +5,8 @@
     <string name="update_idiom">تحديث التعبير</string>
     <string name="back">العودة</string>
     <string name="idiom">العبارة</string>
-    <string name="description">المعنى</string>
+    <string name="meaning">المعنى</string>
     <string name="clear">مسح</string>
     <string name="idiom_exists">التعبير موجود بالفعل</string>
+    <string name="choose_idiom_language">اختر لغةالتعبير؟</string>
 </resources>

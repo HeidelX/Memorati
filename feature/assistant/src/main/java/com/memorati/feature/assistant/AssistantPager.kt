@@ -136,7 +136,7 @@ fun AssistantPage(
             front = {
                 Text(
                     modifier = Modifier.align(Alignment.Center),
-                    text = card.flashcard.front,
+                    text = card.flashcard.idiom,
                     style = MaterialTheme.typography.titleLarge,
                 )
             },

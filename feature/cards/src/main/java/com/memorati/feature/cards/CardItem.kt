@@ -43,7 +43,7 @@ internal fun CardItem(
     modifier: Modifier = Modifier,
     card: Flashcard,
     state: CardsState,
-    speak: (String) -> Unit,
+    speak: (Flashcard) -> Unit,
     onEdit: (Flashcard) -> Unit,
     onDelete: (Flashcard) -> Unit,
     toggleFavoured: (Flashcard) -> Unit,
@@ -63,7 +63,7 @@ internal fun CardItem(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = formAnnotatedString(state.query, card.front),
+                    text = formAnnotatedString(state.query, card.idiom),
                     style = MaterialTheme.typography.headlineMedium,
                     maxLines = 3,
                 )
@@ -75,16 +75,16 @@ internal fun CardItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f),
                 )
                 Text(
-                    text = formAnnotatedString(state.query, card.back),
+                    text = formAnnotatedString(state.query, card.meaning),
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 3,
                 )
             }
 
-            if (state.isSpeechEnabled) {
+            if (card.idiomLanguageTag != null) {
                 IconButton(
                     modifier = Modifier.align(Alignment.TopStart),
-                    onClick = { speak(card.front) },
+                    onClick = { speak(card) },
                 ) {
                     Icon(
                         imageVector = MemoratiIcons.Speak,
@@ -179,7 +179,6 @@ internal fun CardItemPreview(
             onDelete = {},
             state = CardsState(
                 query = "ommu",
-                isSpeechEnabled = true,
             ),
             speak = {},
         )

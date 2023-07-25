@@ -81,7 +81,7 @@ internal fun CardItem(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = card.front,
+                    text = card.idiom,
                     style = MaterialTheme.typography.headlineMedium,
                     maxLines = 3,
                 )
@@ -94,7 +94,7 @@ internal fun CardItem(
                 )
 
                 Text(
-                    text = card.back,
+                    text = card.meaning,
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 3,
                 )

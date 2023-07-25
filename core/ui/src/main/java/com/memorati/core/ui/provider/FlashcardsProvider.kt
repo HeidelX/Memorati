@@ -18,8 +18,8 @@ class FlashcardProvider : PreviewParameterProvider<Flashcard> {
 
 internal val flashcard = Flashcard(
     id = 1,
-    front = "Kommunikation",
-    back = "Communication",
+    idiom = "Kommunikation",
+    meaning = "Communication",
     createdAt = Clock.System.now(),
     lastReviewAt = Clock.System.now(),
     nextReviewAt = Clock.System.now().plus(10.days),
@@ -28,6 +28,7 @@ internal val flashcard = Flashcard(
         Topic(2, "A1"),
         Topic(3, "A2"),
     ),
+    idiomLanguageTag = "DE",
 )
 
 internal val flashcards = listOf(

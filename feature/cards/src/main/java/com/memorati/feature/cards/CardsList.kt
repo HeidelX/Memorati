@@ -40,7 +40,7 @@ internal fun CardsScreen(
     modifier: Modifier = Modifier,
     state: CardsState,
     onAddCard: () -> Unit = {},
-    speak: (String) -> Unit = {},
+    speak: (Flashcard) -> Unit = {},
     openSettings: () -> Unit = {},
     onEdit: (Flashcard) -> Unit = {},
     onDelete: (Flashcard) -> Unit = {},
@@ -94,7 +94,7 @@ private fun Cards(
     toggleFavoured: (Flashcard) -> Unit,
     onDelete: (Flashcard) -> Unit,
     onEdit: (Flashcard) -> Unit,
-    speak: (String) -> Unit,
+    speak: (Flashcard) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = modifier,
@@ -174,7 +174,6 @@ internal fun CardsScreenPreview(
                     LocalDate(2023, 12, 10) to flashcards,
                 ),
                 query = "omm",
-                isSpeechEnabled = true,
             ),
             speak = {},
             onEdit = {},

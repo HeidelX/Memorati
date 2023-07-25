@@ -15,8 +15,6 @@ android {
 
 dependencies {
     implementation(libs.kotlinx.datetime)
-    implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.androidx.activity.compose)
     implementation(libs.accompanist.permissions)
-    implementation(libs.play.services.mlkit.language.id)
 }

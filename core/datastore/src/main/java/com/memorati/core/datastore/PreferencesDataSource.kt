@@ -20,7 +20,7 @@ class PreferencesDataSource @Inject constructor(
             startTime = if (it.startTime == 0) START else LocalTime.fromMillisecondOfDay(it.startTime),
             endTime = if (it.endTime == 0) END else LocalTime.fromMillisecondOfDay(it.endTime),
             reminderInterval = if (it.alarmInterval == 0L) INTERVAL else it.alarmInterval.milliseconds,
-            isSpeechEnabled = it.isSpeechEnabled,
+            idiomLanguageTag = it.idiomLanguageTag,
         )
     }
 
@@ -60,11 +60,11 @@ class PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setSpeechEnabled(enabled: Boolean) {
+    suspend fun setIdiomLanguageTag(tag: String) {
         try {
             userPreferences.updateData {
                 it.copy {
-                    isSpeechEnabled = enabled
+                    idiomLanguageTag = tag
                 }
             }
         } catch (ioException: IOException) {

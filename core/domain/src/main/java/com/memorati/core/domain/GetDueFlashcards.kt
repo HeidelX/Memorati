@@ -20,7 +20,7 @@ class GetDueFlashcards @Inject constructor(
     operator fun invoke(): Flow<List<AssistantCard>> = flow {
         val cards = withContext(ioDispatcher) {
             val backs = flashcardsRepository.flashcards()
-                .map { cards -> cards.map { card -> card.back } }
+                .map { cards -> cards.map { card -> card.meaning } }
                 .first()
 
             flashcardsRepository.dueFlashcards()
@@ -32,10 +32,10 @@ class GetDueFlashcards @Inject constructor(
                 )
                 .take(30)
                 .map { card ->
-                    val rest = backs.filterNot { back -> back == card.back }
+                    val rest = backs.filterNot { back -> back == card.meaning }
                     AssistantCard(
                         flashcard = card,
-                        answers = rest.assistantAnswers().plus(card.back).shuffled(),
+                        answers = rest.assistantAnswers().plus(card.meaning).shuffled(),
                     )
                 }
         }

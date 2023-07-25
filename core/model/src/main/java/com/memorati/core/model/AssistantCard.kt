@@ -6,6 +6,6 @@ data class AssistantCard(
     val answer: String? = null,
     val favoured: Boolean = false,
 ) {
-    val isCorrect get() = answer == flashcard.back
+    val isCorrect get() = answer == flashcard.meaning
     val isAnswered get() = answer != null
 }

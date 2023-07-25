@@ -5,7 +5,8 @@
     <string name="update_idiom">Idiom aktualisieren</string>
     <string name="back">Zurück</string>
     <string name="idiom">Idiom</string>
-    <string name="description">Beschreibung</string>
+    <string name="meaning">Bedeutung</string>
     <string name="clear">Löschen</string>
     <string name="idiom_exists">Die Redewendung existiert bereits</string>
+    <string name="choose_idiom_language">Wähle die Idiom-Sprache aus?</string>
 </resources>
