@@ -63,7 +63,7 @@ class CardsViewModel @Inject constructor(
     fun speak(card: Flashcard) {
         viewModelScope.launch {
             try {
-                tts.setLanguage(Locale(card.idiomLanguageTag))
+                tts.setLanguage(Locale(card.idiomLanguageTag!!))
                 tts.speak(card.idiom, TextToSpeech.QUEUE_FLUSH, bundleOf(), card.idiom)
             } catch (e: Exception) {
                 Log.d(

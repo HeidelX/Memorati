@@ -24,6 +24,7 @@ class AssistantAlgorithmTest {
                 Topic(2, "A1"),
                 Topic(3, "A2"),
             ),
+            idiomLanguageTag = null,
         )
         repeat(1_000) {
             flashcard = flashcard.handleReviewResponse(isCorrect = false).scheduleNextReview()
@@ -47,6 +48,7 @@ class AssistantAlgorithmTest {
                 Topic(2, "A1"),
                 Topic(3, "A2"),
             ),
+            idiomLanguageTag = null,
         )
         repeat(1_000) {
             flashcard = flashcard.handleReviewResponse(isCorrect = true).scheduleNextReview()
@@ -74,6 +76,7 @@ class AssistantAlgorithmTest {
                 Topic(2, "A1"),
                 Topic(3, "A2"),
             ),
+            idiomLanguageTag = null,
         )
         repeat(1_000) { times ->
             val isCorrect = times % 2 == 0
