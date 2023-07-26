@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CardsViewModel @Inject constructor(
-    private val tts: TextToSpeech,
+    private val textToSpeech: TextToSpeech,
     private val flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
 
@@ -34,7 +34,9 @@ class CardsViewModel @Inject constructor(
             if (query.isEmpty()) true else flashcard.contains(query)
         }.groupBy { card ->
             card.createdAt.toLocalDateTime(TimeZone.currentSystemDefault()).date
-        }.toSortedMap(compareByDescending { it })
+        }.toSortedMap(
+            compareByDescending { it }
+        )
 
         CardsState(
             map = map,
@@ -63,8 +65,8 @@ class CardsViewModel @Inject constructor(
     fun speak(card: Flashcard) {
         viewModelScope.launch {
             try {
-                tts.setLanguage(Locale(card.idiomLanguageTag!!))
-                tts.speak(card.idiom, TextToSpeech.QUEUE_FLUSH, bundleOf(), card.idiom)
+                textToSpeech.setLanguage(Locale(card.idiomLanguageTag!!))
+                textToSpeech.speak(card.idiom, TextToSpeech.QUEUE_FLUSH, bundleOf(), card.idiom)
             } catch (e: Exception) {
                 Log.d(
                     "CardsViewModel",
