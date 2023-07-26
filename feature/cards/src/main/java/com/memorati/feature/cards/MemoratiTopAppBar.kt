@@ -22,6 +22,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.memorati.core.ui.DevicePreviews
+import com.memorati.core.ui.theme.MemoratiTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -114,11 +116,13 @@ private fun AppBarMenu(
 
 private const val GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.memorati"
 
-@Preview
+@DevicePreviews
 @Composable
 fun MemoratiTopAppBarPreview() {
-    MemoratiTopAppBar(
-        onQueryChange = {},
-        openSettings = {},
-    )
+   MemoratiTheme {
+       MemoratiTopAppBar(
+           onQueryChange = {},
+           openSettings = {},
+       )
+   }
 }
