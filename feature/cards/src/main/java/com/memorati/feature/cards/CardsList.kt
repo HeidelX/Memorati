@@ -111,10 +111,9 @@ private fun Cards(
                     modifier = Modifier
                         .fillMaxWidth()
                         .animateItemPlacement()
-                        .background(MaterialTheme.colorScheme.surface)
                         .padding(all = 8.dp),
-                    text = date.toString(),
-                    fontFamily = FontFamily.Monospace,
+                    text = date,
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
             items(cards, key = { it.id }) { card ->
@@ -171,7 +170,7 @@ internal fun CardsScreenPreview(
         CardsScreen(
             state = CardsState(
                 map = mapOf(
-                    LocalDate(2023, 12, 10) to flashcards,
+                    "01.07.2023" to flashcards,
                 ),
                 query = "omm",
             ),

@@ -15,7 +15,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaInstant
 import kotlinx.datetime.toLocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Locale
 import javax.inject.Inject
 
@@ -33,7 +37,10 @@ class CardsViewModel @Inject constructor(
         val map = flashcards.filter { flashcard ->
             if (query.isEmpty()) true else flashcard.contains(query)
         }.groupBy { card ->
-            card.createdAt.toLocalDateTime(TimeZone.currentSystemDefault()).date
+            card.createdAt
+                .toJavaInstant()
+                .atZone(ZoneId.systemDefault())
+                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
         }.toSortedMap(
             compareByDescending { it }
         )
@@ -82,6 +89,6 @@ private fun Flashcard.contains(query: String): Boolean {
 }
 
 data class CardsState(
-    val map: Map<LocalDate, List<Flashcard>> = emptyMap(),
+    val map: Map<String, List<Flashcard>> = emptyMap(),
     val query: String = "",
 )
