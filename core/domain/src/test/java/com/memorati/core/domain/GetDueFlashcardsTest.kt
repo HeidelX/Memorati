@@ -60,6 +60,7 @@ class GetDueFlashcardsTest {
 
     @Test
     fun `Due cards change after review patches`() = runTest {
+        // TODO better test this in VM
         val flashcardsRepository = TestFlashcardsRepository()
         while (useCase(repository = flashcardsRepository).invoke().first().isNotEmpty()) {
             val patch = useCase(repository = flashcardsRepository).invoke().first()
