@@ -4,7 +4,6 @@ import com.memorati.core.common.dispatcher.Dispatcher
 import com.memorati.core.common.dispatcher.MemoratiDispatchers.IO
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
-import com.memorati.core.model.Flashcard
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -26,11 +25,11 @@ class GetDueFlashcards @Inject constructor(
             flashcardsRepository.dueFlashcards()
                 .first()
                 .sortedWith(
-                    compareByDescending<Flashcard> {
-                        it.additionalInfo.consecutiveCorrectCount
-                    }.thenByDescending { it.lastReviewAt },
-                )
-                .take(30)
+                    compareBy(
+                        { card -> card.additionalInfo.consecutiveCorrectCount },
+                        { card -> card.lastReviewAt },
+                    ),
+                ).take(30)
                 .map { card ->
                     val rest = backs.filterNot { back -> back == card.meaning }
                     AssistantCard(
