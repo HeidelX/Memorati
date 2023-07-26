@@ -13,10 +13,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaInstant
-import kotlinx.datetime.toLocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -42,7 +39,7 @@ class CardsViewModel @Inject constructor(
                 .atZone(ZoneId.systemDefault())
                 .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
         }.toSortedMap(
-            compareByDescending { it }
+            compareByDescending { it },
         )
 
         CardsState(

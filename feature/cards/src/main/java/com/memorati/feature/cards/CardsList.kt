@@ -1,7 +1,6 @@
 package com.memorati.feature.cards
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.design.component.EmptyScreen
@@ -33,7 +31,6 @@ import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.ext.isScrollingUp
 import com.memorati.core.ui.provider.FlashcardsProvider
 import com.memorati.core.ui.theme.MemoratiTheme
-import kotlinx.datetime.LocalDate
 
 @Composable
 internal fun CardsScreen(

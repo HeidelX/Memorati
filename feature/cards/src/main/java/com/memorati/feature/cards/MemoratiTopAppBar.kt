@@ -20,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.theme.MemoratiTheme
@@ -119,10 +118,10 @@ private const val GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=c
 @DevicePreviews
 @Composable
 fun MemoratiTopAppBarPreview() {
-   MemoratiTheme {
-       MemoratiTopAppBar(
-           onQueryChange = {},
-           openSettings = {},
-       )
-   }
+    MemoratiTheme {
+        MemoratiTopAppBar(
+            onQueryChange = {},
+            openSettings = {},
+        )
+    }
 }
