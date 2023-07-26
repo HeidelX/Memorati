@@ -8,47 +8,52 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlin.random.Random
 
-class FakeFlashcardsRepository : FlashcardsRepository {
+class TestFlashcardsRepository : FlashcardsRepository {
+
+    private val cardsMap = generate().associateBy { it.id }.toMutableMap()
 
     override fun flashcards(): Flow<List<Flashcard>> {
         return flowOf(listOf())
     }
 
     override fun dueFlashcards(time: Instant): Flow<List<Flashcard>> {
-        return flowOf(generate())
+        return flowOf(cardsMap.values.filter { it.nextReviewAt <= time }.toList())
     }
 
     override fun favourites(): Flow<List<Flashcard>> {
-        TODO("Not yet implemented")
+        return flowOf(cardsMap.values.filter { it.favoured })
     }
 
     override fun findById(id: Long): Flow<Flashcard?> {
-        TODO("Not yet implemented")
+        return flowOf(cardsMap[id])
     }
 
     override suspend fun searchBy(query: String): List<Flashcard> {
-        TODO("Not yet implemented")
+        return cardsMap.values.filter {
+            it.idiom.contains(query, true) || it.meaning.contains(query, true)
+        }
     }
 
     override suspend fun createCard(flashcard: Flashcard) {
-        TODO("Not yet implemented")
+        cardsMap[flashcard.id] = flashcard
     }
 
     override suspend fun updateCard(flashcard: Flashcard) {
-        TODO("Not yet implemented")
+        cardsMap[flashcard.id] = flashcard
     }
 
     override suspend fun updateCards(flashcards: List<Flashcard>) {
-        TODO("Not yet implemented")
+        flashcards.forEach { updateCard(it) }
     }
 
     override suspend fun deleteCard(flashcard: Flashcard) {
-        TODO("Not yet implemented")
+        cardsMap.remove(flashcard.id)
     }
 
     override suspend fun clear() {
-        TODO("Not yet implemented")
+        cardsMap.clear()
     }
 
     private fun generate(): MutableList<Flashcard> {
@@ -59,7 +64,7 @@ class FakeFlashcardsRepository : FlashcardsRepository {
         var lastReviewAt = createdAt + 1000
         var nextReviewAt = lastReviewAt + 1000
 
-        for (i in 1L..100L) {
+        for (i in 1L..300L) {
             flashcards.add(
                 Flashcard(
                     id = i,
@@ -70,8 +75,8 @@ class FakeFlashcardsRepository : FlashcardsRepository {
                     nextReviewAt = Instant.fromEpochMilliseconds(nextReviewAt),
                     favoured = false,
                     additionalInfo = AdditionalInfo(
-                        difficulty = (Math.random() * 0.8 + 0.2),
-                        consecutiveCorrectCount = (Math.random() * 10).toInt(),
+                        difficulty = Random.nextDouble(1.0),
+                        consecutiveCorrectCount = Random(10).nextInt(),
                         memoryStrength = 1.0,
                     ),
                     idiomLanguageTag = "de",
