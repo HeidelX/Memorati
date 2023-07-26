@@ -65,7 +65,7 @@ internal fun NotificationsSettings(
         Text(
             modifier = Modifier.padding(horizontal = 10.dp),
             text = stringResource(id = R.string.interval_description),
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.bodySmall,
         )
 
         TimeRow(
@@ -129,6 +129,7 @@ private fun TimeRow(
             modifier = Modifier.padding(end = 10.dp),
             text = time,
             style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }

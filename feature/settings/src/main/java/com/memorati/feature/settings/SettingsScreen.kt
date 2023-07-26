@@ -46,7 +46,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -54,6 +53,9 @@ import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.icon.CompareArrows
 import com.memorati.core.design.icon.Insights
 import com.memorati.core.design.icon.Labs
+import com.memorati.core.ui.DevicePreviews
+import com.memorati.core.ui.LocalePreviews
+import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.settings.TimePickerRequest.DISMISS
 import com.memorati.feature.settings.TimePickerRequest.START
 import com.memorati.feature.settings.model.SettingsState
@@ -95,199 +97,198 @@ internal fun SettingsScreen(
     onTimeSelected: (TimePickerRequest, Int, Int) -> Unit,
     onDurationSelected: (Int, Int) -> Unit,
 ) {
-    Surface(modifier = modifier) {
-        val context = LocalContext.current
-        val snackScope = rememberCoroutineScope()
-        val snackState = remember { SnackbarHostState() }
-        var showTimePicker by remember { mutableStateOf(DISMISS) }
-        var showClearDialog by remember { mutableStateOf(false) }
-        var showDurationPicker by remember { mutableStateOf(false) }
-        val launcher = rememberLauncherForActivityResult(GetContent()) { uri -> onImport(uri) }
+    val context = LocalContext.current
+    val snackScope = rememberCoroutineScope()
+    val snackState = remember { SnackbarHostState() }
+    var showTimePicker by remember { mutableStateOf(DISMISS) }
+    var showClearDialog by remember { mutableStateOf(false) }
+    var showDurationPicker by remember { mutableStateOf(false) }
+    val launcher = rememberLauncherForActivityResult(GetContent()) { uri -> onImport(uri) }
 
-        Box {
-            Column(
-                modifier = Modifier.verticalScroll(rememberScrollState()),
+    Box(modifier = modifier) {
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+        ) {
+            TopAppBar(
+                modifier = Modifier.shadow(2.dp),
+                title = {
+                    Text(text = stringResource(id = R.string.settings))
+                },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = MemoratiIcons.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back),
+                        )
+                    }
+                },
+            )
+
+            val userData = state.userData
+
+            SettingsTile(
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
+                title = stringResource(id = R.string.notifications),
+                imageVector = MemoratiIcons.Notifications,
             ) {
-                TopAppBar(
-                    modifier = Modifier.shadow(2.dp),
-                    title = {
-                        Text(text = stringResource(id = R.string.settings))
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = onBack) {
-                            Icon(
-                                imageVector = MemoratiIcons.ArrowBack,
-                                contentDescription = stringResource(id = R.string.back),
-                            )
-                        }
+                MemoratiSwitch(
+                    checked = state.notificationsEnabled,
+                    text = stringResource(id = R.string.allow_notifications),
+                    onChecked = {
+                        context.openNotificationsSettings()
                     },
                 )
 
-                val userData = state.userData
-
-                SettingsTile(
-                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
-                    title = stringResource(id = R.string.notifications),
-                    imageVector = MemoratiIcons.Notifications,
-                ) {
-                    MemoratiSwitch(
-                        checked = state.notificationsEnabled,
-                        text = stringResource(id = R.string.allow_notifications),
-                        onChecked = {
-                            context.openNotificationsSettings()
-                        },
-                    )
-
-                    AnimatedVisibility(visible = state.notificationsEnabled) {
-                        NotificationsSettings(
-                            userData = userData,
-                            timeRequest = { showTimePicker = it },
-                            showDurationPicker = { showDurationPicker = it },
-                        )
-                    }
-                    if (showTimePicker != DISMISS) {
-                        MemoratiTimePicker(
-                            initialTime = if (showTimePicker == START) userData.startTime else userData.endTime,
-                            onTimeSelected = { h, m -> onTimeSelected(showTimePicker, h, m) },
-                            onDismiss = { showTimePicker = DISMISS },
-                        )
-                    }
-                }
-
-                SettingsTile(
-                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
-                    title = stringResource(id = R.string.insights),
-                    imageVector = MemoratiIcons.Insights,
-                ) {
-                    Text(
-                        text = stringResource(
-                            id = R.string.flashcards_count,
-                            state.flashcardsCount,
-                        ),
+                AnimatedVisibility(visible = state.notificationsEnabled) {
+                    NotificationsSettings(
+                        userData = userData,
+                        timeRequest = { showTimePicker = it },
+                        showDurationPicker = { showDurationPicker = it },
                     )
                 }
-
-                SettingsTile(
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    title = stringResource(id = R.string.data_transfer),
-                    imageVector = MemoratiIcons.CompareArrows,
-                ) {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 16.dp,
-                            alignment = Alignment.CenterHorizontally,
-                        ),
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Button(
-                            onClick = onExport,
-                        ) {
-                            Icon(
-                                modifier = Modifier.size(ButtonDefaults.IconSize),
-                                imageVector = MemoratiIcons.Export,
-                                contentDescription = stringResource(id = R.string.export),
-                            )
-
-                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
-                            Text(text = stringResource(id = R.string.export))
-                        }
-                        Button(
-                            onClick = {
-                                launcher.launch("application/json")
-                            },
-                        ) {
-                            Icon(
-                                modifier = Modifier.size(ButtonDefaults.IconSize),
-                                imageVector = MemoratiIcons.Import,
-                                contentDescription = stringResource(id = R.string.import_text),
-                            )
-
-                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
-                            Text(text = stringResource(id = R.string.import_text))
-                        }
-                    }
+                if (showTimePicker != DISMISS) {
+                    MemoratiTimePicker(
+                        initialTime = if (showTimePicker == START) userData.startTime else userData.endTime,
+                        onTimeSelected = { h, m -> onTimeSelected(showTimePicker, h, m) },
+                        onDismiss = { showTimePicker = DISMISS },
+                    )
                 }
+            }
 
-                SettingsTile(
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    title = stringResource(id = R.string.app_data),
-                    imageVector = MemoratiIcons.Storage,
+            SettingsTile(
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
+                title = stringResource(id = R.string.insights),
+                imageVector = MemoratiIcons.Insights,
+            ) {
+                Text(
+                    text = stringResource(
+                        id = R.string.flashcards_count,
+                        state.flashcardsCount,
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+
+            SettingsTile(
+                modifier = Modifier.padding(horizontal = 5.dp),
+                title = stringResource(id = R.string.data_transfer),
+                imageVector = MemoratiIcons.CompareArrows,
+            ) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = 16.dp,
+                        alignment = Alignment.Start,
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     Button(
-                        onClick = {
-                            showClearDialog = true
-                        },
+                        onClick = onExport,
                     ) {
                         Icon(
                             modifier = Modifier.size(ButtonDefaults.IconSize),
-                            imageVector = MemoratiIcons.Delete,
-                            contentDescription = stringResource(id = R.string.clear),
+                            imageVector = MemoratiIcons.Export,
+                            contentDescription = stringResource(id = R.string.export),
                         )
 
                         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 
-                        Text(text = stringResource(id = R.string.clear))
+                        Text(text = stringResource(id = R.string.export))
+                    }
+                    Button(
+                        onClick = {
+                            launcher.launch("application/json")
+                        },
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(ButtonDefaults.IconSize),
+                            imageVector = MemoratiIcons.Import,
+                            contentDescription = stringResource(id = R.string.import_text),
+                        )
+
+                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                        Text(text = stringResource(id = R.string.import_text))
                     }
                 }
+            }
 
-                SettingsTile(
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    title = stringResource(id = R.string.experimental),
-                    imageVector = MemoratiIcons.Labs,
-                    visible = false,
+            SettingsTile(
+                modifier = Modifier.padding(horizontal = 5.dp),
+                title = stringResource(id = R.string.app_data),
+                imageVector = MemoratiIcons.Storage,
+            ) {
+                Button(
+                    onClick = {
+                        showClearDialog = true
+                    },
                 ) {
-                    // Add flags for experimental features
-                }
-
-                if (showClearDialog) {
-                    ClearAppDataDialog(
-                        onDismiss = {
-                            showClearDialog = false
-                        },
-                        onClear = onClear,
+                    Icon(
+                        modifier = Modifier.size(ButtonDefaults.IconSize),
+                        imageVector = MemoratiIcons.Delete,
+                        contentDescription = stringResource(id = R.string.clear),
                     )
+
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+
+                    Text(text = stringResource(id = R.string.clear))
                 }
+            }
 
-                if (showDurationPicker) {
-                    DurationPicker(
-                        duration = userData.reminderInterval,
-                        onDismiss = { showDurationPicker = false },
-                        onDurationSelected = onDurationSelected,
-                    )
-                }
+            SettingsTile(
+                modifier = Modifier.padding(horizontal = 5.dp),
+                title = stringResource(id = R.string.experimental),
+                imageVector = MemoratiIcons.Labs,
+                visible = false,
+            ) {
+                // Add flags for experimental features
+            }
 
-                Divider(modifier = Modifier.padding(horizontal = 16.dp))
-
-                LinksPanel()
-
-                Divider(modifier = Modifier.padding(horizontal = 16.dp))
-
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = stringResource(R.string.app_version, appVersion),
-                    style = MaterialTheme.typography.labelSmall,
+            if (showClearDialog) {
+                ClearAppDataDialog(
+                    onDismiss = {
+                        showClearDialog = false
+                    },
+                    onClear = onClear,
                 )
             }
 
-            if (state.error != null) {
-                LaunchedEffect(state.error) {
-                    snackScope.launch {
-                        snackState.showSnackbar(
-                            message = state.error.localizedMessage ?: "Unknown error occurred",
-                            withDismissAction = true,
-                            duration = SnackbarDuration.Long,
-                        )
-                    }
-                }
+            if (showDurationPicker) {
+                DurationPicker(
+                    duration = userData.reminderInterval,
+                    onDismiss = { showDurationPicker = false },
+                    onDurationSelected = onDurationSelected,
+                )
             }
 
-            SnackbarHost(
-                hostState = snackState,
-                modifier = Modifier.align(Alignment.BottomCenter),
+            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+
+            LinksPanel()
+
+            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text = stringResource(R.string.app_version, appVersion),
+                style = MaterialTheme.typography.labelSmall,
             )
         }
+
+        if (state.error != null) {
+            LaunchedEffect(state.error) {
+                snackScope.launch {
+                    snackState.showSnackbar(
+                        message = state.error.localizedMessage ?: "Unknown error occurred",
+                        withDismissAction = true,
+                        duration = SnackbarDuration.Long,
+                    )
+                }
+            }
+        }
+
+        SnackbarHost(
+            hostState = snackState,
+            modifier = Modifier.align(Alignment.BottomCenter),
+        )
     }
 }
 
@@ -322,18 +323,23 @@ private fun MemoratiSwitch(
 }
 
 @Composable
-@Preview
+@DevicePreviews
+@LocalePreviews
 internal fun SettingsScreenPreview() {
-    SettingsScreen(
-        state = SettingsState(flashcardsCount = 10),
-        onBack = {},
-        onExport = {},
-        onImport = {},
-        onClear = {},
-        appVersion = "1.0.0.2",
-        onTimeSelected = { _, _, _ -> },
-        onDurationSelected = { _, _ -> },
-    )
+    MemoratiTheme {
+        Surface {
+            SettingsScreen(
+                state = SettingsState(flashcardsCount = 10),
+                onBack = {},
+                onExport = {},
+                onImport = {},
+                onClear = {},
+                appVersion = "1.0.0.2",
+                onTimeSelected = { _, _, _ -> },
+                onDurationSelected = { _, _ -> },
+            )
+        }
+    }
 }
 
 enum class TimePickerRequest {
