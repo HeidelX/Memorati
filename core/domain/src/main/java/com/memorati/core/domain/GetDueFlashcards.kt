@@ -2,6 +2,7 @@ package com.memorati.core.domain
 
 import com.memorati.core.common.dispatcher.Dispatcher
 import com.memorati.core.common.dispatcher.MemoratiDispatchers.IO
+import com.memorati.core.common.time.AppTime
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.AssistantCard
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,6 +14,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GetDueFlashcards @Inject constructor(
+    private val appTime: AppTime,
     private val flashcardsRepository: FlashcardsRepository,
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
 ) {
@@ -22,7 +24,7 @@ class GetDueFlashcards @Inject constructor(
                 .map { cards -> cards.map { card -> card.meaning } }
                 .first()
 
-            flashcardsRepository.dueFlashcards()
+            flashcardsRepository.dueFlashcards(appTime.now)
                 .first()
                 .sortedWith(
                     compareBy(

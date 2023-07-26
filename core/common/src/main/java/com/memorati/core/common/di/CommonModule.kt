@@ -5,6 +5,8 @@ import androidx.core.app.NotificationManagerCompat
 import com.memorati.core.common.dispatcher.Dispatcher
 import com.memorati.core.common.dispatcher.MemoratiDispatchers.Default
 import com.memorati.core.common.dispatcher.MemoratiDispatchers.IO
+import com.memorati.core.common.time.AppTime
+import com.memorati.core.common.time.DefaultAppTime
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,6 +44,10 @@ class CommonModule {
     fun providesCoroutineScope(
         @Dispatcher(Default) dispatcher: CoroutineDispatcher,
     ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
+
+    @Provides
+    @Singleton
+    fun appTime(): AppTime = DefaultAppTime
 }
 
 @Retention(AnnotationRetention.RUNTIME)
