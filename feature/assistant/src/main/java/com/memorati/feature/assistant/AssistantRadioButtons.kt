@@ -3,8 +3,10 @@ package com.memorati.feature.assistant
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -28,13 +30,19 @@ internal fun AnswerRadioButtons(
     onAnswerSelected: (AssistantCard, String) -> Unit,
 ) {
     Column(modifier = modifier) {
-        card.answers.forEach { answer ->
+        card.answers.forEachIndexed { index, answer ->
             AnswerRadioButton(
-                modifier = Modifier.padding(vertical = 0.5.dp),
                 card = card,
                 answer = answer,
                 onAnswerSelected = onAnswerSelected,
             )
+
+            if (index < card.answers.size - 1) {
+                Divider(
+                    modifier = Modifier.height(0.5.dp),
+                    color = MaterialTheme.colorScheme.surface,
+                )
+            }
         }
     }
 }
@@ -69,7 +77,6 @@ private fun AnswerRadioButton(
                 answer,
                 Modifier.weight(1f),
                 style = MaterialTheme.typography.bodyLarge,
-                color = textColor(card, answer),
             )
             RadioButton(selected, onClick = null)
         }
@@ -77,40 +84,20 @@ private fun AnswerRadioButton(
 }
 
 @Composable
-private fun surfaceColor(card: AssistantCard, answer: String): Color {
-    val selected = card.answer == answer
-    return if (card.isAnswered) {
-        if (card.flashcard.meaning == answer) {
-            Color.Green.copy(alpha = 0.5f)
-        } else if (selected && !card.isCorrect) {
-            MaterialTheme.colorScheme.errorContainer
-        } else {
-            MaterialTheme.colorScheme.surfaceContainer
-        }
-    } else {
-        MaterialTheme.colorScheme.surfaceContainer
-    }
-}
-
-@Composable
-private fun textColor(card: AssistantCard, answer: String): Color {
-    val selected = card.answer == answer
-    return if (card.isAnswered) {
-        if (card.flashcard.meaning == answer) {
-            MaterialTheme.colorScheme.onSurface
-        } else if (selected && !card.isCorrect) {
-            MaterialTheme.colorScheme.onErrorContainer
-        } else {
-            MaterialTheme.colorScheme.onSurface
-        }
-    } else {
-        MaterialTheme.colorScheme.onSurface
-    }
+private fun surfaceColor(
+    card: AssistantCard,
+    answer: String,
+): Color = when {
+    card.isAnswered && card.flashcard.meaning == answer -> Color.Green.copy(alpha = 0.3f)
+    card.isAnswered && card.answer == answer && !card.isCorrect -> Color.Red.copy(alpha = 0.3f)
+    else -> Color.Transparent
 }
 
 @Composable
 @DevicePreviews
-private fun AnswerRadioButtonsPreview(@PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard) {
+private fun AnswerRadioButtonsPreview(
+    @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
+) {
     MemoratiTheme {
         Surface {
             AnswerRadioButtons(
