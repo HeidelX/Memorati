@@ -9,7 +9,7 @@ import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.datastore.PreferencesDataSource
 import com.memorati.core.model.Flashcard
 import com.memorati.feature.creation.model.CreationState
-import com.memorati.feature.creation.model.Lang
+import com.memorati.feature.creation.model.Language
 import com.memorati.feature.creation.navigation.CARD_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,9 +52,9 @@ class CardCreationViewModel @Inject constructor(
             .distinctBy { it.subSequence(0, 2) }
             .map(Locale::forLanguageTag)
             .mapNotNull { locale ->
-                val displayLanguage = locale.getDisplayLanguage(locale)
+                val displayLanguage = locale.getDisplayLanguage(Locale.getDefault())
                 if (displayLanguage.isNotEmpty()) {
-                    Lang(
+                    Language(
                         displayName = displayLanguage,
                         tag = locale.toLanguageTag(),
                     )

@@ -16,7 +16,7 @@ fun formAnnotatedString(
     groups.forEach { group ->
         addStyle(
             style = SpanStyle(
-                background = MaterialTheme.colorScheme.tertiary,
+                background = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.4f),
                 color = MaterialTheme.colorScheme.onTertiary,
             ),
             start = group.range.first,

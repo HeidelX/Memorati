@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.surfaceColorAtElevation
@@ -33,9 +34,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.memorati.core.design.text.formAnnotatedString
+import com.memorati.core.ui.DevicePreviews
+import com.memorati.core.ui.theme.MemoratiTheme
 
 @Composable
 fun AutoCompleteTextField(
@@ -46,6 +48,7 @@ fun AutoCompleteTextField(
     label: @Composable () -> Unit,
     onValueChange: (String) -> Unit,
     onSuggestionSelected: (String) -> Unit,
+    leadingIcon: @Composable () -> Unit,
 ) {
     val view = LocalView.current
     val lazyListState = rememberLazyListState()
@@ -82,6 +85,7 @@ fun AutoCompleteTextField(
                     }
                 }
             },
+            leadingIcon = leadingIcon,
         )
 
         AnimatedVisibility(
@@ -117,28 +121,20 @@ fun AutoCompleteTextField(
     }
 }
 
-@Preview
+@DevicePreviews
 @Composable
 fun AutoCompleteTextFieldPreview() {
-    AutoCompleteTextField(
-        text = "Idiom",
-        disableSuggestions = false,
-        suggestions = listOf("Apple", "Google", "Microsoft"),
-        label = {},
-        onValueChange = {},
-        onSuggestionSelected = {},
-    )
-}
-
-@Preview
-@Composable
-fun AutoCompleteTextFieldPreviewNoSuggestion() {
-    AutoCompleteTextField(
-        text = "Idiom",
-        disableSuggestions = true,
-        suggestions = listOf("Apple", "Google", "Microsoft"),
-        label = {},
-        onValueChange = {},
-        onSuggestionSelected = {},
-    )
+    MemoratiTheme {
+        Surface {
+            AutoCompleteTextField(
+                text = "Company",
+                disableSuggestions = false,
+                suggestions = listOf("Apple", "Google", "Microsoft"),
+                label = {},
+                onValueChange = {},
+                onSuggestionSelected = {},
+                leadingIcon = {},
+            )
+        }
+    }
 }
