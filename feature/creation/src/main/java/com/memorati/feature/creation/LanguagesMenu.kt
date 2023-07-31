@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -33,15 +34,18 @@ internal fun LanguagesMenu(
 
     Box(modifier = modifier) {
         TextButton(
-            modifier = Modifier.align(Alignment.TopEnd),
+            modifier = Modifier.align(Alignment.Center),
             onClick = { expanded = !expanded },
         ) {
-            if (state.selectedLanguage != null) {
-                Text(text = state.selectedLanguage.uppercase())
-            } else {
+            if (state.selectedLanguage.isNullOrEmpty()) {
                 Icon(
                     imageVector = MemoratiIcons.ArrowDown,
                     contentDescription = stringResource(R.string.choose_idiom_language),
+                )
+            } else {
+                Text(
+                    text = state.selectedLanguage.uppercase(),
+                    style = MaterialTheme.typography.bodySmall,
                 )
             }
         }
@@ -67,13 +71,28 @@ internal fun LanguagesMenu(
 }
 
 @DevicePreviews
-@LocalePreviews
 @Composable
 internal fun LanguagesMenuPreview() {
     MemoratiTheme {
         Surface {
             LanguagesMenu(
                 state = CreationState(),
+                onIdiomLanguageChange = {},
+            )
+        }
+    }
+}
+
+@DevicePreviews
+@LocalePreviews
+@Composable
+internal fun LanguagesMenuTextPreview() {
+    MemoratiTheme {
+        Surface {
+            LanguagesMenu(
+                state = CreationState(
+                    selectedLanguage = "de",
+                ),
                 onIdiomLanguageChange = {},
             )
         }

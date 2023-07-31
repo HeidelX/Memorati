@@ -14,7 +14,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -107,7 +106,6 @@ internal fun CardCreationScreen(
                 onSuggestionSelected = onIdiomChange,
                 leadingIcon = {
                     LanguagesMenu(
-                        modifier = Modifier.height(TextFieldDefaults.MinHeight),
                         state = state,
                         onIdiomLanguageChange = onIdiomLanguageChange,
                     )
@@ -155,7 +153,9 @@ internal fun CardCreationScreen(
 internal fun CardCreationRoutePreview() {
     MemoratiTheme {
         CardCreationScreen(
-            state = CreationState(),
+            state = CreationState(
+                selectedLanguage = "de",
+            ),
             onBack = {},
             onSave = {},
             onIdiomChange = {},

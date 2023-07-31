@@ -1,6 +1,7 @@
 package com.memorati.feature.cards
 
 import MemoratiIcons
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -37,7 +39,7 @@ import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.provider.FlashcardProvider
 import com.memorati.core.ui.theme.MemoratiTheme
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun CardItem(
     modifier: Modifier = Modifier,
@@ -53,32 +55,35 @@ internal fun CardItem(
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant),
     ) {
         Box(modifier = Modifier.padding(8.dp)) {
-            Column(
+            SelectionContainer(
                 modifier = Modifier
-                    .padding(vertical = 32.dp)
+                    .padding(vertical = 32.dp, horizontal = 16.dp)
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .defaultMinSize(minHeight = 150.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
+                    .defaultMinSize(minHeight = 170.dp),
             ) {
-                Text(
-                    text = formAnnotatedString(state.query, card.idiom),
-                    style = MaterialTheme.typography.headlineMedium,
-                    maxLines = 3,
-                )
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = formAnnotatedString(state.query, card.idiom),
+                        style = MaterialTheme.typography.headlineMedium,
+                        maxLines = 3,
+                    )
 
-                Divider(
-                    modifier = Modifier
-                        .width(150.dp)
-                        .padding(vertical = 10.dp),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f),
-                )
-                Text(
-                    text = formAnnotatedString(state.query, card.meaning),
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 3,
-                )
+                    Divider(
+                        modifier = Modifier
+                            .width(150.dp)
+                            .padding(vertical = 10.dp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f),
+                    )
+                    Text(
+                        text = formAnnotatedString(state.query, card.meaning),
+                        style = MaterialTheme.typography.titleLarge,
+                        maxLines = 3,
+                    )
+                }
             }
 
             if (card.idiomLanguageTag != null) {
