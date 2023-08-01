@@ -58,6 +58,8 @@ import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.settings.TimePickerRequest.DISMISS
 import com.memorati.feature.settings.TimePickerRequest.START
+import com.memorati.feature.settings.chart.Chart
+import com.memorati.feature.settings.chart.dayEntries
 import com.memorati.feature.settings.model.SettingsState
 import kotlinx.coroutines.launch
 
@@ -167,6 +169,8 @@ internal fun SettingsScreen(
                     ),
                     style = MaterialTheme.typography.bodyMedium,
                 )
+
+                Chart(entries = state.chartEntries)
             }
 
             SettingsTile(
@@ -329,7 +333,10 @@ internal fun SettingsScreenPreview() {
     MemoratiTheme {
         Surface {
             SettingsScreen(
-                state = SettingsState(flashcardsCount = 10),
+                state = SettingsState(
+                    flashcardsCount = 10,
+                    chartEntries = dayEntries(),
+                ),
                 onBack = {},
                 onExport = {},
                 onImport = {},

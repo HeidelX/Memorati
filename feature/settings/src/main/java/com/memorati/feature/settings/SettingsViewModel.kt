@@ -11,6 +11,7 @@ import com.memorati.core.common.viewmodel.launch
 import com.memorati.core.data.repository.DataTransferRepository
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.datastore.PreferencesDataSource
+import com.memorati.feature.settings.chart.DayEntry
 import com.memorati.feature.settings.model.SettingsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.toJavaInstant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
@@ -44,8 +49,19 @@ class SettingsViewModel @Inject constructor(
         error,
     ) { flashcards, userData, notificationsEnabled, error ->
         SettingsState(
-            flashcardsCount = flashcards.size,
             userData = userData,
+            flashcardsCount = flashcards.size,
+            chartEntries = flashcards.groupBy { card ->
+                card.createdAt.toJavaInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate()
+                    .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+            }.map { entry ->
+                DayEntry(
+                    day = entry.key,
+                    count = entry.value.count(),
+                )
+            },
             notificationsEnabled = notificationsEnabled,
             error = error,
         )
