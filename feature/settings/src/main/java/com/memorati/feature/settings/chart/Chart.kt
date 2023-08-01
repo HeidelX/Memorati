@@ -36,11 +36,12 @@ internal fun Chart(
     entries: List<DayEntry>,
 ) {
     val lineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
+    val borderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
     Row(
         modifier = modifier
             .padding(16.dp)
             .fillMaxWidth()
-            .drawBehind { drawGraph(lineColor) }
+            .drawBehind { if (entries.isNotEmpty()) drawGraph(lineColor, borderColor) }
             .wrapContentHeight()
             .horizontalScroll(rememberScrollState()),
         verticalAlignment = Alignment.Bottom,
@@ -102,24 +103,29 @@ private fun Bar(
     }
 }
 
-private fun DrawScope.drawGraph(lineColor: Color) {
+private fun DrawScope.drawGraph(
+    lineColor: Color,
+    borderColor: Color,
+) {
+    val step = 55
+    val borderStroke = 5f
     val canvasWidth = size.width
     val canvasHeight = size.height
-    for (x in 0..canvasWidth.toInt() step 50) {
+    for (x in 0..canvasWidth.toInt() step step) {
         drawLine(
             start = Offset(x = x.toFloat(), y = 0f),
             end = Offset(x = x.toFloat(), y = canvasHeight),
-            color = lineColor,
-            strokeWidth = if (x.toFloat() == 0f) 5f else 0f,
+            color = if (x.toFloat() == 0f) borderColor else lineColor,
+            strokeWidth = if (x.toFloat() == 0f) borderStroke else 0f,
         )
     }
 
-    for (y in canvasHeight.toInt() downTo 0 step 50) {
+    for (y in canvasHeight.toInt() downTo 0 step step) {
         drawLine(
             start = Offset(x = 0f, y = y.toFloat()),
             end = Offset(x = canvasWidth, y = y.toFloat()),
-            color = lineColor,
-            strokeWidth = if (y.toFloat() == canvasHeight) 5f else 0f,
+            color = if (y.toFloat() == canvasHeight) borderColor else lineColor,
+            strokeWidth = if (y.toFloat() == canvasHeight) borderStroke else 0f,
         )
     }
 }
