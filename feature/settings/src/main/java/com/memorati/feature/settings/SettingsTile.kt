@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -26,6 +27,7 @@ internal fun SettingsTile(
     title: String,
     imageVector: ImageVector,
     visible: Boolean = true,
+    contentPadding: Dp = 24.dp,
     content: @Composable () -> Unit,
 ) {
     if (visible) {
@@ -53,7 +55,7 @@ internal fun SettingsTile(
                 )
             }
 
-            Column(modifier = Modifier.padding(all = 24.dp)) {
+            Column(modifier = Modifier.padding(all = contentPadding)) {
                 content()
             }
         }

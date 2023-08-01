@@ -161,8 +161,10 @@ internal fun SettingsScreen(
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
                 title = stringResource(id = R.string.insights),
                 imageVector = MemoratiIcons.Insights,
+                contentPadding = 0.dp,
             ) {
                 Text(
+                    modifier = Modifier.padding(horizontal = 24.dp),
                     text = stringResource(
                         id = R.string.flashcards_count,
                         state.flashcardsCount,
