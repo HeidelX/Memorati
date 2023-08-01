@@ -19,7 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,10 +35,12 @@ internal fun Chart(
     modifier: Modifier = Modifier,
     entries: List<DayEntry>,
 ) {
+    val lineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
     Row(
         modifier = modifier
             .padding(16.dp)
             .fillMaxWidth()
+            .drawBehind { drawGraph(lineColor) }
             .wrapContentHeight()
             .horizontalScroll(rememberScrollState()),
         verticalAlignment = Alignment.Bottom,
@@ -92,6 +98,28 @@ private fun Bar(
         Text(
             text = label,
             fontSize = 8.sp,
+        )
+    }
+}
+
+private fun DrawScope.drawGraph(lineColor: Color) {
+    val canvasWidth = size.width
+    val canvasHeight = size.height
+    for (x in 0..canvasWidth.toInt() step 50) {
+        drawLine(
+            start = Offset(x = x.toFloat(), y = 0f),
+            end = Offset(x = x.toFloat(), y = canvasHeight),
+            color = lineColor,
+            strokeWidth = if (x.toFloat() == 0f) 5f else 0f,
+        )
+    }
+
+    for (y in canvasHeight.toInt() downTo 0 step 50) {
+        drawLine(
+            start = Offset(x = 0f, y = y.toFloat()),
+            end = Offset(x = canvasWidth, y = y.toFloat()),
+            color = lineColor,
+            strokeWidth = if (y.toFloat() == canvasHeight) 5f else 0f,
         )
     }
 }
