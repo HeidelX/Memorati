@@ -17,11 +17,11 @@ enum class FlavorDimension {
 @Suppress("EnumEntryName")
 enum class MemoratiFlavor(val dimension: FlavorDimension, val applicationIdSuffix: String? = null) {
     demo(FlavorDimension.contentType, applicationIdSuffix = ".demo"),
-    prod(FlavorDimension.contentType, )
+    prod(FlavorDimension.contentType)
 }
 
 fun Project.configureFlavors(
-    commonExtension: CommonExtension<*, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *>,
     flavorConfigurationBlock: ProductFlavor.(flavor: MemoratiFlavor) -> Unit = {}
 ) {
     commonExtension.apply {
