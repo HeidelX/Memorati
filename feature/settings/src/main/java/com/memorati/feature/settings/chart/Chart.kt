@@ -35,7 +35,7 @@ internal fun Chart(
     modifier: Modifier = Modifier,
     entries: List<DayEntry>,
 ) {
-    val lineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
+    val lineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
     val borderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
     Row(
         modifier = modifier
