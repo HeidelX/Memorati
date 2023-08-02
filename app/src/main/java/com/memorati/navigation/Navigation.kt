@@ -16,7 +16,6 @@ import com.memorati.feature.assistant.R as AssistantR
 import com.memorati.feature.cards.R as CardsR
 import com.memorati.feature.favourites.R as FavouritesR
 
-@Suppress("ktlint:no-semi", "ktlint:trailing-comma-on-declaration-site")
 enum class TopDestination(
     val route: String,
     val icon: ImageVector,
@@ -40,7 +39,8 @@ enum class TopDestination(
         icon = MemoratiIcons.Assistant,
         labelId = AssistantR.string.assistant,
         iconDescriptionId = AssistantR.string.assistant,
-    );
+    ),
+    ;
 
     companion object {
         fun toNavItems() = values().map { topDestination ->
