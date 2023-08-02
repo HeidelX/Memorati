@@ -4,20 +4,20 @@
 
 # Memorati
 > The Latin word "memorati" is the plural form of the adjective "memoratus," which means "remembered," "recounted," or "told." In English, it can be translated as "those who have been remembered" or "those who have been told."
-> 
+
 Flashcards App for learning purposes. [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Memorati is a versatile and feature-rich Android application designed to enhance your learning experience. Whether you're studying for exams, learning a new language, or expanding your knowledge on various topics, Memorati is your go-to learning companion.
 
 ## Features
 
-- Create personalized flashcards tailored to your unique learning goals.
-- Customize your flashcards with text.
-- Take advantage of advanced algorithms for optimized flashcard review.
-- Adaptive scheduling adjusts flashcard difficulty and review intervals based on your performance.
-- Time-weighted review prioritizes flashcards that require refreshing.
-- Track your progress with comprehensive statistics and performance insights.
-- Engage with the Memorati community, share flashcard sets, and collaborate with fellow learners.
+- - Create personalized flashcards tailored to your unique learning goals.
+- - Customize your flashcards with text.
+- - Take advantage of advanced algorithms for optimized flashcard review.
+- - Adaptive scheduling adjusts flashcard difficulty and review intervals based on your performance.
+- - Time-weighted review prioritizes flashcards that require refreshing.
+- - Track your progress with comprehensive statistics and performance insights.
+- - Engage with the Memorati community, share flashcard sets, and collaborate with fellow learners.
 
 ## Installation
 
