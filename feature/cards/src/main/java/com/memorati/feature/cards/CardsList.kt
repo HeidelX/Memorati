@@ -31,6 +31,10 @@ import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.ext.isScrollingUp
 import com.memorati.core.ui.provider.FlashcardsProvider
 import com.memorati.core.ui.theme.MemoratiTheme
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toJavaLocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @Composable
 internal fun CardsScreen(
@@ -67,10 +71,10 @@ internal fun CardsScreen(
             state.map.isNotEmpty() -> Cards(
                 modifier = Modifier.padding(contentPadding),
                 state = state,
-                lazyListState = lazyGridState,
                 speak = speak,
                 onEdit = onEdit,
                 onDelete = onDelete,
+                lazyListState = lazyGridState,
                 toggleFavoured = toggleFavoured,
             )
 
@@ -109,7 +113,8 @@ private fun Cards(
                         .fillMaxWidth()
                         .animateItemPlacement()
                         .padding(all = 8.dp),
-                    text = date,
+                    text = date.toJavaLocalDate()
+                        .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
                     style = MaterialTheme.typography.titleSmall,
                 )
             }
@@ -166,9 +171,7 @@ internal fun CardsScreenPreview(
     MemoratiTheme {
         CardsScreen(
             state = CardsState(
-                map = mapOf(
-                    "01.07.2023" to flashcards,
-                ),
+                map = mapOf(LocalDate(2024, 9, 30) to flashcards),
                 query = "omm",
             ),
             speak = {},

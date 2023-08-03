@@ -1,28 +1,25 @@
 package com.memorati.feature.cards
 
-import android.speech.tts.TextToSpeech
 import android.util.Log
-import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.memorati.core.common.viewmodel.launch
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.model.Flashcard
+import com.memorati.feature.cards.speech.Orator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
-import kotlinx.datetime.toJavaInstant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.Locale
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class CardsViewModel @Inject constructor(
-    private val textToSpeech: TextToSpeech,
+    private val orator: Orator,
     private val flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
 
@@ -34,31 +31,27 @@ class CardsViewModel @Inject constructor(
         val map = flashcards.filter { flashcard ->
             if (query.isEmpty()) true else flashcard.contains(query)
         }.groupBy { card ->
-            card.createdAt
-                .toJavaInstant()
-                .atZone(ZoneId.systemDefault())
-                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+            card.createdAt.toLocalDateTime(TimeZone.currentSystemDefault()).date
         }.toSortedMap(
             compareByDescending { it },
-        )
+        ).entries.associate { entry ->
+            entry.key to entry.value.sortedBy { card -> card.idiom }
+        }
 
-        CardsState(
-            map = map,
-            query = query,
-        )
+        CardsState(map = map, query = query)
     }.stateIn(
         viewModelScope,
-        SharingStarted.WhileSubscribed(),
+        SharingStarted.Eagerly,
         CardsState(),
     )
 
-    fun toggleFavoured(flashcard: Flashcard) = viewModelScope.launch {
+    fun toggleFavoured(flashcard: Flashcard) = launch {
         flashcardsRepository.updateCard(
             flashcard.copy(favoured = !flashcard.favoured),
         )
     }
 
-    fun deleteCard(flashcard: Flashcard) = viewModelScope.launch {
+    fun deleteCard(flashcard: Flashcard) = launch {
         flashcardsRepository.deleteCard(flashcard)
     }
 
@@ -67,16 +60,14 @@ class CardsViewModel @Inject constructor(
     }
 
     fun speak(card: Flashcard) {
-        viewModelScope.launch {
-            try {
-                textToSpeech.setLanguage(Locale(card.idiomLanguageTag!!))
-                textToSpeech.speak(card.idiom, TextToSpeech.QUEUE_FLUSH, bundleOf(), card.idiom)
-            } catch (e: Exception) {
-                Log.d(
-                    "CardsViewModel",
-                    e.localizedMessage ?: e.message ?: e::class.qualifiedName.toString(),
-                )
-            }
+        try {
+            orator.setLanguage(card.idiomLanguageTag!!)
+            orator.pronounce(card.idiom)
+        } catch (e: Exception) {
+            Log.d(
+                "CardsViewModel",
+                e.localizedMessage ?: e.message ?: e::class.qualifiedName.toString(),
+            )
         }
     }
 }
@@ -86,6 +77,6 @@ private fun Flashcard.contains(query: String): Boolean {
 }
 
 data class CardsState(
-    val map: Map<String, List<Flashcard>> = emptyMap(),
+    val map: Map<LocalDate, List<Flashcard>> = emptyMap(),
     val query: String = "",
 )

@@ -5,7 +5,10 @@ import com.memorati.core.model.AdditionalInfo
 import com.memorati.core.model.Flashcard
 import com.memorati.core.model.Topic
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlin.random.Random
@@ -13,17 +16,22 @@ import kotlin.random.Random
 class TestFlashcardsRepository : FlashcardsRepository {
 
     private val cardsMap = generate().associateBy { it.id }.toMutableMap()
+    private val state = MutableStateFlow(cardsMap.values.toList())
 
     override fun flashcards(): Flow<List<Flashcard>> {
-        return flowOf(listOf())
+        return state
     }
 
     override fun dueFlashcards(time: Instant): Flow<List<Flashcard>> {
-        return flowOf(cardsMap.values.filter { it.nextReviewAt <= time }.toList())
+        return state.map { cards ->
+            cards.filter { it.nextReviewAt <= time }.toList()
+        }
     }
 
     override fun favourites(): Flow<List<Flashcard>> {
-        return flowOf(cardsMap.values.filter { it.favoured })
+        return state.map { cards ->
+            cards.filter { it.favoured }.toList()
+        }
     }
 
     override fun findById(id: Long): Flow<Flashcard?> {
@@ -37,11 +45,17 @@ class TestFlashcardsRepository : FlashcardsRepository {
     }
 
     override suspend fun createCard(flashcard: Flashcard) {
-        cardsMap[flashcard.id] = flashcard
+        state.update {
+            cardsMap[flashcard.id] = flashcard
+            cardsMap.values.toList()
+        }
     }
 
     override suspend fun updateCard(flashcard: Flashcard) {
-        cardsMap[flashcard.id] = flashcard
+        state.update {
+            cardsMap[flashcard.id] = flashcard
+            cardsMap.values.toList()
+        }
     }
 
     override suspend fun updateCards(flashcards: List<Flashcard>) {
@@ -49,11 +63,17 @@ class TestFlashcardsRepository : FlashcardsRepository {
     }
 
     override suspend fun deleteCard(flashcard: Flashcard) {
-        cardsMap.remove(flashcard.id)
+        state.update {
+            cardsMap.remove(flashcard.id)
+            cardsMap.values.toList()
+        }
     }
 
     override suspend fun clear() {
-        cardsMap.clear()
+        state.update {
+            cardsMap.clear()
+            cardsMap.values.toList()
+        }
     }
 
     private fun generate(): MutableList<Flashcard> {
@@ -69,7 +89,7 @@ class TestFlashcardsRepository : FlashcardsRepository {
                 Flashcard(
                     id = i,
                     idiom = "Idiom $i",
-                    meaning = "Meaning $i",
+                    meaning = "Meaning -$i",
                     createdAt = Instant.fromEpochMilliseconds(createdAt),
                     lastReviewAt = Instant.fromEpochMilliseconds(lastReviewAt),
                     nextReviewAt = Instant.fromEpochMilliseconds(nextReviewAt),
