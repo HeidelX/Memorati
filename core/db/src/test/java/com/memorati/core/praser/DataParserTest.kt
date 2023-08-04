@@ -2,7 +2,9 @@ package com.memorati.core.praser
 
 import com.memorati.core.db.transfer.DataTransferV1
 import com.memorati.core.db.transfer.DataTransferV2
+import com.memorati.core.db.transfer.praser.DataParser
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class DataParserTest {
@@ -10,7 +12,12 @@ class DataParserTest {
 
     @Test
     fun encode() {
-        // dataParser.encode()
+        val json = javaClass.classLoader?.getResourceAsStream(
+            "expected_json_v2.json",
+        )!!.bufferedReader().readText()
+
+        val dataTransfer = dataParser.parseData(json)
+        assertEquals(json, dataParser.encode(dataTransfer as DataTransferV2))
     }
 
     @Test

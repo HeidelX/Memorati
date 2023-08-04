@@ -1,4 +1,4 @@
-package com.memorati.core.file
+package com.memorati.core.db.transfer.file
 
 import com.memorati.core.common.Defaults.REVIEW_DURATION
 import com.memorati.core.db.dao.FlashcardsDao
@@ -7,7 +7,7 @@ import com.memorati.core.db.model.FlashcardEntity
 import com.memorati.core.db.transfer.DataTransferV2
 import com.memorati.core.db.transfer.TransferableCard
 import com.memorati.core.db.transfer.TransferableCardV2
-import com.memorati.core.praser.DataParser
+import com.memorati.core.db.transfer.praser.DataParser
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.Clock
 import javax.inject.Inject

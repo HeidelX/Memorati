@@ -1,4 +1,4 @@
-package com.memorati.core.praser
+package com.memorati.core.db.transfer.praser
 
 import com.memorati.core.db.transfer.DataTransfer
 import com.memorati.core.db.transfer.DataTransferV1
@@ -19,7 +19,7 @@ class DataParser @Inject constructor() {
         }
     }
 
-    fun encode(dataTransfer: DataTransfer): String = Json.encodeToString(dataTransfer)
+    fun encode(dataTransfer: DataTransferV2): String = Json.encodeToString(dataTransfer)
 
     private inline fun <reified T : DataTransfer> parse(
         json: String,

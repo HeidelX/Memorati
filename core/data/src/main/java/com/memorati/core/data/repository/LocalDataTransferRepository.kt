@@ -2,7 +2,7 @@ package com.memorati.core.data.repository
 
 import android.content.Context
 import androidx.core.net.toUri
-import com.memorati.core.file.DataTransferSource
+import com.memorati.core.db.transfer.file.DataTransferSource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
