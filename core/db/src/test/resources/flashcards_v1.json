@@ -1,0 +1,970 @@
+{
+  "version": "1",
+  "cards": [
+    {
+      "idiom": "ich",
+      "description": "I"
+    },
+    {
+      "idiom": "du",
+      "description": "you (singular informal)"
+    },
+    {
+      "idiom": "er",
+      "description": "he"
+    },
+    {
+      "idiom": "sie",
+      "description": "she"
+    },
+    {
+      "idiom": "es",
+      "description": "it"
+    },
+    {
+      "idiom": "wir",
+      "description": "we"
+    },
+    {
+      "idiom": "ihr",
+      "description": "you (plural informal)"
+    },
+    {
+      "idiom": "sie",
+      "description": "they"
+    },
+    {
+      "idiom": "Sie",
+      "description": "you (singular/plural formal)"
+    },
+    {
+      "idiom": "sein",
+      "description": "to be"
+    },
+    {
+      "idiom": "haben",
+      "description": "to have"
+    },
+    {
+      "idiom": "werden",
+      "description": "to become"
+    },
+    {
+      "idiom": "machen",
+      "description": "to do/make"
+    },
+    {
+      "idiom": "sagen",
+      "description": "to say"
+    },
+    {
+      "idiom": "gehen",
+      "description": "to go"
+    },
+    {
+      "idiom": "kommen",
+      "description": "to come"
+    },
+    {
+      "idiom": "geben",
+      "description": "to give"
+    },
+    {
+      "idiom": "sehen",
+      "description": "to see"
+    },
+    {
+      "idiom": "mögen",
+      "description": "to like"
+    },
+    {
+      "idiom": "wissen",
+      "description": "to know"
+    },
+    {
+      "idiom": "müssen",
+      "description": "to must/have to"
+    },
+    {
+      "idiom": "können",
+      "description": "to can/be able to"
+    },
+    {
+      "idiom": "dürfen",
+      "description": "to may/be allowed to"
+    },
+    {
+      "idiom": "sollen",
+      "description": "to should/be supposed to"
+    },
+    {
+      "idiom": "wollen",
+      "description": "to want"
+    },
+    {
+      "idiom": "nehmen",
+      "description": "to take"
+    },
+    {
+      "idiom": "stellen",
+      "description": "to put/place"
+    },
+    {
+      "idiom": "arbeiten",
+      "description": "to work"
+    },
+    {
+      "idiom": "leben",
+      "description": "to live"
+    },
+    {
+      "idiom": "studieren",
+      "description": "to study"
+    },
+    {
+      "idiom": "lernen",
+      "description": "to learn"
+    },
+    {
+      "idiom": "verstehen",
+      "description": "to understand"
+    },
+    {
+      "idiom": "fahren",
+      "description": "to drive/travel"
+    },
+    {
+      "idiom": "lesen",
+      "description": "to read"
+    },
+    {
+      "idiom": "schreiben",
+      "description": "to write"
+    },
+    {
+      "idiom": "spielen",
+      "description": "to play"
+    },
+    {
+      "idiom": "kaufen",
+      "description": "to buy"
+    },
+    {
+      "idiom": "essen",
+      "description": "to eat"
+    },
+    {
+      "idiom": "trinken",
+      "description": "to drink"
+    },
+    {
+      "idiom": "schlafen",
+      "description": "to sleep"
+    },
+    {
+      "idiom": "lieben",
+      "description": "to love"
+    },
+    {
+      "idiom": "brauchen",
+      "description": "to need"
+    },
+    {
+      "idiom": "hören",
+      "description": "to hear/listen"
+    },
+    {
+      "idiom": "antworten",
+      "description": "to answer"
+    },
+    {
+      "idiom": "fragen",
+      "description": "to ask"
+    },
+    {
+      "idiom": "vergessen",
+      "description": "to forget"
+    },
+    {
+      "idiom": "finden",
+      "description": "to find"
+    },
+    {
+      "idiom": "hoffen",
+      "description": "to hope"
+    },
+    {
+      "idiom": "glauben",
+      "description": "to believe"
+    },
+    {
+      "idiom": "fühlen",
+      "description": "to feel"
+    },
+    {
+      "idiom": "sprechen",
+      "description": "to speak"
+    },
+    {
+      "idiom": "halten",
+      "description": "to hold"
+    },
+    {
+      "idiom": "geben",
+      "description": "to give"
+    },
+    {
+      "idiom": "brauchen",
+      "description": "to need"
+    },
+    {
+      "idiom": "schicken",
+      "description": "to send"
+    },
+    {
+      "idiom": "anfangen",
+      "description": "to begin/start"
+    },
+    {
+      "idiom": "endlich",
+      "description": "finally"
+    },
+    {
+      "idiom": "gleich",
+      "description": "same/equal"
+    },
+    {
+      "idiom": "immer",
+      "description": "always"
+    },
+    {
+      "idiom": "vielleicht",
+      "description": "maybe/perhaps"
+    },
+    {
+      "idiom": "oft",
+      "description": "often"
+    },
+    {
+      "idiom": "jetzt",
+      "description": "now"
+    },
+    {
+      "idiom": "später",
+      "description": "later"
+    },
+    {
+      "idiom": "gestern",
+      "description": "yesterday"
+    },
+    {
+      "idiom": "heute",
+      "description": "today"
+    },
+    {
+      "idiom": "morgen",
+      "description": "tomorrow"
+    },
+    {
+      "idiom": "gut",
+      "description": "good"
+    },
+    {
+      "idiom": "schlecht",
+      "description": "bad"
+    },
+    {
+      "idiom": "groß",
+      "description": "big/large"
+    },
+    {
+      "idiom": "klein",
+      "description": "small"
+    },
+    {
+      "idiom": "neu",
+      "description": "new"
+    },
+    {
+      "idiom": "alt",
+      "description": "old"
+    },
+    {
+      "idiom": "schön",
+      "description": "beautiful"
+    },
+    {
+      "idiom": "hässlich",
+      "description": "ugly"
+    },
+    {
+      "idiom": "warm",
+      "description": "warm"
+    },
+    {
+      "idiom": "kalt",
+      "description": "cold"
+    },
+    {
+      "idiom": "teuer",
+      "description": "expensive"
+    },
+    {
+      "idiom": "billig",
+      "description": "cheap"
+    },
+    {
+      "idiom": "richtig",
+      "description": "right/correct"
+    },
+    {
+      "idiom": "falsch",
+      "description": "wrong/false"
+    },
+    {
+      "idiom": "leicht",
+      "description": "light/easy"
+    },
+    {
+      "idiom": "schwer",
+      "description": "heavy/difficult"
+    },
+    {
+      "idiom": "lang",
+      "description": "long"
+    },
+    {
+      "idiom": "kurz",
+      "description": "short"
+    },
+    {
+      "idiom": "langsam",
+      "description": "slow"
+    },
+    {
+      "idiom": "schnell",
+      "description": "fast"
+    },
+    {
+      "idiom": "viele",
+      "description": "many"
+    },
+    {
+      "idiom": "wenige",
+      "description": "few"
+    },
+    {
+      "idiom": "genug",
+      "description": "enough"
+    },
+    {
+      "idiom": "schön",
+      "description": "nice"
+    },
+    {
+      "idiom": "interessant",
+      "description": "interesting"
+    },
+    {
+      "idiom": "langweilig",
+      "description": "boring"
+    },
+    {
+      "idiom": "jung",
+      "description": "young"
+    },
+    {
+      "idiom": "alt",
+      "description": "old"
+    },
+    {
+      "idiom": "gesund",
+      "description": "healthy"
+    },
+    {
+      "idiom": "krank",
+      "description": "sick"
+    },
+    {
+      "idiom": "glücklich",
+      "description": "happy"
+    },
+    {
+      "idiom": "traurig",
+      "description": "sad"
+    },
+    {
+      "idiom": "sauber",
+      "description": "clean"
+    },
+    {
+      "idiom": "schmutzig",
+      "description": "dirty"
+    },
+    {
+      "idiom": "hell",
+      "description": "bright/light"
+    },
+    {
+      "idiom": "dunkel",
+      "description": "dark"
+    },
+    {
+      "idiom": "laut",
+      "description": "loud"
+    },
+    {
+      "idiom": "leise",
+      "description": "quiet"
+    },
+    {
+      "idiom": "schön",
+      "description": "beautiful"
+    },
+    {
+      "idiom": "hässlich",
+      "description": "ugly"
+    },
+    {
+      "idiom": "nächst",
+      "description": "next"
+    },
+    {
+      "idiom": "letzt",
+      "description": "last"
+    },
+    {
+      "idiom": "erste",
+      "description": "first"
+    },
+    {
+      "idiom": "zweite",
+      "description": "second"
+    },
+    {
+      "idiom": "dritte",
+      "description": "third"
+    },
+    {
+      "idiom": "vierte",
+      "description": "fourth"
+    },
+    {
+      "idiom": "fünfte",
+      "description": "fifth"
+    },
+    {
+      "idiom": "sechste",
+      "description": "sixth"
+    },
+    {
+      "idiom": "siebte",
+      "description": "seventh"
+    },
+    {
+      "idiom": "achte",
+      "description": "eighth"
+    },
+    {
+      "idiom": "neunte",
+      "description": "ninth"
+    },
+    {
+      "idiom": "zehnte",
+      "description": "tenth"
+    },
+    {
+      "idiom": "schule",
+      "description": "school"
+    },
+    {
+      "idiom": "universität",
+      "description": "university"
+    },
+    {
+      "idiom": "lehrer",
+      "description": "teacher"
+    },
+    {
+      "idiom": "schüler",
+      "description": "student"
+    },
+    {
+      "idiom": "buch",
+      "description": "book"
+    },
+    {
+      "idiom": "zeitung",
+      "description": "newspaper"
+    },
+    {
+      "idiom": "brief",
+      "description": "letter"
+    },
+    {
+      "idiom": "computer",
+      "description": "computer"
+    },
+    {
+      "idiom": "telefon",
+      "description": "telephone"
+    },
+    {
+      "idiom": "auto",
+      "description": "car"
+    },
+    {
+      "idiom": "haus",
+      "description": "house"
+    },
+    {
+      "idiom": "zimmer",
+      "description": "room"
+    },
+    {
+      "idiom": "wohnung",
+      "description": "apartment"
+    },
+    {
+      "idiom": "stadt",
+      "description": "city"
+    },
+    {
+      "idiom": "land",
+      "description": "country"
+    },
+    {
+      "idiom": "meer",
+      "description": "sea"
+    },
+    {
+      "idiom": "see",
+      "description": "lake"
+    },
+    {
+      "idiom": "berg",
+      "description": "mountain"
+    },
+    {
+      "idiom": "fluss",
+      "description": "river"
+    },
+    {
+      "idiom": "brücke",
+      "description": "bridge"
+    },
+    {
+      "idiom": "baum",
+      "description": "tree"
+    },
+    {
+      "idiom": "blume",
+      "description": "flower"
+    },
+    {
+      "idiom": "tier",
+      "description": "animal"
+    },
+    {
+      "idiom": "hund",
+      "description": "dog"
+    },
+    {
+      "idiom": "katze",
+      "description": "cat"
+    },
+    {
+      "idiom": "vogel",
+      "description": "bird"
+    },
+    {
+      "idiom": "fisch",
+      "description": "fish"
+    },
+    {
+      "idiom": "mensch",
+      "description": "human"
+    },
+    {
+      "idiom": "freund",
+      "description": "friend"
+    },
+    {
+      "idiom": "familie",
+      "description": "family"
+    },
+    {
+      "idiom": "mutter",
+      "description": "mother"
+    },
+    {
+      "idiom": "vater",
+      "description": "father"
+    },
+    {
+      "idiom": "kind",
+      "description": "child"
+    },
+    {
+      "idiom": "bruder",
+      "description": "brother"
+    },
+    {
+      "idiom": "schwester",
+      "description": "sister"
+    },
+    {
+      "idiom": "sohn",
+      "description": "son"
+    },
+    {
+      "idiom": "tochter",
+      "description": "daughter"
+    },
+    {
+      "idiom": "hausfrau",
+      "description": "housewife"
+    },
+    {
+      "idiom": "arzt",
+      "description": "doctor"
+    },
+    {
+      "idiom": "krankenhaus",
+      "description": "hospital"
+    },
+    {
+      "idiom": "polizei",
+      "description": "police"
+    },
+    {
+      "idiom": "feuerwehr",
+      "description": "fire department"
+    },
+    {
+      "idiom": "bank",
+      "description": "bank"
+    },
+    {
+      "idiom": "post",
+      "description": "post office"
+    },
+    {
+      "idiom": "markt",
+      "description": "market"
+    },
+    {
+      "idiom": "restaurant",
+      "description": "restaurant"
+    },
+    {
+      "idiom": "café",
+      "description": "café"
+    },
+    {
+      "idiom": "kino",
+      "description": "cinema"
+    },
+    {
+      "idiom": "museum",
+      "description": "museum"
+    },
+    {
+      "idiom": "park",
+      "description": "park"
+    },
+    {
+      "idiom": "bibliothek",
+      "description": "library"
+    },
+    {
+      "idiom": "postkarte",
+      "description": "postcard"
+    },
+    {
+      "idiom": "flugzeug",
+      "description": "airplane"
+    },
+    {
+      "idiom": "zug",
+      "description": "train"
+    },
+    {
+      "idiom": "schiff",
+      "description": "ship"
+    },
+    {
+      "idiom": "bus",
+      "description": "bus"
+    },
+    {
+      "idiom": "fahrrad",
+      "description": "bicycle"
+    },
+    {
+      "idiom": "auto",
+      "description": "car"
+    },
+    {
+      "idiom": "motorrad",
+      "description": "motorcycle"
+    },
+    {
+      "idiom": "farbe",
+      "description": "color"
+    },
+    {
+      "idiom": "rot",
+      "description": "red"
+    },
+    {
+      "idiom": "blau",
+      "description": "blue"
+    },
+    {
+      "idiom": "grün",
+      "description": "green"
+    },
+    {
+      "idiom": "gelb",
+      "description": "yellow"
+    },
+    {
+      "idiom": "schwarz",
+      "description": "black"
+    },
+    {
+      "idiom": "weiß",
+      "description": "white"
+    },
+    {
+      "idiom": "orange",
+      "description": "orange"
+    },
+    {
+      "idiom": "braun",
+      "description": "brown"
+    },
+    {
+      "idiom": "grau",
+      "description": "gray"
+    },
+    {
+      "idiom": "lila",
+      "description": "purple"
+    },
+    {
+      "idiom": "akkurat",
+      "description": "accurate"
+    },
+    {
+      "idiom": "artikulieren",
+      "description": "articulate"
+    },
+    {
+      "idiom": "belastbar",
+      "description": "resilient"
+    },
+    {
+      "idiom": "bequem",
+      "description": "comfortable"
+    },
+    {
+      "idiom": "brillant",
+      "description": "brilliant"
+    },
+    {
+      "idiom": "detailliert",
+      "description": "detailed"
+    },
+    {
+      "idiom": "effektiv",
+      "description": "effective"
+    },
+    {
+      "idiom": "effizient",
+      "description": "efficient"
+    },
+    {
+      "idiom": "ehrgeizig",
+      "description": "ambitious"
+    },
+    {
+      "idiom": "empfindlich",
+      "description": "sensitive"
+    },
+    {
+      "idiom": "erfahren",
+      "description": "experienced"
+    },
+    {
+      "idiom": "flexibel",
+      "description": "flexible"
+    },
+    {
+      "idiom": "gewissenhaft",
+      "description": "conscientious"
+    },
+    {
+      "idiom": "herausfordernd",
+      "description": "challenging"
+    },
+    {
+      "idiom": "konstruktiv",
+      "description": "constructive"
+    },
+    {
+      "idiom": "kreativ",
+      "description": "creative"
+    },
+    {
+      "idiom": "leidenschaftlich",
+      "description": "passionate"
+    },
+    {
+      "idiom": "logisch",
+      "description": "logical"
+    },
+    {
+      "idiom": "organisiert",
+      "description": "organized"
+    },
+    {
+      "idiom": "präzise",
+      "description": "precise"
+    },
+    {
+      "idiom": "professionell",
+      "description": "professional"
+    },
+    {
+      "idiom": "verantwortungsvoll",
+      "description": "responsible"
+    },
+    {
+      "idiom": "verlässlich",
+      "description": "reliable"
+    },
+    {
+      "idiom": "vielseitig",
+      "description": "versatile"
+    },
+    {
+      "idiom": "zuvorkommend",
+      "description": "attentive"
+    },
+    {
+      "idiom": "ausdauernd",
+      "description": "persistent"
+    },
+    {
+      "idiom": "bedacht",
+      "description": "thoughtful"
+    },
+    {
+      "idiom": "belesen",
+      "description": "well-read"
+    },
+    {
+      "idiom": "ehrlich",
+      "description": "honest"
+    },
+    {
+      "idiom": "einfallsreich",
+      "description": "resourceful"
+    },
+    {
+      "idiom": "entschlossen",
+      "description": "determined"
+    },
+    {
+      "idiom": "freundlich",
+      "description": "friendly"
+    },
+    {
+      "idiom": "geduldig",
+      "description": "patient"
+    },
+    {
+      "idiom": "gewissenhaft",
+      "description": "conscientious"
+    },
+    {
+      "idiom": "gründlich",
+      "description": "thorough"
+    },
+    {
+      "idiom": "loyal",
+      "description": "loyal"
+    },
+    {
+      "idiom": "sorgfältig",
+      "description": "careful"
+    },
+    {
+      "idiom": "taktvoll",
+      "description": "tactful"
+    },
+    {
+      "idiom": "vertrauenswürdig",
+      "description": "trustworthy"
+    },
+    {
+      "idiom": "zuvorkommend",
+      "description": "courteous"
+    },
+    {
+      "idiom": "abenteuerlustig",
+      "description": "adventurous"
+    },
+    {
+      "idiom": "beharrlich",
+      "description": "persevering"
+    },
+    {
+      "idiom": "belesen",
+      "description": "knowledgeable"
+    },
+    {
+      "idiom": "charismatisch",
+      "description": "charismatic"
+    },
+    {
+      "idiom": "eloquent",
+      "description": "eloquent"
+    },
+    {
+      "idiom": "furchtlos",
+      "description": "fearless"
+    },
+    {
+      "idiom": "herzlich",
+      "description": "warmhearted"
+    },
+    {
+      "idiom": "kultiviert",
+      "description": "cultivated"
+    },
+    {
+      "idiom": "souverän",
+      "description": "confident"
+    },
+    {
+      "idiom": "visionär",
+      "description": "visionary"
+    },
+    {
+      "idiom": "wagemutig",
+      "description": "daring"
+    },
+    {
+      "idiom": "zärtlich",
+      "description": "tender"
+    },
+    {
+      "idiom": "zielstrebig",
+      "description": "determined"
+    }
+  ],
+  "exported_at_utc": "2023-08-05T10:20:10.601Z"
+}

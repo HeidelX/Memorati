@@ -11,7 +11,7 @@ import com.memorati.core.db.dao.TopicsDao
 import com.memorati.core.db.model.FlashcardEntity
 import com.memorati.core.db.model.FlashcardTopicCrossRef
 import com.memorati.core.db.model.TopicEntity
-import com.memorati.core.v2.V1V2AutoMigrationSpecs
+import com.memorati.core.db.v2.V1V2AutoMigrationSpecs
 
 @Database(
     entities = [

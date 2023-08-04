@@ -1,0 +1,761 @@
+{
+  "version": "2",
+  "cards": [
+    {
+      "idiom": "lasieren",
+      "meaning": "تلميع",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Bonität",
+      "meaning": "الحالة المالية",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "entbehrlich",
+      "meaning": "غير ضروري",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "sämtlich",
+      "meaning": "كافة / جميع",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "aufwenden",
+      "meaning": "أنفق / صرف",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "einschließlich",
+      "meaning": "بما في ذلك",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "beruhen auf",
+      "meaning": "استند على",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "umfassen",
+      "meaning": "اشتمل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "sich erstrecken auf",
+      "meaning": "امتد إلى",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "zugrunde liegende",
+      "meaning": "الشيء الأساسي",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "vorgesehen",
+      "meaning": "منصوص عليه",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Erwerbstätigkeit",
+      "meaning": "عامل / يعمل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "stochern",
+      "meaning": "ثقب / وخز",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "in trockenen Tüchern",
+      "meaning": "المشروع إنتهى",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "in saus und Braus",
+      "meaning": "في النعيم والترف",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "verweisen",
+      "meaning": "أحال",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "anknipsen",
+      "meaning": "شغل الجهاز",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "verknüpfen",
+      "meaning": "ربط / شبك",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "entsprechen",
+      "meaning": "تساوى / وافق / طابق",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "bedauern",
+      "meaning": "أسف / ندم",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Das Leinöl",
+      "meaning": "زيت بذرة الكتان",
+      "idiomLanguageTag": "de"
+    },
+    {
+      "idiom": "Entzug",
+      "meaning": "سحب / حرمان",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "fegen",
+      "meaning": "يكنس",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Absonderungspflicht",
+      "meaning": "واجب العزل",
+      "idiomLanguageTag": "de"
+    },
+    {
+      "idiom": "den Löffel abgeben",
+      "meaning": "توفي",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "entschärfen",
+      "meaning": "لطّف",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "ausscheiden",
+      "meaning": "يخرج",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "unschlüssig",
+      "meaning": "غير قاطع / متردد",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "schutzbedürftig",
+      "meaning": "محتاج للحماية",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Bluff",
+      "meaning": "خدعة",
+      "idiomLanguageTag": "de"
+    },
+    {
+      "idiom": "bluffen",
+      "meaning": "غَش",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Das vorgehen",
+      "meaning": "إجراء",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "auswerten",
+      "meaning": "قَيّم",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "entwerfen",
+      "meaning": "رَسّم",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "kentern",
+      "meaning": "انقلب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Einspruch",
+      "meaning": "إعتراض",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Umfang",
+      "meaning": "نطاق / حجم",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "verurteilen",
+      "meaning": "أدان / استنكر",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "verlangen",
+      "meaning": "طلب / طالب ب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "gewährleisten",
+      "meaning": "يضمن",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "einstufen",
+      "meaning": "صَنّف",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "vorzugsweise",
+      "meaning": "من المفضل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Gleichgesinnte",
+      "meaning": "أناس متشابهين في التفكير",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "sorgfältig",
+      "meaning": "بعناية",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Einklang",
+      "meaning": "توافق / تناسب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "unbefugt",
+      "meaning": "غير قانوني",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die prävention",
+      "meaning": "وقاية / منع",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "vergewissern",
+      "meaning": "يضمن",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "sich vergewissern",
+      "meaning": "تحقق من / تأكد من",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Sachverhalt",
+      "meaning": "حال / وضع",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Teufel",
+      "meaning": "شيطان",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Teufelskreis",
+      "meaning": "حلقة مفرغة",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Schub",
+      "meaning": "دفعة / دُرج",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "beeinträchtigen",
+      "meaning": "أضر / عطل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Trümmer",
+      "meaning": "أنقاض",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Vorrat",
+      "meaning": "مخزون / رصيد",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "prekär",
+      "meaning": "متأزم/ حرج",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "moralisch",
+      "meaning": "أخلاقي / معنوي / أدبي",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Das Gefecht",
+      "meaning": "إشتباك",
+      "idiomLanguageTag": "de"
+    },
+    {
+      "idiom": "arg",
+      "meaning": "شرير / رديء / سيء",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Polemik",
+      "meaning": "هجوم لفظي / جدال",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "auf etw. beharren",
+      "meaning": "أصر / صمم",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "vertuschen",
+      "meaning": "أخفى",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Flotte",
+      "meaning": "أسطول",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "foltern",
+      "meaning": "عذّب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Fuge [pl.Fugen]",
+      "meaning": "شَق",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Deportation",
+      "meaning": "إبعاد / ترحيل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Wahrnehmung",
+      "meaning": "إدراك / إحساس / إنضباط",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "ausloten",
+      "meaning": "استجلى",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "bergen",
+      "meaning": "انقذ / نجى",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Überfall",
+      "meaning": "هجوم / اعتداء",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Das Foyer",
+      "meaning": "ردهة / فناء",
+      "idiomLanguageTag": "de"
+    },
+    {
+      "idiom": "vermummt",
+      "meaning": "ملثم / مقنع",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "lindern",
+      "meaning": "هدّأ / سكّن / لطّف",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Spekulant",
+      "meaning": "مُضارب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "baumeln",
+      "meaning": "تدلى",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "mit den Füßen baumeln",
+      "meaning": "هزّ رجليه",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "schneidig",
+      "meaning": "سريع",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "abdrücken",
+      "meaning": "ضغط / أطلق النار",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "erliegen",
+      "meaning": "توفي / استسلم / انهزم",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Kot",
+      "meaning": "براز / روث / طين",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "zündeln",
+      "meaning": "لعب بالنار",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "raffiniert",
+      "meaning": "بارع / مُصفّى",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "heikl",
+      "meaning": "حساس",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Das Urheberrecht",
+      "meaning": "حقوق الطبع والنشر",
+      "idiomLanguageTag": "de"
+    },
+    {
+      "idiom": "heimtückisch",
+      "meaning": "غدر / خبيث / غدار / مختال",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "knallen",
+      "meaning": "دوى / صفع / فرقع",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Verwüstung",
+      "meaning": "دمار خراب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Das begehren",
+      "meaning": "الرغبة / الإشتهاء",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "exhumieren",
+      "meaning": "ينبش جثة",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "zulässig",
+      "meaning": "مسموح",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Erwerbsminderung",
+      "meaning": "عجز",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Randale",
+      "meaning": "شغب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Kripo",
+      "meaning": "البوليس الجنائي",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "auf etw. einschwören",
+      "meaning": "ألزم / شدد على",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Fang [pl. Fänge]",
+      "meaning": "مخلب / صيد / ناب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "veranlassen",
+      "meaning": "سبب /حث / دفع",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Zumutung",
+      "meaning": "فرض / أذى / تعجيز",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Abschottung",
+      "meaning": "انغلاق / عزل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "straucheln",
+      "meaning": "تعثر",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "in etw. geraten",
+      "meaning": "وقع في",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die verlegenheit",
+      "meaning": "إحراج / خجل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "stocken",
+      "meaning": "توقف / تعثر / تلعثم",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Esoterik",
+      "meaning": "روحيات",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "dementieren",
+      "meaning": "أنكر / نفى",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "krebserregend",
+      "meaning": "مسرطن",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "das Vorurteil [pl. Vorurteile ]",
+      "meaning": "حكم مسبق",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "der Fluch [pl. Flüche]",
+      "meaning": "لعنة",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "die Ertüchtigung",
+      "meaning": "ممارسة / تدريب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "der Entwurf [pl. Entwürfe]",
+      "meaning": "مشروع / مسودة",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "ironisch",
+      "meaning": "ساخر/متهكم/مستهزئ",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "ekelerregend",
+      "meaning": "مثير للإشمئزاز",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "ausrotten",
+      "meaning": "أباد / أفنى",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Ernüchterung",
+      "meaning": "خيبة أمل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "auslagern",
+      "meaning": "يوكل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "einträglich",
+      "meaning": "مربح",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "empfehlenswert",
+      "meaning": "مستحسن",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "der Drahtseilakt",
+      "meaning": "حبل شد",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "erwägen",
+      "meaning": "درس / تفكر",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "abwägen",
+      "meaning": "وزن / فكّر",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "wiegen",
+      "meaning": "وزن",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "bangen",
+      "meaning": "تَخَوّف",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "bejahen",
+      "meaning": "قَبِل / تقبّل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Blockadehaltung",
+      "meaning": "موقف معارض",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Verlegung",
+      "meaning": "نشر / تأجيل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Hürde [Hürden]",
+      "meaning": "عقبة",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "aussetzen",
+      "meaning": "أوقف / انتقد",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "necken",
+      "meaning": "داعب / عاكس / ضايق",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Das Tal",
+      "meaning": "وادي",
+      "idiomLanguageTag": "de"
+    },
+    {
+      "idiom": "Die Beförderung",
+      "meaning": "ترقية",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "ruinieren",
+      "meaning": "دمّر",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "vernarben",
+      "meaning": "ترك ندبة",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "unterwerfen",
+      "meaning": "أخضع / أذل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "verkörpern",
+      "meaning": "يجسّد",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Narbe",
+      "meaning": "ندبة",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Ausrede",
+      "meaning": "عذر / حُجة",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "ausreden",
+      "meaning": "أتم كلامه",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Der Gehorsam",
+      "meaning": "الطاعة",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Doe Aufführung",
+      "meaning": "أداء / عرض / تمثيل",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "wickeln",
+      "meaning": "لف / غلف / حفض",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "erproben",
+      "meaning": "جرب / اختبر",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "einschüchtern",
+      "meaning": "خوّف / أرهب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "schütten",
+      "meaning": "سكب",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "schütteln",
+      "meaning": "هزّ / رجّ",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "vergewaltigen",
+      "meaning": "اغتصب / اعتدى",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "provisorisch",
+      "meaning": "مؤقت",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "ansässig",
+      "meaning": "مقيم",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Zeche",
+      "meaning": "منجم",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "blamieren",
+      "meaning": "يحرج / يفضح",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Die Übernahme",
+      "meaning": "استحواذ",
+      "idiomLanguageTag": null
+    },
+    {
+      "idiom": "Das Gitter",
+      "meaning": "قضبان",
+      "idiomLanguageTag": "de"
+    }
+  ],
+  "exported_at_utc": "2023-08-05T10:20:10.601Z"
+}

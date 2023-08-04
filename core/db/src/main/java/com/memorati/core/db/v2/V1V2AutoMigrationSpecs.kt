@@ -1,4 +1,4 @@
-package com.memorati.core.v2
+package com.memorati.core.db.v2
 
 import androidx.room.RenameColumn
 import androidx.room.migration.AutoMigrationSpec
