@@ -11,13 +11,13 @@ Memorati is a versatile and feature-rich Android application designed to enhance
 
 ## Features
 
-- - Create personalized flashcards tailored to your unique learning goals.
-- - Customize your flashcards with text.
-- - Take advantage of advanced algorithms for optimized flashcard review.
-- - Adaptive scheduling adjusts flashcard difficulty and review intervals based on your performance.
-- - Time-weighted review prioritizes flashcards that require refreshing.
-- - Track your progress with comprehensive statistics and performance insights.
-- - Engage with the Memorati community, share flashcard sets, and collaborate with fellow learners.
+- Create personalized flashcards tailored to your unique learning goals.
+- Customize your flashcards with text.
+- Take advantage of advanced algorithms for optimized flashcard review.
+- Adaptive scheduling adjusts flashcard difficulty and review intervals based on your performance.
+- Time-weighted review prioritizes flashcards that require refreshing.
+- Track your progress with comprehensive statistics and performance insights.
+- Engage with the Memorati community, share flashcard sets, and collaborate with fellow learners.
 
 ## Installation
 
