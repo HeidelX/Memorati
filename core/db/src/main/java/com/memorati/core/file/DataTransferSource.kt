@@ -4,21 +4,20 @@ import com.memorati.core.common.Defaults.REVIEW_DURATION
 import com.memorati.core.db.dao.FlashcardsDao
 import com.memorati.core.db.model.AdditionalInfoEntity
 import com.memorati.core.db.model.FlashcardEntity
-import com.memorati.core.db.transfer.DataTransferV1
 import com.memorati.core.db.transfer.DataTransferV2
 import com.memorati.core.db.transfer.TransferableCard
 import com.memorati.core.db.transfer.TransferableCardV2
+import com.memorati.core.praser.DataParser
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.Clock
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class DataTransferSource @Inject constructor(
     private val dao: FlashcardsDao,
+    private val dataParser: DataParser,
 ) {
     suspend fun flashcardsJson(): String {
-        val transferableCards = dao.allFlashcard().first().map { flashcardEntity ->
+        val cards = dao.allFlashcard().first().map { flashcardEntity ->
             TransferableCardV2(
                 idiom = flashcardEntity.idiom,
                 meaning = flashcardEntity.meaning,
@@ -26,33 +25,12 @@ class DataTransferSource @Inject constructor(
             )
         }
 
-        return Json.encodeToString(
-            DataTransferV2(cards = transferableCards),
-        )
+        return dataParser.encode(DataTransferV2(cards = cards))
     }
 
     suspend fun import(json: String) {
-        val transferableCards = when {
-            json.contains("\"version\":\"1\"") ->
-                Json.decodeFromString<DataTransferV1>(json).cards.map { v1Card ->
-                    TransferableCard(
-                        idiom = v1Card.idiom,
-                        meaning = v1Card.description,
-                        idiomLanguageTag = null,
-                    )
-                }
-
-            else ->
-                Json.decodeFromString<DataTransferV2>(json).cards.map { v2Card ->
-                    TransferableCard(
-                        idiom = v2Card.idiom,
-                        meaning = v2Card.meaning,
-                        idiomLanguageTag = v2Card.idiomLanguageTag,
-                    )
-                }
-        }
-
-        transferableCards
+        dataParser.parseData(json)
+            .cards
             .chunked(30)
             .forEachIndexed { index, chunk ->
                 chunk.forEach { card -> insertIfNotExist(card, index) }

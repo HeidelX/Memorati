@@ -10,23 +10,23 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TransferableCardV2(
     @SerialName("idiom")
-    val idiom: String,
+    override val idiom: String,
     @SerialName("meaning")
-    val meaning: String,
+    override val meaning: String,
     @SerialName("idiomLanguageTag")
-    val idiomLanguageTag: String?,
-)
+    override val idiomLanguageTag: String?,
+) : TransferableCard
 
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class DataTransferV2(
     @SerialName("version")
     @EncodeDefault
-    val version: String = "2",
+    override val version: String = "2",
 
     @SerialName("cards")
-    val cards: List<TransferableCardV2>,
+    override val cards: List<TransferableCardV2>,
 
     @SerialName("exported_at_utc")
-    val exportedAt: Instant = Clock.System.now(),
-)
+    override val exportedAt: Instant = Clock.System.now(),
+) : DataTransfer
