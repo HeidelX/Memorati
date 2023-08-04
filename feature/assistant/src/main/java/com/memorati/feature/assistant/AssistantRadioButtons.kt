@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -38,7 +38,7 @@ internal fun AnswerRadioButtons(
             )
 
             if (index < card.answers.size - 1) {
-                Divider(
+                HorizontalDivider(
                     modifier = Modifier.height(0.5.dp),
                     color = MaterialTheme.colorScheme.surface,
                 )
