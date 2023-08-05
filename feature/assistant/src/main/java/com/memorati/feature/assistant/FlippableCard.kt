@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun Flippable(
+internal fun FlippableCard(
     modifier: Modifier = Modifier,
     front: @Composable BoxScope.() -> Unit,
     back: @Composable BoxScope.() -> Unit,

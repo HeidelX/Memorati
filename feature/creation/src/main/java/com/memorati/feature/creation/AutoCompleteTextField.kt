@@ -1,6 +1,7 @@
 package com.memorati.feature.creation
 
 import MemoratiIcons
+import android.view.View
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,19 +46,16 @@ fun AutoCompleteTextField(
     text: String,
     suggestions: List<String>,
     disableSuggestions: Boolean,
-    label: @Composable () -> Unit,
     onValueChange: (String) -> Unit,
     onSuggestionSelected: (String) -> Unit,
+    label: @Composable () -> Unit,
     leadingIcon: @Composable () -> Unit,
 ) {
     val view = LocalView.current
-    val lazyListState = rememberLazyListState()
     var focused by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(true) }
 
-    Column(
-        modifier = modifier.heightIn(max = TextFieldDefaults.MinHeight * 4),
-    ) {
+    Column(modifier = modifier.heightIn(max = TextFieldDefaults.MinHeight * 4)) {
         val exists = suggestions.any { it.equals(text, ignoreCase = false) }
         OutlinedTextField(
             modifier = Modifier
@@ -95,29 +93,44 @@ fun AutoCompleteTextField(
                 modifier = Modifier
                     .clip(RoundedCornerShape(5.dp))
                     .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)),
-                state = lazyListState,
+                state = rememberLazyListState(),
             ) {
                 items(suggestions) { suggestion ->
-                    Row(
-                        modifier = Modifier
-                            .height(TextFieldDefaults.MinHeight)
-                            .fillMaxWidth()
-                            .clickable {
-                                onSuggestionSelected(suggestion)
-                                expanded = false
-                                view.clearFocus()
-                            },
+                    Suggestion(
+                        suggestion = suggestion,
+                        view = view,
+                        query = text,
                     ) {
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(
-                            modifier = Modifier.align(Alignment.CenterVertically),
-                            text = formAnnotatedString(text, suggestion),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        )
+                        expanded = false
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun Suggestion(
+    suggestion: String,
+    query: String,
+    view: View,
+    onSuggestionSelected: (String) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .height(TextFieldDefaults.MinHeight)
+            .fillMaxWidth()
+            .clickable {
+                onSuggestionSelected(suggestion)
+                view.clearFocus()
+            },
+    ) {
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            modifier = Modifier.align(Alignment.CenterVertically),
+            text = formAnnotatedString(query, suggestion),
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+        )
     }
 }
 

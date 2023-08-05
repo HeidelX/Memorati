@@ -1,7 +1,6 @@
 package com.memorati.feature.cards
 
 import MemoratiIcons
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,7 +38,7 @@ import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.provider.FlashcardProvider
 import com.memorati.core.ui.theme.MemoratiTheme
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun CardItem(
     modifier: Modifier = Modifier,

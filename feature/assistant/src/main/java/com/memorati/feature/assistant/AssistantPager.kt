@@ -134,7 +134,7 @@ fun AssistantPage(
             horizontal = 16.dp,
         ),
     ) {
-        Flippable(
+        FlippableCard(
             front = {
                 Text(
                     modifier = Modifier.align(Alignment.Center),
