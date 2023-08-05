@@ -1,3 +1,5 @@
+@file:Suppress("AutoboxingStateCreation", "MutableCollectionMutableState")
+
 package com.memorati.feature.assistant
 
 import androidx.compose.animation.core.animateFloatAsState
