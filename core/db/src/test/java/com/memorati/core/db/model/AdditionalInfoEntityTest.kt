@@ -32,7 +32,7 @@ class AdditionalInfoEntityTest {
     fun `Decode string to AdditionalInfoEntity `() {
         assertEquals(
             AdditionalInfoEntity(difficulty = 2.0),
-            Json.decodeFromString(infoString1),
+            Json.decodeFromString(infoString2),
         )
 
         assertEquals(
