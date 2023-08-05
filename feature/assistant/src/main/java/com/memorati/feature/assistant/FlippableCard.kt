@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,7 +46,7 @@ internal fun FlippableCard(
                 modifier = Modifier
                     .fillMaxSize()
                     .clickable { flip = !flip },
-                content = front
+                content = front,
             )
 
             else -> Box(
@@ -55,7 +54,7 @@ internal fun FlippableCard(
                     .fillMaxSize()
                     .graphicsLayer { rotationX = 180f }
                     .clickable { flip = !flip },
-                content = back
+                content = back,
             )
         }
     }
