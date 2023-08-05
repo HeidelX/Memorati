@@ -1,7 +1,8 @@
-@file:Suppress("AutoboxingStateCreation", "MutableCollectionMutableState")
+@file:SuppressLint("AutoboxingStateCreation", "MutableCollectionMutableState")
 
 package com.memorati.feature.assistant
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
