@@ -1,6 +1,5 @@
 package com.memorati.feature.quiz
 
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -80,7 +79,6 @@ fun Modifier.swipe(
                 val velocityTracker = VelocityTracker()
                 awaitPointerEventScope {
                     horizontalDrag(awaitFirstDown().id) { change ->
-                        Log.d("AAA", change.toString())
                         val horizontalDragOffset = offsetX.value + change.positionChange().x
                         launch { offsetX.snapTo(horizontalDragOffset) }
                         velocityTracker.addPosition(change.uptimeMillis, change.position)
@@ -112,7 +110,7 @@ fun Modifier.swipe(
                             },
                         ) {
                             if (value <= size.width * 2 && !clearedHurdle) {
-                                if (offsetX.value <= size.width / 2) onSwipeRight() else onSwipeLeft()
+                                if (value > size.width / 2) onSwipeRight() else onSwipeLeft()
                                 clearedHurdle = true
                             }
                         }

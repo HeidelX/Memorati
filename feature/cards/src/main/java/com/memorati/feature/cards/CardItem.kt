@@ -1,6 +1,7 @@
 package com.memorati.feature.cards
 
 import MemoratiIcons
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,6 +53,10 @@ internal fun CardItem(
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant),
+        border = BorderStroke(
+            width = 1.dp,
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+        ),
     ) {
         Box(modifier = Modifier.padding(8.dp)) {
             SelectionContainer(

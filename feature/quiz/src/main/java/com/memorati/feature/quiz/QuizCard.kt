@@ -48,8 +48,8 @@ internal fun QuizCard(
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant),
         border = BorderStroke(
             width = 1.dp,
-            MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-        )
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+        ),
     ) {
         Box(
             modifier = Modifier

@@ -20,7 +20,7 @@ fun QuizStack(
         modifier = modifier,
     ) {
         flashcards.forEachIndexed { order, card ->
-            key(card) {
+            key(card.id) {
                 SwipeableCard(
                     order = order,
                     count = flashcards.size,

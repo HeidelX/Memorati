@@ -1,5 +1,6 @@
 package com.memorati.feature.quiz
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memorati.core.common.viewmodel.launch
@@ -9,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,12 +20,8 @@ class QuizViewModel @Inject constructor(
 
     val state = flashcardsRepository.flashcards().map { cards ->
         cards.sortedWith(
-            compareBy(
-                { card -> card.createdAt },
-                { card -> card.lastReviewAt },
-                { card -> card.additionalInfo.consecutiveCorrectCount },
-            ),
-        ).take(6)
+            compareBy { card -> card.lastReviewAt },
+        ).take(6).reversed()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
@@ -31,21 +29,19 @@ class QuizViewModel @Inject constructor(
     )
 
     fun onSwipeCardLeft(card: Flashcard) = launch {
+        Log.d("QuizViewModel", "onSwipeCardLeft")
         flashcardsRepository.updateCard(
             card.copy(
-                additionalInfo = card.additionalInfo.copy(
-                    consecutiveCorrectCount = card.additionalInfo.consecutiveCorrectCount - 1,
-                ),
+                lastReviewAt = Clock.System.now(),
             ),
         )
     }
 
     fun onSwipeCardRight(card: Flashcard) = launch {
+        Log.d("QuizViewModel", "onSwipeCardRight")
         flashcardsRepository.updateCard(
             card.copy(
-                additionalInfo = card.additionalInfo.copy(
-                    consecutiveCorrectCount = card.additionalInfo.consecutiveCorrectCount + 1,
-                ),
+                lastReviewAt = Clock.System.now(),
             ),
         )
     }
