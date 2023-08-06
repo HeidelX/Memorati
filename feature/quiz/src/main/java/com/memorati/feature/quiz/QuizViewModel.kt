@@ -21,7 +21,7 @@ class QuizViewModel @Inject constructor(
                 { card -> card.lastReviewAt },
                 { card -> card.additionalInfo.consecutiveCorrectCount },
             ),
-        ).take(5)
+        ).take(6)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),

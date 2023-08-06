@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.FlipCameraAndroid
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Quiz
@@ -47,4 +48,5 @@ object MemoratiIcons {
     val Share = Icons.Outlined.Share
     val ArrowDown = Icons.Outlined.KeyboardArrowDown
     val Quiz = Icons.Outlined.Quiz
+    val Flip = Icons.Outlined.FlipCameraAndroid
 }
