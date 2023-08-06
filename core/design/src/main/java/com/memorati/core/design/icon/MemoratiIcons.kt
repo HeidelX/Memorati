@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
@@ -45,4 +46,5 @@ object MemoratiIcons {
     val Speak = Icons.Outlined.VolumeUp
     val Share = Icons.Outlined.Share
     val ArrowDown = Icons.Outlined.KeyboardArrowDown
+    val Quiz = Icons.Outlined.Quiz
 }

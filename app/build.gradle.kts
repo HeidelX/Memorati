@@ -80,6 +80,7 @@ dependencies {
     implementation(project(":feature:creation"))
     implementation(project(":feature:assistant"))
     implementation(project(":feature:settings"))
+    implementation(project(":feature:quiz"))
 
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.kotlinx.datetime)

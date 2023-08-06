@@ -12,9 +12,12 @@ import com.memorati.feature.cards.navigation.CARDS_ROUTE
 import com.memorati.feature.cards.navigation.navigateToCards
 import com.memorati.feature.favourites.navigation.FAVOURITES_ROUTE
 import com.memorati.feature.favourites.navigation.navigateToFavourites
+import com.memorati.feature.quiz.navigation.Quiz_ROUTE
+import com.memorati.feature.quiz.navigation.navigateToQuiz
 import com.memorati.feature.assistant.R as AssistantR
 import com.memorati.feature.cards.R as CardsR
 import com.memorati.feature.favourites.R as FavouritesR
+import com.memorati.feature.quiz.R as QuizR
 
 enum class TopDestination(
     val route: String,
@@ -27,6 +30,12 @@ enum class TopDestination(
         icon = MemoratiIcons.Cards,
         labelId = CardsR.string.cards,
         iconDescriptionId = CardsR.string.cards,
+    ),
+    QUIZ(
+        route = Quiz_ROUTE,
+        icon = MemoratiIcons.Quiz,
+        labelId = QuizR.string.quiz,
+        iconDescriptionId = QuizR.string.quiz,
     ),
     FAVOURITES(
         route = FAVOURITES_ROUTE,
@@ -64,5 +73,6 @@ fun NavController.navigateToTopDestination(topDestination: TopDestination) {
         TopDestination.CARDS -> navigateToCards(navOptions)
         TopDestination.FAVOURITES -> navigateToFavourites(navOptions)
         TopDestination.ASSISTANT -> navigateToAssistant(navOptions)
+        TopDestination.QUIZ -> navigateToQuiz(navOptions)
     }
 }
