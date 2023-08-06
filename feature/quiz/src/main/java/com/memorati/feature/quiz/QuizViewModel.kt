@@ -21,7 +21,7 @@ class QuizViewModel @Inject constructor(
     val state = flashcardsRepository.flashcards().map { cards ->
         cards.sortedWith(
             compareBy { card -> card.lastReviewAt },
-        ).take(6).reversed()
+        ).take(3).reversed()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
