@@ -2,7 +2,9 @@ package com.memorati.feature.quiz
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.memorati.core.common.viewmodel.launch
 import com.memorati.core.data.repository.FlashcardsRepository
+import com.memorati.core.model.Flashcard
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -11,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuizViewModel @Inject constructor(
-    flashcardsRepository: FlashcardsRepository,
+    private val flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
 
     val state = flashcardsRepository.flashcards().map { cards ->
@@ -28,9 +30,23 @@ class QuizViewModel @Inject constructor(
         initialValue = emptyList(),
     )
 
-    fun onSwipeCardLeft() {
+    fun onSwipeCardLeft(card: Flashcard) = launch {
+        flashcardsRepository.updateCard(
+            card.copy(
+                additionalInfo = card.additionalInfo.copy(
+                    consecutiveCorrectCount = card.additionalInfo.consecutiveCorrectCount - 1,
+                ),
+            ),
+        )
     }
 
-    fun onSwipeCardRight() {
+    fun onSwipeCardRight(card: Flashcard) = launch {
+        flashcardsRepository.updateCard(
+            card.copy(
+                additionalInfo = card.additionalInfo.copy(
+                    consecutiveCorrectCount = card.additionalInfo.consecutiveCorrectCount + 1,
+                ),
+            ),
+        )
     }
 }

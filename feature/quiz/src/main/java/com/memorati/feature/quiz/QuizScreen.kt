@@ -16,8 +16,8 @@ import com.memorati.core.ui.provider.FlashcardsProvider
 internal fun QuizScreen(
     modifier: Modifier = Modifier,
     flashcards: List<Flashcard>,
-    onSwipeCardRight: () -> Unit,
-    onSwipeCardLeft: () -> Unit,
+    onSwipeCardRight: (Flashcard) -> Unit,
+    onSwipeCardLeft: (Flashcard) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -25,7 +25,7 @@ internal fun QuizScreen(
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
     ) {
-        CardStack(
+        QuizStack(
             flashcards = flashcards,
             onSwipeCardLeft = onSwipeCardLeft,
             onSwipeCardRight = onSwipeCardRight,

@@ -10,11 +10,11 @@ import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.provider.FlashcardsProvider
 
 @Composable
-fun CardStack(
+fun QuizStack(
     modifier: Modifier = Modifier,
     flashcards: List<Flashcard>,
-    onSwipeCardLeft: () -> Unit,
-    onSwipeCardRight: () -> Unit,
+    onSwipeCardLeft: (Flashcard) -> Unit,
+    onSwipeCardRight: (Flashcard) -> Unit,
 ) {
     Box(
         modifier = modifier,
@@ -24,16 +24,10 @@ fun CardStack(
                 SwipeableCard(
                     order = order,
                     count = flashcards.size,
-                    onSwipe = { offsetX ->
-                        if (offsetX >= 500) onSwipeCardRight() else onSwipeCardLeft()
-                    },
+                    onSwipeLeft = { onSwipeCardLeft(card) },
+                    onSwipeRight = { onSwipeCardRight(card) },
                 ) {
-                    QuizCard(
-                        order = order,
-                        flip = false,
-                        card = card,
-                    ) {
-                    }
+                    QuizCard(card = card)
                 }
             }
         }

@@ -37,7 +37,8 @@ import kotlin.math.roundToInt
 fun SwipeableCard(
     order: Int,
     count: Int,
-    onSwipe: (Float) -> Unit,
+    onSwipeLeft: () -> Unit,
+    onSwipeRight: () -> Unit,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val animatedScale by animateFloatAsState(
@@ -56,13 +57,17 @@ fun SwipeableCard(
                 scaleX = animatedScale
                 scaleY = animatedScale
             }
-            .swipe(onSwipe),
+            .swipe(
+                onSwipeLeft = onSwipeLeft,
+                onSwipeRight = onSwipeRight,
+            ),
         content = content,
     )
 }
 
 fun Modifier.swipe(
-    onSwipe: (Float) -> Unit,
+    onSwipeLeft: () -> Unit,
+    onSwipeRight: () -> Unit,
 ): Modifier = composed {
     val offsetX = remember { Animatable(0f) }
     var clearedHurdle by remember { mutableStateOf(false) }
@@ -107,7 +112,7 @@ fun Modifier.swipe(
                             },
                         ) {
                             if (value <= size.width * 2 && !clearedHurdle) {
-                                onSwipe(offsetX.value)
+                                if (offsetX.value <= size.width / 2) onSwipeRight() else onSwipeLeft()
                                 clearedHurdle = true
                             }
                         }
