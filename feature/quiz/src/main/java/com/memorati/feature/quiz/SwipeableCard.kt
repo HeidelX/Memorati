@@ -37,7 +37,7 @@ fun SwipeableCard(
                 else -> Unit
             }
             true
-        }
+        },
     )
     val animatedScale by animateFloatAsState(
         targetValue = 1f - (count - order) * 0.05f,
@@ -57,6 +57,6 @@ fun SwipeableCard(
             },
         state = dismissState,
         dismissContent = content,
-        background = {}
+        background = {},
     )
 }

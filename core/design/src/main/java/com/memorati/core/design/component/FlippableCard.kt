@@ -1,4 +1,4 @@
-package com.memorati.feature.assistant
+package com.memorati.core.design.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun FlippableCard(
+fun FlippableCard(
     modifier: Modifier = Modifier,
     front: @Composable BoxScope.() -> Unit,
     back: @Composable BoxScope.() -> Unit,

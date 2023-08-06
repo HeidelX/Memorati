@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.design.component.FavouriteButton
+import com.memorati.core.design.component.FlippableCard
 import com.memorati.core.model.AssistantCard
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
