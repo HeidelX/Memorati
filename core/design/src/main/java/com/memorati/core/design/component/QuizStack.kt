@@ -19,6 +19,7 @@ fun <T> CardsStack(
     items: List<T>,
     onSwipeCardEnd: (T) -> Unit,
     onSwipeCardStart: (T) -> Unit,
+    itemKey: (T) -> Any,
     cardContent: @Composable (T) -> Unit,
 ) {
     Box(
@@ -26,7 +27,7 @@ fun <T> CardsStack(
         contentAlignment = contentAlignment,
     ) {
         items.forEachIndexed { order, item ->
-            key(item) {
+            key(itemKey(item)) {
                 SwipeableCard(
                     order = order,
                     count = items.size,
@@ -48,12 +49,12 @@ private fun CardsStackPreview() {
         items = listOf("A", "B", "C", "D"),
         onSwipeCardEnd = {},
         onSwipeCardStart = {},
-    ) { item ->
+        itemKey = {},
+    ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
-
         ) {
             // Content
         }

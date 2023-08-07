@@ -54,7 +54,8 @@ internal fun QuizScreen(
                 items = flashcards,
                 onSwipeCardStart = onSwipeCardLeft,
                 onSwipeCardEnd = onSwipeCardRight,
-                cardContent = { item -> QuizCard(card = item) },
+                itemKey = { card -> card.id },
+                cardContent = { card -> QuizCard(card = card) },
             )
         }
     }
