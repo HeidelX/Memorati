@@ -1,11 +1,11 @@
 package com.memorati.feature.assistant.state
 
-import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.DueCard
 
 sealed interface AssistantState
 
 data class AssistantCards(
-    val reviews: List<AssistantCard> = emptyList(),
+    val dueCards: List<DueCard> = emptyList(),
 ) : AssistantState
 
 object EmptyState : AssistantState
