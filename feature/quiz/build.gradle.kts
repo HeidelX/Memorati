@@ -13,6 +13,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:algorithm"))
     implementation(libs.kotlinx.datetime)
     implementation(libs.androidx.activity.compose)
     implementation(libs.accompanist.permissions)

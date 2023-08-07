@@ -1,4 +1,4 @@
-package com.memorati.feature.assistant.algorthim
+package com.memorati.algorithm
 
 import com.memorati.core.model.AdditionalInfo
 import com.memorati.core.model.Flashcard
@@ -6,7 +6,9 @@ import kotlinx.datetime.Clock
 import kotlin.math.ln
 import kotlin.time.Duration.Companion.minutes
 
-fun Flashcard.scheduleNextReview(): Flashcard {
+fun Flashcard.answer(correct: Boolean) = handleReviewResponse(correct).scheduleNextReview()
+
+internal fun Flashcard.scheduleNextReview(): Flashcard {
     val adaptiveInterval = calculateAdaptiveInterval(
         additionalInfo.difficulty,
         additionalInfo.consecutiveCorrectCount,
@@ -23,7 +25,7 @@ fun Flashcard.scheduleNextReview(): Flashcard {
     )
 }
 
-fun Flashcard.handleReviewResponse(
+internal fun Flashcard.handleReviewResponse(
     isCorrect: Boolean,
 ): Flashcard {
     val (difficulty, consecutiveCorrectCount) = if (isCorrect) {

@@ -2,12 +2,11 @@ package com.memorati.feature.assistant
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.memorati.algorithm.answer
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.domain.GetDueFlashcards
 import com.memorati.core.model.AssistantCard
 import com.memorati.core.model.Flashcard
-import com.memorati.feature.assistant.algorthim.handleReviewResponse
-import com.memorati.feature.assistant.algorthim.scheduleNextReview
 import com.memorati.feature.assistant.state.AssistantCards
 import com.memorati.feature.assistant.state.EmptyState
 import com.memorati.feature.assistant.state.ReviewResult
@@ -73,7 +72,7 @@ class AssistantViewModel @Inject constructor(
         }
 
     fun updateCard(card: AssistantCard, lastPage: Boolean) = viewModelScope.launch {
-        val flashcard = card.flashcard.handleReviewResponse(card.isCorrect).scheduleNextReview()
+        val flashcard = card.flashcard.answer(card.isCorrect)
         flashcardsRepository.updateCard(flashcard.copy(favoured = card.favoured))
         showResult.value = lastPage
     }
