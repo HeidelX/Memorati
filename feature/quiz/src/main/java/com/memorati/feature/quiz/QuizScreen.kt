@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.memorati.core.design.component.CardsStack
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.provider.FlashcardsProvider
@@ -41,11 +42,12 @@ internal fun QuizScreen(
     ) {
         MemorisedArrow(modifier = Modifier.align(Alignment.TopEnd))
         UnmemorisedArrow(modifier = Modifier.align(Alignment.BottomStart))
-        QuizStack(
+        CardsStack(
             modifier = Modifier.align(Alignment.Center),
-            flashcards = flashcards,
-            onSwipeCardLeft = onSwipeCardLeft,
-            onSwipeCardRight = onSwipeCardRight,
+            items = flashcards,
+            onSwipeCardStart = onSwipeCardLeft,
+            onSwipeCardEnd = onSwipeCardRight,
+            cardContent = { item -> QuizCard(card = item) },
         )
     }
 }

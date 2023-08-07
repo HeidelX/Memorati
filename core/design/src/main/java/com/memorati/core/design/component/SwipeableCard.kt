@@ -1,4 +1,4 @@
-package com.memorati.feature.quiz
+package com.memorati.core.design.component
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -19,11 +19,11 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SwipeableCard(
+internal fun SwipeableCard(
     order: Int,
     count: Int,
-    onSwipeLeft: () -> Unit,
-    onSwipeRight: () -> Unit,
+    onSwipeStart: () -> Unit,
+    onSwipeEnd: () -> Unit,
     content: @Composable RowScope.() -> Unit,
 ) {
     val width = LocalConfiguration.current.screenWidthDp / 2
@@ -32,8 +32,8 @@ fun SwipeableCard(
         positionalThreshold = { with(receiver) { width.dp.toPx() } },
         confirmValueChange = { dismissValue ->
             when (dismissValue) {
-                DismissValue.DismissedToStart -> onSwipeLeft()
-                DismissValue.DismissedToEnd -> onSwipeRight()
+                DismissValue.DismissedToStart -> onSwipeStart()
+                DismissValue.DismissedToEnd -> onSwipeEnd()
                 else -> Unit
             }
             true
