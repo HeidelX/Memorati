@@ -3,4 +3,5 @@
     <string name="quiz">اختبار</string>
     <string name="unmemorized">غير مُحفوظ 🤷🏻</string>
     <string name="memorized">🧠 مُحفوظ</string>
+    <string name="no_flashcards_yet">لا توجد بطاقات تعليمية حتى الآن.</string>
 </resources>

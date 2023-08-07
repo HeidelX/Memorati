@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.design.component.CardsStack
+import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.provider.FlashcardsProvider
@@ -35,20 +36,27 @@ internal fun QuizScreen(
     onSwipeCardRight: (Flashcard) -> Unit,
     onSwipeCardLeft: (Flashcard) -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .padding(16.dp)
-            .fillMaxSize(),
-    ) {
-        MemorisedArrow(modifier = Modifier.align(Alignment.TopEnd))
-        UnmemorisedArrow(modifier = Modifier.align(Alignment.BottomStart))
-        CardsStack(
-            modifier = Modifier.align(Alignment.Center),
-            items = flashcards,
-            onSwipeCardStart = onSwipeCardLeft,
-            onSwipeCardEnd = onSwipeCardRight,
-            cardContent = { item -> QuizCard(card = item) },
+    if (flashcards.isEmpty()) {
+        EmptyScreen(
+            resource = R.raw.quiz,
+            message = stringResource(R.string.no_flashcards_yet),
         )
+    } else {
+        Box(
+            modifier = modifier
+                .padding(16.dp)
+                .fillMaxSize(),
+        ) {
+            MemorisedArrow(modifier = Modifier.align(Alignment.TopEnd))
+            UnmemorisedArrow(modifier = Modifier.align(Alignment.BottomStart))
+            CardsStack(
+                modifier = Modifier.align(Alignment.Center),
+                items = flashcards,
+                onSwipeCardStart = onSwipeCardLeft,
+                onSwipeCardEnd = onSwipeCardRight,
+                cardContent = { item -> QuizCard(card = item) },
+            )
+        }
     }
 }
 
