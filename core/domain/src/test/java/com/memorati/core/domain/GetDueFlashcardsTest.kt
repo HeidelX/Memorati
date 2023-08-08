@@ -18,8 +18,8 @@ class GetDueFlashcardsTest {
         val assistantCards = useCase().invoke().first()
         assistantCards.zipWithNext { a, b ->
             assertTrue(
-                a.flashcard.additionalInfo.consecutiveCorrectCount <=
-                        b.flashcard.additionalInfo.consecutiveCorrectCount,
+                a.additionalInfo.consecutiveCorrectCount <=
+                    b.additionalInfo.consecutiveCorrectCount,
             )
         }
     }
@@ -28,10 +28,10 @@ class GetDueFlashcardsTest {
     fun `Cards with older 'lastReviewAt' has top priority`() = runTest {
         val assistantCards = useCase().invoke().first()
         assistantCards
-            .groupBy { it.flashcard.additionalInfo.consecutiveCorrectCount }
+            .groupBy { it.additionalInfo.consecutiveCorrectCount }
             .forEach { (_, assistantCards) ->
                 assistantCards.zipWithNext { a, b ->
-                    assertTrue(a.flashcard.lastReviewAt <= b.flashcard.lastReviewAt)
+                    assertTrue(a.lastReviewAt <= b.lastReviewAt)
                 }
             }
     }
@@ -40,7 +40,7 @@ class GetDueFlashcardsTest {
     fun `Cards with due 'nextReviewAt' has top priority`() = runTest {
         val time = Clock.System.now().plus(1.hours)
         useCase(time).invoke().first().forEach { card ->
-            assertTrue(card.flashcard.nextReviewAt <= time)
+            assertTrue(card.nextReviewAt <= time)
         }
     }
 

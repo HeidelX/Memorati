@@ -14,6 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -24,21 +26,31 @@ class AssistantViewModel @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
 
-    private val answers = MutableStateFlow(mapOf<Long, String>())
+    private val meanings = flashcardsRepository.flashcards().map { cards ->
+        cards.map { card -> card.meaning }
+    }
+    private val userAnswer = MutableStateFlow(mapOf<Long, String>())
+    private val cachedAnswers = MutableStateFlow(mapOf<Long, List<String>>())
+    private val flips = MutableStateFlow(mapOf<Long, Boolean>())
     private val dueCards = getDueFlashcards()
 
     val state = combine(
         dueCards,
-        answers,
-    ) { dueCards, answers ->
+        userAnswer,
+        cachedAnswers,
+        flips,
+    ) { dueCards, userAnswer, answers, flips ->
         when {
             dueCards.isEmpty() -> EmptyState
             else -> {
-                val answeredDues = dueCards
-                    .take(3)
-                    .map { card ->
-                        card.copy(answer = answers[card.flashcard.id])
-                    }.reversed()
+                val answeredDues = dueCards.take(3).map { card ->
+                    DueCard(
+                        flashcard = card,
+                        answer = userAnswer[card.id],
+                        answers = answers[card.id] ?: generateAnswers(card),
+                        flipped = flips[card.id] ?: false,
+                    )
+                }.reversed()
                 AssistantCards(dueCards = answeredDues)
             }
         }
@@ -48,27 +60,52 @@ class AssistantViewModel @Inject constructor(
         EmptyState,
     )
 
-    fun onAnswerSelected(card: DueCard, selection: String) =
-        answers.update { values ->
-            values.toMutableMap()
-                .apply { this[card.flashcard.id] = selection }
-                .toMap()
-        }
+    private suspend fun generateAnswers(card: Flashcard): List<String> =
+        meanings.first().randomAnswersPlus(card.meaning)
+            .also { answers ->
+                cachedAnswers.update { it.mutate { this[card.id] = answers } }
+            }
+
+    fun onAnswerSelected(card: DueCard, selection: String) = userAnswer.update {
+        it.mutate { this[card.flashcard.id] = selection }
+    }
 
     fun updateCard(
-        card: DueCard
+        card: DueCard,
     ) = launch {
         flashcardsRepository.updateCard(
-            card.flashcard.answer(card.isCorrect)
+            card.flashcard.answer(card.isCorrect),
         )
     }
 
     fun toggleFavoured(
         flashcard: Flashcard,
-        favoured: Boolean
+        favoured: Boolean,
     ) = launch {
         flashcardsRepository.updateCard(
-            flashcard.copy(favoured = favoured)
+            flashcard.copy(favoured = favoured),
         )
     }
+
+    fun onFlip(card: DueCard, flip: Boolean) {
+        flips.update {
+            it.mutate { this[card.flashcard.id] = flip }
+        }
+    }
+
+    private fun <T, R> Map<T, R>.mutate(
+        block: MutableMap<T, R>.() -> Unit,
+    ) = toMutableMap().apply(block).toMap()
+}
+
+internal fun List<String>.randomAnswersPlus(
+    answer: String,
+): List<String> {
+    return minus(answer).assistantAnswers().plus(answer).shuffled()
+}
+
+internal fun List<String>.assistantAnswers(): List<String> = when {
+    isEmpty() -> emptyList()
+    size == 1 -> listOf(random())
+    else -> asSequence().shuffled().take(2).toList()
 }

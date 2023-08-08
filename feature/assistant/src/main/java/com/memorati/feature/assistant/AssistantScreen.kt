@@ -3,6 +3,7 @@ package com.memorati.feature.assistant
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.design.component.CardsStack
@@ -36,6 +38,7 @@ fun AssistantRoute(
         onAnswerSelected = viewModel::onAnswerSelected,
         onUpdateCard = viewModel::updateCard,
         toggleFavoured = viewModel::toggleFavoured,
+        onFlip = viewModel::onFlip,
     )
 }
 
@@ -46,22 +49,34 @@ internal fun AssistantScreen(
     onAnswerSelected: (DueCard, String) -> Unit,
     onUpdateCard: (DueCard) -> Unit,
     toggleFavoured: (Flashcard, Boolean) -> Unit,
+    onFlip: (DueCard, Boolean) -> Unit,
 ) {
     Column(modifier = modifier) {
         Box(modifier = Modifier.weight(1.0f)) {
             when (state) {
                 is AssistantCards -> CardsStack(
-                    modifier = Modifier.align(Alignment.Center),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.Center),
                     items = state.dueCards,
-                    onSwipeCardEnd = { card -> onUpdateCard(card) },
-                    onSwipeCardStart = { card -> onUpdateCard(card) },
-                    itemKey = { card -> card.flashcard.id }
-                ) { assistantCard ->
+                    onSwipeCardEnd = { card ->
+                        if (card.isAnswered) onUpdateCard(card)
+                        card.isAnswered
+                    },
+                    onSwipeCardStart = { card ->
+                        if (card.isAnswered) onUpdateCard(card)
+                        card.isAnswered
+                    },
+                    itemKey = { it },
+                ) { dueCard ->
                     AssistantCard(
                         modifier = Modifier.fillMaxWidth(),
-                        card = assistantCard,
+                        card = dueCard,
+                        initialFlipped = dueCard.flipped,
                         toggleFavoured = toggleFavoured,
                         onAnswerSelected = onAnswerSelected,
+                        onFlip = { onFlip(dueCard, it) },
+
                     )
                 }
 
@@ -78,7 +93,6 @@ internal fun AssistantScreen(
     }
 }
 
-
 @Composable
 @DevicePreviews
 private fun AssistantScreenPreview(
@@ -90,6 +104,7 @@ private fun AssistantScreenPreview(
             toggleFavoured = { _, _ -> },
             onUpdateCard = { _ -> },
             onAnswerSelected = { _, _ -> },
+            onFlip = { _, _ -> },
         )
     }
 }
@@ -102,5 +117,6 @@ private fun AssistantEmptyScreenPreview() {
         onAnswerSelected = { _, _ -> },
         onUpdateCard = { _ -> },
         toggleFavoured = { _, _ -> },
+        onFlip = { _, _ -> },
     )
 }

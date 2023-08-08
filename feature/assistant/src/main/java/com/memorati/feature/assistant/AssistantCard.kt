@@ -22,13 +22,16 @@ import com.memorati.core.ui.theme.MemoratiTheme
 internal fun AssistantCard(
     modifier: Modifier = Modifier,
     card: DueCard,
+    initialFlipped: Boolean,
     toggleFavoured: (Flashcard, Boolean) -> Unit,
     onAnswerSelected: (DueCard, String) -> Unit,
+    onFlip: (Boolean) -> Unit,
 ) {
     FlippableCard(
         modifier = modifier
             .fillMaxWidth()
             .height(350.dp),
+        initialFlipped = initialFlipped,
         front = {
             Text(
                 modifier = Modifier.align(Alignment.Center),
@@ -63,6 +66,7 @@ internal fun AssistantCard(
                 },
             )
         },
+        onFlip = onFlip,
     )
 }
 
@@ -74,8 +78,10 @@ private fun AssistantPagePreview(
     MemoratiTheme {
         AssistantCard(
             card = dueCard.copy(answer = "Communication skills"),
+            initialFlipped = false,
             toggleFavoured = { _, _ -> },
             onAnswerSelected = { _, _ -> },
+            onFlip = {},
         )
     }
 }

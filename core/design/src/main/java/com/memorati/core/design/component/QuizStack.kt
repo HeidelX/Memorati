@@ -17,8 +17,8 @@ fun <T> CardsStack(
     modifier: Modifier = Modifier,
     contentAlignment: Alignment = Alignment.Center,
     items: List<T>,
-    onSwipeCardEnd: (T) -> Unit,
-    onSwipeCardStart: (T) -> Unit,
+    onSwipeCardEnd: (T) -> Boolean,
+    onSwipeCardStart: (T) -> Boolean,
     itemKey: (T) -> Any,
     cardContent: @Composable (T) -> Unit,
 ) {
@@ -47,8 +47,8 @@ private fun CardsStackPreview() {
     CardsStack(
         modifier = Modifier.fillMaxSize(),
         items = listOf("A", "B", "C", "D"),
-        onSwipeCardEnd = {},
-        onSwipeCardStart = {},
+        onSwipeCardEnd = { false },
+        onSwipeCardStart = { false },
         itemKey = {},
     ) {
         Card(
