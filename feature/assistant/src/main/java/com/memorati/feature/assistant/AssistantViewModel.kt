@@ -29,29 +29,35 @@ class AssistantViewModel @Inject constructor(
     private val meanings = flashcardsRepository.flashcards().map { cards ->
         cards.map { card -> card.meaning }
     }
+    private val flips = MutableStateFlow(mapOf<Long, Boolean>())
     private val userAnswer = MutableStateFlow(mapOf<Long, String>())
     private val cachedAnswers = MutableStateFlow(mapOf<Long, List<String>>())
-    private val flips = MutableStateFlow(mapOf<Long, Boolean>())
     private val dueCards = getDueFlashcards()
 
     val state = combine(
+        flips,
         dueCards,
         userAnswer,
         cachedAnswers,
-        flips,
-    ) { dueCards, userAnswer, answers, flips ->
+    ) { flips, dueCards, userAnswer, answers ->
         when {
             dueCards.isEmpty() -> EmptyState
             else -> {
-                val answeredDues = dueCards.take(3).map { card ->
-                    DueCard(
-                        flashcard = card,
-                        answer = userAnswer[card.id],
-                        answers = answers[card.id] ?: generateAnswers(card),
-                        flipped = flips[card.id] ?: false,
-                    )
-                }.reversed()
-                AssistantCards(dueCards = answeredDues)
+                val answeredDues = dueCards
+                    .take(3)
+                    .map { card ->
+                        DueCard(
+                            flashcard = card,
+                            answer = userAnswer[card.id],
+                            answers = answers[card.id] ?: generateAnswers(card),
+                            flipped = flips[card.id] ?: false,
+                        )
+                    }.reversed()
+
+                AssistantCards(
+                    dueCards = answeredDues,
+                    dueCardsCount = dueCards.count(),
+                )
             }
         }
     }.stateIn(
@@ -61,10 +67,9 @@ class AssistantViewModel @Inject constructor(
     )
 
     private suspend fun generateAnswers(card: Flashcard): List<String> =
-        meanings.first().randomAnswersPlus(card.meaning)
-            .also { answers ->
-                cachedAnswers.update { it.mutate { this[card.id] = answers } }
-            }
+        meanings.first().randomAnswersPlus(card.meaning).also { answers ->
+            cachedAnswers.update { it.mutate { this[card.id] = answers } }
+        }
 
     fun onAnswerSelected(card: DueCard, selection: String) = userAnswer.update {
         it.mutate { this[card.flashcard.id] = selection }

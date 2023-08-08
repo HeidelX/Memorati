@@ -6,6 +6,7 @@ sealed interface AssistantState
 
 data class AssistantCards(
     val dueCards: List<DueCard> = emptyList(),
+    val dueCardsCount: Int = 0,
 ) : AssistantState
 
 object EmptyState : AssistantState
