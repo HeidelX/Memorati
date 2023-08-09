@@ -14,4 +14,5 @@
     <string name="grant">Grant</string>
     <string name="question_count">\u00A0of %d</string>
     <string name="show_answers">Show Answers</string>
+    <string name="due_flashcards">%1$d due flashcards</string>
 </resources>

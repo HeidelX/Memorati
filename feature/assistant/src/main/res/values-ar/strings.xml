@@ -14,6 +14,7 @@
     <string name="grant">منح</string>
     <string name="question_count">\u00A0من %d</string>
     <string name="show_answers">عرض الإجابات</string>
+    <string name="due_flashcards">%1$d بطاقة تعليمية مستحقة</string>
 </resources>
 
 
