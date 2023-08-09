@@ -66,11 +66,6 @@ class AssistantViewModel @Inject constructor(
         EmptyState,
     )
 
-    private suspend fun generateAnswers(card: Flashcard): List<String> =
-        meanings.first().randomAnswersPlus(card.meaning).also { answers ->
-            cachedAnswers.update { it.mutate { this[card.id] = answers } }
-        }
-
     fun onAnswerSelected(card: DueCard, selection: String) = userAnswer.update {
         it.mutate { this[card.flashcard.id] = selection }
     }
@@ -101,6 +96,13 @@ class AssistantViewModel @Inject constructor(
     private fun <T, R> Map<T, R>.mutate(
         block: MutableMap<T, R>.() -> Unit,
     ) = toMutableMap().apply(block).toMap()
+
+    private suspend fun generateAnswers(card: Flashcard): List<String> = meanings
+        .first()
+        .randomAnswersPlus(card.meaning)
+        .also { answers ->
+            cachedAnswers.update { it.mutate { this[card.id] = answers } }
+        }
 }
 
 internal fun List<String>.randomAnswersPlus(
