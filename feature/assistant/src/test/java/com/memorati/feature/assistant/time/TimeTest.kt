@@ -1,4 +1,4 @@
-package com.memorati.feature.assistant.algorthim
+package com.memorati.feature.assistant.time
 
 import kotlinx.datetime.LocalTime
 import kotlin.test.Test

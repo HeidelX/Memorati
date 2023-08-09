@@ -1,4 +1,4 @@
-package com.memorati.feature.assistant.algorthim
+package com.memorati.algorithm
 
 import com.memorati.core.model.Flashcard
 import com.memorati.core.model.Topic
@@ -8,7 +8,7 @@ import kotlin.test.assertTrue
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
-class AssistantAlgorithmTest {
+internal class AlgorithmTest {
     @Test
     fun `Repeated wrong answers doesn't set next review time in the past`() {
         val now = Clock.System.now()

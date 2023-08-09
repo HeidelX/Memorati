@@ -1,7 +1,8 @@
-package com.memorati.feature.assistant
+package com.memorati.core.design.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -20,7 +21,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun FlippableCard(
+fun FlippableCard(
     modifier: Modifier = Modifier,
     front: @Composable BoxScope.() -> Unit,
     back: @Composable BoxScope.() -> Unit,
@@ -40,6 +41,10 @@ internal fun FlippableCard(
             }
             .heightIn(min = 250.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant),
+        border = BorderStroke(
+            width = 1.dp,
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+        ),
     ) {
         when {
             rotation.value <= 90.0f -> Box(
