@@ -34,9 +34,12 @@ internal fun AssistantCardsStack(
     Box(modifier = modifier.fillMaxSize()) {
         Text(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(16.dp)
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primaryContainer, MaterialTheme.shapes.small)
+                .background(
+                    MaterialTheme.colorScheme.primaryContainer,
+                    MaterialTheme.shapes.small
+                )
                 .padding(16.dp)
                 .align(Alignment.TopCenter),
             text = state.dueCardsCount.toString() + " due flashcards",
@@ -68,7 +71,7 @@ internal fun AssistantCardsStack(
                 onAnswerSelected = onAnswerSelected,
                 onFlip = { onFlip(dueCard, it) },
 
-            )
+                )
         }
     }
 }
