@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memorati.algorithm.answer
 import com.memorati.core.common.viewmodel.launch
-import com.memorati.algorithm.answer
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.domain.GetDueFlashcards
 import com.memorati.core.model.DueCard
