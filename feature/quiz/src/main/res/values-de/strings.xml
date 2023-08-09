@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="quiz">Quiz</string>
-    <string name="unmemorized">Nicht auswendig gelernt 🤷🏻</string>
+    <string name="unmemorized">Nicht auswendig gelernt 💡</string>
     <string name="memorized">🧠 Auswendig gelernt</string>
     <string name="no_flashcards_yet">Keine Lernkarten bisher.</string>
 </resources>
