@@ -27,10 +27,10 @@ fun AssistantRoute(
     AssistantScreen(
         modifier = modifier,
         state = state,
-        onAnswerSelected = viewModel::onAnswerSelected,
+        onFlip = viewModel::onFlip,
         onUpdateCard = viewModel::updateCard,
         toggleFavoured = viewModel::toggleFavoured,
-        onFlip = viewModel::onFlip,
+        onAnswerSelected = viewModel::onAnswerSelected,
     )
 }
 
