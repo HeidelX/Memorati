@@ -66,9 +66,10 @@ class AssistantViewModel @Inject constructor(
         EmptyState,
     )
 
-    fun onAnswerSelected(card: DueCard, selection: String) = userAnswer.update {
-        it.mutate { this[card.flashcard.id] = selection }
-    }
+    fun onAnswerSelected(card: DueCard, selection: String) =
+        userAnswer.update {
+            it.mutate { this[card.flashcard.id] = selection }
+        }
 
     fun updateCard(
         card: DueCard,
