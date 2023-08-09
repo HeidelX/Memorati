@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quiz">Quiz</string>
+    <string name="unmemorized">Unmemorized 💡</string>
+    <string name="memorized">🧠 Memorized</string>
+    <string name="no_flashcards_yet">No flashcards yet.</string>
+</resources>

@@ -1,42 +1,22 @@
 package com.memorati.feature.assistant
 
-import android.Manifest.permission.POST_NOTIFICATIONS
-import android.os.Build
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
-import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.component.EmptyScreen
-import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.DueCard
 import com.memorati.core.model.Flashcard
 import com.memorati.feature.assistant.state.AssistantCards
 import com.memorati.feature.assistant.state.AssistantState
 import com.memorati.feature.assistant.state.EmptyState
-import com.memorati.feature.assistant.state.ReviewResult
+import com.memorati.feature.assistant.state.ReviewCardsStats
 
 @Composable
 fun AssistantRoute(
@@ -47,9 +27,10 @@ fun AssistantRoute(
     AssistantScreen(
         modifier = modifier,
         state = state,
-        onAnswerSelected = viewModel::onAnswerSelected,
+        onFlip = viewModel::onFlip,
         onUpdateCard = viewModel::updateCard,
         toggleFavoured = viewModel::toggleFavoured,
+        onAnswerSelected = viewModel::onAnswerSelected,
     )
 }
 
@@ -57,22 +38,24 @@ fun AssistantRoute(
 internal fun AssistantScreen(
     modifier: Modifier = Modifier,
     state: AssistantState,
-    onAnswerSelected: (AssistantCard, String) -> Unit,
-    onUpdateCard: (AssistantCard, Boolean) -> Unit,
+    onAnswerSelected: (DueCard, String) -> Unit,
+    onUpdateCard: (DueCard) -> Unit,
     toggleFavoured: (Flashcard, Boolean) -> Unit,
+    onFlip: (DueCard, Boolean) -> Unit,
 ) {
-    Column {
+    Column(modifier = modifier) {
         Box(modifier = Modifier.weight(1.0f)) {
             when (state) {
-                is AssistantCards -> AssistantPager(
-                    assistantCards = state.reviews,
-                    modifier = modifier,
-                    onAnswerSelected = onAnswerSelected,
+                is AssistantCards -> AssistantCardsStack(
+                    modifier = Modifier.fillMaxSize(),
+                    state = state,
                     onUpdateCard = onUpdateCard,
                     toggleFavoured = toggleFavoured,
+                    onAnswerSelected = onAnswerSelected,
+                    onFlip = onFlip,
                 )
 
-                is ReviewResult -> ReviewResultScreen(reviewResult = state)
+                is ReviewCardsStats -> ReviewCardsStatsScreen(state = state)
 
                 EmptyState -> EmptyScreen(
                     resource = R.raw.assistant,
@@ -81,58 +64,18 @@ internal fun AssistantScreen(
             }
         }
 
-        PostNotificationPermission()
-    }
-}
-
-@Composable
-@OptIn(ExperimentalPermissionsApi::class)
-private fun PostNotificationPermission() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        val context = LocalContext.current
-        val permissionState = rememberPermissionState(POST_NOTIFICATIONS)
-        if (!permissionState.status.isGranted) {
-            Row(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    modifier = Modifier.weight(1.0f),
-                    text = stringResource(R.string.notification_permission),
-                    style = MaterialTheme.typography.bodySmall,
-                )
-
-                Spacer(modifier = Modifier.width(5.dp))
-
-                OutlinedButton(
-                    onClick = {
-                        context.openNotificationsSettings()
-                    },
-                ) {
-                    Text(
-                        text = stringResource(R.string.grant),
-                    )
-                }
-            }
-
-            LaunchedEffect(Unit) {
-                permissionState.launchPermissionRequest()
-            }
-        }
+        NotificationPermissionTile()
     }
 }
 
 @Composable
 @Preview
-internal fun AssistantScreenEmptyPreview() {
+private fun AssistantEmptyScreenPreview() {
     AssistantScreen(
         state = EmptyState,
-        onAnswerSelected = { _, _ -> },
-        onUpdateCard = { _, _ -> },
+        onFlip = { _, _ -> },
+        onUpdateCard = { _ -> },
         toggleFavoured = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
     )
 }

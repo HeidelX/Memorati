@@ -12,6 +12,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:algorithm"))
     implementation(libs.kotlinx.datetime)
     implementation(libs.androidx.activity.compose)
     implementation(libs.accompanist.permissions)
@@ -21,6 +22,6 @@ dependencies {
     implementation(libs.androidx.work.ktx)
     implementation(libs.hilt.ext.work)
     kapt(libs.hilt.ext.compiler)
-    
+
     androidTestImplementation(libs.androidx.work.testing)
 }

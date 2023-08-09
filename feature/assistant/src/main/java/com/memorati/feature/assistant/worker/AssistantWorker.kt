@@ -10,8 +10,8 @@ import com.memorati.core.common.dispatcher.Dispatcher
 import com.memorati.core.common.dispatcher.MemoratiDispatchers.IO
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.datastore.PreferencesDataSource
-import com.memorati.feature.assistant.algorthim.inRange
 import com.memorati.feature.assistant.notification.AssistantNotifier
+import com.memorati.feature.assistant.time.inRange
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
