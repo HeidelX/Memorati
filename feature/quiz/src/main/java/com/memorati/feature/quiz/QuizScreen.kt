@@ -52,8 +52,14 @@ internal fun QuizScreen(
             CardsStack(
                 modifier = Modifier.align(Alignment.Center),
                 items = flashcards,
-                onSwipeCardStart = onSwipeCardLeft,
-                onSwipeCardEnd = onSwipeCardRight,
+                onSwipeCardStart = {
+                    onSwipeCardLeft(it)
+                    true
+                },
+                onSwipeCardEnd = {
+                    onSwipeCardRight(it)
+                    true
+                },
                 itemKey = { card -> card.id },
                 cardContent = { card -> QuizCard(card = card) },
             )

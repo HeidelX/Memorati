@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 internal fun SwipeableCard(
     order: Int,
     count: Int,
-    onSwipeStart: () -> Unit,
-    onSwipeEnd: () -> Unit,
+    onSwipeStart: () -> Boolean,
+    onSwipeEnd: () -> Boolean,
     content: @Composable RowScope.() -> Unit,
 ) {
     val width = LocalConfiguration.current.screenWidthDp / 2
@@ -34,9 +34,8 @@ internal fun SwipeableCard(
             when (dismissValue) {
                 DismissValue.DismissedToStart -> onSwipeStart()
                 DismissValue.DismissedToEnd -> onSwipeEnd()
-                else -> Unit
+                else -> false
             }
-            true
         },
     )
     val animatedScale by animateFloatAsState(

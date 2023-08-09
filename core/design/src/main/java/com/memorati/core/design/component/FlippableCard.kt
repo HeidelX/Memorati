@@ -23,14 +23,17 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun FlippableCard(
     modifier: Modifier = Modifier,
+    initialFlipped: Boolean = false,
     front: @Composable BoxScope.() -> Unit,
     back: @Composable BoxScope.() -> Unit,
+    onFlip: (Boolean) -> Unit = {},
 ) {
-    var flip by remember { mutableStateOf(false) }
+    var flip by remember { mutableStateOf(initialFlipped) }
     val rotation = animateFloatAsState(
         targetValue = if (flip) 180.0f else 0.0f,
         label = "FloatAsState",
         animationSpec = tween(durationMillis = 5_00),
+        finishedListener = { onFlip(flip) },
     )
 
     Card(

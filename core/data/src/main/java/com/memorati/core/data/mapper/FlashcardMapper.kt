@@ -14,11 +14,7 @@ fun FlashcardEntity.toFlashcard() = Flashcard(
     favoured = favoured,
     lastReviewAt = lastReviewAt,
     nextReviewAt = nextReviewAt,
-    additionalInfo = AdditionalInfo(
-        difficulty = additionalInfoEntity.difficulty,
-        consecutiveCorrectCount = additionalInfoEntity.consecutiveCorrectCount,
-        memoryStrength = additionalInfoEntity.memoryStrength,
-    ),
+    additionalInfo = additionalInfoEntity.toAdditionalInfo(),
     idiomLanguageTag = idiomLanguageTag,
 )
 
@@ -33,6 +29,7 @@ fun FlashcardsWithTopics.toFlashcard() = with(flashcard) {
         nextReviewAt = nextReviewAt,
         topics = topics.map { topicEntity -> topicEntity.toTopic() },
         idiomLanguageTag = idiomLanguageTag,
+        additionalInfo = additionalInfoEntity.toAdditionalInfo(),
     )
 }
 
@@ -44,10 +41,18 @@ fun Flashcard.toFlashcardEntity() = FlashcardEntity(
     favoured = favoured,
     lastReviewAt = lastReviewAt,
     nextReviewAt = nextReviewAt,
-    additionalInfoEntity = AdditionalInfoEntity(
-        difficulty = additionalInfo.difficulty,
-        consecutiveCorrectCount = additionalInfo.consecutiveCorrectCount,
-        memoryStrength = additionalInfo.memoryStrength,
-    ),
+    additionalInfoEntity = additionalInfo.toAdditionalInfoEntity(),
     idiomLanguageTag = idiomLanguageTag,
+)
+
+private fun AdditionalInfoEntity.toAdditionalInfo() = AdditionalInfo(
+    difficulty = difficulty,
+    consecutiveCorrectCount = consecutiveCorrectCount,
+    memoryStrength = memoryStrength,
+)
+
+private fun AdditionalInfo.toAdditionalInfoEntity() = AdditionalInfoEntity(
+    difficulty = difficulty,
+    consecutiveCorrectCount = consecutiveCorrectCount,
+    memoryStrength = memoryStrength,
 )

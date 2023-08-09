@@ -18,16 +18,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.memorati.core.model.AssistantCard
+import com.memorati.core.model.DueCard
 import com.memorati.core.ui.DevicePreviews
-import com.memorati.core.ui.provider.AssistantCardProvider
+import com.memorati.core.ui.provider.DueCardProvider
 import com.memorati.core.ui.theme.MemoratiTheme
 
 @Composable
 internal fun AnswerRadioButtons(
     modifier: Modifier = Modifier,
-    card: AssistantCard,
-    onAnswerSelected: (AssistantCard, String) -> Unit,
+    card: DueCard,
+    onAnswerSelected: (DueCard, String) -> Unit,
 ) {
     Column(modifier = modifier) {
         card.answers.forEachIndexed { index, answer ->
@@ -50,9 +50,9 @@ internal fun AnswerRadioButtons(
 @Composable
 private fun AnswerRadioButton(
     modifier: Modifier = Modifier,
-    card: AssistantCard,
+    card: DueCard,
     answer: String,
-    onAnswerSelected: (AssistantCard, String) -> Unit,
+    onAnswerSelected: (DueCard, String) -> Unit,
 ) {
     val selected = answer == card.answer
     Surface(
@@ -85,7 +85,7 @@ private fun AnswerRadioButton(
 
 @Composable
 private fun surfaceColor(
-    card: AssistantCard,
+    card: DueCard,
     answer: String,
 ): Color = when {
     card.isAnswered && card.flashcard.meaning == answer -> Color.Green.copy(alpha = 0.3f)
@@ -96,12 +96,12 @@ private fun surfaceColor(
 @Composable
 @DevicePreviews
 private fun AnswerRadioButtonsPreview(
-    @PreviewParameter(AssistantCardProvider::class) assistantCard: AssistantCard,
+    @PreviewParameter(DueCardProvider::class) dueCard: DueCard,
 ) {
     MemoratiTheme {
         Surface {
             AnswerRadioButtons(
-                card = assistantCard,
+                card = dueCard,
                 onAnswerSelected = { _, _ -> },
             )
         }
