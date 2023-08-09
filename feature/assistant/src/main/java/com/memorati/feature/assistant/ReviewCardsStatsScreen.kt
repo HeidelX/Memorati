@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +37,7 @@ fun ReviewCardsStatsScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(rememberScrollState())
             .background(
                 MaterialTheme.colorScheme.surfaceVariant,
                 MaterialTheme.shapes.medium,
@@ -75,7 +78,7 @@ fun ReviewCardsStatsScreen(
 
         Surface(
             modifier = Modifier
-                .padding(top = 50.dp)
+                .padding(top = 100.dp)
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .clip(MaterialTheme.shapes.medium),
@@ -84,6 +87,7 @@ fun ReviewCardsStatsScreen(
             Text(
                 modifier = Modifier.padding(10.dp),
                 text = stringResource(R.string.cards_available_message),
+                style = MaterialTheme.typography.bodySmall,
             )
         }
     }
