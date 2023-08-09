@@ -15,4 +15,9 @@
     <string name="question_count">\u00A0von %d</string>
     <string name="show_answers">Antworten anzeigen</string>
     <string name="due_flashcards">%1$d fällige Lernkarten</string>
+    <string name="cumulative_result">Kumulatives Ergebnis</string>
+    <string name="reiterated_accuracy">Wiederholte Genauigkeit %.00f%%</string>
+    <string name="zero_accuracy">Null Genauigkeit %.00f%%</string>
+    <string name="solo_accuracy">Alleinige Genauigkeit %.00f%%</string>
+    <string name="cards_available_message">Karten, die zur Überprüfung bereit sind, werden hier angezeigt, sobald sie verfügbar sind.</string>
 </resources>

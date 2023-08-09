@@ -16,7 +16,7 @@ import com.memorati.core.model.Flashcard
 import com.memorati.feature.assistant.state.AssistantCards
 import com.memorati.feature.assistant.state.AssistantState
 import com.memorati.feature.assistant.state.EmptyState
-import com.memorati.feature.assistant.state.ReviewResult
+import com.memorati.feature.assistant.state.ReviewCardsStats
 
 @Composable
 fun AssistantRoute(
@@ -55,7 +55,7 @@ internal fun AssistantScreen(
                     onFlip = onFlip,
                 )
 
-                is ReviewResult -> ReviewResultScreen(reviewResult = state)
+                is ReviewCardsStats -> ReviewCardsStatsScreen(state = state)
 
                 EmptyState -> EmptyScreen(
                     resource = R.raw.assistant,
@@ -73,9 +73,9 @@ internal fun AssistantScreen(
 private fun AssistantEmptyScreenPreview() {
     AssistantScreen(
         state = EmptyState,
-        onAnswerSelected = { _, _ -> },
+        onFlip = { _, _ -> },
         onUpdateCard = { _ -> },
         toggleFavoured = { _, _ -> },
-        onFlip = { _, _ -> },
+        onAnswerSelected = { _, _ -> },
     )
 }

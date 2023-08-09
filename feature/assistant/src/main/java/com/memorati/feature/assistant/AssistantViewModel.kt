@@ -10,6 +10,7 @@ import com.memorati.core.model.DueCard
 import com.memorati.core.model.Flashcard
 import com.memorati.feature.assistant.state.AssistantCards
 import com.memorati.feature.assistant.state.EmptyState
+import com.memorati.feature.assistant.state.ReviewCardsStats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -33,16 +34,17 @@ class AssistantViewModel @Inject constructor(
     private val userAnswer = MutableStateFlow(mapOf<Long, String>())
     private val cachedAnswers = MutableStateFlow(mapOf<Long, List<String>>())
     private val dueCards = getDueFlashcards()
+    private val allCards = flashcardsRepository.flashcards()
 
     val state = combine(
         flips,
+        allCards,
         dueCards,
         userAnswer,
         cachedAnswers,
-    ) { flips, dueCards, userAnswer, answers ->
+    ) { flips, allCards, dueCards, userAnswer, answers ->
         when {
-            dueCards.isEmpty() -> EmptyState
-            else -> {
+            dueCards.isNotEmpty() -> {
                 val answeredDues = dueCards
                     .take(3)
                     .map { card ->
@@ -59,6 +61,23 @@ class AssistantViewModel @Inject constructor(
                     dueCardsCount = dueCards.count(),
                 )
             }
+
+            allCards.isNotEmpty() -> {
+                ReviewCardsStats(
+                    totalCount = allCards.size,
+                    reiteratedAccuracy = allCards.count { card ->
+                        card.additionalInfo.consecutiveCorrectCount >= 2
+                    },
+                    soloAccuracy = allCards.count { card ->
+                        card.additionalInfo.consecutiveCorrectCount == 1
+                    },
+                    zeroAccuracy = allCards.count { card ->
+                        card.additionalInfo.consecutiveCorrectCount == 0
+                    },
+                )
+            }
+
+            else -> EmptyState
         }
     }.stateIn(
         viewModelScope,

@@ -15,4 +15,9 @@
     <string name="question_count">\u00A0of %d</string>
     <string name="show_answers">Show Answers</string>
     <string name="due_flashcards">%1$d due flashcards</string>
+    <string name="cumulative_result">Cumulative Result</string>
+    <string name="reiterated_accuracy">Reiterated Accuracy %.00f%%</string>
+    <string name="zero_accuracy">Zero Accuracy %.00f%%</string>
+    <string name="solo_accuracy">Solo Accuracy %.00f%%</string>
+    <string name="cards_available_message">Cards ready for review will be displayed here once they become available.</string>
 </resources>

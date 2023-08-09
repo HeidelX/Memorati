@@ -15,6 +15,11 @@
     <string name="question_count">\u00A0من %d</string>
     <string name="show_answers">عرض الإجابات</string>
     <string name="due_flashcards">%1$d بطاقة تعليمية مستحقة</string>
+    <string name="cumulative_result">النتيجة التراكمية</string>
+    <string name="reiterated_accuracy">دقة التكرار %.00f%%</string>
+    <string name="zero_accuracy">دقة الصفر %.00f%%</string>
+    <string name="solo_accuracy">دقة المفرد %.00f%%</string>
+    <string name="cards_available_message">ستتم عرض البطاقات التي جاهزة للمراجعة هنا عندما تصبح متاحة.</string>
 </resources>
 
 

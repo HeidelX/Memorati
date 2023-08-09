@@ -9,10 +9,14 @@ data class AssistantCards(
     val dueCardsCount: Int = 0,
 ) : AssistantState
 
-object EmptyState : AssistantState
-data class ReviewResult(
-    val correctAnswers: Int,
-    val wrongAnswers: Int,
+data object EmptyState : AssistantState
+data class ReviewCardsStats(
+    val totalCount: Int,
+    val reiteratedAccuracy: Int,
+    val soloAccuracy: Int,
+    val zeroAccuracy: Int,
 ) : AssistantState {
-    val progress get() = correctAnswers.toFloat() / correctAnswers.plus(wrongAnswers)
+    val reiteratedAccuracyProgress get() = reiteratedAccuracy.toFloat() / totalCount
+    val zeroAccuracyProgress get() = zeroAccuracy.toFloat() / totalCount
+    val soloAccuracyProgress get() = soloAccuracy.toFloat() / totalCount
 }
