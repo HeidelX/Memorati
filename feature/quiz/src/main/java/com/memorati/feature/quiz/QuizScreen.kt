@@ -1,5 +1,6 @@
 package com.memorati.feature.quiz
 
+import MemoratiIcons
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,9 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -87,7 +85,7 @@ private fun MemorisedArrow(
             modifier = Modifier
                 .background(AndroidGreen, CircleShape)
                 .padding(10.dp),
-            imageVector = Icons.Rounded.ArrowForward,
+            imageVector = MemoratiIcons.ArrowForward,
             contentDescription = stringResource(R.string.memorized),
         )
     }
@@ -108,7 +106,7 @@ private fun UnmemorisedArrow(
             modifier = Modifier
                 .background(Moccasin, CircleShape)
                 .padding(10.dp),
-            imageVector = Icons.Rounded.ArrowBack,
+            imageVector = MemoratiIcons.ArrowBack,
             contentDescription = stringResource(R.string.unmemorized),
         )
         Spacer(modifier = Modifier.width(10.dp))

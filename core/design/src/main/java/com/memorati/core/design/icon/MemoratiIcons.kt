@@ -5,6 +5,7 @@ import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.ArrowCircleDown
 import androidx.compose.material.icons.outlined.ArrowCircleUp
+import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Assistant
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
@@ -37,6 +38,7 @@ object MemoratiIcons {
     val FavouritesBorder = Icons.Outlined.StarBorder
     val Assistant = Icons.Outlined.Assistant
     val ArrowBack = Icons.Outlined.ArrowBack
+    val ArrowForward = Icons.Outlined.ArrowForward
     val Done = Icons.Outlined.Done
     val Close = Icons.Outlined.Close
     val Export = Icons.Outlined.ArrowCircleUp
