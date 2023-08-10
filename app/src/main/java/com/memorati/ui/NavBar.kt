@@ -37,9 +37,9 @@ fun MemoratiNavBar(
                         BadgedBox(
                             badge = {
                                 Badge(
-                                    containerColor = MaterialTheme.colorScheme.tertiary
+                                    containerColor = MaterialTheme.colorScheme.tertiary,
                                 ) { }
-                            }
+                            },
                         ) {
                             Icon(
                                 imageVector = navItem.topDestination.icon,
