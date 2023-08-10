@@ -1,4 +1,4 @@
-package com.memorati.feature.quiz
+package com.memorati.feature.quiz.knowledge
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,7 +16,7 @@ import com.memorati.core.ui.provider.FlashcardProvider
 import com.memorati.core.ui.theme.MemoratiTheme
 
 @Composable
-internal fun QuizCard(
+internal fun KnowledgeDirectionsCard(
     modifier: Modifier = Modifier,
     card: Flashcard,
 ) {
@@ -49,7 +49,7 @@ internal fun QuizCardPreview(
     @PreviewParameter(FlashcardProvider::class) flashcard: Flashcard,
 ) {
     MemoratiTheme {
-        QuizCard(
+        KnowledgeDirectionsCard(
             card = flashcard,
         )
     }

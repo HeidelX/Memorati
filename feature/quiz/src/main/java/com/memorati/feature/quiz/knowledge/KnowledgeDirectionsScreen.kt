@@ -1,4 +1,4 @@
-package com.memorati.feature.quiz
+package com.memorati.feature.quiz.knowledge
 
 import MemoratiIcons
 import androidx.compose.foundation.Image
@@ -22,54 +22,47 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.design.component.CardsStack
-import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.provider.FlashcardsProvider
 import com.memorati.core.ui.theme.AndroidGreen
 import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.core.ui.theme.Moccasin
+import com.memorati.feature.quiz.R
 
 @Composable
-internal fun QuizScreen(
+internal fun KnowledgeDirectionsScreen(
     modifier: Modifier = Modifier,
     flashcards: List<Flashcard>,
     onSwipeCardRight: (Flashcard) -> Unit,
     onSwipeCardLeft: (Flashcard) -> Unit,
 ) {
-    if (flashcards.isEmpty()) {
-        EmptyScreen(
-            resource = R.raw.quiz,
-            message = stringResource(R.string.no_flashcards_yet),
+    Box(
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+    ) {
+        MemorisedDirection(modifier = Modifier.align(Alignment.TopEnd))
+        UnmemorisedDirection(modifier = Modifier.align(Alignment.BottomStart))
+        CardsStack(
+            modifier = Modifier.align(Alignment.Center),
+            items = flashcards,
+            onSwipeCardStart = {
+                onSwipeCardLeft(it)
+                true
+            },
+            onSwipeCardEnd = {
+                onSwipeCardRight(it)
+                true
+            },
+            itemKey = { card -> card.id },
+            cardContent = { card -> KnowledgeDirectionsCard(card = card) },
         )
-    } else {
-        Box(
-            modifier = modifier
-                .padding(16.dp)
-                .fillMaxSize(),
-        ) {
-            MemorisedArrow(modifier = Modifier.align(Alignment.TopEnd))
-            UnmemorisedArrow(modifier = Modifier.align(Alignment.BottomStart))
-            CardsStack(
-                modifier = Modifier.align(Alignment.Center),
-                items = flashcards,
-                onSwipeCardStart = {
-                    onSwipeCardLeft(it)
-                    true
-                },
-                onSwipeCardEnd = {
-                    onSwipeCardRight(it)
-                    true
-                },
-                itemKey = { card -> card.id },
-                cardContent = { card -> QuizCard(card = card) },
-            )
-        }
     }
 }
 
 @Composable
-private fun MemorisedArrow(
+private fun MemorisedDirection(
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -92,7 +85,7 @@ private fun MemorisedArrow(
 }
 
 @Composable
-private fun UnmemorisedArrow(
+private fun UnmemorisedDirection(
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -116,12 +109,12 @@ private fun UnmemorisedArrow(
 
 @DevicePreviews
 @Composable
-private fun QuizScreenPreview(
+private fun KnowledgeDirectionsScreenPreview(
     @PreviewParameter(FlashcardsProvider::class) flashcards: List<Flashcard>,
 ) {
     MemoratiTheme {
         Surface {
-            QuizScreen(
+            KnowledgeDirectionsScreen(
                 flashcards = flashcards,
                 onSwipeCardLeft = {},
                 onSwipeCardRight = {},

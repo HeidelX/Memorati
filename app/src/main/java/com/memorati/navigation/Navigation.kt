@@ -12,7 +12,7 @@ import com.memorati.feature.cards.navigation.CARDS_ROUTE
 import com.memorati.feature.cards.navigation.navigateToCards
 import com.memorati.feature.favourites.navigation.FAVOURITES_ROUTE
 import com.memorati.feature.favourites.navigation.navigateToFavourites
-import com.memorati.feature.quiz.navigation.Quiz_ROUTE
+import com.memorati.feature.quiz.navigation.QUIZ_ROUTE
 import com.memorati.feature.quiz.navigation.navigateToQuiz
 import com.memorati.feature.assistant.R as AssistantR
 import com.memorati.feature.cards.R as CardsR
@@ -32,7 +32,7 @@ enum class TopDestination(
         iconDescriptionId = CardsR.string.cards,
     ),
     QUIZ(
-        route = Quiz_ROUTE,
+        route = QUIZ_ROUTE,
         icon = MemoratiIcons.Quiz,
         labelId = QuizR.string.quiz,
         iconDescriptionId = QuizR.string.quiz,
