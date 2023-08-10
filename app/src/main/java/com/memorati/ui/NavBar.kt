@@ -17,7 +17,7 @@ import com.memorati.navigation.TopDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MemoratiNanBar(
+fun MemoratiNavBar(
     currentDestination: NavDestination?,
     destinations: List<NavBarItem>,
     onClickAction: (TopDestination) -> Unit,
@@ -57,5 +57,5 @@ fun MemoratiNanBar(
 @Preview
 @Composable
 fun NavBarPreview() {
-    MemoratiNanBar(currentDestination = null, destinations = TopDestination.toNavItems()) {}
+    MemoratiNavBar(currentDestination = null, destinations = TopDestination.toNavItems()) {}
 }
