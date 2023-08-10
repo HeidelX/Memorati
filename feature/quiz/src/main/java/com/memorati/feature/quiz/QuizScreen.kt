@@ -1,22 +1,25 @@
 package com.memorati.feature.quiz
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -74,17 +77,18 @@ private fun MemorisedArrow(
     Row(
         modifier = modifier
             .wrapContentWidth()
-            .wrapContentHeight()
-            .clip(RoundedCornerShape(bottomStart = 15.dp, topStart = 15.dp))
-            .clip(CutCornerShape(topEnd = 30.dp, bottomEnd = 30.dp))
-            .background(AndroidGreen)
-            .padding(horizontal = 24.dp, vertical = 10.dp),
+            .wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End,
     ) {
-        Text(
-            text = stringResource(R.string.memorized),
-            color = Color.DarkGray,
+        Text(text = stringResource(R.string.memorized))
+        Spacer(modifier = Modifier.width(10.dp))
+        Image(
+            modifier = Modifier
+                .background(AndroidGreen, CircleShape)
+                .padding(10.dp),
+            imageVector = Icons.Rounded.ArrowForward,
+            contentDescription = stringResource(R.string.memorized),
         )
     }
 }
@@ -96,18 +100,19 @@ private fun UnmemorisedArrow(
     Row(
         modifier = modifier
             .wrapContentWidth()
-            .wrapContentHeight()
-            .clip(RoundedCornerShape(bottomEnd = 15.dp, topEnd = 15.dp))
-            .clip(CutCornerShape(bottomStart = 30.dp, topStart = 30.dp))
-            .background(Moccasin)
-            .padding(horizontal = 24.dp, vertical = 10.dp),
+            .wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
     ) {
-        Text(
-            text = stringResource(R.string.unmemorized),
-            color = Color.DarkGray,
+        Image(
+            modifier = Modifier
+                .background(Moccasin, CircleShape)
+                .padding(10.dp),
+            imageVector = Icons.Rounded.ArrowBack,
+            contentDescription = stringResource(R.string.unmemorized),
         )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(text = stringResource(R.string.unmemorized))
     }
 }
 
