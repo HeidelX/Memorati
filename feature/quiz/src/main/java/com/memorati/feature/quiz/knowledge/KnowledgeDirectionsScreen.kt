@@ -55,7 +55,7 @@ internal fun KnowledgeDirectionsScreen(
                 onSwipeCardRight(it)
                 true
             },
-            itemKey = { card -> card.id },
+            itemKey = { it },
             cardContent = { card -> KnowledgeDirectionsCard(card = card) },
         )
     }
