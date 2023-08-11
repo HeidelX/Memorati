@@ -11,11 +11,13 @@ fun KnowledgeDirectionsRoute(
     modifier: Modifier = Modifier,
     viewModel: KnowledgeDirectionsViewModel = hiltViewModel(),
 ) {
-    val flashcards by viewModel.state.collectAsStateWithLifecycle()
+    val knowledgeCards by viewModel.state.collectAsStateWithLifecycle()
     KnowledgeDirectionsScreen(
         modifier = modifier,
-        flashcards = flashcards,
-        onSwipeCardLeft = viewModel::onSwipeCardLeft,
-        onSwipeCardRight = viewModel::onSwipeCardRight,
+        knowledgeCards = knowledgeCards,
+        onFlip = viewModel::onFlip,
+        toggleFavoured = viewModel::toggleFavoured,
+        onSwipeCardEnd = viewModel::onSwipeCardEnd,
+        onSwipeCardStart = viewModel::onSwipeCardStart,
     )
 }

@@ -29,13 +29,16 @@ import com.memorati.core.ui.theme.AndroidGreen
 import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.core.ui.theme.Moccasin
 import com.memorati.feature.quiz.R
+import com.memorati.feature.quiz.knowledge.model.KnowledgeCard
 
 @Composable
 internal fun KnowledgeDirectionsScreen(
     modifier: Modifier = Modifier,
-    flashcards: List<Flashcard>,
-    onSwipeCardRight: (Flashcard) -> Unit,
-    onSwipeCardLeft: (Flashcard) -> Unit,
+    knowledgeCards: List<KnowledgeCard>,
+    onFlip: (Flashcard, Boolean) -> Unit,
+    onSwipeCardStart: (Flashcard) -> Unit,
+    onSwipeCardEnd: (Flashcard) -> Unit,
+    toggleFavoured: (Flashcard, Boolean) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -46,17 +49,24 @@ internal fun KnowledgeDirectionsScreen(
         UnmemorisedDirection(modifier = Modifier.align(Alignment.BottomStart))
         CardsStack(
             modifier = Modifier.align(Alignment.Center),
-            items = flashcards,
-            onSwipeCardStart = {
-                onSwipeCardLeft(it)
+            items = knowledgeCards,
+            onSwipeCardStart = { knowledgeCard ->
+                onSwipeCardStart(knowledgeCard.flashcard)
                 true
             },
-            onSwipeCardEnd = {
-                onSwipeCardRight(it)
+            onSwipeCardEnd = { knowledgeCard ->
+                onSwipeCardEnd(knowledgeCard.flashcard)
                 true
             },
-            itemKey = { it },
-            cardContent = { card -> KnowledgeDirectionsCard(card = card) },
+            itemKey = { card -> card },
+            cardContent = { card ->
+                KnowledgeDirectionsCard(
+                    card = card.flashcard,
+                    initialFlipped = card.flipped,
+                    onFlip = onFlip,
+                    toggleFavoured = toggleFavoured,
+                )
+            },
         )
     }
 }
@@ -115,9 +125,16 @@ private fun KnowledgeDirectionsScreenPreview(
     MemoratiTheme {
         Surface {
             KnowledgeDirectionsScreen(
-                flashcards = flashcards,
-                onSwipeCardLeft = {},
-                onSwipeCardRight = {},
+                knowledgeCards = flashcards.map { flashcard ->
+                    KnowledgeCard(
+                        flashcard = flashcard,
+                        flipped = false,
+                    )
+                },
+                onFlip = { _, _ -> },
+                onSwipeCardEnd = {},
+                onSwipeCardStart = {},
+                toggleFavoured = { _, _ -> },
             )
         }
     }

@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.memorati.core.design.component.FavouriteButton
 import com.memorati.core.design.component.FlippableCard
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
@@ -19,9 +20,13 @@ import com.memorati.core.ui.theme.MemoratiTheme
 internal fun KnowledgeDirectionsCard(
     modifier: Modifier = Modifier,
     card: Flashcard,
+    initialFlipped: Boolean,
+    onFlip: (Flashcard, Boolean) -> Unit,
+    toggleFavoured: (Flashcard, Boolean) -> Unit,
 ) {
     FlippableCard(
         modifier = modifier.height(230.dp),
+        initialFlipped = initialFlipped,
         front = {
             Text(
                 modifier = Modifier
@@ -29,6 +34,16 @@ internal fun KnowledgeDirectionsCard(
                     .align(Alignment.Center),
                 text = card.idiom,
                 style = MaterialTheme.typography.headlineMedium,
+            )
+
+            FavouriteButton(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.BottomStart),
+                favoured = card.favoured,
+                onCheckedChange = {
+                    toggleFavoured(card, it)
+                },
             )
         },
         back = {
@@ -39,7 +54,18 @@ internal fun KnowledgeDirectionsCard(
                 text = card.meaning,
                 style = MaterialTheme.typography.headlineMedium,
             )
+
+            FavouriteButton(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.BottomStart),
+                favoured = card.favoured,
+                onCheckedChange = {
+                    toggleFavoured(card, it)
+                },
+            )
         },
+        onFlip = { flip -> onFlip(card, flip) },
     )
 }
 
@@ -51,6 +77,9 @@ internal fun QuizCardPreview(
     MemoratiTheme {
         KnowledgeDirectionsCard(
             card = flashcard,
+            onFlip = { _, _ -> },
+            toggleFavoured = { _, _ -> },
+            initialFlipped = false,
         )
     }
 }
