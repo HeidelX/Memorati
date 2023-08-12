@@ -5,12 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
@@ -35,10 +33,10 @@ fun MatchingRoute(
     modifier: Modifier = Modifier,
     viewModel: MatchingViewModel = hiltViewModel(),
 ) {
-    val pairs by viewModel.state.collectAsStateWithLifecycle()
+    val pair by viewModel.state.collectAsStateWithLifecycle()
     MatchingScreen(
         modifier = modifier,
-        pairs = pairs,
+        pair = pair,
         onSelect = viewModel::onSelect,
     )
 }
@@ -46,7 +44,7 @@ fun MatchingRoute(
 @Composable
 internal fun MatchingScreen(
     modifier: Modifier = Modifier,
-    pairs: List<Pair<Match, Match>>,
+    pair: Pair<List<Match>, List<Match>>,
     onSelect: (Match) -> Unit,
 ) {
     Column(
@@ -59,29 +57,35 @@ internal fun MatchingScreen(
             style = MaterialTheme.typography.titleMedium,
         )
         Spacer(modifier = modifier.height(16.dp))
-        LazyColumn {
-            items(pairs) { (idiomMatch, meaningMatch) ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    MatchingCard(
-                        modifier = Modifier
-                            .weight(1f)
-                            .aspectRatio(1f),
-                        match = idiomMatch,
-                        onClick = { onSelect(idiomMatch) },
-                        borderColor = borderColor(idiomMatch),
-                    )
-                    MatchingCard(
-                        modifier = Modifier
-                            .weight(1f)
-                            .aspectRatio(1f),
-                        match = meaningMatch,
-                        onClick = { onSelect(meaningMatch) },
-                        borderColor = borderColor(meaningMatch),
-                    )
-                }
-            }
+
+        Row(modifier = Modifier.fillMaxWidth()) {
+            MatchesColumn(
+                modifier = Modifier.weight(1f),
+                matches = pair.first,
+                onSelect = onSelect,
+            )
+            MatchesColumn(
+                modifier = Modifier.weight(1f),
+                matches = pair.second,
+                onSelect = onSelect,
+            )
+        }
+    }
+}
+
+@Composable
+private fun MatchesColumn(
+    modifier: Modifier = Modifier,
+    matches: List<Match>,
+    onSelect: (Match) -> Unit,
+) {
+    LazyColumn(modifier = modifier) {
+        items(matches) { match ->
+            MatchingCard(
+                match = match,
+                onClick = { onSelect(match) },
+                borderColor = borderColor(match),
+            )
         }
     }
 }
@@ -102,11 +106,11 @@ private fun MatchingCard(
     borderColor: Color = Color.Transparent,
 ) {
     Card(
-        onClick = onClick,
         modifier = modifier
-            .padding(1.dp)
             .fillMaxWidth()
-            .wrapContentHeight(),
+            .height(170.dp)
+            .padding(1.dp),
+        onClick = onClick,
         enabled = match.enabled,
         border = BorderStroke(
             width = 2.dp,
@@ -131,34 +135,28 @@ private fun MatchingScreenPreview() {
     MemoratiTheme {
         Surface {
             MatchingScreen(
-                pairs = listOf(
+                pair = listOf(
                     Match(
                         id = 0,
                         title = "A",
                         type = Match.Type.IDIOM,
                         selected = true,
-                    ) to Match(
+                    ),
+                    Match(
+                        id = 0,
+                        title = "A",
+                        type = Match.Type.IDIOM,
+                        selected = false,
+                    ),
+                ) to listOf(
+                    Match(
                         id = 0,
                         title = "a",
                         type = Match.Type.MEANING,
                     ),
                     Match(
-                        id = 1,
-                        title = "B",
-                        type = Match.Type.IDIOM,
-                    ) to Match(
-                        id = 1,
-                        title = "b",
-                        type = Match.Type.MEANING,
-                        enabled = false,
-                    ),
-                    Match(
-                        id = 2,
-                        title = "C",
-                        type = Match.Type.IDIOM,
-                    ) to Match(
-                        id = 2,
-                        title = "c",
+                        id = 0,
+                        title = "a",
                         type = Match.Type.MEANING,
                     ),
                 ),

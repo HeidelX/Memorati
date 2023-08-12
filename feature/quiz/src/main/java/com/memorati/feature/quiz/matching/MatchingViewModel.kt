@@ -6,23 +6,24 @@ import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.feature.quiz.matching.model.Match
 import com.memorati.feature.quiz.matching.model.Match.Type.IDIOM
 import com.memorati.feature.quiz.matching.model.Match.Type.MEANING
+import com.memorati.feature.quiz.matching.model.Matching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class MatchingViewModel @Inject constructor(
-    private val flashcardsRepository: FlashcardsRepository,
+    flashcardsRepository: FlashcardsRepository,
 ) : ViewModel() {
 
-    private val idiomMatch = MutableStateFlow(Long.MIN_VALUE)
-    private val meaningMatch = MutableStateFlow(Long.MIN_VALUE)
-    private val matches = flashcardsRepository.flashcards().map { cards ->
+    private val matching = MutableStateFlow(Matching())
+    private val flashcardsPair = flashcardsRepository.flashcards().map { cards ->
         val flashcards = cards.sortedWith(
             compareBy(
                 { card -> card.lastReviewAt },
@@ -30,39 +31,48 @@ class MatchingViewModel @Inject constructor(
                 { card -> card.additionalInfo.memoryStrength },
                 { card -> card.additionalInfo.consecutiveCorrectCount },
             ),
-        ).take(3)
+        ).shuffled()
+            .take(3)
 
-        flashcards.zip(flashcards.shuffled())
-    }
+        flashcards to flashcards.shuffled()
+    }.take(1)
 
     val state = combine(
-        matches,
-        idiomMatch,
-        meaningMatch,
-    ) { matches, currentIdiom, currentMeaning ->
-        matches.map { (idiomCard, meaningCard) ->
-            Match(
-                id = idiomCard.id,
-                title = idiomCard.idiom,
-                type = IDIOM,
-                selected = idiomCard.id == currentIdiom,
-            ) to Match(
-                id = meaningCard.id,
-                title = idiomCard.meaning,
-                type = MEANING,
-                selected = meaningCard.id == currentMeaning,
-            )
-        }
+        flashcardsPair,
+        matching,
+    ) { flashcardsPair, matching ->
+        Pair(
+            flashcardsPair.first.map { card ->
+                Match(
+                    id = card.id,
+                    title = card.idiom,
+                    type = IDIOM,
+                    selected = card.id == matching.idiomId(),
+                    enabled = card.id !in matching,
+                )
+            },
+            flashcardsPair.second.map { card ->
+                Match(
+                    id = card.id,
+                    title = card.meaning,
+                    type = MEANING,
+                    selected = card.id == matching.meaningId(),
+                    enabled = card.id !in matching,
+                )
+            },
+        )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = emptyList(),
+        initialValue = Pair(emptyList(), emptyList()),
     )
 
     fun onSelect(match: Match) {
-        when (match.type) {
-            IDIOM -> idiomMatch.update { match.id }
-            MEANING -> meaningMatch.update { match.id }
+        val newMatching = when (match.type) {
+            IDIOM -> matching.value.idiomId(match.id)
+            MEANING -> matching.value.meaningId(match.id)
         }
+
+        matching.update { newMatching }
     }
 }
