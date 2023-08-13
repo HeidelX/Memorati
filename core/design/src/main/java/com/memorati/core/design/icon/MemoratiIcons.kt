@@ -1,4 +1,4 @@
-
+package com.memorati.core.design.icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Alarm
@@ -8,10 +8,11 @@ import androidx.compose.material.icons.outlined.ArrowCircleUp
 import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Assistant
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.CompareArrows
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Flip
+import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Quiz
@@ -51,5 +52,6 @@ object MemoratiIcons {
     val Share = Icons.Outlined.Share
     val ArrowDown = Icons.Outlined.KeyboardArrowDown
     val Quiz = Icons.Outlined.Quiz
-    val Flip = Icons.Outlined.Flip
+    val Insights = Icons.Outlined.Insights
+    val CompareArrows = Icons.Outlined.CompareArrows
 }

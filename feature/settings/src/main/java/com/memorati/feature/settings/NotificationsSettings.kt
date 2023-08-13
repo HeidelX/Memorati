@@ -1,6 +1,6 @@
 package com.memorati.feature.settings
 
-import MemoratiIcons
+import com.memorati.core.design.icon.MemoratiIcons
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

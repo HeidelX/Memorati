@@ -1,6 +1,6 @@
 package com.memorati.feature.creation
 
-import MemoratiIcons
+import com.memorati.core.design.icon.MemoratiIcons
 import android.view.View
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background

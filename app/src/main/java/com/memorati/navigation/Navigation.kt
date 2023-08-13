@@ -1,6 +1,6 @@
 package com.memorati.navigation
 
-import MemoratiIcons
+import com.memorati.core.design.icon.MemoratiIcons
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination

@@ -1,6 +1,6 @@
 package com.memorati.feature.cards
 
-import MemoratiIcons
+import com.memorati.core.design.icon.MemoratiIcons
 import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenu

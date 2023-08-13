@@ -1,6 +1,6 @@
 package com.memorati.feature.creation
 
-import MemoratiIcons
+import com.memorati.core.design.icon.MemoratiIcons
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize

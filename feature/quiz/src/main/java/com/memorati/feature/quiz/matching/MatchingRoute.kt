@@ -1,6 +1,6 @@
 package com.memorati.feature.quiz.matching
 
-import MemoratiIcons
+import com.memorati.core.design.icon.MemoratiIcons
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

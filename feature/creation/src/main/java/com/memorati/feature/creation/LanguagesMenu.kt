@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.memorati.core.design.icon.MemoratiIcons
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.theme.MemoratiTheme

@@ -1,6 +1,6 @@
 package com.memorati.feature.quiz.knowledge
 
-import MemoratiIcons
+import com.memorati.core.design.icon.MemoratiIcons
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
