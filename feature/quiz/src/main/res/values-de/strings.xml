@@ -14,4 +14,5 @@
     <string name="matching_message">Koppeln Sie die verbundenen Karten miteinander.</string>
     <string name="typing_message">Geben Sie den Begriff ein, der dem gegebenen Sinn entspricht.</string>
     <string name="return_back">Zurückkehren</string>
+    <string name="select_matches_title">Wähle die passenden Paare, bis sie verblassen.</string>
 </resources>

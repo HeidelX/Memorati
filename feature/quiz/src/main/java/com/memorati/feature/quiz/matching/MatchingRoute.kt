@@ -77,7 +77,7 @@ internal fun MatchingScreen(
 
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
-            text = "Select the matches",
+            text = stringResource(R.string.select_matches_title),
             style = MaterialTheme.typography.titleMedium,
         )
         Spacer(modifier = modifier.height(16.dp))

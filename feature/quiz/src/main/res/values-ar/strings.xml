@@ -14,4 +14,5 @@
     <string name="matching_message">قم بإقران البطاقات المرتبطة معًا.</string>
     <string name="typing_message">أدخل المصطلح المقابل للمعنى المعطى.</string>
     <string name="return_back">العودة للخلف</string>
+    <string name="select_matches_title">اختر الأزواج المتطابقة حتى تتلاشى.</string>
 </resources>

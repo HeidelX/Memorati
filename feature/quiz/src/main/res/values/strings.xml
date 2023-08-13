@@ -14,4 +14,5 @@
     <string name="matching_message">Pair the associated cards together.</string>
     <string name="typing_message">Enter the idiom that corresponds to the given meaning.</string>
     <string name="return_back">Return back</string>
+    <string name="select_matches_title">Choose the matching pairs until they fade.</string>
 </resources>
