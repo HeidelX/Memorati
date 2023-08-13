@@ -13,5 +13,5 @@
     <string name="knowledge_directions_message">قم بتحريك البطاقات وفقًا لفهمك. لديك الخيار لتدويرها لكشف معانيها.</string>
     <string name="matching_message">قم بإقران البطاقات المرتبطة معًا.</string>
     <string name="typing_message">أدخل المصطلح المقابل للمعنى المعطى.</string>
-
+    <string name="return_back">العودة للخلف</string>
 </resources>

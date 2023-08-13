@@ -1,5 +1,6 @@
 package com.memorati.feature.quiz.matching
 
+import MemoratiIcons
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,52 +14,79 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.theme.MemoratiTheme
+import com.memorati.feature.quiz.R
 import com.memorati.feature.quiz.matching.model.Match
 
 @Composable
 fun MatchingRoute(
     modifier: Modifier = Modifier,
     viewModel: MatchingViewModel = hiltViewModel(),
+    onBack: () -> Unit,
 ) {
     val pair by viewModel.state.collectAsStateWithLifecycle()
     MatchingScreen(
         modifier = modifier,
         pair = pair,
         onSelect = viewModel::onSelect,
+        onBack = onBack,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MatchingScreen(
     modifier: Modifier = Modifier,
     pair: Pair<List<Match>, List<Match>>,
     onSelect: (Match) -> Unit,
+    onBack: () -> Unit,
 ) {
     Column(
         modifier = modifier
-            .padding(16.dp)
             .fillMaxSize(),
     ) {
+        TopAppBar(
+            title = {
+                Text(text = stringResource(id = R.string.matching))
+            },
+            navigationIcon = {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = MemoratiIcons.ArrowBack,
+                        contentDescription = stringResource(id = R.string.return_back),
+                    )
+                }
+            },
+        )
+
         Text(
+            modifier = Modifier.padding(16.dp),
             text = "Select the matches",
             style = MaterialTheme.typography.titleMedium,
         )
         Spacer(modifier = modifier.height(16.dp))
 
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
+        ) {
             MatchesColumn(
                 modifier = Modifier.weight(1f),
                 matches = pair.first,
@@ -161,6 +189,7 @@ private fun MatchingScreenPreview() {
                     ),
                 ),
                 onSelect = {},
+                onBack = {},
             )
         }
     }

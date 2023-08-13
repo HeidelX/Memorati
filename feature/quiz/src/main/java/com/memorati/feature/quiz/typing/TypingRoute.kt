@@ -4,12 +4,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun TypingRoute(modifier: Modifier = Modifier) {
+fun TypingRoute(
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit,
+) {
     TypingScreen(
         modifier = modifier,
+        onBack = onBack,
     )
 }
 
 @Composable
-internal fun TypingScreen(modifier: Modifier = Modifier) {
+internal fun TypingScreen(
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit,
+) {
 }

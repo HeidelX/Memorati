@@ -30,8 +30,20 @@ fun NavGraphBuilder.quizGraph(navController: NavController) {
             )
         }
 
-        composable(KNOWLEDGE_DIRECTIONS) { KnowledgeDirectionsRoute() }
-        composable(MATCHING) { MatchingRoute() }
-        composable(TYPING) { TypingRoute() }
+        composable(KNOWLEDGE_DIRECTIONS) {
+            KnowledgeDirectionsRoute(
+                onBack = { navController.navigateUp() },
+            )
+        }
+        composable(MATCHING) {
+            MatchingRoute(
+                onBack = { navController.navigateUp() },
+            )
+        }
+        composable(TYPING) {
+            TypingRoute(
+                onBack = { navController.navigateUp() },
+            )
+        }
     }
 }

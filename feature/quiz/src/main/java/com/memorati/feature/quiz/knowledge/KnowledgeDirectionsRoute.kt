@@ -9,12 +9,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun KnowledgeDirectionsRoute(
     modifier: Modifier = Modifier,
+    onBack: () -> Unit,
     viewModel: KnowledgeDirectionsViewModel = hiltViewModel(),
 ) {
     val knowledgeCards by viewModel.state.collectAsStateWithLifecycle()
     KnowledgeDirectionsScreen(
         modifier = modifier,
         knowledgeCards = knowledgeCards,
+        onBack = onBack,
         onFlip = viewModel::onFlip,
         toggleFavoured = viewModel::toggleFavoured,
         onSwipeCardEnd = viewModel::onSwipeCardEnd,

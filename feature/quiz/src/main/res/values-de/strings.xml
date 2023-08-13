@@ -13,4 +13,5 @@
     <string name="knowledge_directions_message">Bewegen Sie die Karten gemäß Ihrem Verständnis. Sie haben die Möglichkeit, sie zu drehen, um ihre Bedeutungen aufzudecken.</string>
     <string name="matching_message">Koppeln Sie die verbundenen Karten miteinander.</string>
     <string name="typing_message">Geben Sie den Begriff ein, der dem gegebenen Sinn entspricht.</string>
+    <string name="return_back">Zurückkehren</string>
 </resources>

@@ -13,4 +13,5 @@
     <string name="knowledge_directions_message">Slide the cards according to your comprehension. You have the option to rotate them to reveal their meanings.</string>
     <string name="matching_message">Pair the associated cards together.</string>
     <string name="typing_message">Enter the idiom that corresponds to the given meaning.</string>
+    <string name="return_back">Return back</string>
 </resources>

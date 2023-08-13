@@ -4,7 +4,7 @@ import MemoratiIcons
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,8 +13,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,24 +35,45 @@ import com.memorati.core.ui.theme.Moccasin
 import com.memorati.feature.quiz.R
 import com.memorati.feature.quiz.knowledge.model.KnowledgeCard
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun KnowledgeDirectionsScreen(
     modifier: Modifier = Modifier,
     knowledgeCards: List<KnowledgeCard>,
+    onBack: () -> Unit,
     onFlip: (Flashcard, Boolean) -> Unit,
     onSwipeCardStart: (Flashcard) -> Unit,
     onSwipeCardEnd: (Flashcard) -> Unit,
     toggleFavoured: (Flashcard, Boolean) -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .padding(16.dp)
-            .fillMaxSize(),
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
-        MemorisedDirection(modifier = Modifier.align(Alignment.TopEnd))
-        UnmemorisedDirection(modifier = Modifier.align(Alignment.BottomStart))
+        TopAppBar(
+            title = {
+                Text(text = stringResource(id = R.string.knowledge_directions))
+            },
+            navigationIcon = {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = MemoratiIcons.ArrowBack,
+                        contentDescription = stringResource(id = R.string.return_back),
+                    )
+                }
+            },
+        )
+
+        MemorisedDirection(
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.End),
+        )
         CardsStack(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 16.dp)
+                .align(Alignment.CenterHorizontally),
             items = knowledgeCards,
             onSwipeCardStart = { knowledgeCard ->
                 onSwipeCardStart(knowledgeCard.flashcard)
@@ -67,6 +92,9 @@ internal fun KnowledgeDirectionsScreen(
                     toggleFavoured = toggleFavoured,
                 )
             },
+        )
+        UnmemorisedDirection(
+            modifier = Modifier.padding(16.dp),
         )
     }
 }
@@ -131,6 +159,7 @@ private fun KnowledgeDirectionsScreenPreview(
                         flipped = false,
                     )
                 },
+                onBack = {},
                 onFlip = { _, _ -> },
                 onSwipeCardEnd = {},
                 onSwipeCardStart = {},
