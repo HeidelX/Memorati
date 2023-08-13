@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -29,6 +30,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.memorati.core.design.component.EmptyScreen
 import com.memorati.core.ui.DevicePreviews
+import com.memorati.core.ui.LocalePreviews
+import com.memorati.core.ui.theme.AndroidGreen
 import com.memorati.core.ui.theme.MemoratiTheme
 
 @Composable
@@ -78,10 +81,10 @@ fun QuizScreen(
                     .align(Alignment.Center),
             ) {
                 QuizType(
-                    title = "Knowledge Directions",
-                    subtitle = "Flip cards and swipe it to the directions of your knowledge.",
-                    level = "Easy",
-                    color = Color.Green,
+                    title = stringResource(R.string.knowledge_directions),
+                    subtitle = stringResource(R.string.knowledge_directions_message),
+                    level = stringResource(R.string.easy),
+                    color = AndroidGreen,
                     onClick = openKnowledgeDirections,
                 )
 
@@ -91,9 +94,9 @@ fun QuizScreen(
                 )
 
                 QuizType(
-                    title = "Matching",
-                    subtitle = "Match the related cards together.",
-                    level = "Medium",
+                    title = stringResource(R.string.matching),
+                    subtitle = stringResource(R.string.matching_message),
+                    level = stringResource(R.string.medium),
                     color = Color.Yellow,
                     onClick = openMatching,
                 )
@@ -104,9 +107,9 @@ fun QuizScreen(
                 )
 
                 QuizType(
-                    title = "Typing",
-                    subtitle = "Type the meaning.",
-                    level = "Hard",
+                    title = stringResource(R.string.typing),
+                    subtitle = stringResource(R.string.typing_message),
+                    level = stringResource(R.string.hard),
                     color = Color.Red,
                     onClick = openTyping,
                 )
@@ -130,6 +133,7 @@ private fun QuizType(
             .clickable { onClick() }
             .padding(10.dp)
             .fillMaxWidth()
+            .heightIn(min = 80.dp)
             .wrapContentHeight(),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -162,6 +166,7 @@ private fun QuizType(
 }
 
 @DevicePreviews
+@LocalePreviews
 @Composable
 private fun QuizScreenPreview() {
     MemoratiTheme {
