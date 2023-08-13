@@ -136,7 +136,7 @@ private fun MatchingCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(170.dp)
+            .height(150.dp)
             .padding(1.dp),
         onClick = onClick,
         enabled = match.enabled,
