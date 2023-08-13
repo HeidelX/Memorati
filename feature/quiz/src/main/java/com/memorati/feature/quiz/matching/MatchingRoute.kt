@@ -76,7 +76,7 @@ internal fun MatchingScreen(
         )
 
         Text(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
             text = "Select the matches",
             style = MaterialTheme.typography.titleMedium,
         )
