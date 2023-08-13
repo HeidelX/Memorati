@@ -1,6 +1,5 @@
 package com.memorati.feature.settings
 
-import com.memorati.core.design.icon.MemoratiIcons
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.GetContent
@@ -44,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.component.MemoratiSwitch
+import com.memorati.core.design.icon.MemoratiIcons
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.theme.MemoratiTheme

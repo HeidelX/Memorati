@@ -1,6 +1,5 @@
 package com.memorati.feature.quiz.knowledge
 
-import com.memorati.core.design.icon.MemoratiIcons
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.design.component.CardsStack
+import com.memorati.core.design.icon.MemoratiIcons
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.provider.FlashcardsProvider

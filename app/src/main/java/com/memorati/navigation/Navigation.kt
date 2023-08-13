@@ -1,11 +1,11 @@
 package com.memorati.navigation
 
-import com.memorati.core.design.icon.MemoratiIcons
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.navOptions
 import com.memorati.NavBarItem
+import com.memorati.core.design.icon.MemoratiIcons
 import com.memorati.feature.assistant.navigation.ASSISTANT_ROUTE
 import com.memorati.feature.assistant.navigation.navigateToAssistant
 import com.memorati.feature.cards.navigation.CARDS_ROUTE

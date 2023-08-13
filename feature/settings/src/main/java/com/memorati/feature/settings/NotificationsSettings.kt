@@ -1,6 +1,5 @@
 package com.memorati.feature.settings
 
-import com.memorati.core.design.icon.MemoratiIcons
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.memorati.core.design.icon.MemoratiIcons
 import com.memorati.core.model.UserData
 import com.memorati.feature.settings.TimePickerRequest.END
 import com.memorati.feature.settings.TimePickerRequest.START

@@ -1,4 +1,5 @@
 package com.memorati.core.design.icon
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Alarm

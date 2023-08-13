@@ -1,6 +1,5 @@
 package com.memorati.feature.quiz.matching
 
-import com.memorati.core.design.icon.MemoratiIcons
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.memorati.core.design.icon.MemoratiIcons
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.quiz.R
