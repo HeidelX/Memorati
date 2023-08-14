@@ -23,7 +23,6 @@ fun <T> CardsStack(
     onSwipeCardEnd: (T) -> Boolean,
     onSwipeCardStart: (T) -> Boolean,
     itemKey: (T) -> Any,
-    itemSwipe: (T) -> DismissValue = { DismissValue.Default },
     cardContent: @Composable (T) -> Unit,
 ) {
     Box(
@@ -37,7 +36,6 @@ fun <T> CardsStack(
                     count = items.size,
                     onSwipeStart = { onSwipeCardStart(item) },
                     onSwipeEnd = { onSwipeCardEnd(item) },
-                    initialValue = itemSwipe(item)
                 ) {
                     cardContent(item)
                 }
@@ -47,6 +45,37 @@ fun <T> CardsStack(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun <T> CardsStackIndexed(
+    modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.Center,
+    items: List<T>,
+    onSwipeCardEnd: (T) -> Boolean,
+    onSwipeCardStart: (T) -> Boolean,
+    itemKey: (T) -> Any,
+    itemSwipe: (T) -> DismissValue = { DismissValue.Default },
+    cardContent: @Composable (Int, T) -> Unit,
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = contentAlignment,
+    ) {
+        items.forEachIndexed { order, item ->
+            key(itemKey(item)) {
+                SwipeableCard(
+                    order = order,
+                    count = items.size,
+                    onSwipeStart = { onSwipeCardStart(item) },
+                    onSwipeEnd = { onSwipeCardEnd(item) },
+                    initialValue = itemSwipe(item),
+                ) {
+                    cardContent(order, item)
+                }
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun CardsStackPreview() {
@@ -56,7 +85,6 @@ private fun CardsStackPreview() {
         onSwipeCardEnd = { false },
         onSwipeCardStart = { false },
         itemKey = {},
-        itemSwipe = { DismissValue.Default }
     ) {
         Card(
             modifier = Modifier

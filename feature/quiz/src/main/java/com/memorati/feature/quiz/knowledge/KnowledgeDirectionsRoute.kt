@@ -40,7 +40,6 @@ import com.memorati.feature.quiz.R
 import com.memorati.feature.quiz.knowledge.model.KnowledgeCard
 import java.util.Locale
 
-
 @Composable
 fun KnowledgeDirectionsRoute(
     modifier: Modifier = Modifier,

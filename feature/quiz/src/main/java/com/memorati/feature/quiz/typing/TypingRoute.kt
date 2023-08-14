@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.memorati.core.design.component.CardsStack
+import com.memorati.core.design.component.CardsStackIndexed
 import com.memorati.core.design.icon.MemoratiIcons
 import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
@@ -51,7 +51,7 @@ internal fun TypingScreen(
     modifier: Modifier = Modifier,
     state: List<Typing>,
     onBack: () -> Unit,
-    onNext: (Flashcard) -> Unit,
+    onNext: (Typing) -> Unit,
     onTyping: (Flashcard, String) -> Unit,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
@@ -75,21 +75,25 @@ internal fun TypingScreen(
             text = "Typing the matching idiom",
         )
 
-        CardsStack(
+        CardsStackIndexed(
             modifier = Modifier.padding(16.dp),
             items = state,
             onSwipeCardEnd = { false },
             onSwipeCardStart = { false },
             itemKey = { typing -> typing },
             itemSwipe = { typing ->
-                if (typing.swipeState == Typing.SwipeState.DEFAULT)
-                    DismissValue.Default else DismissValue.DismissedToEnd
+                if (typing.swipeState == Typing.SwipeState.DEFAULT) {
+                    DismissValue.Default
+                } else {
+                    DismissValue.DismissedToEnd
+                }
             },
-        ) { typing ->
+        ) { index, typing ->
             TypingCard(
+                index = index,
                 typing = typing,
                 onTyping = { onTyping(typing.card, it) },
-                onNext = { onNext(typing.card) },
+                onNext = { onNext(typing) },
             )
         }
     }

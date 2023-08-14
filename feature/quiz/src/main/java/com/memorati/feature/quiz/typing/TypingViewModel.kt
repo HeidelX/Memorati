@@ -49,9 +49,10 @@ class TypingViewModel @Inject constructor(
         }
         val state = when {
             idiom.isBlank() -> Typing.State.DEFAULT
-            card.idiom.startsWith(idiom, true) -> Typing.State.CORRECT
+            card.idiom.contains(idiom.trim(), true) -> Typing.State.CORRECT
             else -> Typing.State.WRONG
         }
+
         typings.update {
             it.mutate {
                 put(
@@ -67,12 +68,20 @@ class TypingViewModel @Inject constructor(
         }
     }
 
-    fun onNext(card: Flashcard) = launch {
+    fun onNext(typing: Typing) = launch {
         typings.update {
             it.mutate {
-                this[card.id] = this[card.id]!!.copy(swipeState = Typing.SwipeState.SWIPE)
+                this[typing.card.id] = typing.copy(swipeState = Typing.SwipeState.SWIPE)
             }
         }
-        flashcardsRepository.updateCard(card.answer(true))
+
+        flashcardsRepository.updateCard(
+            typing.card.answer(
+                typing.card.idiom.equals(
+                    typing.idiom.trim(),
+                    ignoreCase = true,
+                ),
+            ),
+        )
     }
 }

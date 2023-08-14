@@ -40,6 +40,7 @@ import com.memorati.feature.quiz.typing.model.Typing
 @Composable
 internal fun TypingCard(
     modifier: Modifier = Modifier,
+    index: Int,
     typing: Typing,
     onTyping: (String) -> Unit,
     onNext: () -> Unit,
@@ -92,15 +93,13 @@ internal fun TypingCard(
                 errorIndicatorColor = Color.Transparent,
             ),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            keyboardActions = KeyboardActions(
-                onNext = { onNext() }
-            ),
+            keyboardActions = KeyboardActions(onNext = { onNext() }),
             maxLines = 1,
         )
     }
 
-    LaunchedEffect(key1 = typing) {
-        focusRequester.requestFocus()
+    if (index == 2) {
+        LaunchedEffect(Unit) { focusRequester.requestFocus() }
     }
 }
 
@@ -134,6 +133,7 @@ private fun TypingCardPreview(
                 typing = Typing(card = flashcard),
                 onTyping = { },
                 onNext = {},
+                index = 0,
             )
         }
     }
