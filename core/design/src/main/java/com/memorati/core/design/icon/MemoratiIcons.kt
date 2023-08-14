@@ -17,6 +17,7 @@ import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Quiz
+import androidx.compose.material.icons.outlined.Replay
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
@@ -55,4 +56,5 @@ object MemoratiIcons {
     val Quiz = Icons.Outlined.Quiz
     val Insights = Icons.Outlined.Insights
     val CompareArrows = Icons.Outlined.CompareArrows
+    val Replay = Icons.Outlined.Replay
 }

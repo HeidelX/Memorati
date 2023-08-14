@@ -15,4 +15,5 @@
     <string name="typing_message">Enter the idiom that corresponds to the given meaning.</string>
     <string name="return_back">Return back</string>
     <string name="select_matches_title">Choose the matching pairs until they fade.</string>
+    <string name="replay">Replay</string>
 </resources>

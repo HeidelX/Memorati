@@ -44,8 +44,9 @@ fun MatchingRoute(
     MatchingScreen(
         modifier = modifier,
         pair = pair,
-        onSelect = viewModel::onSelect,
         onBack = onBack,
+        replay = viewModel::replay,
+        onSelect = viewModel::onSelect,
     )
 }
 
@@ -54,8 +55,9 @@ fun MatchingRoute(
 internal fun MatchingScreen(
     modifier: Modifier = Modifier,
     pair: Pair<List<Match>, List<Match>>,
-    onSelect: (Match) -> Unit,
+    replay: () -> Unit,
     onBack: () -> Unit,
+    onSelect: (Match) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -70,6 +72,14 @@ internal fun MatchingScreen(
                     Icon(
                         imageVector = MemoratiIcons.ArrowBack,
                         contentDescription = stringResource(id = R.string.return_back),
+                    )
+                }
+            },
+            actions = {
+                IconButton(onClick = replay) {
+                    Icon(
+                        imageVector = MemoratiIcons.Replay,
+                        contentDescription = stringResource(R.string.replay),
                     )
                 }
             },
@@ -188,8 +198,9 @@ private fun MatchingScreenPreview() {
                         type = Match.Type.MEANING,
                     ),
                 ),
-                onSelect = {},
+                replay = {},
                 onBack = {},
+                onSelect = {},
             )
         }
     }
