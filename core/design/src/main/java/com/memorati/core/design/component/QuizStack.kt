@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Card
+import androidx.compose.material3.DismissValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
@@ -12,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> CardsStack(
     modifier: Modifier = Modifier,
@@ -20,6 +23,7 @@ fun <T> CardsStack(
     onSwipeCardEnd: (T) -> Boolean,
     onSwipeCardStart: (T) -> Boolean,
     itemKey: (T) -> Any,
+    itemSwipe: (T) -> DismissValue = { DismissValue.Default },
     cardContent: @Composable (T) -> Unit,
 ) {
     Box(
@@ -33,6 +37,7 @@ fun <T> CardsStack(
                     count = items.size,
                     onSwipeStart = { onSwipeCardStart(item) },
                     onSwipeEnd = { onSwipeCardEnd(item) },
+                    initialValue = itemSwipe(item)
                 ) {
                     cardContent(item)
                 }
@@ -41,6 +46,7 @@ fun <T> CardsStack(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 private fun CardsStackPreview() {
@@ -50,6 +56,7 @@ private fun CardsStackPreview() {
         onSwipeCardEnd = { false },
         onSwipeCardStart = { false },
         itemKey = {},
+        itemSwipe = { DismissValue.Default }
     ) {
         Card(
             modifier = Modifier

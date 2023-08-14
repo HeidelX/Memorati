@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -64,6 +65,7 @@ internal fun MatchingScreen(
             .fillMaxSize(),
     ) {
         TopAppBar(
+            modifier = Modifier.shadow(2.dp),
             title = {
                 Text(text = stringResource(id = R.string.matching))
             },
