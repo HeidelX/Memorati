@@ -1,3 +1,4 @@
+package com.memorati.core.design.icon
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
@@ -5,15 +6,18 @@ import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.ArrowCircleDown
 import androidx.compose.material.icons.outlined.ArrowCircleUp
+import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Assistant
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.CompareArrows
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Flip
+import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Quiz
+import androidx.compose.material.icons.outlined.Replay
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
@@ -37,6 +41,7 @@ object MemoratiIcons {
     val FavouritesBorder = Icons.Outlined.StarBorder
     val Assistant = Icons.Outlined.Assistant
     val ArrowBack = Icons.Outlined.ArrowBack
+    val ArrowForward = Icons.Outlined.ArrowForward
     val Done = Icons.Outlined.Done
     val Close = Icons.Outlined.Close
     val Export = Icons.Outlined.ArrowCircleUp
@@ -49,5 +54,7 @@ object MemoratiIcons {
     val Share = Icons.Outlined.Share
     val ArrowDown = Icons.Outlined.KeyboardArrowDown
     val Quiz = Icons.Outlined.Quiz
-    val Flip = Icons.Outlined.Flip
+    val Insights = Icons.Outlined.Insights
+    val CompareArrows = Icons.Outlined.CompareArrows
+    val Replay = Icons.Outlined.Replay
 }

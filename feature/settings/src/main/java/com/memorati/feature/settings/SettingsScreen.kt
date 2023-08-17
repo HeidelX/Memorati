@@ -1,6 +1,5 @@
 package com.memorati.feature.settings
 
-import MemoratiIcons
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.GetContent
@@ -44,9 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.component.MemoratiSwitch
-import com.memorati.core.design.icon.CompareArrows
-import com.memorati.core.design.icon.Insights
-import com.memorati.core.design.icon.Labs
+import com.memorati.core.design.icon.MemoratiIcons
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.theme.MemoratiTheme
@@ -62,13 +59,13 @@ import kotlinx.coroutines.launch
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     state: SettingsState,
+    appVersion: String,
     onBack: () -> Unit,
+    onClear: () -> Unit,
     onExport: () -> Unit,
     onImport: (Uri?) -> Unit,
-    onClear: () -> Unit,
-    appVersion: String,
-    onTimeSelected: (TimePickerRequest, Int, Int) -> Unit,
     onDurationSelected: (Int, Int) -> Unit,
+    onTimeSelected: (TimePickerRequest, Int, Int) -> Unit,
 ) {
     val context = LocalContext.current
     val snackScope = rememberCoroutineScope()
@@ -211,15 +208,6 @@ internal fun SettingsScreen(
                 }
             }
 
-            SettingsTile(
-                modifier = Modifier.padding(horizontal = 5.dp),
-                title = stringResource(id = R.string.experimental),
-                imageVector = MemoratiIcons.Labs,
-                visible = false,
-            ) {
-                // Add flags for experimental features
-            }
-
             if (showClearDialog) {
                 ClearAppDataDialog(
                     onDismiss = {
@@ -276,15 +264,15 @@ internal fun SettingsScreenPreview() {
     MemoratiTheme {
         Surface {
             SettingsScreen(
+                appVersion = "1.0.0.2",
                 state = SettingsState(
                     flashcardsCount = 10,
                     chartEntries = dayEntries(),
                 ),
                 onBack = {},
-                onExport = {},
-                onImport = {},
                 onClear = {},
-                appVersion = "1.0.0.2",
+                onImport = {},
+                onExport = {},
                 onTimeSelected = { _, _, _ -> },
                 onDurationSelected = { _, _ -> },
             )

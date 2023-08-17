@@ -24,11 +24,13 @@ internal fun SwipeableCard(
     count: Int,
     onSwipeStart: () -> Boolean,
     onSwipeEnd: () -> Boolean,
+    initialValue: DismissValue = DismissValue.Default,
     content: @Composable RowScope.() -> Unit,
 ) {
     val width = LocalConfiguration.current.screenWidthDp / 2
     val receiver = LocalDensity.current
     val dismissState = rememberDismissState(
+        initialValue = initialValue,
         positionalThreshold = { with(receiver) { width.dp.toPx() } },
         confirmValueChange = { dismissValue ->
             when (dismissValue) {

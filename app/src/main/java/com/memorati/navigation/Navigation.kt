@@ -1,18 +1,18 @@
 package com.memorati.navigation
 
-import MemoratiIcons
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.navOptions
 import com.memorati.NavBarItem
+import com.memorati.core.design.icon.MemoratiIcons
 import com.memorati.feature.assistant.navigation.ASSISTANT_ROUTE
 import com.memorati.feature.assistant.navigation.navigateToAssistant
 import com.memorati.feature.cards.navigation.CARDS_ROUTE
 import com.memorati.feature.cards.navigation.navigateToCards
 import com.memorati.feature.favourites.navigation.FAVOURITES_ROUTE
 import com.memorati.feature.favourites.navigation.navigateToFavourites
-import com.memorati.feature.quiz.navigation.Quiz_ROUTE
+import com.memorati.feature.quiz.navigation.QUIZ_ROUTE
 import com.memorati.feature.quiz.navigation.navigateToQuiz
 import com.memorati.feature.assistant.R as AssistantR
 import com.memorati.feature.cards.R as CardsR
@@ -32,7 +32,7 @@ enum class TopDestination(
         iconDescriptionId = CardsR.string.cards,
     ),
     QUIZ(
-        route = Quiz_ROUTE,
+        route = QUIZ_ROUTE,
         icon = MemoratiIcons.Quiz,
         labelId = QuizR.string.quiz,
         iconDescriptionId = QuizR.string.quiz,

@@ -4,4 +4,16 @@
     <string name="unmemorized">Unmemorized 💡</string>
     <string name="memorized">🧠 Memorized</string>
     <string name="no_flashcards_yet">No flashcards yet.</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="knowledge_directions">Knowledge Directions</string>
+    <string name="matching">Matching</string>
+    <string name="typing">Typing</string>
+    <string name="knowledge_directions_message">Slide the cards according to your comprehension. You have the option to rotate them to reveal their meanings.</string>
+    <string name="matching_message">Pair the associated cards together.</string>
+    <string name="typing_message">Enter the idiom that corresponds to the given meaning.</string>
+    <string name="return_back">Return back</string>
+    <string name="select_matches_title">Choose the matching pairs until they fade.</string>
+    <string name="replay">Replay</string>
 </resources>

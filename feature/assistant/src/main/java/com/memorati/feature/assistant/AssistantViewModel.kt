@@ -3,6 +3,7 @@ package com.memorati.feature.assistant
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memorati.algorithm.answer
+import com.memorati.core.common.map.mutate
 import com.memorati.core.common.viewmodel.launch
 import com.memorati.core.data.repository.FlashcardsRepository
 import com.memorati.core.domain.GetDueFlashcards
@@ -108,20 +109,14 @@ class AssistantViewModel @Inject constructor(
     }
 
     fun onFlip(card: DueCard, flip: Boolean) {
-        flips.update {
-            it.mutate { this[card.flashcard.id] = flip }
-        }
+        flips.update { flips -> flips.mutate { put(card.flashcard.id, flip) } }
     }
-
-    private fun <T, R> Map<T, R>.mutate(
-        block: MutableMap<T, R>.() -> Unit,
-    ) = toMutableMap().apply(block).toMap()
 
     private suspend fun generateAnswers(card: Flashcard): List<String> = meanings
         .first()
         .randomAnswersPlus(card.meaning)
         .also { answers ->
-            cachedAnswers.update { it.mutate { this[card.id] = answers } }
+            cachedAnswers.update { cachedAnswers -> cachedAnswers.mutate { put(card.id, answers) } }
         }
 }
 

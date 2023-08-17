@@ -23,12 +23,12 @@ import com.memorati.feature.cards.navigation.cardsScreen
 import com.memorati.feature.creation.navigation.cardCreationScreen
 import com.memorati.feature.creation.navigation.navigateToCardCreation
 import com.memorati.feature.favourites.navigation.favouritesScreen
-import com.memorati.feature.quiz.navigation.quizScreen
+import com.memorati.feature.quiz.navigation.quizGraph
 import com.memorati.feature.settings.navigation.navigateToSettings
 import com.memorati.feature.settings.navigation.settingsScreen
 import com.memorati.navigation.TopDestination
 import com.memorati.navigation.navigateToTopDestination
-import com.memorati.ui.MemoratiNanBar
+import com.memorati.ui.MemoratiNavBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
                         floatingActionButtonPosition = FabPosition.End,
                         bottomBar = {
                             if (shouldShowTopBar(currentDestination)) {
-                                MemoratiNanBar(currentDestination, destinations) { topDest ->
+                                MemoratiNavBar(currentDestination, destinations) { topDest ->
                                     navController.navigateToTopDestination(topDest)
                                 }
                             }
@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
                                 settingsScreen(appVersion = BuildConfig.VERSION_NAME) {
                                     navController.navigateUp()
                                 }
-                                quizScreen()
+                                quizGraph(navController)
                             }
                         },
                     )

@@ -4,6 +4,7 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -17,7 +18,7 @@ import com.memorati.navigation.TopDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MemoratiNanBar(
+fun MemoratiNavBar(
     currentDestination: NavDestination?,
     destinations: List<NavBarItem>,
     onClickAction: (TopDestination) -> Unit,
@@ -33,7 +34,13 @@ fun MemoratiNanBar(
                 },
                 icon = {
                     if (navItem.showBadge) {
-                        BadgedBox(badge = { Badge { } }) {
+                        BadgedBox(
+                            badge = {
+                                Badge(
+                                    containerColor = MaterialTheme.colorScheme.tertiary,
+                                ) { }
+                            },
+                        ) {
                             Icon(
                                 imageVector = navItem.topDestination.icon,
                                 contentDescription = stringResource(navItem.topDestination.iconDescriptionId),
@@ -57,5 +64,5 @@ fun MemoratiNanBar(
 @Preview
 @Composable
 fun NavBarPreview() {
-    MemoratiNanBar(currentDestination = null, destinations = TopDestination.toNavItems()) {}
+    MemoratiNavBar(currentDestination = null, destinations = TopDestination.toNavItems()) {}
 }

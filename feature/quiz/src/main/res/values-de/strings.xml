@@ -4,4 +4,16 @@
     <string name="unmemorized">Nicht auswendig gelernt 💡</string>
     <string name="memorized">🧠 Auswendig gelernt</string>
     <string name="no_flashcards_yet">Keine Lernkarten bisher.</string>
+    <string name="easy">Einfach</string>
+    <string name="medium">Mittel</string>
+    <string name="hard">Schwer</string>
+    <string name="knowledge_directions">Wissensrichtungen</string>
+    <string name="matching">Passen</string>
+    <string name="typing">Schreiben</string>
+    <string name="knowledge_directions_message">Bewegen Sie die Karten gemäß Ihrem Verständnis. Sie haben die Möglichkeit, sie zu drehen, um ihre Bedeutungen aufzudecken.</string>
+    <string name="matching_message">Koppeln Sie die verbundenen Karten miteinander.</string>
+    <string name="typing_message">Geben Sie den Begriff ein, der dem gegebenen Sinn entspricht.</string>
+    <string name="return_back">Zurückkehren</string>
+    <string name="select_matches_title">Wähle die passenden Paare, bis sie verblassen.</string>
+    <string name="replay">Erneut abspielen</string>
 </resources>

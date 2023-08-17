@@ -4,4 +4,16 @@
     <string name="unmemorized">غير مُحفوظ 💡</string>
     <string name="memorized">🧠 مُحفوظ</string>
     <string name="no_flashcards_yet">لا توجد بطاقات تعليمية حتى الآن.</string>
+    <string name="easy">سهل</string>
+    <string name="medium">متوسط</string>
+    <string name="hard">صعب</string>
+    <string name="knowledge_directions">اتجاهات المعرفة</string>
+    <string name="matching">مطابقة</string>
+    <string name="typing">كتابة</string>
+    <string name="knowledge_directions_message">قم بتحريك البطاقات وفقًا لفهمك. لديك الخيار لتدويرها لكشف معانيها.</string>
+    <string name="matching_message">قم بإقران البطاقات المرتبطة معًا.</string>
+    <string name="typing_message">أدخل المصطلح المقابل للمعنى المعطى.</string>
+    <string name="return_back">العودة للخلف</string>
+    <string name="select_matches_title">اختر الأزواج المتطابقة حتى تتلاشى.</string>
+    <string name="replay">إعادة تشغيل</string>
 </resources>
