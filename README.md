@@ -44,4 +44,4 @@ For any inquiries or feedback, please contact us at the
 following [form](https://forms.gle/RdMns7GMZHam2PH49).
 
 
-## [Issues reported out this project](/community/ISSUES.md)
+_[Issues reported out of this project](/community/ISSUES.md)_
