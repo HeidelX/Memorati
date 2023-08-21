@@ -88,7 +88,7 @@ internal fun MatchingScreen(
         )
 
         Text(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(all = 16.dp),
             text = stringResource(R.string.select_matches_title),
             style = MaterialTheme.typography.titleMedium,
         )
