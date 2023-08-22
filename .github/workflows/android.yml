@@ -57,9 +57,6 @@ jobs:
           gpg -d --passphrase "${{ secrets.GPG_PASS }}" --batch release.keystore.asc > fastlane/keystore.jks
           echo "${{ secrets.FIREBASE_LOGIN_CREDENTIALS }}" > firebase.login.asc
           gpg -d --passphrase "${{ secrets.GPG_FIREBASE_APP_DIST_PASS }}" --batch firebase.login.asc > fastlane/service_credentials.json
-          cd fastlane
-          ls -l 
-          realpath keystore.jks
 
       - name: Release to Firebase
         run: bundle exec fastlane distribute
