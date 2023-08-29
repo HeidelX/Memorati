@@ -16,7 +16,7 @@ class MainActivityViewModel @Inject constructor(
 ) : ViewModel() {
 
     val state = flashcardsRepository.dueFlashcards().map { flashcards ->
-        TopDestination.values().map { topDestination ->
+        TopDestination.entries.map { topDestination ->
             if (topDestination == TopDestination.ASSISTANT) {
                 NavBarItem(
                     topDestination = topDestination,
