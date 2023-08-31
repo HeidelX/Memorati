@@ -16,4 +16,5 @@
     <string name="return_back">العودة للخلف</string>
     <string name="select_matches_title">اختر الأزواج المتطابقة حتى تتلاشى.</string>
     <string name="replay">إعادة تشغيل</string>
+    <string name="idiom">المصطلح</string>
 </resources>
