@@ -69,7 +69,7 @@ internal fun TypingCard(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
         ),
         border = BorderStroke(
-            width = 1.dp,
+            width = 2.dp,
             brush = Brush.verticalGradient(
                 colorStops = borderColors(card, typedIdiom.trim(), percentage),
             ),
