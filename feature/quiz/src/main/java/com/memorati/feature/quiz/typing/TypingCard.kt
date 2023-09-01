@@ -1,5 +1,6 @@
 package com.memorati.feature.quiz.typing
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
@@ -68,7 +69,7 @@ internal fun TypingCard(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
         ),
         border = BorderStroke(
-            width = (percentage * 2).dp,
+            width = 1.dp,
             brush = Brush.verticalGradient(
                 colorStops = borderColors(card, typedIdiom.trim(), percentage),
             ),
@@ -110,20 +111,25 @@ internal fun TypingCard(
 }
 
 @Composable
-fun borderColors(card: Flashcard, typedIdiom: String, percentage: Float) = when {
-    typedIdiom.isEmpty() -> arrayOf(
-        percentage to MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-        1f to MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+fun borderColors(
+    card: Flashcard,
+    typedIdiom: String,
+    stop: Float,
+): Array<Pair<Float, Color>> {
+    val defaultColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+    val borderColor = when {
+        typedIdiom.isEmpty() -> defaultColor
+        card.idiom.contains(typedIdiom, true) -> AndroidGreen.copy(alpha = stop)
+        else -> Color.Red.copy(alpha = stop)
+    }
+    val colorState by animateColorAsState(
+        targetValue = borderColor,
+        label = "Color",
+        animationSpec = tween(5_00),
     )
-
-    card.idiom.contains(typedIdiom, true) -> arrayOf(
-        percentage to AndroidGreen.copy(alpha = percentage),
-        1f to MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-    )
-
-    else -> arrayOf(
-        percentage to MaterialTheme.colorScheme.error.copy(alpha = percentage),
-        1f to MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+    return arrayOf(
+        stop to colorState,
+        1f to defaultColor,
     )
 }
 
