@@ -26,9 +26,6 @@ class AndroidHiltConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("dagger.hilt.android.plugin")
                 apply("com.google.devtools.ksp")
-                // KAPT must go last to avoid build warnings.
-                // See: https://stackoverflow.com/questions/70550883/warning-the-following-options-were-not-recognized-by-any-processor-dagger-f
-                apply("org.jetbrains.kotlin.kapt")
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")

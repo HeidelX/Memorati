@@ -1,7 +1,6 @@
 plugins {
     id("memorati.android.library")
     id("memorati.android.library.jacoco")
-    kotlin("kapt")
 }
 
 android {
@@ -15,8 +14,6 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.coroutines.android)
-
-    kapt(libs.hilt.compiler)
 
     testImplementation(project(":core:testing"))
 }
