@@ -8,9 +8,8 @@ androidxBrowser = "1.6.0"
 androidxComposeBom = "2023.08.00"
 androidxComposeCompiler = "1.5.3"
 androidxComposeMaterial3 = "1.2.0-alpha06"
-androidxComposeMaterial = "1.5.0"
 androidxComposeRuntimeTracing = "1.0.0-alpha04"
-androidxCore = "1.10.1"
+androidxCore = "1.12.0-rc01"
 androidxCoreSplashscreen = "1.0.1"
 androidxDataStore = "1.0.0"
 androidxEspresso = "3.5.1"
@@ -80,7 +79,6 @@ androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-t
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
-androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "androidxComposeMaterial" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }

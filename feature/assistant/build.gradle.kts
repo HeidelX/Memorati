@@ -16,8 +16,6 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.androidx.activity.compose)
     implementation(libs.accompanist.permissions)
-    implementation(libs.androidx.compose.material)
-
     // Work
     implementation(libs.androidx.work.ktx)
     implementation(libs.hilt.ext.work)
