@@ -28,10 +28,8 @@ class KnowledgeDirectionsViewModel @Inject constructor(
     ) { cards, flips ->
         cards.sortedWith(
             compareBy(
-                { card -> card.lastReviewAt },
-                { card -> card.additionalInfo.difficulty },
-                { card -> card.additionalInfo.memoryStrength },
                 { card -> card.additionalInfo.consecutiveCorrectCount },
+                { card -> card.lastReviewAt },
             ),
         ).take(3).reversed().map { flashcard ->
             KnowledgeCard(
