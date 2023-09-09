@@ -1,15 +1,16 @@
 package com.memorati.core.design.icon
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.material.icons.automirrored.outlined.CompareArrows
+import androidx.compose.material.icons.automirrored.outlined.VolumeUp
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Alarm
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.ArrowCircleDown
 import androidx.compose.material.icons.outlined.ArrowCircleUp
-import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Assistant
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.CompareArrows
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
@@ -27,7 +28,6 @@ import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material.icons.outlined.Storage
 import androidx.compose.material.icons.outlined.Timelapse
 import androidx.compose.material.icons.outlined.ViewAgenda
-import androidx.compose.material.icons.outlined.VolumeUp
 
 object MemoratiIcons {
     val Settings = Icons.Outlined.Settings
@@ -40,8 +40,8 @@ object MemoratiIcons {
     val Favourites = Icons.Outlined.Star
     val FavouritesBorder = Icons.Outlined.StarBorder
     val Assistant = Icons.Outlined.Assistant
-    val ArrowBack = Icons.Outlined.ArrowBack
-    val ArrowForward = Icons.Outlined.ArrowForward
+    val ArrowBack = Icons.AutoMirrored.Outlined.ArrowBack
+    val ArrowForward = Icons.AutoMirrored.Outlined.ArrowForward
     val Done = Icons.Outlined.Done
     val Close = Icons.Outlined.Close
     val Export = Icons.Outlined.ArrowCircleUp
@@ -50,11 +50,11 @@ object MemoratiIcons {
     val Notifications = Icons.Outlined.Alarm
     val Snooze = Icons.Outlined.Snooze
     val Timelapse = Icons.Outlined.Timelapse
-    val Speak = Icons.Outlined.VolumeUp
+    val Speak = Icons.AutoMirrored.Outlined.VolumeUp
     val Share = Icons.Outlined.Share
     val ArrowDown = Icons.Outlined.KeyboardArrowDown
     val Quiz = Icons.Outlined.Quiz
     val Insights = Icons.Outlined.Insights
-    val CompareArrows = Icons.Outlined.CompareArrows
+    val CompareArrows = Icons.AutoMirrored.Outlined.CompareArrows
     val Replay = Icons.Outlined.Replay
 }
