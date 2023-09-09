@@ -3,7 +3,6 @@ package com.memorati.feature.quiz.typing
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,7 +26,6 @@ import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.provider.FlashcardsProvider
 import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.quiz.R
-import com.memorati.feature.quiz.typing.model.Typing
 
 @Composable
 fun TypingRoute(
@@ -40,8 +38,7 @@ fun TypingRoute(
         modifier = modifier,
         onBack = onBack,
         state = state,
-        onNext = viewModel::onNext,
-        onTyping = viewModel::onTyping,
+        swipe = viewModel::swipe,
     )
 }
 
@@ -49,10 +46,9 @@ fun TypingRoute(
 @Composable
 internal fun TypingScreen(
     modifier: Modifier = Modifier,
-    state: List<Typing>,
+    state: List<Flashcard>,
     onBack: () -> Unit,
-    onNext: (Typing) -> Unit,
-    onTyping: (Flashcard, String) -> Unit,
+    swipe: (Flashcard, Boolean) -> Unit,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
         TopAppBar(
@@ -81,19 +77,13 @@ internal fun TypingScreen(
             onSwipeCardEnd = { false },
             onSwipeCardStart = { false },
             itemKey = { typing -> typing },
-            itemSwipe = { typing ->
-                if (typing.swipeState == Typing.SwipeState.DEFAULT) {
-                    DismissValue.Default
-                } else {
-                    DismissValue.DismissedToEnd
-                }
-            },
-        ) { index, typing ->
+        ) { index, card ->
             TypingCard(
                 index = index,
-                typing = typing,
-                onTyping = { onTyping(typing.card, it) },
-                onNext = { onNext(typing) },
+                card = card,
+                onSwipe = { correct ->
+                    swipe(card, correct)
+                },
             )
         }
     }
@@ -108,10 +98,9 @@ private fun TypingScreenPreview(
     MemoratiTheme {
         Surface {
             TypingScreen(
-                state = cards.take(3).map { Typing(card = it) },
+                state = cards.take(3),
                 onBack = {},
-                onNext = {},
-                onTyping = { _, _ -> },
+                swipe = { _, _ -> },
             )
         }
     }

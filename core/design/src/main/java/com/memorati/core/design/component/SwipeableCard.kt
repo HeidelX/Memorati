@@ -45,7 +45,7 @@ internal fun SwipeableCard(
         label = "Scale",
     )
     val animatedYOffset by animateDpAsState(
-        targetValue = ((count - order) * -12).dp,
+        targetValue = ((count - order) * -16).dp,
         label = "OffsetY",
     )
 

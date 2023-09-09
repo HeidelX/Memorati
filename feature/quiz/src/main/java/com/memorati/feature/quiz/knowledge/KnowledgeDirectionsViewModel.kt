@@ -28,17 +28,17 @@ class KnowledgeDirectionsViewModel @Inject constructor(
     ) { cards, flips ->
         cards.sortedWith(
             compareBy(
-                { card -> card.lastReviewAt },
-                { card -> card.additionalInfo.difficulty },
-                { card -> card.additionalInfo.memoryStrength },
                 { card -> card.additionalInfo.consecutiveCorrectCount },
+                { card -> card.lastReviewAt },
             ),
-        ).take(3).reversed().map { flashcard ->
-            KnowledgeCard(
-                flashcard = flashcard,
-                flipped = flips[flashcard.id] ?: false,
-            )
-        }
+        ).take(3)
+            .reversed()
+            .map { flashcard ->
+                KnowledgeCard(
+                    flashcard = flashcard,
+                    flipped = flips[flashcard.id] ?: false,
+                )
+            }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),

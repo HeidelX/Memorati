@@ -38,7 +38,6 @@ import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.core.ui.theme.Moccasin
 import com.memorati.feature.quiz.R
 import com.memorati.feature.quiz.knowledge.model.KnowledgeCard
-import java.util.Locale
 
 @Composable
 fun KnowledgeDirectionsRoute(
@@ -140,7 +139,7 @@ private fun MemorisedDirection(
             modifier = Modifier
                 .background(AndroidGreen, CircleShape)
                 .padding(10.dp),
-            imageVector = if (isAr()) MemoratiIcons.ArrowBack else MemoratiIcons.ArrowForward,
+            imageVector = MemoratiIcons.ArrowForward,
             contentDescription = stringResource(R.string.memorized),
         )
     }
@@ -161,7 +160,7 @@ private fun UnmemorisedDirection(
             modifier = Modifier
                 .background(Moccasin, CircleShape)
                 .padding(10.dp),
-            imageVector = if (isAr()) MemoratiIcons.ArrowForward else MemoratiIcons.ArrowBack,
+            imageVector = MemoratiIcons.ArrowBack,
             contentDescription = stringResource(R.string.unmemorized),
         )
         Spacer(modifier = Modifier.width(10.dp))
@@ -192,5 +191,3 @@ private fun KnowledgeDirectionsScreenPreview(
         }
     }
 }
-
-private fun isAr() = Locale.getDefault().language.equals(Locale("ar").language)

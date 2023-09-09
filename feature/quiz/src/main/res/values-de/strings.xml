@@ -16,4 +16,5 @@
     <string name="return_back">Zurückkehren</string>
     <string name="select_matches_title">Wähle die passenden Paare, bis sie verblassen.</string>
     <string name="replay">Erneut abspielen</string>
+    <string name="idiom">Idiom</string>
 </resources>

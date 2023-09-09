@@ -16,4 +16,5 @@
     <string name="return_back">Return back</string>
     <string name="select_matches_title">Choose the matching pairs until they fade.</string>
     <string name="replay">Replay</string>
+    <string name="idiom">Idiom</string>
 </resources>

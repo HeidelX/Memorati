@@ -1,5 +1,8 @@
 package com.memorati.feature.quiz.typing
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -14,19 +17,21 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.memorati.core.model.Flashcard
@@ -35,44 +40,44 @@ import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.provider.FlashcardProvider
 import com.memorati.core.ui.theme.AndroidGreen
 import com.memorati.core.ui.theme.MemoratiTheme
-import com.memorati.feature.quiz.typing.model.Typing
+import com.memorati.feature.quiz.R
 
 @Composable
 internal fun TypingCard(
     modifier: Modifier = Modifier,
     index: Int,
-    typing: Typing,
-    onTyping: (String) -> Unit,
-    onNext: () -> Unit,
+    card: Flashcard,
+    onSwipe: (Boolean) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
+    var typedIdiom by rememberSaveable { mutableStateOf("") }
+    val percentage by animateFloatAsState(
+        targetValue = when {
+            typedIdiom.isEmpty() -> 0f
+            else -> minOf(1f, typedIdiom.length.toFloat() / card.idiom.length)
+        },
+        label = "Percentage",
+        animationSpec = tween(5_00),
+    )
 
-    val textState by remember {
-        mutableStateOf(
-            TextFieldValue(
-                text = typing.idiom,
-                selection = TextRange(typing.idiom.length),
-            ),
-        )
-    }
     Card(
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 160.dp)
             .wrapContentHeight(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
         ),
         border = BorderStroke(
-            width = (typing.percentage * 2).dp,
+            width = 2.dp,
             brush = Brush.verticalGradient(
-                colorStops = borderColors(typing),
+                colorStops = borderColors(card, typedIdiom.trim(), percentage),
             ),
         ),
     ) {
         Text(
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-            text = typing.card.meaning,
+            text = card.meaning,
             style = MaterialTheme.typography.titleMedium,
         )
 
@@ -81,11 +86,11 @@ internal fun TypingCard(
                 .padding(16.dp)
                 .fillMaxWidth()
                 .focusRequester(focusRequester),
-            value = textState,
-            label = {
-                Text(text = "Idiom")
+            value = typedIdiom,
+            label = { Text(text = stringResource(R.string.idiom)) },
+            onValueChange = { text ->
+                typedIdiom = text
             },
-            onValueChange = { textField -> onTyping(textField.text) },
             shape = MaterialTheme.shapes.medium,
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
@@ -93,7 +98,9 @@ internal fun TypingCard(
                 errorIndicatorColor = Color.Transparent,
             ),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            keyboardActions = KeyboardActions(onNext = { onNext() }),
+            keyboardActions = KeyboardActions(
+                onNext = { onSwipe(card.idiom.contains(typedIdiom.trim(), true)) },
+            ),
             maxLines = 1,
         )
     }
@@ -104,20 +111,25 @@ internal fun TypingCard(
 }
 
 @Composable
-fun borderColors(typing: Typing) = when (typing.state) {
-    Typing.State.DEFAULT -> arrayOf(
-        typing.percentage to MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-        1f to MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+fun borderColors(
+    card: Flashcard,
+    typedIdiom: String,
+    stop: Float,
+): Array<Pair<Float, Color>> {
+    val defaultColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+    val borderColor = when {
+        typedIdiom.isEmpty() -> defaultColor
+        card.idiom.contains(typedIdiom, true) -> AndroidGreen.copy(alpha = stop)
+        else -> Color.Red.copy(alpha = stop)
+    }
+    val colorState by animateColorAsState(
+        targetValue = borderColor,
+        label = "Color",
+        animationSpec = tween(5_00),
     )
-
-    Typing.State.CORRECT -> arrayOf(
-        typing.percentage to AndroidGreen.copy(alpha = typing.percentage),
-        1f to MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-    )
-
-    Typing.State.WRONG -> arrayOf(
-        typing.percentage to MaterialTheme.colorScheme.error.copy(alpha = typing.percentage),
-        1f to MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+    return arrayOf(
+        stop to colorState,
+        1f to defaultColor,
     )
 }
 
@@ -130,10 +142,9 @@ private fun TypingCardPreview(
     MemoratiTheme {
         Surface {
             TypingCard(
-                typing = Typing(card = flashcard),
-                onTyping = { },
-                onNext = {},
+                card = flashcard,
                 index = 0,
+                onSwipe = {},
             )
         }
     }

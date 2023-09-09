@@ -1,21 +1,22 @@
 package com.memorati.feature.settings.chart
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,21 +38,26 @@ internal fun Chart(
 ) {
     val lineColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
     val borderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-    Row(
+    val lazyListState = rememberLazyListState()
+    LazyRow(
         modifier = modifier
             .padding(16.dp)
             .fillMaxWidth()
             .drawBehind { if (entries.isNotEmpty()) drawGraph(lineColor, borderColor) }
-            .wrapContentHeight()
-            .horizontalScroll(rememberScrollState()),
+            .wrapContentHeight(),
         verticalAlignment = Alignment.Bottom,
+        state = lazyListState,
     ) {
-        entries.forEach { entry ->
+        items(entries) { entry ->
             Bar(
                 value = entry.count,
                 label = entry.day,
             )
         }
+    }
+
+    LaunchedEffect(entries) {
+        lazyListState.animateScrollToItem(entries.size)
     }
 }
 
