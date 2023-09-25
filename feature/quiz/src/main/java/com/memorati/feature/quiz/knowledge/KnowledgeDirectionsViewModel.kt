@@ -28,8 +28,10 @@ class KnowledgeDirectionsViewModel @Inject constructor(
     ) { cards, flips ->
         cards.sortedWith(
             compareBy(
-                { card -> card.additionalInfo.consecutiveCorrectCount },
                 { card -> card.lastReviewAt },
+                { card -> card.additionalInfo.difficulty },
+                { card -> card.additionalInfo.memoryStrength },
+                { card -> card.additionalInfo.consecutiveCorrectCount },
             ),
         ).take(3)
             .reversed()
