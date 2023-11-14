@@ -9,4 +9,6 @@ message UserPreferences {
   int64 alarm_interval = 3;
   reserved 4; // field is_speech_enabled was removed
   string idiom_language_tag = 5;
+  int32 word_correctness_count = 6;
+  int32 weeks_of_review = 7;
 }

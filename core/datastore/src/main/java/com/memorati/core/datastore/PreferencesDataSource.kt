@@ -3,9 +3,11 @@ package com.memorati.core.datastore
 import android.util.Log
 import androidx.datastore.core.DataStore
 import com.memorati.core.model.UserData
+import com.memorati.core.model.UserData.Companion.COUNT
 import com.memorati.core.model.UserData.Companion.END
 import com.memorati.core.model.UserData.Companion.INTERVAL
 import com.memorati.core.model.UserData.Companion.START
+import com.memorati.core.model.UserData.Companion.WEEKS
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalTime
 import java.io.IOException
@@ -15,13 +17,17 @@ import kotlin.time.Duration.Companion.milliseconds
 class PreferencesDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>,
 ) {
-    val userData = userPreferences.data.map {
-        UserData(
-            startTime = if (it.startTime == 0) START else LocalTime.fromMillisecondOfDay(it.startTime),
-            endTime = if (it.endTime == 0) END else LocalTime.fromMillisecondOfDay(it.endTime),
-            reminderInterval = if (it.alarmInterval == 0L) INTERVAL else it.alarmInterval.milliseconds,
-            idiomLanguageTag = it.idiomLanguageTag,
-        )
+    val userData = userPreferences.data.map { prefs ->
+        with(prefs) {
+            UserData(
+                idiomLanguageTag = idiomLanguageTag,
+                weeksOfReview = if (weeksOfReview == 0) WEEKS else weeksOfReview,
+                endTime = if (endTime == 0) END else LocalTime.fromMillisecondOfDay(endTime),
+                startTime = if (startTime == 0) START else LocalTime.fromMillisecondOfDay(startTime),
+                reminderInterval = if (alarmInterval == 0L) INTERVAL else alarmInterval.milliseconds,
+                wordCorrectnessCount = if (wordCorrectnessCount == 0) COUNT else wordCorrectnessCount,
+            )
+        }
     }
 
     suspend fun setStartTime(time: Int) {
