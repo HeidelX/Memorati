@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,15 +49,15 @@ internal fun SwipeableCard(
         label = "OffsetY",
     )
 
-    SwipeToDismiss(
+    SwipeToDismissBox(
+        state = dismissState,
         modifier = Modifier
             .offset { IntOffset(x = 0, y = animatedYOffset.roundToPx()) }
             .graphicsLayer {
                 scaleX = animatedScale
                 scaleY = animatedScale
             },
-        state = dismissState,
-        dismissContent = content,
-        background = {},
+        content = content,
+        backgroundContent = {},
     )
 }
