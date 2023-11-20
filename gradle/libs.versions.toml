@@ -8,7 +8,6 @@ androidxBrowser = "1.7.0"
 androidxComposeBom = "2023.10.01"
 androidxComposeCompiler = "1.5.4"
 androidxComposeMaterial3 = "1.2.0-alpha11"
-androidxComposeMaterial3Adaptive = "1.0.0-alpha01"
 androidxComposeRuntimeTracing = "1.0.0-alpha05"
 androidxCore = "1.12.0"
 androidxCoreSplashscreen = "1.0.1"
@@ -56,6 +55,7 @@ kotlin180 = "1.9.20"
 junit = "1.1.5"
 material = "1.10.0"
 lottie = "6.1.0"
+material3AdaptiveNavigationSuiteAndroid = "1.0.0-alpha01"
 
 [libraries]
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
@@ -71,7 +71,6 @@ androidx-compose-foundation = { group = "androidx.compose.foundation", name = "f
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
-androidx-compose-material3-adaptive = { group = "androidx.compose.material3", name = "material3-adaptive", version.ref = "androidxComposeMaterial3Adaptive" }
 androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "androidxComposeMaterial3" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata" }
@@ -143,6 +142,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+androidx-material3-adaptive-navigation-suite-android = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite-android", version.ref = "material3AdaptiveNavigationSuiteAndroid" }
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -130,7 +130,6 @@ internal fun SettingsScreen(
                 }
             }
 
-
             SettingsTile(
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 5.dp),
                 title = stringResource(R.string.manage_review_interval),
@@ -140,7 +139,7 @@ internal fun SettingsScreen(
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
@@ -162,11 +161,11 @@ internal fun SettingsScreen(
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = "Number of weeks to review:"
+                        text = "Number of weeks to review:",
                     )
                     TextField(
                         modifier = Modifier.width(100.dp),
