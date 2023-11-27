@@ -54,7 +54,7 @@ turbine = "1.0.0"
 kotlin180 = "1.9.10"
 junit = "1.1.5"
 material = "1.9.0"
-lottie = "6.1.0"
+lottie = "6.2.0"
 
 [libraries]
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
