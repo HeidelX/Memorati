@@ -108,10 +108,10 @@ private fun AccuracyTile(
         )
 
         LinearProgressIndicator(
+            progress = { accuracy },
             modifier = Modifier.fillMaxWidth(),
-            progress = accuracy,
-            strokeCap = StrokeCap.Round,
             color = color,
+            strokeCap = StrokeCap.Round,
         )
     }
 }

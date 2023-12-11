@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.FreeBreakfast
 import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.MoreVert
@@ -57,4 +58,5 @@ object MemoratiIcons {
     val Insights = Icons.Outlined.Insights
     val CompareArrows = Icons.AutoMirrored.Outlined.CompareArrows
     val Replay = Icons.Outlined.Replay
+    val Cup = Icons.Outlined.FreeBreakfast
 }

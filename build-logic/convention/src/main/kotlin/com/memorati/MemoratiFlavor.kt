@@ -21,7 +21,7 @@ enum class MemoratiFlavor(val dimension: FlavorDimension, val applicationIdSuffi
 }
 
 fun Project.configureFlavors(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
     flavorConfigurationBlock: ProductFlavor.(flavor: MemoratiFlavor) -> Unit = {}
 ) {
     commonExtension.apply {
