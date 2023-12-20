@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Card
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismissValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
@@ -53,7 +53,7 @@ fun <T> CardsStackIndexed(
     onSwipeCardEnd: (T) -> Boolean,
     onSwipeCardStart: (T) -> Boolean,
     itemKey: (T) -> Any,
-    itemSwipe: (T) -> DismissValue = { DismissValue.Default },
+    itemSwipe: (T) -> SwipeToDismissValue = { SwipeToDismissValue.Settled },
     cardContent: @Composable (Int, T) -> Unit,
 ) {
     Box(
