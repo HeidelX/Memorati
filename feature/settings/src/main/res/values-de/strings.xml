@@ -30,5 +30,7 @@
     <string name="feedback">Rückmeldung</string>
     <string name="experimental">Experimentell</string>
     <string name="idiom_pronunciation">Aussprache des Idioms</string>
-    <string name="manage_review_interval">Verwalten Sie die Zeitabstände zwischen Wortprüfungen.</string>
+    <string name="manage_review_interval">Zeitverwaltung</string>
+    <string name="word_correctness_count">Wortkorrektheitsanzahl:</string>
+    <string name="number_of_weeks_to_review">Anzahl der Wochen zur Überprüfung:</string>
 </resources>

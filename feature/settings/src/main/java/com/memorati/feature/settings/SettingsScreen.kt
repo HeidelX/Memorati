@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -45,6 +46,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.memorati.core.common.permission.openNotificationsSettings
 import com.memorati.core.design.component.MemoratiSwitch
@@ -136,49 +138,17 @@ internal fun SettingsScreen(
                 imageVector = MemoratiIcons.Cup,
                 contentPadding = 0.dp,
             ) {
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth(),
-                ) {
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = "Word correctness count:",
-                    )
-                    TextField(
-                        modifier = Modifier.width(100.dp),
-                        value = userData.wordCorrectnessCount.toString(),
-                        onValueChange = {},
-                        shape = MaterialTheme.shapes.medium,
-                        colors = TextFieldDefaults.colors(
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            errorIndicatorColor = Color.Transparent,
-                        ),
-                    )
-                }
+                TimeManagementRow(
+                    label = stringResource(R.string.word_correctness_count),
+                    text = userData.wordCorrectnessCount.toString(),
+                    onValueChange = {}
+                )
 
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth(),
-                ) {
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = "Number of weeks to review:",
-                    )
-                    TextField(
-                        modifier = Modifier.width(100.dp),
-                        shape = MaterialTheme.shapes.medium,
-                        value = userData.weeksOfReview.toString(),
-                        onValueChange = {},
-                        colors = TextFieldDefaults.colors(
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            errorIndicatorColor = Color.Transparent,
-                        ),
-                    )
-                }
+                TimeManagementRow(
+                    label = stringResource(R.string.number_of_weeks_to_review),
+                    text = userData.weeksOfReview.toString(),
+                    onValueChange = {}
+                )
             }
 
             SettingsTile(
@@ -309,6 +279,38 @@ internal fun SettingsScreen(
         SnackbarHost(
             hostState = snackState,
             modifier = Modifier.align(Alignment.BottomCenter),
+        )
+    }
+}
+
+@Composable
+private fun TimeManagementRow(
+    modifier: Modifier = Modifier,
+    text: String,
+    label: String,
+    onValueChange: (String) -> Unit
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+    ) {
+        Text(
+            modifier = Modifier.weight(1f),
+            text = label,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+        TextField(
+            modifier = Modifier.width(50.dp),
+            value = text,
+            onValueChange = onValueChange,
+            shape = MaterialTheme.shapes.medium,
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent,
+            ),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         )
     }
 }

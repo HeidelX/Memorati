@@ -30,5 +30,7 @@
     <string name="feedback">Feedback</string>
     <string name="experimental">Experimental</string>
     <string name="idiom_pronunciation">Idiom\'s Pronunciation</string>
-    <string name="manage_review_interval">Manage the time gaps between word reviews.</string>
+    <string name="manage_review_interval">Time Management</string>
+    <string name="word_correctness_count">Word Correctness count:</string>
+    <string name="number_of_weeks_to_review">Number of weeks to review:</string>
 </resources>
