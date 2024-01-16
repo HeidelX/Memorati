@@ -28,5 +28,7 @@ fun SettingsRoute(
         onTimeSelected = viewModel::onTimeSelected,
         onDurationSelected = viewModel::onDurationSelected,
         onExport = { viewModel.exportFlashcards(title, context) },
+        onCorrectnessCountChange = viewModel::onCorrectnessCountChange,
+        onWeekCountChange = viewModel::onWeekCountChange,
     )
 }

@@ -77,4 +77,28 @@ class PreferencesDataSource @Inject constructor(
             Log.e("PreferencesDataSource", "Failed to update user preferences", ioException)
         }
     }
+
+    suspend fun setCorrectnessCount(count: Int) {
+        try {
+            userPreferences.updateData {
+                it.copy {
+                    wordCorrectnessCount = count
+                }
+            }
+        } catch (ioException: IOException) {
+            Log.e("PreferencesDataSource", "Failed to update wordCorrectnessCount preferences", ioException)
+        }
+    }
+
+    suspend fun setWeekCountOfReview(count: Int) {
+        try {
+            userPreferences.updateData {
+                it.copy {
+                    weeksOfReview = count
+                }
+            }
+        } catch (ioException: IOException) {
+            Log.e("PreferencesDataSource", "Failed to update weeksOfReview preferences", ioException)
+        }
+    }
 }

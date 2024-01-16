@@ -73,6 +73,8 @@ internal fun SettingsScreen(
     onImport: (Uri?) -> Unit,
     onDurationSelected: (Int, Int) -> Unit,
     onTimeSelected: (TimePickerRequest, Int, Int) -> Unit,
+    onCorrectnessCountChange: (String) -> Unit,
+    onWeekCountChange: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val snackScope = rememberCoroutineScope()
@@ -141,13 +143,13 @@ internal fun SettingsScreen(
                 TimeManagementRow(
                     label = stringResource(R.string.word_correctness_count),
                     text = userData.wordCorrectnessCount.toString(),
-                    onValueChange = {}
+                    onValueChange = onCorrectnessCountChange,
                 )
 
                 TimeManagementRow(
                     label = stringResource(R.string.number_of_weeks_to_review),
                     text = userData.weeksOfReview.toString(),
-                    onValueChange = {}
+                    onValueChange = onWeekCountChange,
                 )
             }
 
@@ -288,7 +290,7 @@ private fun TimeManagementRow(
     modifier: Modifier = Modifier,
     text: String,
     label: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -301,7 +303,7 @@ private fun TimeManagementRow(
             style = MaterialTheme.typography.bodyMedium,
         )
         TextField(
-            modifier = Modifier.width(50.dp),
+            modifier = Modifier.width(100.dp),
             value = text,
             onValueChange = onValueChange,
             shape = MaterialTheme.shapes.medium,
@@ -333,6 +335,8 @@ internal fun SettingsScreenPreview() {
                 onExport = {},
                 onTimeSelected = { _, _, _ -> },
                 onDurationSelected = { _, _ -> },
+                onCorrectnessCountChange = {},
+                onWeekCountChange = {},
             )
         }
     }
