@@ -2,16 +2,18 @@ package com.memorati.feature.quiz.knowledge
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.memorati.algorithm.answer
+import com.memorati.algorithm.review
 import com.memorati.core.common.map.mutate
 import com.memorati.core.common.viewmodel.launch
 import com.memorati.core.data.repository.FlashcardsRepository
+import com.memorati.core.datastore.PreferencesDataSource
 import com.memorati.core.model.Flashcard
 import com.memorati.feature.quiz.knowledge.model.KnowledgeCard
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -19,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class KnowledgeDirectionsViewModel @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
+    private val preferencesDataSource: PreferencesDataSource,
 ) : ViewModel() {
 
     private val flips = MutableStateFlow(mapOf<Long, Boolean>())
@@ -64,6 +67,13 @@ class KnowledgeDirectionsViewModel @Inject constructor(
     }
 
     private suspend fun updateCard(card: Flashcard, correct: Boolean) {
-        flashcardsRepository.updateCard(card.answer(correct))
+        val userData = preferencesDataSource.userData.first()
+        flashcardsRepository.updateCard(
+            card.review(
+                answerCorrect = correct,
+                wordCorrectnessCount = userData.wordCorrectnessCount,
+                weeksOfReview = userData.weeksOfReview,
+            ),
+        )
     }
 }

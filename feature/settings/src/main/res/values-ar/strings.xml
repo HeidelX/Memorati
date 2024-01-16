@@ -30,5 +30,7 @@
     <string name="feedback">تعليقات</string>
     <string name="experimental">تجريبي</string>
     <string name="idiom_pronunciation">نطق المُصطلح</string>
-    <string name="manage_review_interval">قم بإدارة الفجوات الزمنية بين استعراض الكلمات.</string>
+    <string name="manage_review_interval">إدارة الوقت</string>
+    <string name="word_correctness_count">عدد صحة الكلمات:</string>
+    <string name="number_of_weeks_to_review">عدد الأسابيع للمراجعة:</string>
 </resources>

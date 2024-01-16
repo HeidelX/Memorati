@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
@@ -101,22 +100,39 @@ class SettingsViewModel @Inject constructor(
         request: TimePickerRequest,
         hour: Int,
         minute: Int,
-    ) {
-        launch {
-            val time = LocalTime(hour, minute).toMillisecondOfDay()
-            when (request) {
-                TimePickerRequest.START -> preferencesDataSource.setStartTime(time)
-                TimePickerRequest.END -> preferencesDataSource.setEndTime(time)
-                TimePickerRequest.DISMISS -> Unit
+    ) = launch {
+        val time = LocalTime(hour, minute).toMillisecondOfDay()
+        when (request) {
+            TimePickerRequest.START -> preferencesDataSource.setStartTime(time)
+            TimePickerRequest.END -> preferencesDataSource.setEndTime(time)
+            TimePickerRequest.DISMISS -> Unit
+        }
+    }
+
+    fun onDurationSelected(
+        hours: Int,
+        minutes: Int,
+    ) = launch {
+        preferencesDataSource.setAlarmInterval(
+            hours.hours.plus(minutes.minutes).inWholeMilliseconds,
+        )
+    }
+
+    fun onCorrectnessCountChange(value: String) {
+        val count = value.toIntOrNull()
+        if (count != null) {
+            launch {
+                preferencesDataSource.setCorrectnessCount(count)
             }
         }
     }
 
-    fun onDurationSelected(hours: Int, minutes: Int) {
-        launch {
-            preferencesDataSource.setAlarmInterval(
-                hours.hours.plus(minutes.minutes).inWholeMilliseconds,
-            )
+    fun onWeekCountChange(value: String) {
+        val count = value.toIntOrNull()
+        if (count != null) {
+            launch {
+                preferencesDataSource.setWeekCountOfReview(count)
+            }
         }
     }
 }
