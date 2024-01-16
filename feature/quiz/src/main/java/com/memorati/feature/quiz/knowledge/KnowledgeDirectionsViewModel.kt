@@ -72,8 +72,8 @@ class KnowledgeDirectionsViewModel @Inject constructor(
             card.review(
                 answerCorrect = correct,
                 wordCorrectnessCount = userData.wordCorrectnessCount,
-                weeksOfReview = userData.weeksOfReview
-            )
+                weeksOfReview = userData.weeksOfReview,
+            ),
         )
     }
 }

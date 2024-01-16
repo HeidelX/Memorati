@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TypingViewModel @Inject constructor(
     private val flashcardsRepository: FlashcardsRepository,
-    private val preferencesDataSource: PreferencesDataSource
+    private val preferencesDataSource: PreferencesDataSource,
 ) : ViewModel() {
 
     val state = flashcardsRepository
@@ -37,7 +37,7 @@ class TypingViewModel @Inject constructor(
 
     fun swipe(
         card: Flashcard,
-        correct: Boolean
+        correct: Boolean,
     ) = launch {
         val userData = preferencesDataSource.userData.first()
         flashcardsRepository.updateCard(

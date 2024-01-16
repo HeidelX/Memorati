@@ -10,12 +10,12 @@ import kotlin.time.Duration.Companion.minutes
 fun Flashcard.review(
     answerCorrect: Boolean,
     wordCorrectnessCount: Int,
-    weeksOfReview: Int
+    weeksOfReview: Int,
 ): Flashcard {
     val flashcard = handleReviewResponse(answerCorrect)
     return if (flashcard.additionalInfo.consecutiveCorrectCount >= wordCorrectnessCount) {
         flashcard.copy(
-            nextReviewAt = lastReviewAt.plus(weeksOfReview.times(7).days)
+            nextReviewAt = lastReviewAt.plus(weeksOfReview.times(7).days),
         )
     } else {
         flashcard.scheduleNextReview()
