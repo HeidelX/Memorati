@@ -4,9 +4,23 @@ import com.memorati.core.model.AdditionalInfo
 import com.memorati.core.model.Flashcard
 import kotlinx.datetime.Clock
 import kotlin.math.ln
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 
-fun Flashcard.answer(correct: Boolean) = handleReviewResponse(correct).scheduleNextReview()
+fun Flashcard.review(
+    answerCorrect: Boolean,
+    wordCorrectnessCount: Int,
+    weeksOfReview: Int
+): Flashcard {
+    val flashcard = handleReviewResponse(answerCorrect)
+    return if (flashcard.additionalInfo.consecutiveCorrectCount >= wordCorrectnessCount) {
+        flashcard.copy(
+            nextReviewAt = lastReviewAt.plus(weeksOfReview.times(7).days)
+        )
+    } else {
+        flashcard.scheduleNextReview()
+    }
+}
 
 internal fun Flashcard.scheduleNextReview(): Flashcard {
     val adaptiveInterval = calculateAdaptiveInterval(

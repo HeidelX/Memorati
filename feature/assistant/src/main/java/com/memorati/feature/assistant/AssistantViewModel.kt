@@ -2,10 +2,11 @@ package com.memorati.feature.assistant
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.memorati.algorithm.answer
+import com.memorati.algorithm.review
 import com.memorati.core.common.map.mutate
 import com.memorati.core.common.viewmodel.launch
 import com.memorati.core.data.repository.FlashcardsRepository
+import com.memorati.core.datastore.PreferencesDataSource
 import com.memorati.core.domain.GetDueFlashcards
 import com.memorati.core.model.DueCard
 import com.memorati.core.model.Flashcard
@@ -26,6 +27,7 @@ import javax.inject.Inject
 class AssistantViewModel @Inject constructor(
     getDueFlashcards: GetDueFlashcards,
     private val flashcardsRepository: FlashcardsRepository,
+    private val preferencesDataSource: PreferencesDataSource,
 ) : ViewModel() {
 
     private val meanings = flashcardsRepository.flashcards().map { cards ->
@@ -94,8 +96,13 @@ class AssistantViewModel @Inject constructor(
     fun updateCard(
         card: DueCard,
     ) = launch {
+        val userData = preferencesDataSource.userData.first()
         flashcardsRepository.updateCard(
-            card.flashcard.answer(card.isCorrect),
+            card.flashcard.review(
+                answerCorrect = card.isCorrect,
+                wordCorrectnessCount = userData.wordCorrectnessCount,
+                weeksOfReview = userData.weeksOfReview,
+            ),
         )
     }
 
