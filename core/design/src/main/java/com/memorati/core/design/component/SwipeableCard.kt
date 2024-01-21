@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
-import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.material3.SwipeToDismissValue
+import androidx.compose.material3.rememberSwipeToDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -24,18 +24,18 @@ internal fun SwipeableCard(
     count: Int,
     onSwipeStart: () -> Boolean,
     onSwipeEnd: () -> Boolean,
-    initialValue: SwipeToDismissBoxValue = SwipeToDismissBoxValue.Settled,
+    initialValue: SwipeToDismissValue = SwipeToDismissValue.Settled,
     content: @Composable RowScope.() -> Unit,
 ) {
     val width = LocalConfiguration.current.screenWidthDp / 2
     val receiver = LocalDensity.current
-    val dismissState = rememberSwipeToDismissBoxState(
+    val dismissState = rememberSwipeToDismissState(
         initialValue = initialValue,
         positionalThreshold = { with(receiver) { width.dp.toPx() } },
         confirmValueChange = { swipeToDismissValue ->
             when (swipeToDismissValue) {
-                SwipeToDismissBoxValue.EndToStart -> onSwipeStart()
-                SwipeToDismissBoxValue.StartToEnd -> onSwipeEnd()
+                SwipeToDismissValue.EndToStart -> onSwipeStart()
+                SwipeToDismissValue.StartToEnd -> onSwipeEnd()
                 else -> false
             }
         },
