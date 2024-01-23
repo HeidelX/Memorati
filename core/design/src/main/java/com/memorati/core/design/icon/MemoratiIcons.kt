@@ -10,15 +10,16 @@ import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.ArrowCircleDown
 import androidx.compose.material.icons.outlined.ArrowCircleUp
 import androidx.compose.material.icons.outlined.Assistant
+import androidx.compose.material.icons.outlined.AvTimer
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.FreeBreakfast
 import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Quiz
+import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material.icons.outlined.Replay
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
@@ -37,6 +38,8 @@ object MemoratiIcons {
     val Delete = Icons.Outlined.Delete
     val Cards = Icons.Outlined.ViewAgenda
     val Add = Icons.Outlined.Add
+    val Plus = Icons.Outlined.Add
+    val Minus = Icons.Outlined.Remove
     val Search = Icons.Outlined.Search
     val Favourites = Icons.Outlined.Star
     val FavouritesBorder = Icons.Outlined.StarBorder
@@ -58,5 +61,5 @@ object MemoratiIcons {
     val Insights = Icons.Outlined.Insights
     val CompareArrows = Icons.AutoMirrored.Outlined.CompareArrows
     val Replay = Icons.Outlined.Replay
-    val Cup = Icons.Outlined.FreeBreakfast
+    val AvTimer = Icons.Outlined.AvTimer
 }

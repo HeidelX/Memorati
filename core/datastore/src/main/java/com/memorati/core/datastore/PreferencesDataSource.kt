@@ -21,11 +21,11 @@ class PreferencesDataSource @Inject constructor(
         with(prefs) {
             UserData(
                 idiomLanguageTag = idiomLanguageTag,
-                weeksOfReview = if (weeksOfReview == 0) WEEKS else weeksOfReview,
                 endTime = if (endTime == 0) END else LocalTime.fromMillisecondOfDay(endTime),
                 startTime = if (startTime == 0) START else LocalTime.fromMillisecondOfDay(startTime),
                 reminderInterval = if (alarmInterval == 0L) INTERVAL else alarmInterval.milliseconds,
                 wordCorrectnessCount = if (wordCorrectnessCount == 0) COUNT else wordCorrectnessCount,
+                weeksOfReview = if (weeksOfReview == 0) WEEKS else weeksOfReview,
             )
         }
     }
