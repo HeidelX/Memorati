@@ -118,21 +118,11 @@ class SettingsViewModel @Inject constructor(
         )
     }
 
-    fun onCorrectnessCountChange(value: String) {
-        val count = value.toIntOrNull()
-        if (count != null) {
-            launch {
-                preferencesDataSource.setCorrectnessCount(count)
-            }
-        }
+    fun onCorrectnessCountChange(value: Int) = launch {
+        preferencesDataSource.setCorrectnessCount(value)
     }
 
-    fun onWeekCountChange(value: String) {
-        val count = value.toIntOrNull()
-        if (count != null) {
-            launch {
-                preferencesDataSource.setWeekCountOfReview(count)
-            }
-        }
+    fun onWeekCountChange(value: Int) = launch {
+        preferencesDataSource.setWeekCountOfReview(value)
     }
 }
