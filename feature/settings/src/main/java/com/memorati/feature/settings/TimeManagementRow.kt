@@ -59,7 +59,7 @@ internal fun TimeManagementRow(
                     onClick = {
                         onValueChange(if (count > 1) count - 1 else count)
                     },
-                    enabled = count > 1
+                    enabled = count > 1,
                 ) {
                     Icon(imageVector = MemoratiIcons.Minus, contentDescription = "decrease")
                 }
@@ -74,7 +74,7 @@ internal fun TimeManagementRow(
                     Icon(imageVector = MemoratiIcons.Add, contentDescription = "increase")
                 }
             },
-            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center)
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
         )
     }
 }
