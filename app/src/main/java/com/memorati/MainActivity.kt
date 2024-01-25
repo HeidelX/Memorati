@@ -3,10 +3,11 @@ package com.memorati
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Surface
-import androidx.compose.material3.adaptive.navigation.suite.ExperimentalMaterial3AdaptiveNavigationSuiteApi
-import androidx.compose.material3.adaptive.navigation.suite.NavigationSuiteScaffold
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -22,13 +23,12 @@ import com.memorati.feature.quiz.navigation.quizGraph
 import com.memorati.feature.settings.navigation.navigateToSettings
 import com.memorati.feature.settings.navigation.settingsScreen
 import com.memorati.navigation.TopDestination
-import com.memorati.ui.navigationSuiteItems
+import com.memorati.ui.NavigationItems
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -38,15 +38,17 @@ class MainActivity : ComponentActivity() {
             val viewModel: MainActivityViewModel = hiltViewModel()
             val destinations by viewModel.state.collectAsStateWithLifecycle()
             MemoratiTheme {
-                Surface {
-                    NavigationSuiteScaffold(
-                        navigationSuiteItems = {
-                            navigationSuiteItems(
-                                destinations = destinations,
-                                currentDestination = currentDestination,
-                                navController = navController,
-                            )
-                        },
+                Scaffold(
+                    bottomBar = {
+                        NavigationItems(
+                            destinations = destinations,
+                            currentDestination = currentDestination,
+                            navController = navController,
+                        )
+                    },
+                ) { paddingValues ->
+                    Box(
+                        modifier = Modifier.padding(paddingValues = paddingValues),
                     ) {
                         NavHost(
                             navController = navController,
