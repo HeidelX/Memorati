@@ -6,6 +6,7 @@ import kotlinx.datetime.Clock
 import kotlin.test.Test
 import kotlin.test.assertTrue
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 
 internal class AlgorithmTest {
@@ -90,6 +91,51 @@ internal class AlgorithmTest {
             }
             println(diff)
             duration = diff
+        }
+    }
+
+    @Test
+    fun `Review time considers user preferences`() {
+        val answerCorrect = true
+        val wordCorrectnessCount = 5
+        val weeksOfReview = 2
+        var now = Clock.System.now()
+
+        var flashcard = Flashcard(
+            id = 1,
+            idiom = "Hello",
+            meaning = "Hallo",
+            createdAt = now,
+            lastReviewAt = now,
+            nextReviewAt = now.plus(1.hours),
+            topics = listOf(
+                Topic(1, "de"),
+                Topic(2, "A1"),
+                Topic(3, "A2"),
+            ),
+            idiomLanguageTag = null,
+        )
+
+        repeat(1_000) {
+            flashcard = flashcard.review(
+                isCorrect = answerCorrect,
+                wordCorrectnessCount = wordCorrectnessCount,
+                weeksOfReview = weeksOfReview,
+                now = now,
+            )
+
+            if (flashcard.additionalInfo.consecutiveCorrectCount >= wordCorrectnessCount) {
+                val days = (flashcard.nextReviewAt - now).inWholeDays
+
+                assertTrue { days >= weeksOfReview.times(7) }
+                assertTrue { days % 7 == 0L }
+
+                println(days)
+
+                now = now.plus(weeksOfReview.times(7).days)
+            } else {
+                assertTrue { flashcard.nextReviewAt > now }
+            }
         }
     }
 }

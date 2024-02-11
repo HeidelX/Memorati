@@ -3,20 +3,20 @@ package com.memorati.algorithm
 import com.memorati.core.model.AdditionalInfo
 import com.memorati.core.model.Flashcard
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlin.math.ln
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 
 fun Flashcard.review(
-    answerCorrect: Boolean,
+    isCorrect: Boolean,
     wordCorrectnessCount: Int,
     weeksOfReview: Int,
+    now: Instant = Clock.System.now(),
 ): Flashcard {
-    val flashcard = handleReviewResponse(answerCorrect)
+    val flashcard = handleReviewResponse(isCorrect = isCorrect, now = now)
     return if (flashcard.additionalInfo.consecutiveCorrectCount >= wordCorrectnessCount) {
-        flashcard.copy(
-            nextReviewAt = lastReviewAt.plus(weeksOfReview.times(7).days),
-        )
+        flashcard.copy(nextReviewAt = now.plus(weeksOfReview.times(7).days))
     } else {
         flashcard.scheduleNextReview()
     }
@@ -41,6 +41,7 @@ internal fun Flashcard.scheduleNextReview(): Flashcard {
 
 internal fun Flashcard.handleReviewResponse(
     isCorrect: Boolean,
+    now: Instant = Clock.System.now(),
 ): Flashcard {
     val (difficulty, consecutiveCorrectCount) = if (isCorrect) {
         // Increase difficulty for correct responses
@@ -56,7 +57,7 @@ internal fun Flashcard.handleReviewResponse(
             // Apply decay to memory strength over time
             memoryStrength = additionalInfo.memoryStrength * 0.95,
         ),
-        lastReviewAt = Clock.System.now(),
+        lastReviewAt = now,
     )
 }
 
