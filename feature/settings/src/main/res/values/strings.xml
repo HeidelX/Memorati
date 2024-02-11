@@ -27,7 +27,6 @@
     <string name="interval_description">When would you like to be reminded about pending flashcard reviews at regular intervals?</string>
     <string name="app_version">App Version %1$s</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="feedback">Feedback</string>
     <string name="experimental">Experimental</string>
     <string name="idiom_pronunciation">Idiom\'s Pronunciation</string>
     <string name="manage_review_interval">Time Management</string>

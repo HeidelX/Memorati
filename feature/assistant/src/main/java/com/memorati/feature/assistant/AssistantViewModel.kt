@@ -99,7 +99,7 @@ class AssistantViewModel @Inject constructor(
         val userData = preferencesDataSource.userData.first()
         flashcardsRepository.updateCard(
             card.flashcard.review(
-                answerCorrect = card.isCorrect,
+                isCorrect = card.isCorrect,
                 wordCorrectnessCount = userData.wordCorrectnessCount,
                 weeksOfReview = userData.weeksOfReview,
             ),

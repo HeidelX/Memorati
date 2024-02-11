@@ -27,7 +27,6 @@
     <string name="interval_description">Wann möchtest du regelmäßig an ausstehende Karteikarten-Reviews erinnert werden?</string>
     <string name="app_version">App-Version %1$s</string>
     <string name="privacy_policy">Datenschutzrichtlinie</string>
-    <string name="feedback">Rückmeldung</string>
     <string name="experimental">Experimentell</string>
     <string name="idiom_pronunciation">Aussprache des Idioms</string>
     <string name="manage_review_interval">Zeitverwaltung</string>

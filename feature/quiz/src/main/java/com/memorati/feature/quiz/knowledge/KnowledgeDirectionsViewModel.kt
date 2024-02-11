@@ -70,7 +70,7 @@ class KnowledgeDirectionsViewModel @Inject constructor(
         val userData = preferencesDataSource.userData.first()
         flashcardsRepository.updateCard(
             card.review(
-                answerCorrect = correct,
+                isCorrect = correct,
                 wordCorrectnessCount = userData.wordCorrectnessCount,
                 weeksOfReview = userData.weeksOfReview,
             ),

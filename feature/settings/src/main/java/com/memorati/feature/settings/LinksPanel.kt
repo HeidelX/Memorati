@@ -29,14 +29,7 @@ fun LinksPanel() {
         ) {
             Text(text = stringResource(R.string.privacy_policy))
         }
-
-        TextButton(
-            onClick = { uriHandler.openUri(FEEDBACK_URL) },
-        ) {
-            Text(text = stringResource(R.string.feedback))
-        }
     }
 }
 
-private const val PRIVACY_POLICY_URL = "https://forms.gle/6EekpPdBJyY5YcFp7"
-private const val FEEDBACK_URL = "https://forms.gle/Gp1qDMjms3aXqgf9A"
+private const val PRIVACY_POLICY_URL = "https://t.ly/zfZzS"
