@@ -71,6 +71,6 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name:  Tests Report
-          path: Memorati/app/build/test-results/test*UnitTest/**.xml
+          name: Tests Report
+          path: '**/test-results/test*UnitTest/**.xml'
           reporter: java-junit
