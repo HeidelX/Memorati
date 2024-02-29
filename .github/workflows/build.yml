@@ -65,4 +65,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: '**/build/test-results/test*UnitTest/**.xml'
+          path: '**/build/test-results/testDemoDebugUnitTest/**.xml'
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Tests Report
+          path: '**/test-results/test*UnitTest/**.xml'
+          reporter: java-junit
