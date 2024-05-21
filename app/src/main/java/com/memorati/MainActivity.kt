@@ -3,11 +3,8 @@ package com.memorati
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -23,7 +20,7 @@ import com.memorati.feature.quiz.navigation.quizGraph
 import com.memorati.feature.settings.navigation.navigateToSettings
 import com.memorati.feature.settings.navigation.settingsScreen
 import com.memorati.navigation.TopDestination
-import com.memorati.ui.NavigationItems
+import com.memorati.ui.navigationSuiteItems
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,43 +35,39 @@ class MainActivity : ComponentActivity() {
             val viewModel: MainActivityViewModel = hiltViewModel()
             val destinations by viewModel.state.collectAsStateWithLifecycle()
             MemoratiTheme {
-                Scaffold(
-                    bottomBar = {
-                        NavigationItems(
-                            destinations = destinations,
-                            currentDestination = currentDestination,
-                            navController = navController,
+                NavigationSuiteScaffold(
+                    navigationSuiteItems = {
+                        navigationSuiteItems(
+                            destinations,
+                            currentDestination,
+                            navController,
                         )
                     },
-                ) { paddingValues ->
-                    Box(
-                        modifier = Modifier.padding(paddingValues = paddingValues),
+                ) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = TopDestination.CARDS.route,
                     ) {
-                        NavHost(
-                            navController = navController,
-                            startDestination = TopDestination.CARDS.route,
-                        ) {
-                            cardsScreen(
-                                onAddCard = { navController.navigateToCardCreation() },
-                                onEdit = { flashcard ->
-                                    navController.navigateToCardCreation(flashcard.id)
-                                },
+                        cardsScreen(
+                            onAddCard = { navController.navigateToCardCreation() },
+                            onEdit = { flashcard ->
+                                navController.navigateToCardCreation(flashcard.id)
+                            },
 
-                                openSettings = {
-                                    navController.navigateToSettings()
-                                },
+                            openSettings = {
+                                navController.navigateToSettings()
+                            },
 
-                            )
-                            cardCreationScreen {
-                                navController.navigateUp()
-                            }
-                            favouritesScreen()
-                            assistantScreen()
-                            settingsScreen(appVersion = BuildConfig.VERSION_NAME) {
-                                navController.navigateUp()
-                            }
-                            quizGraph(navController)
+                        )
+                        cardCreationScreen {
+                            navController.navigateUp()
                         }
+                        favouritesScreen()
+                        assistantScreen()
+                        settingsScreen(appVersion = BuildConfig.VERSION_NAME) {
+                            navController.navigateUp()
+                        }
+                        quizGraph(navController)
                     }
                 }
             }
