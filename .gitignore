@@ -10,3 +10,5 @@
 .cxx
 **/build
 fastlane/report.xml
+# Kotlin
+.kotlin
