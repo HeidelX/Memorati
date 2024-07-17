@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("memorati.android.application")
     id("memorati.android.application.compose")
@@ -10,7 +12,7 @@ plugins {
 
 android {
     namespace = "com.memorati"
-    compileSdk = 34
+    compileSdk = 35
 
     val versionMajor: String by project
     val versionMinor: String by project
@@ -21,7 +23,7 @@ android {
     defaultConfig {
         applicationId = "com.memorati"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = versionMajor.toInt().times(100_00_00_00)
             .plus(versionMinor.toInt().times(100_00_00))
             .plus(versionPatch.toInt().times(100_00))
@@ -36,8 +38,13 @@ android {
             useSupportLibrary = true
         }
 
+        val properties = Properties().apply {
+            rootProject.file("local.properties").reader().use(::load)
+        }
+        val apiKey = properties["api.key"].toString()
         buildConfigField("int", "VERSION_CODE", versionCode.toString())
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
+        buildConfigField("String", "AI_API_KEY", "\"$apiKey\"")
         resourceConfigurations += arrayOf("de", "en", "ar")
     }
 

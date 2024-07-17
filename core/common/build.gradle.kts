@@ -19,4 +19,5 @@ dependencies {
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.accompanist.permissions)
+    implementation(libs.generativeai)
 }
