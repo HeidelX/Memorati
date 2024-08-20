@@ -1,9 +1,13 @@
 package com.memorati.feature.cards
 
+import com.memorati.core.datastore.PreferencesDataSource
+import com.memorati.core.model.UserData
 import com.memorati.core.testing.repository.TestFlashcardsRepository
 import com.memorati.core.testing.rule.MainDispatcherRule
 import com.memorati.feature.cards.speech.Orator
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -36,6 +40,7 @@ class CardsViewModelTest {
         cardsViewModel = CardsViewModel(
             orator = testOrator,
             flashcardsRepository = TestFlashcardsRepository(),
+            userPreferences = FakeUserPreferences(),
         )
     }
 
@@ -140,5 +145,28 @@ class CardsViewModelTest {
         assertTrue { card.idiomLanguageTag == testOrator.languageTag }
         assertTrue { card.idiom == testOrator.word }
         job.cancel()
+    }
+}
+
+class FakeUserPreferences() : PreferencesDataSource {
+    override val userData: Flow<UserData>
+        get() = flowOf(UserData())
+
+    override suspend fun setStartTime(time: Int) {
+    }
+
+    override suspend fun setEndTime(time: Int) {
+    }
+
+    override suspend fun setAlarmInterval(interval: Long) {
+    }
+
+    override suspend fun setIdiomLanguageTag(tag: String) {
+    }
+
+    override suspend fun setWeekCountOfReview(count: Int) {
+    }
+
+    override suspend fun setCorrectnessCount(count: Int) {
     }
 }

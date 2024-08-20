@@ -8,16 +8,26 @@ import com.memorati.core.model.UserData.Companion.END
 import com.memorati.core.model.UserData.Companion.INTERVAL
 import com.memorati.core.model.UserData.Companion.START
 import com.memorati.core.model.UserData.Companion.WEEKS
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalTime
 import java.io.IOException
-import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
-class PreferencesDataSource @Inject constructor(
+interface PreferencesDataSource {
+    val userData: Flow<UserData>
+    suspend fun setStartTime(time: Int)
+    suspend fun setEndTime(time: Int)
+    suspend fun setAlarmInterval(interval: Long)
+    suspend fun setIdiomLanguageTag(tag: String)
+    suspend fun setWeekCountOfReview(count: Int)
+    suspend fun setCorrectnessCount(count: Int)
+}
+
+class PreferencesData(
     private val userPreferences: DataStore<UserPreferences>,
-) {
-    val userData = userPreferences.data.map { prefs ->
+) : PreferencesDataSource {
+    override val userData = userPreferences.data.map { prefs ->
         with(prefs) {
             UserData(
                 idiomLanguageTag = idiomLanguageTag,
@@ -30,7 +40,7 @@ class PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setStartTime(time: Int) {
+    override suspend fun setStartTime(time: Int) {
         try {
             userPreferences.updateData {
                 it.copy {
@@ -42,7 +52,7 @@ class PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setEndTime(time: Int) {
+    override suspend fun setEndTime(time: Int) {
         try {
             userPreferences.updateData {
                 it.copy {
@@ -54,7 +64,7 @@ class PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setAlarmInterval(interval: Long) {
+    override suspend fun setAlarmInterval(interval: Long) {
         try {
             userPreferences.updateData {
                 it.copy {
@@ -66,7 +76,7 @@ class PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setIdiomLanguageTag(tag: String) {
+    override suspend fun setIdiomLanguageTag(tag: String) {
         try {
             userPreferences.updateData {
                 it.copy {
@@ -78,7 +88,7 @@ class PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setCorrectnessCount(count: Int) {
+    override suspend fun setCorrectnessCount(count: Int) {
         try {
             userPreferences.updateData {
                 it.copy {
@@ -86,11 +96,15 @@ class PreferencesDataSource @Inject constructor(
                 }
             }
         } catch (ioException: IOException) {
-            Log.e("PreferencesDataSource", "Failed to update wordCorrectnessCount preferences", ioException)
+            Log.e(
+                "PreferencesDataSource",
+                "Failed to update wordCorrectnessCount preferences",
+                ioException,
+            )
         }
     }
 
-    suspend fun setWeekCountOfReview(count: Int) {
+    override suspend fun setWeekCountOfReview(count: Int) {
         try {
             userPreferences.updateData {
                 it.copy {
@@ -98,7 +112,11 @@ class PreferencesDataSource @Inject constructor(
                 }
             }
         } catch (ioException: IOException) {
-            Log.e("PreferencesDataSource", "Failed to update weeksOfReview preferences", ioException)
+            Log.e(
+                "PreferencesDataSource",
+                "Failed to update weeksOfReview preferences",
+                ioException,
+            )
         }
     }
 }
