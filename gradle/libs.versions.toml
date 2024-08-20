@@ -54,7 +54,7 @@ turbine = "1.1.0"
 kotlin180 = "2.0.0"
 junit = "1.2.1"
 material = "1.12.0"
-lottie = "6.4.1"
+lottie = "6.5.0"
 material3AdaptiveNavigationSuiteAndroid = "1.3.0-beta05"
 
 [libraries]
