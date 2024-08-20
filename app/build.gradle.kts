@@ -99,6 +99,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.material3.adaptive.navigation.suite.android)
+    implementation(libs.review)
+    implementation(libs.review.ktx)
 
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
