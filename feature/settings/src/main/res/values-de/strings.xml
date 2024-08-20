@@ -14,6 +14,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <string name="flashcards_count">Du hast %1$d Karteikarten</string>
+    <string name="memorization_level">Dein Fortschritt beim Auswendiglernen beträgt %.2f%%</string>
     <string name="share_flashcards_message">Memorati-Karten</string>
     <string name="notifications">Benachrichtigungen</string>
     <string name="allow_notifications">Benachrichtigungen erlauben</string>

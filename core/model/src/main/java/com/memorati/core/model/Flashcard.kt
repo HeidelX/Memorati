@@ -19,4 +19,5 @@ data class AdditionalInfo(
     val difficulty: Double = 1.0,
     val consecutiveCorrectCount: Int = 0,
     val memoryStrength: Double = 1.0,
+    val totalReviews: Int = 0,
 )

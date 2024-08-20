@@ -56,6 +56,7 @@ internal fun Flashcard.handleReviewResponse(
             consecutiveCorrectCount = consecutiveCorrectCount,
             // Apply decay to memory strength over time
             memoryStrength = additionalInfo.memoryStrength * 0.95,
+            totalReviews = additionalInfo.totalReviews + 1,
         ),
         lastReviewAt = now,
     )

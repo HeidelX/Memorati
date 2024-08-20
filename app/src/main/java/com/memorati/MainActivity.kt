@@ -10,6 +10,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.android.play.core.review.ReviewManager
 import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.assistant.navigation.assistantScreen
 import com.memorati.feature.cards.navigation.cardsScreen
@@ -22,12 +23,23 @@ import com.memorati.feature.settings.navigation.settingsScreen
 import com.memorati.navigation.TopDestination
 import com.memorati.ui.navigationSuiteItems
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var reviewManager: ReviewManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val request = reviewManager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                reviewManager.launchReviewFlow(this@MainActivity, task.result)
+            }
+        }
         setContent {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()

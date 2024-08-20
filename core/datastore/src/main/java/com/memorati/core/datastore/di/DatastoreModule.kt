@@ -7,6 +7,8 @@ import androidx.datastore.dataStoreFile
 import com.memorati.core.common.di.ApplicationScope
 import com.memorati.core.common.dispatcher.Dispatcher
 import com.memorati.core.common.dispatcher.MemoratiDispatchers.IO
+import com.memorati.core.datastore.PreferencesData
+import com.memorati.core.datastore.PreferencesDataSource
 import com.memorati.core.datastore.UserPreferences
 import com.memorati.core.datastore.UserPreferencesSerializer
 import dagger.Module
@@ -35,4 +37,10 @@ class DatastoreModule {
         ) {
             context.dataStoreFile("user_preferences.pb")
         }
+
+    @Provides
+    @Singleton
+    fun providesUserPreferences(
+        store: DataStore<UserPreferences>,
+    ): PreferencesDataSource = PreferencesData(store)
 }

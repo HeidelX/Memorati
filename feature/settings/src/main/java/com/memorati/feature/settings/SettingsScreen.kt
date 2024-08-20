@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -21,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -152,6 +154,23 @@ internal fun SettingsScreen(
                 imageVector = MemoratiIcons.Insights,
                 contentPadding = 0.dp,
             ) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    text = stringResource(
+                        id = R.string.memorization_level,
+                        state.memorizationLevel * 100,
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp, vertical = 16.dp)
+                        .height(5.dp),
+                    progress = { state.memorizationLevel },
+                )
+
                 Text(
                     modifier = Modifier.padding(horizontal = 24.dp),
                     text = stringResource(
@@ -289,6 +308,7 @@ internal fun SettingsScreenPreview() {
                 state = SettingsState(
                     flashcardsCount = 10,
                     chartEntries = dayEntries(),
+                    memorizationLevel = 50f,
                 ),
                 onBack = {},
                 onClear = {},

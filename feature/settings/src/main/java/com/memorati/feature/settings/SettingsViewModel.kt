@@ -25,6 +25,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import javax.inject.Inject
+import kotlin.math.max
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
@@ -50,6 +51,12 @@ class SettingsViewModel @Inject constructor(
         SettingsState(
             userData = userData,
             flashcardsCount = flashcards.size,
+            memorizationLevel = flashcards.map { card ->
+                card.additionalInfo.consecutiveCorrectCount.toFloat() / max(
+                    card.additionalInfo.totalReviews,
+                    userData.wordCorrectnessCount,
+                )
+            }.average().toFloat().coerceAtMost(1f),
             chartEntries = flashcards.groupBy { card ->
                 card.createdAt.toJavaInstant()
                     .atZone(ZoneId.systemDefault())
@@ -67,7 +74,7 @@ class SettingsViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SettingsState(flashcardsCount = 0),
+        initialValue = SettingsState(flashcardsCount = 0, memorizationLevel = 0.0f),
     )
 
     fun exportFlashcards(title: String, context: Context) = launch {

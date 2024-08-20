@@ -14,6 +14,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="flashcards_count">You have %d flashcards</string>
+    <string name="memorization_level">Your memorization progress is %.2f%%</string>
     <string name="share_flashcards_message">Memorati Cards</string>
     <string name="notifications">Notifications</string>
     <string name="allow_notifications">Allow Notifications</string>

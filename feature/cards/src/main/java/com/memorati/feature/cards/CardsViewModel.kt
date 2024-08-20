@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.memorati.core.common.viewmodel.launch
 import com.memorati.core.data.repository.FlashcardsRepository
+import com.memorati.core.datastore.PreferencesDataSource
 import com.memorati.core.model.Flashcard
+import com.memorati.core.model.UserData
 import com.memorati.feature.cards.speech.Orator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,13 +23,15 @@ import javax.inject.Inject
 class CardsViewModel @Inject constructor(
     private val orator: Orator,
     private val flashcardsRepository: FlashcardsRepository,
+    private val userPreferences: PreferencesDataSource,
 ) : ViewModel() {
 
     private val queryFlow = MutableStateFlow("")
     val state = combine(
         flashcardsRepository.flashcards(),
         queryFlow,
-    ) { flashcards, query ->
+        userPreferences.userData,
+    ) { flashcards, query, userData ->
         val map = flashcards.filter { flashcard ->
             if (query.isEmpty()) true else flashcard.contains(query)
         }.groupBy { card ->
@@ -38,7 +42,7 @@ class CardsViewModel @Inject constructor(
             entry.key to entry.value.sortedBy { card -> card.idiom }
         }
 
-        CardsState(map = map, query = query)
+        CardsState(map = map, query = query, userData = userData)
     }.stateIn(
         viewModelScope,
         SharingStarted.Eagerly,
@@ -79,4 +83,5 @@ private fun Flashcard.contains(query: String): Boolean {
 data class CardsState(
     val map: Map<LocalDate, List<Flashcard>> = emptyMap(),
     val query: String = "",
+    val userData: UserData = UserData(),
 )

@@ -40,6 +40,7 @@ class CardsListTest {
                             ),
                         ),
                         query = "kom",
+                        userData = userData,
                     ),
                     speak = {},
                     onEdit = {},
