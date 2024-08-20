@@ -1,6 +1,5 @@
 package com.memorati.feature.cards
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -88,7 +87,6 @@ internal fun CardsScreen(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 private fun Cards(
     modifier: Modifier = Modifier,
     lazyListState: LazyGridState,
@@ -109,10 +107,10 @@ private fun Cards(
     ) {
         state.map.forEach { (date, cards) ->
             item(span = { GridItemSpan(maxLineSpan) }) {
+                Modifier.fillMaxWidth()
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .animateItemPlacement()
+                        .animateItem()
                         .padding(all = 8.dp),
                     text = date.toJavaLocalDate()
                         .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
@@ -123,7 +121,7 @@ private fun Cards(
                 CardItem(
                     modifier = Modifier
                         .padding(2.dp)
-                        .animateItemPlacement(),
+                        .animateItem(),
                     card = card,
                     state = state,
                     toggleFavoured = toggleFavoured,

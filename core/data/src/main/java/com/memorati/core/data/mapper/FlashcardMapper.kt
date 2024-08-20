@@ -49,10 +49,12 @@ private fun AdditionalInfoEntity.toAdditionalInfo() = AdditionalInfo(
     difficulty = difficulty,
     consecutiveCorrectCount = consecutiveCorrectCount,
     memoryStrength = memoryStrength,
+    totalReviews = totalReviews,
 )
 
 private fun AdditionalInfo.toAdditionalInfoEntity() = AdditionalInfoEntity(
     difficulty = difficulty,
     consecutiveCorrectCount = consecutiveCorrectCount,
     memoryStrength = memoryStrength,
+    totalReviews = totalReviews,
 )

@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 
 /**
- * Multipreview annotation that represents various device sizes. Add this annotation to a composable
+ * Multi preview annotation that represents various device sizes. Add this annotation to a composable
  * to render various devices.
  */
 

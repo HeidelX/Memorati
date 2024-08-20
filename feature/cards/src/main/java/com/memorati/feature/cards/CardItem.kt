@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -38,6 +39,7 @@ import com.memorati.core.model.Flashcard
 import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.provider.FlashcardProvider
 import com.memorati.core.ui.theme.MemoratiTheme
+import kotlin.math.max
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -116,6 +118,29 @@ internal fun CardItem(
                 onDelete = { onDelete(card) },
                 onEdit = { onEdit(card) },
             )
+
+            Box(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .align(Alignment.BottomStart),
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .align(Alignment.Center),
+                    imageVector = MemoratiIcons.Memory,
+                    contentDescription = "Progress",
+                )
+
+                CircularProgressIndicator(
+                    progress = {
+                        card.additionalInfo.consecutiveCorrectCount.toFloat() / max(
+                            card.additionalInfo.totalReviews,
+                            state.userData.wordCorrectnessCount,
+                        )
+                    },
+                    trackColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f),
+                )
+            }
 
             FlowRow(
                 modifier = Modifier.align(Alignment.BottomStart),

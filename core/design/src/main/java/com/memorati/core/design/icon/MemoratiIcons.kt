@@ -17,6 +17,7 @@ import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.Remove
@@ -38,7 +39,6 @@ object MemoratiIcons {
     val Delete = Icons.Outlined.Delete
     val Cards = Icons.Outlined.ViewAgenda
     val Add = Icons.Outlined.Add
-    val Plus = Icons.Outlined.Add
     val Minus = Icons.Outlined.Remove
     val Search = Icons.Outlined.Search
     val Favourites = Icons.Outlined.Star
@@ -62,4 +62,5 @@ object MemoratiIcons {
     val CompareArrows = Icons.AutoMirrored.Outlined.CompareArrows
     val Replay = Icons.Outlined.Replay
     val AvTimer = Icons.Outlined.AvTimer
+    val Memory = Icons.Outlined.Memory
 }
