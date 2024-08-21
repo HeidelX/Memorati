@@ -52,11 +52,10 @@ class SettingsViewModel @Inject constructor(
             userData = userData,
             flashcardsCount = flashcards.size,
             memorizationLevel = flashcards.map { card ->
-                card.additionalInfo.consecutiveCorrectCount.toFloat() / max(
-                    card.additionalInfo.totalReviews,
-                    userData.wordCorrectnessCount,
-                )
-            }.average().toFloat().coerceAtMost(1f),
+                card.additionalInfo.consecutiveCorrectCount.toFloat()
+                    .div(max(card.additionalInfo.totalReviews, userData.wordCorrectnessCount))
+                    .coerceIn(0f, 1f)
+            }.average().toFloat(),
             chartEntries = flashcards.groupBy { card ->
                 card.createdAt.toJavaInstant()
                     .atZone(ZoneId.systemDefault())
