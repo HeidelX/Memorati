@@ -34,12 +34,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val request = reviewManager.requestReviewFlow()
-        request.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                reviewManager.launchReviewFlow(this@MainActivity, task.result)
-            }
-        }
+        askUserForReview()
+
         setContent {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -70,7 +66,7 @@ class MainActivity : ComponentActivity() {
                                 navController.navigateToSettings()
                             },
 
-                        )
+                            )
                         cardCreationScreen {
                             navController.navigateUp()
                         }
@@ -82,6 +78,17 @@ class MainActivity : ComponentActivity() {
                         quizGraph(navController)
                     }
                 }
+            }
+        }
+    }
+
+    private fun askUserForReview() {
+        val packageInfo = packageManager.getPackageInfo(packageName, 0)
+        // Only trigger it on updates and not on first install
+        if (packageInfo.firstInstallTime != packageInfo.lastUpdateTime) {
+            val request = reviewManager.requestReviewFlow()
+            request.addOnCompleteListener { task ->
+                if (task.isSuccessful) reviewManager.launchReviewFlow(this, task.result)
             }
         }
     }
