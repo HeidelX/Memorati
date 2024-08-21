@@ -14,9 +14,9 @@ jobs:
   spotless:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.7
       - name: Setup JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4.2.2
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -36,18 +36,18 @@ jobs:
     needs:
       - spotless
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.7
       - name: Setup JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4.2.2
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.152.0
+        uses: ruby/setup-ruby@v1.190.0
         with:
-          ruby-version: '3.0'
+          ruby-version: '3.3'
           bundler-cache: true
 
       - name: Keystore
