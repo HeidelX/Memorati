@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                                 navController.navigateToSettings()
                             },
 
-                            )
+                        )
                         cardCreationScreen {
                             navController.navigateUp()
                         }
