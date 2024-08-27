@@ -49,10 +49,10 @@ internal fun FavouritesList(
         ),
     ) {
         items(cards, key = { it.id }) { card ->
+            Modifier
+                .padding(3.dp)
             CardItem(
-                modifier = Modifier
-                    .padding(3.dp)
-                    .animateItemPlacement(),
+                modifier = Modifier.animateItem(),
                 card = card,
                 toggleFavoured = toggleFavoured,
             )
