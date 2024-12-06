@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.memorati"
-    compileSdk = 34
+    compileSdk = 35
 
     val versionMajor: String by project
     val versionMinor: String by project
@@ -21,7 +21,7 @@ android {
     defaultConfig {
         applicationId = "com.memorati"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = versionMajor.toInt().times(100_00_00_00)
             .plus(versionMinor.toInt().times(100_00_00))
             .plus(versionPatch.toInt().times(100_00))
