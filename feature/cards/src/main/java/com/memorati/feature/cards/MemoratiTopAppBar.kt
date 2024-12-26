@@ -9,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,29 +35,41 @@ fun MemoratiTopAppBar(
     var text by rememberSaveable { mutableStateOf("") }
 
     SearchBar(
-        modifier = modifier.fillMaxWidth(),
-        query = text,
-        onQueryChange = {
-            text = it
-            onQueryChange(text)
-        },
-        onSearch = { },
-        active = false,
-        onActiveChange = {},
-        placeholder = { Text(text = stringResource(id = R.string.search)) },
-        leadingIcon = {
-            Icon(
-                MemoratiIcons.Search,
-                contentDescription = stringResource(id = R.string.search),
-                tint = MaterialTheme.colorScheme.onSurface,
+        inputField = {
+            SearchBarDefaults.InputField(
+                query = text,
+                onQueryChange = {
+                    text = it
+                    onQueryChange(text)
+                },
+                onSearch = { },
+                expanded = false,
+                onExpandedChange = {},
+                enabled = true,
+                placeholder = { Text(
+                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.7f),
+                    text = stringResource(id = R.string.search)
+                ) },
+                leadingIcon = {
+                    Icon(
+                        MemoratiIcons.Search,
+                        contentDescription = stringResource(id = R.string.search),
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                },
+                trailingIcon = {
+                    AppBarMenu { openSettings() }
+                },
             )
         },
-        trailingIcon = {
-            AppBarMenu { openSettings() }
-        },
-        content = {},
-        shadowElevation = 2.dp,
+        expanded = false,
+        onExpandedChange = {},
+        modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.small,
+        tonalElevation = SearchBarDefaults.TonalElevation,
+        shadowElevation = 2.dp,
+        windowInsets = SearchBarDefaults.windowInsets,
+        content = {}
     )
 }
 

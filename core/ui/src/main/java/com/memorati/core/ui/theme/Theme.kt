@@ -102,6 +102,7 @@ fun MemoratiTheme(
         val systemUiColor = colorScheme.surface.toArgb()
         SideEffect {
             val window = (view.context as Activity).window
+
             window.statusBarColor = systemUiColor
             window.navigationBarColor = colorScheme.surfaceColorAtElevation(3.dp).toArgb()
             WindowCompat.getInsetsController(window, view).apply {
