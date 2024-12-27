@@ -25,8 +25,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.res.stringResource
@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.memorati.core.ui.DevicePreviews
+import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.settings.R
 
@@ -65,10 +66,10 @@ internal fun Chart(
         Spacer(modifier = Modifier.height(10.dp))
 
         ChartInfo(
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.secondaryContainer,
             text = stringResource(R.string.additions_day),
 
-            )
+        )
         ChartInfo(
             color = MaterialTheme.colorScheme.inversePrimary,
             text = stringResource(R.string.reviews_day),
@@ -97,7 +98,10 @@ private fun ChartInfo(
                 .background(color)
                 .size(10.dp),
         )
-        Text(text = text)
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelSmall,
+        )
     }
 }
 
@@ -156,19 +160,15 @@ private fun ChartBar(
                 .height(itemHeight.dp)
                 .width(20.dp)
                 .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(
-                            color,
-                            color.copy(alpha = 0.7f),
-                            color,
-                        ),
-                    ),
-                    shape = RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp),
+                    color = color,
+                    shape = RoundedCornerShape(topStart = 2.dp, topEnd = 2.dp),
                 ),
         )
 
         Text(
-            modifier = Modifier.align(Alignment.BottomCenter),
+            modifier = Modifier
+                .rotate(270f)
+                .align(Alignment.BottomCenter),
             text = value.toString(),
             fontSize = 8.sp,
         )
@@ -209,6 +209,7 @@ data class DayEntry(
 )
 
 @DevicePreviews
+@LocalePreviews
 @Composable
 internal fun ChartPreview() {
     MemoratiTheme {
