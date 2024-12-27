@@ -56,7 +56,6 @@ internal fun Chart(
             verticalAlignment = Alignment.Bottom,
             state = lazyListState,
         ) {
-
             items(entries) { entry ->
                 DayBar(
                     entry = entry,
@@ -67,14 +66,13 @@ internal fun Chart(
 
         ChartInfo(
             color = MaterialTheme.colorScheme.primary,
-            text = stringResource(R.string.additions_day)
+            text = stringResource(R.string.additions_day),
 
         )
         ChartInfo(
             color = MaterialTheme.colorScheme.inversePrimary,
-            text = stringResource(R.string.reviews_day)
+            text = stringResource(R.string.reviews_day),
         )
-
     }
 
     LaunchedEffect(entries) {
@@ -86,18 +84,18 @@ internal fun Chart(
 private fun ChartInfo(
     modifier: Modifier = Modifier,
     color: Color = Color.Red,
-    text: String
+    text: String,
 ) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(
             modifier = Modifier
                 .padding(5.dp)
                 .background(color)
-                .size(10.dp)
+                .size(10.dp),
         )
         Text(text = text)
     }
@@ -165,7 +163,7 @@ private fun ChartBar(
                             color,
                         ),
                     ),
-                    shape = RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp)
+                    shape = RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp),
                 ),
         )
 

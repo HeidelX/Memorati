@@ -50,7 +50,6 @@ class SettingsViewModel @Inject constructor(
         error,
     ) { flashcards, userData, notificationsEnabled, error ->
 
-
         val creationMap = mutableMapOf<String, Int>()
         val reviewMap = mutableMapOf<String, Int>()
 
