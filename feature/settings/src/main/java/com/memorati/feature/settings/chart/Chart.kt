@@ -46,7 +46,7 @@ internal fun Chart(
     val borderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
     val lazyListState = rememberLazyListState()
 
-    Column() {
+    Column {
         LazyRow(
             modifier = modifier
                 .padding(16.dp)
@@ -68,7 +68,7 @@ internal fun Chart(
             color = MaterialTheme.colorScheme.primary,
             text = stringResource(R.string.additions_day),
 
-        )
+            )
         ChartInfo(
             color = MaterialTheme.colorScheme.inversePrimary,
             text = stringResource(R.string.reviews_day),
