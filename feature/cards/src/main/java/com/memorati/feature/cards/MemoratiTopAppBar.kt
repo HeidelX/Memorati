@@ -46,10 +46,12 @@ fun MemoratiTopAppBar(
                 expanded = false,
                 onExpandedChange = {},
                 enabled = true,
-                placeholder = { Text(
-                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.7f),
-                    text = stringResource(id = R.string.search)
-                ) },
+                placeholder = {
+                    Text(
+                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.7f),
+                        text = stringResource(id = R.string.search),
+                    )
+                },
                 leadingIcon = {
                     Icon(
                         MemoratiIcons.Search,
@@ -69,7 +71,7 @@ fun MemoratiTopAppBar(
         tonalElevation = SearchBarDefaults.TonalElevation,
         shadowElevation = 2.dp,
         windowInsets = SearchBarDefaults.windowInsets,
-        content = {}
+        content = {},
     )
 }
 

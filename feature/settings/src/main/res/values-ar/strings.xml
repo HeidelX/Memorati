@@ -33,4 +33,6 @@
     <string name="manage_review_interval">إدارة الوقت</string>
     <string name="word_correctness_count">عدد صحة الكلمات:</string>
     <string name="number_of_weeks_to_review">عدد الأسابيع للمراجعة:</string>
+    <string name="additions_day">الإضافات / اليوم</string>
+    <string name="reviews_day">المراجعات / اليوم</string>
 </resources>

@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
@@ -48,6 +49,29 @@ class SettingsViewModel @Inject constructor(
         notificationsEnabled,
         error,
     ) { flashcards, userData, notificationsEnabled, error ->
+
+
+        val creationMap = mutableMapOf<String, Int>()
+        val reviewMap = mutableMapOf<String, Int>()
+
+        flashcards.forEach { card ->
+            val creationDate = card.createdAt.localDate
+            creationMap[creationDate] = creationMap.getOrDefault(creationDate, 0) + 1
+
+            val reviewDate = card.lastReviewAt.localDate
+            reviewMap[reviewDate] = reviewMap.getOrDefault(reviewDate, 0) + 1
+        }
+
+        val chartEntries = creationMap.keys
+            .plus(reviewMap.keys)
+            .map {
+                DayEntry(
+                    day = it,
+                    creationCount = creationMap.getOrDefault(it, 0),
+                    reviewCount = reviewMap.getOrDefault(it, 0),
+                )
+            }
+
         SettingsState(
             userData = userData,
             flashcardsCount = flashcards.size,
@@ -56,17 +80,7 @@ class SettingsViewModel @Inject constructor(
                     .div(max(card.additionalInfo.totalReviews, userData.wordCorrectnessCount))
                     .coerceIn(0f, 1f)
             }.average().toFloat(),
-            chartEntries = flashcards.groupBy { card ->
-                card.createdAt.toJavaInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate()
-                    .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
-            }.map { entry ->
-                DayEntry(
-                    day = entry.key,
-                    count = entry.value.count(),
-                )
-            },
+            chartEntries = chartEntries,
             notificationsEnabled = notificationsEnabled,
             error = error,
         )
@@ -131,4 +145,10 @@ class SettingsViewModel @Inject constructor(
     fun onWeekCountChange(value: Int) = launch {
         preferencesDataSource.setWeekCountOfReview(value)
     }
+
+    private val Instant.localDate: String
+        get() = toJavaInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate()
+            .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
 }

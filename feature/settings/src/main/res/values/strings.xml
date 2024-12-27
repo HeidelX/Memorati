@@ -33,4 +33,6 @@
     <string name="manage_review_interval">Time Management</string>
     <string name="word_correctness_count">Word Correctness count:</string>
     <string name="number_of_weeks_to_review">Number of weeks to review:</string>
+    <string name="additions_day">Additions / day</string>
+    <string name="reviews_day">Reviews / day</string>
 </resources>

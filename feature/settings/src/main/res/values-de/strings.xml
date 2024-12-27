@@ -33,4 +33,6 @@
     <string name="manage_review_interval">Zeitverwaltung</string>
     <string name="word_correctness_count">Wortkorrektheitsanzahl:</string>
     <string name="number_of_weeks_to_review">Anzahl der Wochen zur Überprüfung:</string>
+    <string name="additions_day">Hinzufügungen / Tag</string>
+    <string name="reviews_day">Überprüfungen / Tag</string>
 </resources>
