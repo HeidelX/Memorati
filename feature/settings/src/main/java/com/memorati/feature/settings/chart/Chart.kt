@@ -37,6 +37,9 @@ import com.memorati.core.ui.DevicePreviews
 import com.memorati.core.ui.LocalePreviews
 import com.memorati.core.ui.theme.MemoratiTheme
 import com.memorati.feature.settings.R
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @Composable
 internal fun Chart(
@@ -203,10 +206,12 @@ private fun DrawScope.drawGraph(
 }
 
 data class DayEntry(
-    val day: String,
+    val date: LocalDate,
     val creationCount: Int,
     val reviewCount: Int,
-)
+) {
+    val day: String = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+}
 
 @DevicePreviews
 @LocalePreviews
@@ -224,53 +229,38 @@ internal fun ChartPreview() {
 @Composable
 internal fun dayEntries() = listOf(
     DayEntry(
-        day = "12.12.2023",
+        date = LocalDate.of(2023, 12, 12),
         creationCount = 100,
         reviewCount = 10,
     ),
     DayEntry(
-        day = "12.12.2023",
+        date = LocalDate.of(2023, 10, 12),
         creationCount = 70,
         reviewCount = 20,
     ),
     DayEntry(
-        day = "12.12.2023",
+        date = LocalDate.of(2023, 11, 12),
         creationCount = 10,
         reviewCount = 30,
     ),
     DayEntry(
-        day = "12.12.2023",
+        date = LocalDate.of(2023, 9, 12),
         creationCount = 60,
         reviewCount = 40,
     ),
     DayEntry(
-        day = "12.12.2023",
+        date = LocalDate.of(2023, 8, 12),
         creationCount = 0,
         reviewCount = 50,
     ),
     DayEntry(
-        day = "12.12.2023",
+        date = LocalDate.of(2023, 3, 12),
         creationCount = 20,
         reviewCount = 60,
     ),
     DayEntry(
-        day = "12.12.2023",
+        date = LocalDate.of(2023, 2, 12),
         creationCount = 70,
         reviewCount = 70,
-    ),
-    DayEntry(
-        day = "12.12.2023",
-        creationCount = 40,
-        reviewCount = 80,
-    ),
-    DayEntry(
-        day = "12.12.2023",
-        creationCount = 30,
-        reviewCount = 90,
-    ),
-    DayEntry(
-        day = "12.12.2023",
-        creationCount = 50,
-        reviewCount = 100,
     ),
 )
