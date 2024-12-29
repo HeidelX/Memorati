@@ -72,7 +72,7 @@ internal fun Chart(
             color = MaterialTheme.colorScheme.secondaryContainer,
             text = stringResource(R.string.additions_day),
 
-            )
+        )
         ChartInfo(
             color = MaterialTheme.colorScheme.inversePrimary,
             text = stringResource(R.string.reviews_day),
@@ -262,5 +262,5 @@ internal fun dayEntries() = listOf(
         date = LocalDate.of(2023, 2, 12),
         creationCount = 70,
         reviewCount = 70,
-    )
+    ),
 )

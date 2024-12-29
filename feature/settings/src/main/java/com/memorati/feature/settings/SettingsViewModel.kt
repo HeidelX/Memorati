@@ -24,9 +24,6 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toJavaInstant
 import java.time.LocalDate
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.Date
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.time.Duration.Companion.hours
