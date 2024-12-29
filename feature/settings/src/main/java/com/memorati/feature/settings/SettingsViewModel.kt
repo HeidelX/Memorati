@@ -22,9 +22,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toJavaInstant
+import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.util.Date
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.time.Duration.Companion.hours
@@ -50,8 +52,8 @@ class SettingsViewModel @Inject constructor(
         error,
     ) { flashcards, userData, notificationsEnabled, error ->
 
-        val creationMap = mutableMapOf<String, Int>()
-        val reviewMap = mutableMapOf<String, Int>()
+        val creationMap = mutableMapOf<LocalDate, Int>()
+        val reviewMap = mutableMapOf<LocalDate, Int>()
 
         flashcards.forEach { card ->
             val creationDate = card.createdAt.localDate
@@ -65,11 +67,11 @@ class SettingsViewModel @Inject constructor(
             .plus(reviewMap.keys)
             .map {
                 DayEntry(
-                    day = it,
+                    date = it,
                     creationCount = creationMap.getOrDefault(it, 0),
                     reviewCount = reviewMap.getOrDefault(it, 0),
                 )
-            }
+            }.sortedBy { it.date }
 
         SettingsState(
             userData = userData,
@@ -145,9 +147,8 @@ class SettingsViewModel @Inject constructor(
         preferencesDataSource.setWeekCountOfReview(value)
     }
 
-    private val Instant.localDate: String
+    private val Instant.localDate: LocalDate
         get() = toJavaInstant()
             .atZone(ZoneId.systemDefault())
             .toLocalDate()
-            .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
 }
