@@ -102,6 +102,11 @@ dependencies {
     implementation(libs.review)
     implementation(libs.review.ktx)
 
+    implementation(libs.androidx.material3.navigation3)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
     androidTestImplementation(kotlin("test"))
