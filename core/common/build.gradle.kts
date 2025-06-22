@@ -2,6 +2,7 @@ plugins {
     id("memorati.android.library")
     id("memorati.android.library.jacoco")
     id("memorati.android.hilt")
+    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
@@ -11,6 +12,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 dependencies {
@@ -19,4 +23,5 @@ dependencies {
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.accompanist.permissions)
+    implementation(libs.androidx.core.ktx)
 }

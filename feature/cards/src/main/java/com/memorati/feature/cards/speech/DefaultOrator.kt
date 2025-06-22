@@ -9,7 +9,7 @@ class DefaultOrator @Inject constructor(
     private val textToSpeech: TextToSpeech,
 ) : Orator {
     override fun setLanguage(language: String) {
-        textToSpeech.setLanguage(Locale(language))
+        textToSpeech.language = Locale(language)
     }
 
     override fun pronounce(word: String) {

@@ -5,6 +5,7 @@ plugins {
     id("memorati.android.application.jacoco")
     id("memorati.android.hilt")
     id("jacoco")
+    alias(libs.plugins.kotlinAndroid)
 }
 
 
@@ -59,7 +60,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = "11"
     }
 
     packaging {

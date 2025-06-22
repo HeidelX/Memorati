@@ -2,6 +2,7 @@ plugins {
     id("memorati.android.library")
     id("memorati.android.library.compose")
     id("memorati.android.library.jacoco")
+    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
@@ -9,6 +10,9 @@ android {
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 

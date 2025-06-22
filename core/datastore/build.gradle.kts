@@ -6,6 +6,7 @@ plugins {
     id("memorati.android.library.jacoco")
     id("memorati.android.hilt")
     alias(libs.plugins.protobuf)
+    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
@@ -17,6 +18,9 @@ android {
         unitTests {
             isReturnDefaultValues = true
         }
+    }
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 
@@ -46,6 +50,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.protobuf.kotlin.lite)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.androidx.core.ktx)
 
 }
 

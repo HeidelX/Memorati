@@ -4,6 +4,7 @@ plugins {
     id("memorati.android.hilt")
     id("memorati.android.room")
     id("kotlinx-serialization")
+    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
@@ -19,7 +20,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = "11"
     }
 }
 
@@ -28,4 +29,5 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
     implementation(project(":core:common"))
+    implementation(libs.androidx.core.ktx)
 }
